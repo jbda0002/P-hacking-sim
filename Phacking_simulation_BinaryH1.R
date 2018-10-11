@@ -321,18 +321,18 @@ phackingInteraction<-function(data,y,H_1,interaction = TRUE,SD=FALSE){
   
   
   
-  Models <- TheModels[(TheModels$V2<=0.05 | TheModels$V3<=0.05 ),]
-   if(SD==TRUE){
-    res1<-'Non removed' %in% Models$Outlier
-    res2<-'1' %in% Models$Outlier
-    res3<-'2' %in% Models$Outlier
-    res4<-'3' %in% Models$Outlier
+  Models <- TheModels[(TheModels$V2<=0.05  ),]
+  # if(SD==TRUE){
+  #  res1<-'Non removed' %in% Models$Outlier
+  #  res2<-'1' %in% Models$Outlier
+  #  res3<-'2' %in% Models$Outlier
+  #  res4<-'3' %in% Models$Outlier
   
-   res<-as.integer(as.logical(c(res1,res2,res3,res4))) 
-  }
-  else{
-    res <- ifelse(nrow(Models)>=1,1,0)
-  }
+   #res<-as.integer(as.logical(c(res1,res2,res3,res4))) 
+#  }
+#  else{
+#    res <- ifelse(nrow(Models)>=1,1,0)
+#  }
   #Look at what names of outlier that there is a significant model. 
   
   
