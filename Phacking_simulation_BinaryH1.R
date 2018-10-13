@@ -25,7 +25,7 @@ dataGen1 <- function(N){
   
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
   r = t(r)
-  x1<-rep(c(0,1),N/2)
+  x1<-rbinom(N,1,0.5)
   data = as.data.frame(cbind(r,x1))
   names(data) = c('y1', 'x2',"x1")
   
@@ -42,7 +42,7 @@ dataGen2 <- function(N){
   
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
   r = t(r)
-  x1<-rep(c(0,1),N/2)
+  x1<-rbinom(N,1,0.5)
   data = as.data.frame(cbind(r,x1))
   names(data) = c('y1', 'x2', 'x3',"x1")
   
@@ -60,7 +60,7 @@ dataGen3 <- function(N){
   
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
   r = t(r)
-  x1<-rep(c(0,1),N/2)
+  x1<-rbinom(N,1,0.5)
   data = as.data.frame(cbind(r,x1))
   names(data) = c('y1', 'x2', 'x3',"x4","x1")
   return(data)
@@ -76,7 +76,7 @@ dataGen4 <- function(N){
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
   r = t(r)
-  x1<-rep(c(0,1),N/2)
+  x1<-rbinom(N,1,0.5)
   data = as.data.frame(cbind(r,x1))
   names(data) = c('y1', 'x2', 'x3',"x4","x5","x1")
   
@@ -94,7 +94,7 @@ dataGen5 <- function(N){
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
   r = t(r)
-  x1<-rep(c(0,1),N/2)
+  x1<-rbinom(N,1,0.5)
   data = as.data.frame(cbind(r,x1))
   names(data) = c('y1', 'x2', 'x3',"x4","x5","x6","x1")
   
@@ -113,7 +113,7 @@ dataGen6 <- function(N){
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
   r = t(r)
-  x1<-rep(c(0,1),N/2)
+  x1<-rbinom(N,1,0.5)
   data = as.data.frame(cbind(r,x1))
   names(data) = c('y1', 'x2', 'x3',"x4","x5","x6","x7","x1")
   return(data)
@@ -134,7 +134,7 @@ dataGen7 <- function(N){
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
   r = t(r)
-  x1<-rep(c(0,1),N/2)
+  x1<-rbinom(N,1,0.5)
   data = as.data.frame(cbind(r,x1))
   names(data) = c('y1', 'x2', 'x3',"x4","x5","x6","x7","x8","x1")
   return(data)
