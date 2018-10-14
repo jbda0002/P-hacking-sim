@@ -322,23 +322,24 @@ phackingInteraction<-function(data,y,H_1,interaction = TRUE,SD=FALSE){
   
   
   
-  Models <- TheModels[(TheModels$V2<=0.05  ),]
-  # if(SD==TRUE){
-  #  res1<-'Non removed' %in% Models$Outlier
-  #  res2<-'1' %in% Models$Outlier
-  #  res3<-'2' %in% Models$Outlier
-  #  res4<-'3' %in% Models$Outlier
+  Models <- TheModels[(TheModels$V2<=0.05 |TheModels$V3<=0.05 ),]
+   if(SD==TRUE){
+    res1<-'Non removed' %in% Models$Outlier
+    res2<-'1' %in% Models$Outlier
+    res3<-'2' %in% Models$Outlier
+    res4<-'3' %in% Models$Outlier
   
-   #res<-as.integer(as.logical(c(res1,res2,res3,res4))) 
-#  }
-#  else{
-#    res <- ifelse(nrow(Models)>=1,1,0)
-#  }
+    res<-as.integer(as.logical(c(res1,res2,res3,res4))) 
+  }
+  else{
+    #res <- ifelse(nrow(Models)>=1,1,0)
+    res<- nrow(Models)/nrow(TheModels)
+  }
   #Look at what names of outlier that there is a significant model. 
   
   
   
-  res<- nrow(Models)/nrow(TheModels)
+  
   
   #res <- ifelse(nrow(Models)>=1,1,0)
   
@@ -357,18 +358,18 @@ for(j in 1:length(DataGenList)){
 }
 
 
-f1 <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresult)+
+f2 <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresult)+
   geom_line(aes(colour=as.factor(IndependentVariables))) +
   geom_point(aes(colour=as.factor(IndependentVariables)))+
   scale_color_grey()+
   theme_bw()+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-  ylab("Percent of simulations with at least one model with significant random variable")+ 
+  ylab("Percent of models with significant random variable")+ 
   xlab("Sample size")+
   labs(colour = "Number of Predictors") +
   theme_classic()
 
-f1
+f2
 
 
 #For SD = TRUE and having one point for each od the outlier methods
