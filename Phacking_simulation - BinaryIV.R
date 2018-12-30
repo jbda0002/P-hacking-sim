@@ -268,9 +268,7 @@ phackingInteraction<-function(data,y,H_1,interaction = TRUE,SD=FALSE){
     
   }
   
-  #Deviation from the mean
-  #data<-MeanAD(data, FUN=mean)
-  data$x1<-as.factor(data$x1)
+
   #Running all the models
   models<-lapply(Formulas,function(i)
     lm(as.formula(i),data=data))
@@ -374,8 +372,8 @@ phackingInteraction<-function(data,y,H_1,interaction = TRUE,SD=FALSE){
     res<-as.integer(as.logical(c(res1,res2,res3,res4))) 
   }
   else{
-    res <- ifelse(nrow(Models)>=1,1,0)
-    #res <- nrow(Models)/nrow(TheModels)
+    #res <- ifelse(nrow(Models)>=1,1,0)
+    res <- nrow(Models)/nrow(TheModels)
   }
   #Look at what names of outlier that there is a significant model. 
   
@@ -389,7 +387,7 @@ phackingInteraction<-function(data,y,H_1,interaction = TRUE,SD=FALSE){
 sample = c(50,100,150,200,250,300)
 finalresult<-c()
 for(j in 1:length(DataGenList)){
-  res = mapply(function(x) mean(replicate(4, phackingInteraction(DataGenList[[j]](x),"y1","x1",SD=FALSE))), x=sample)
+  res = mapply(function(x) mean(replicate(200, phackingInteraction(DataGenList[[j]](x),"y1","x1",SD=FALSE))), x=sample)
   result = data.frame(sample,res,j)
   names(result)<-c("SampleSize","Pr","IndependentVariables")
   finalresult=rbind(result,finalresult)
