@@ -1,4 +1,21 @@
 
+## Code for p-hacking and simulation
+## This code has both a function that only looks at the fixed effects, but also a function that takes all the interavtions with H_1 
+## into account. These interavtions are only with one other variable, but can be generalized such that it takes all interactions
+## but the modelset will explode exponentially
+## Setting working directory
+
+#setwd("D:/Dropbox")
+setwd("C:/Users/jbda0002/Documents/Projects/P-hacking/trunk")
+set.seed(1234)
+
+## Loading library
+library(ggplot2)
+library(data.table)
+library(plyr)
+library(reshape2)
+library(Rlab)
+
 #This one is with a single interaction term, always with H_1
 phackingInteraction<-function(data,y,H_1,interaction = TRUE,SD=FALSE){
   ## Loading liberaries
@@ -796,7 +813,7 @@ DataGenListBinNorm <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6
 ## Here is SD=FALSE
 ## General for all
 sample = c(50,100,150,200,250,300)
-rep=100
+rep=150
 finalresultNorm<-c()
 finalresultNormBin<-c()
 finalresultBin<-c()
