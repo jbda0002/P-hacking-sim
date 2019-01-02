@@ -1711,17 +1711,17 @@ DataGenListBinNorm <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6
 #### Simulation part ####
 ## Here is SD=FALSE
 ## General for all
-finalresultNorm<-c()
-finalresultNormBin<-c()
-finalresultBin<-c()
-finalresultBinNorm<-c()
+finalresultNorm1<-c()
+finalresultNormBin1<-c()
+finalresultBin1<-c()
+finalresultBinNorm1<-c()
 
 ## Normal simulation ##
 for(j in 1:length(DataGenListNorm)){
   res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListNorm[[j]](x),"y1","x1",SD=FALSE))), x=sample)
   result = data.frame(sample,res,j)
   names(result)<-c("SampleSize","Pr","IndependentVariables")
-  finalresultNorm=rbind(result,finalresultNorm)
+  finalresultNorm1=rbind(result,finalresultNorm1)
 }
 
 ## Bin simulation ##
@@ -1729,7 +1729,7 @@ for(j in 1:length(DataGenListBin)){
   res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListBin[[j]](x),"y1","x1",SD=FALSE))), x=sample)
   result = data.frame(sample,res,j)
   names(result)<-c("SampleSize","Pr","IndependentVariables")
-  finalresultBin=rbind(result,finalresultBin)
+  finalresultBin1=rbind(result,finalresultBin1)
 }
 
 ## Normal and Bin. H_1 simulation ##
@@ -1737,7 +1737,7 @@ for(j in 1:length(DataGenListNormBin)){
   res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListNormBin[[j]](x),"y1","x1",SD=FALSE))), x=sample)
   result = data.frame(sample,res,j)
   names(result)<-c("SampleSize","Pr","IndependentVariables")
-  finalresultNormBin=rbind(result,finalresultNormBin)
+  finalresultNormBin1=rbind(result,finalresultNormBin1)
 }
 
 ## Bin and Normal H_1 simulation ##
@@ -1745,12 +1745,12 @@ for(j in 1:length(DataGenListBinNorm)){
   res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListBinNorm[[j]](x),"y1","x1",SD=FALSE))), x=sample)
   result = data.frame(sample,res,j)
   names(result)<-c("SampleSize","Pr","IndependentVariables")
-  finalresultBinNorm=rbind(result,finalresultBinNorm)
+  finalresultBinNorm1=rbind(result,finalresultBinNorm1)
 }
 
 #### Figures ####
 ## Normal ##
-figureNormal <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultNorm)+
+figureNormal1 <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultNorm1)+
   geom_line(aes(colour=as.factor(IndependentVariables))) +
   geom_point(aes(colour=as.factor(IndependentVariables)))+
   scale_color_grey()+
@@ -1762,10 +1762,10 @@ figureNormal <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour
   ggtitle("Normal")+
   theme_classic()
 
-figureNormal
+figureNormal1
 
 ## Bin ##
-figureBin <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultBin)+
+figureBin1 <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultBin1)+
   geom_line(aes(colour=as.factor(IndependentVariables))) +
   geom_point(aes(colour=as.factor(IndependentVariables)))+
   scale_color_grey()+
@@ -1777,10 +1777,10 @@ figureBin <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=In
   ggtitle("All 1/0")+
   theme_classic()
 
-figureBin
+figureBin1
 
 ## Normal IV and H_1 bin ##
-figureNormBin <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultNormBin)+
+figureNormBin1 <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultNormBin1)+
   geom_line(aes(colour=as.factor(IndependentVariables))) +
   geom_point(aes(colour=as.factor(IndependentVariables)))+
   scale_color_grey()+
@@ -1792,10 +1792,10 @@ figureNormBin <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colou
   ggtitle("All normal, H_1 1/0")+
   theme_classic()
 
-figureNormBin
+figureNormBin1
 
 ## Normal H_1 and IV bin ##
-figureBinNorm <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultBinNorm)+
+figureBinNorm1 <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultBinNorm1)+
   geom_line(aes(colour=as.factor(IndependentVariables))) +
   geom_point(aes(colour=as.factor(IndependentVariables)))+
   scale_color_grey()+
@@ -1807,4 +1807,4 @@ figureBinNorm <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colou
   ggtitle("All 1/0, H_1 normal")+
   theme_classic()
 
-figureBinNorm
+figureBinNorm1
