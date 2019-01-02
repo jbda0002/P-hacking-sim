@@ -813,8 +813,8 @@ DataGenListBinNorm <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6
 #### Simulation part ####
 ## Here is SD=FALSE
 ## General for all
-sample = c(50,100,150,200,250,300)
-rep=100
+sample = c(50,100,150,200,250,300,350,400,450,500,600,700,800)
+rep=200
 finalresultNorm<-c()
 finalresultNormBin<-c()
 finalresultBin<-c()
@@ -1711,8 +1711,6 @@ DataGenListBinNorm <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6
 #### Simulation part ####
 ## Here is SD=FALSE
 ## General for all
-sample = c(50,100,150,200,250,300)
-rep=100
 finalresultNorm<-c()
 finalresultNormBin<-c()
 finalresultBin<-c()
