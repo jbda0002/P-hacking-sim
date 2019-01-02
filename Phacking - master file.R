@@ -3,8 +3,9 @@
 ## This code has both a function that only looks at the fixed effects, but also a function that takes all the interavtions with H_1 
 ## into account. These interavtions are only with one other variable, but can be generalized such that it takes all interactions
 ## but the modelset will explode exponentially
-## Setting working directory
 
+#### Setting up the simulation ####
+## Setting working directory
 #setwd("D:/Dropbox")
 setwd("C:/Users/jbda0002/Documents/Projects/P-hacking/trunk")
 set.seed(1234)
@@ -82,7 +83,7 @@ phackingInteraction<-function(data,y,H_1,interaction = TRUE,SD=FALSE){
   
   if(interaction==TRUE){
     
-    ## Clean this up! There must be a better way   
+    ## Clean this up! There must be a better way 
     #Starting of interaction term
     CombinInter <- unlist(
       lapply(1, function(i)combn(1:n,i,simplify=FALSE)), recursive=FALSE)
@@ -821,7 +822,7 @@ finalresultBinNorm<-c()
 
 ## Normal simulation ##
 for(j in 1:length(DataGenListNorm)){
-  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenList[[j]](x),"y1","x1",SD=FALSE))), x=sample)
+  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListNorm[[j]](x),"y1","x1",SD=FALSE))), x=sample)
   result = data.frame(sample,res,j)
   names(result)<-c("SampleSize","Pr","IndependentVariables")
   finalresultNorm=rbind(result,finalresultNorm)
@@ -829,7 +830,7 @@ for(j in 1:length(DataGenListNorm)){
 
 ## Bin simulation ##
 for(j in 1:length(DataGenListBin)){
-  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenList[[j]](x),"y1","x1",SD=FALSE))), x=sample)
+  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListBin[[j]](x),"y1","x1",SD=FALSE))), x=sample)
   result = data.frame(sample,res,j)
   names(result)<-c("SampleSize","Pr","IndependentVariables")
   finalresultBin=rbind(result,finalresultBin)
@@ -837,7 +838,7 @@ for(j in 1:length(DataGenListBin)){
 
 ## Normal and Bin. H_1 simulation ##
 for(j in 1:length(DataGenListNormBin)){
-  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenList[[j]](x),"y1","x1",SD=FALSE))), x=sample)
+  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListNormBin[[j]](x),"y1","x1",SD=FALSE))), x=sample)
   result = data.frame(sample,res,j)
   names(result)<-c("SampleSize","Pr","IndependentVariables")
   finalresultNormBin=rbind(result,finalresultNormBin)
@@ -845,7 +846,7 @@ for(j in 1:length(DataGenListNormBin)){
 
 ## Bin and Normal H_1 simulation ##
 for(j in 1:length(DataGenListBinNorm)){
-  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenList[[j]](x),"y1","x1",SD=FALSE))), x=sample)
+  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListBinNorm[[j]](x),"y1","x1",SD=FALSE))), x=sample)
   result = data.frame(sample,res,j)
   names(result)<-c("SampleSize","Pr","IndependentVariables")
   finalresultBinNorm=rbind(result,finalresultBinNorm)
@@ -1719,7 +1720,7 @@ finalresultBinNorm<-c()
 
 ## Normal simulation ##
 for(j in 1:length(DataGenListNorm)){
-  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenList[[j]](x),"y1","x1",SD=FALSE))), x=sample)
+  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListNorm[[j]](x),"y1","x1",SD=FALSE))), x=sample)
   result = data.frame(sample,res,j)
   names(result)<-c("SampleSize","Pr","IndependentVariables")
   finalresultNorm=rbind(result,finalresultNorm)
@@ -1727,7 +1728,7 @@ for(j in 1:length(DataGenListNorm)){
 
 ## Bin simulation ##
 for(j in 1:length(DataGenListBin)){
-  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenList[[j]](x),"y1","x1",SD=FALSE))), x=sample)
+  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListBin[[j]](x),"y1","x1",SD=FALSE))), x=sample)
   result = data.frame(sample,res,j)
   names(result)<-c("SampleSize","Pr","IndependentVariables")
   finalresultBin=rbind(result,finalresultBin)
@@ -1735,7 +1736,7 @@ for(j in 1:length(DataGenListBin)){
 
 ## Normal and Bin. H_1 simulation ##
 for(j in 1:length(DataGenListNormBin)){
-  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenList[[j]](x),"y1","x1",SD=FALSE))), x=sample)
+  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListNormBin[[j]](x),"y1","x1",SD=FALSE))), x=sample)
   result = data.frame(sample,res,j)
   names(result)<-c("SampleSize","Pr","IndependentVariables")
   finalresultNormBin=rbind(result,finalresultNormBin)
@@ -1743,7 +1744,7 @@ for(j in 1:length(DataGenListNormBin)){
 
 ## Bin and Normal H_1 simulation ##
 for(j in 1:length(DataGenListBinNorm)){
-  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenList[[j]](x),"y1","x1",SD=FALSE))), x=sample)
+  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListBinNorm[[j]](x),"y1","x1",SD=FALSE))), x=sample)
   result = data.frame(sample,res,j)
   names(result)<-c("SampleSize","Pr","IndependentVariables")
   finalresultBinNorm=rbind(result,finalresultBinNorm)
