@@ -18,7 +18,7 @@ library(reshape2)
 library(Rlab)
 
 #This one is with a single interaction term, always with H_1
-phackingInteraction<-function(data,y,H_1,interaction = TRUE,SD=FALSE){
+phackingInteraction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
   ## Loading liberaries
   library(data.table)
   library(ggplot2)
@@ -205,8 +205,12 @@ phackingInteraction<-function(data,y,H_1,interaction = TRUE,SD=FALSE){
     res<-as.integer(as.logical(c(res1,res2,res3,res4))) 
   }
   else{
-    res <- ifelse(nrow(Models)>=1,1,0)
-    #res <- nrow(Models)/nrow(TheModels)
+    if(Per==FALSE){
+      res <- ifelse(nrow(Models)>=1,1,0)
+          }
+    else{
+      res <- nrow(Models)/nrow(TheModels)
+        }
   }
   
   
@@ -916,201 +920,6 @@ figureBinNorm
 #### Part of simulation with how many of the simulations that are significant ####
 
 #This one is with a single interaction term, always with H_1
-phackingInteraction<-function(data,y,H_1,interaction = TRUE,SD=FALSE){
-  ## Loading liberaries
-  library(data.table)
-  library(ggplot2)
-  ## Creating datasets with outliers deleted if sd=TRUE 
-  # This here is only to test, the different oulier analysis will be added here 
-  # This part of the code can also be optimized
-  # Use the MAD (Median Absolute Deviation) method as well
-  if(SD==TRUE){
-    #Calculate means and sd for all variables
-    all.means <- sapply(data,mean)
-    all.sd<-sapply(data, sd)
-    
-    #sd*2
-    #Miller, 1991
-    outlier = ifelse(data > all.means+all.sd*2, 1, 0)
-    outlier <-ifelse(rowSums(outlier)>=1,1,0)
-    dataoutlier2<-data
-    dataoutlier2$outlier<-outlier
-    dataoutlier2<-dataoutlier2[!dataoutlier2$outlier==1,]
-    
-    #sd*2.5
-    #Miller, 1991
-    outlier = ifelse(data > all.means+all.sd*2.5, 1, 0)
-    outlier <-ifelse(rowSums(outlier)>=1,1,0)
-    dataoutlier25<-data
-    dataoutlier25$outlier<-outlier
-    dataoutlier25<-dataoutlier25[!dataoutlier25$outlier==1,]
-    
-    #sd*3
-    #Howell, 1998 - Statistical methods in human sciences
-    outlier = ifelse(data > all.means+all.sd*3, 1, 0)
-    outlier <-ifelse(rowSums(outlier)>=1,1,0)
-    dataoutlier3<-data
-    dataoutlier3$outlier<-outlier
-    dataoutlier3<-dataoutlier3[!dataoutlier3$outlier==1,]
-    
-    dataoutlier<-list(dataoutlier2,dataoutlier25,dataoutlier3)
-  }
-  
-  #Making object ready to pature model and p - value
-  RModelF = NULL
-  RModelI = NULL
-  ModelName =NULL
-  
-  #Collecting and counting all the different variables, except the DV and H_1
-  Cols <- names(data)
-  Cols <- Cols[! Cols %in% c(y,H_1)] 
-  n <- length(Cols)
-  
-  #Making different combinations of the variables
-  Combin <- unlist(
-    lapply(1:n, function(i)combn(1:n,i,simplify=FALSE)), recursive=FALSE)
-  
-  #Starting of regression
-  start<- paste(c(y,H_1),collapse = " ~ ")
-  start<- paste(c(start," + "),collapse = "")
-  
-  #Paste all the combinations of the different regressions into a form that can be read by lm()
-  Form <- sapply(Combin,function(i)
-    paste(start,paste(Cols[i],collapse=" + ")))
-  
-  
-  if(interaction==TRUE){
-    
-    ## Clean this up! There must be a better way   
-    #Starting of interaction term
-    CombinInter <- unlist(
-      lapply(1, function(i)combn(1:n,i,simplify=FALSE)), recursive=FALSE)
-    
-    CombH1<-paste(c(H_1,":"),collapse = "")
-    
-    #All interactions terms
-    Interactions <- sapply(CombinInter,function(i) 
-      paste(CombH1,paste(Cols[i],collapse=":")))
-    
-    # Make all the combinations of the interaction terms and formulas from before
-    FormulasInteraction<-apply(expand.grid(Form, Interactions), 1, paste, collapse="+")
-    #Set them together in one string
-    Formulas<-c(Form,FormulasInteraction)
-    
-    
-  }
-  
-  #Running all the models
-  models<-lapply(Formulas,function(i)
-    lm(as.formula(i),data=data))
-  
-  #Collecting the p-values
-  
-  for(i in 1:length(models)){
-    
-    
-    #Finding the name of the model
-    mod<-Formulas[[i]]
-    ModelName<-rbind(mod,ModelName)
-    
-    #Collecting the p-value
-    coef <-summary(models[[i]])$coefficients
-    p_h_1<-coef[2,4] 
-    RModelF<-rbind(p_h_1,RModelF)
-    
-    #See if ther interaction with H_1 becomes significant
-    if(grepl(":",mod)==TRUE){
-      p_h_2<-coef[nrow(coef),4] 
-    }
-    else{
-      p_h_2<-1 
-    }
-    RModelI<-rbind(p_h_2,RModelI)
-  }
-  
-  
-  #Combine all the p-values
-  TheModels<-cbind(ModelName,RModelF,RModelI)
-  TheModels<-as.data.table(TheModels)
-  
-  #making them from factor to numeric
-  TheModels$V2<-as.numeric(as.character(TheModels$V2))
-  TheModels$V3<-as.numeric(as.character(TheModels$V3))
-  TheModels$Outlier<-"Non removed"
-  
-  RModelF = NULL
-  RModelI = NULL
-  ModelName =NULL
-  Outliers= NULL
-  
-  
-  
-  if(SD==TRUE){
-    for(j in 1:length(dataoutlier)){
-      models_out<-lapply(Formulas,function(i)
-        lm(as.formula(i),data=dataoutlier[[j]]))
-      for(i in 1:length(models_out)){
-        
-        
-        #Finding the name of the model
-        mod<-Formulas[[i]]
-        ModelName<-rbind(mod,ModelName)
-        Outliers<-rbind(j,Outliers)
-        
-        #Collecting the p-value
-        coef <-summary(models_out[[i]])$coefficients
-        p_h_1<-coef[2,4] 
-        RModelF<-rbind(p_h_1,RModelF)
-        
-        #See if ther interaction with H_1 becomes significant
-        if(grepl(":",mod)==TRUE){
-          p_h_2<-coef[nrow(coef),4] 
-        }
-        else{
-          p_h_2<-1 
-        }
-        RModelI<-rbind(p_h_2,RModelI)
-      }
-    }
-    TheModels_outlier<-cbind(ModelName,RModelF,RModelI,Outliers)
-    TheModels_outlier<-as.data.table(TheModels_outlier)
-    
-    #making them from factor to numeric
-    TheModels_outlier$V2<-as.numeric(as.character(TheModels_outlier$V2))
-    TheModels_outlier$V3<-as.numeric(as.character(TheModels_outlier$V3))
-    colnames(TheModels_outlier)[4]<-"Outlier"
-    
-    #Make the names such that they mach up to the outlier criteria. 
-    
-    
-    #Combine the 2 datastets
-    TheModels<-rbind(TheModels_outlier,TheModels)
-  }
-  
-  
-  #Order the models if one wants all the models out in the end
-  TheModels<- TheModels[with(TheModels, order(V2)), ]
-  
-  
-  
-  Models <- TheModels[(TheModels$V2<=0.05|TheModels$V3<=0.05  ),]
-  if(SD==TRUE){
-    res1<-'Non removed' %in% Models$Outlier
-    res2<-'1' %in% Models$Outlier
-    res3<-'2' %in% Models$Outlier
-    res4<-'3' %in% Models$Outlier
-    
-    res<-as.integer(as.logical(c(res1,res2,res3,res4))) 
-  }
-  else{
-    #res <- ifelse(nrow(Models)>=1,1,0)
-    res <- nrow(Models)/nrow(TheModels)
-  }
-  
-  
-  return((res))
-}
-
 ### The different types of data:
 ## For all these different kind of datatypes it always hold that the correlation is 0.2
 
@@ -1718,7 +1527,7 @@ finalresultBinNorm1<-c()
 
 ## Normal simulation ##
 for(j in 1:length(DataGenListNorm)){
-  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListNorm[[j]](x),"y1","x1",SD=FALSE))), x=sample)
+  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListNorm[[j]](x),"y1","x1",SD=FALSE,Per=TRUE))), x=sample)
   result = data.frame(sample,res,j)
   names(result)<-c("SampleSize","Pr","IndependentVariables")
   finalresultNorm1=rbind(result,finalresultNorm1)
@@ -1726,7 +1535,7 @@ for(j in 1:length(DataGenListNorm)){
 
 ## Bin simulation ##
 for(j in 1:length(DataGenListBin)){
-  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListBin[[j]](x),"y1","x1",SD=FALSE))), x=sample)
+  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListBin[[j]](x),"y1","x1",SD=FALSE,Per=TRUE))), x=sample)
   result = data.frame(sample,res,j)
   names(result)<-c("SampleSize","Pr","IndependentVariables")
   finalresultBin1=rbind(result,finalresultBin1)
@@ -1734,7 +1543,7 @@ for(j in 1:length(DataGenListBin)){
 
 ## Normal and Bin. H_1 simulation ##
 for(j in 1:length(DataGenListNormBin)){
-  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListNormBin[[j]](x),"y1","x1",SD=FALSE))), x=sample)
+  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListNormBin[[j]](x),"y1","x1",SD=FALSE,Per=TRUE))), x=sample)
   result = data.frame(sample,res,j)
   names(result)<-c("SampleSize","Pr","IndependentVariables")
   finalresultNormBin1=rbind(result,finalresultNormBin1)
@@ -1742,7 +1551,7 @@ for(j in 1:length(DataGenListNormBin)){
 
 ## Bin and Normal H_1 simulation ##
 for(j in 1:length(DataGenListBinNorm)){
-  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListBinNorm[[j]](x),"y1","x1",SD=FALSE))), x=sample)
+  res = mapply(function(x) mean(replicate(rep, phackingInteraction(DataGenListBinNorm[[j]](x),"y1","x1",SD=FALSE,Per=TRUE))), x=sample)
   result = data.frame(sample,res,j)
   names(result)<-c("SampleSize","Pr","IndependentVariables")
   finalresultBinNorm1=rbind(result,finalresultBinNorm1)
