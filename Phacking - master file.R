@@ -28,6 +28,7 @@ phackingInteraction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
   # Use the MAD (Median Absolute Deviation) method as well
   if(SD==TRUE){
     #Calculate means and sd for all variables
+    #### Does this on individual variables or maybe aggegated like now but on the H_1
     all.means <- sapply(data,mean)
     all.sd<-sapply(data, sd)
     
@@ -101,7 +102,9 @@ phackingInteraction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
     
     
   }
-  
+  else{
+    Formulas=Form
+  }
   #Running all the models
   models<-lapply(Formulas,function(i)
     lm(as.formula(i),data=data))
@@ -214,7 +217,7 @@ phackingInteraction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
   }
   
   
-  return((res))
+  return((Models))
 }
 
 ### The different types of data:
