@@ -56,7 +56,12 @@ phackingInteraction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
     dataoutlier3$outlier<-outlier
     dataoutlier3<-dataoutlier3[!dataoutlier3$outlier==1,]
     
-    dataoutlier<-list(dataoutlier2,dataoutlier25,dataoutlier3)
+    #Outlier 4
+    # outside 1.5 times interquartile range - above and below
+    dataoutlier4<-data
+    dataoutlier4<-remove_all_outliers1(dataoutlier4)
+    
+    dataoutlier<-list(dataoutlier2,dataoutlier25,dataoutlier3,dataoutlier4)
   }
   
   #Making object ready to pature model and p - value
