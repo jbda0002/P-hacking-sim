@@ -222,7 +222,7 @@ phackingInteraction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
   }
   
   
-  return((Models))
+  return((res))
 }
 
 #### Outlier functions ####
@@ -837,10 +837,10 @@ DataGenListBinNorm <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6
 
 
 #### Simulation part ####
-## Here is SD=FALSE
+## Here is SD=TRUE
 ## General for all
-sample = c(50,100,150,200,250,300,350,400,450,500,600,700,800)
-rep=200
+sample = c(50,100,150,200,250,300,350,400,450,500,550,600,650,700)
+rep=1000
 finalresultNorm<-c()
 finalresultNormBin<-c()
 finalresultBin<-c()
@@ -881,60 +881,59 @@ for(j in 1:length(DataGenListBinNorm)){
 #### Figures ####
 ## Normal ##
 figureNormal <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultNorm)+
-  geom_line(aes(colour=as.factor(IndependentVariables))) +
-  geom_point(aes(colour=as.factor(IndependentVariables)))+
+  geom_line(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE) +
+  geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
   scale_color_grey()+
   theme_bw()+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),legend.position = "none")+
   ylab("Percent of simulations with at least one model with significant random variable")+ 
   xlab("Sample size")+
-  labs(colour = "Number of Predictors") +
-  ggtitle("Normal")+
+  ggtitle("Depended normal, independed variable normal")+
   theme_classic()
 
 figureNormal
 
 ## Bin ##
 figureBin <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultBin)+
-  geom_line(aes(colour=as.factor(IndependentVariables))) +
-  geom_point(aes(colour=as.factor(IndependentVariables)))+
+  geom_line(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE) +
+  geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
   scale_color_grey()+
   theme_bw()+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-  ylab("Percent of simulations with at least one model with significant random variable")+ 
+  ylab("")+ 
   xlab("Sample size")+
   labs(colour = "Number of Predictors") +
-  ggtitle("All 1/0")+
+  ggtitle("Dependent variable 1/0, independet variable 1/0")+
   theme_classic()
 
 figureBin
 
 ## Normal IV and H_1 bin ##
 figureNormBin <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultNormBin)+
-  geom_line(aes(colour=as.factor(IndependentVariables))) +
-  geom_point(aes(colour=as.factor(IndependentVariables)))+
+  geom_line(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE) +
+  geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
   scale_color_grey()+
   theme_bw()+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-  ylab("Percent of simulations with at least one model with significant random variable")+ 
+  ylab("")+  
   xlab("Sample size")+
   labs(colour = "Number of Predictors") +
-  ggtitle("All normal, H_1 1/0")+
+  ggtitle("Dependent variable normal, independet variable 1/0")+
   theme_classic()
 
 figureNormBin
 
 ## Normal H_1 and IV bin ##
 figureBinNorm <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultBinNorm)+
-  geom_line(aes(colour=as.factor(IndependentVariables))) +
-  geom_point(aes(colour=as.factor(IndependentVariables)))+
+  geom_line(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE) +
+  geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
   scale_color_grey()+
   theme_bw()+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-  ylab("Percent of simulations with at least one model with significant random variable")+ 
+  ylab("")+ 
   xlab("Sample size")+
   labs(colour = "Number of Predictors") +
-  ggtitle("All 1/0, H_1 normal")+
+  ggtitle("Dependent variable normal, independet variable 1/0")+
   theme_classic()
 
 figureBinNorm
@@ -1582,60 +1581,62 @@ for(j in 1:length(DataGenListBinNorm)){
 #### Figures ####
 ## Normal ##
 figureNormal1 <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultNorm1)+
-  geom_line(aes(colour=as.factor(IndependentVariables))) +
-  geom_point(aes(colour=as.factor(IndependentVariables)))+
+  geom_line(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE) +
+  geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
   scale_color_grey()+
   theme_bw()+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),legend.position = "none")+
   ylab("Percent of simulations with significant random variable")+ 
   xlab("Sample size")+
-  labs(colour = "Number of Predictors") +
-  ggtitle("Normal")+
+  ggtitle("")+
   theme_classic()
 
 figureNormal1
 
 ## Bin ##
 figureBin1 <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultBin1)+
-  geom_line(aes(colour=as.factor(IndependentVariables))) +
-  geom_point(aes(colour=as.factor(IndependentVariables)))+
+  geom_line(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE) +
+  geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
   scale_color_grey()+
   theme_bw()+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-  ylab("Percent of simulations with significant random variable")+ 
+  ylab("")+ 
   xlab("Sample size")+
-  labs(colour = "Number of Predictors") +
-  ggtitle("All 1/0")+
+  ggtitle("")+
   theme_classic()
 
 figureBin1
 
 ## Normal IV and H_1 bin ##
 figureNormBin1 <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultNormBin1)+
-  geom_line(aes(colour=as.factor(IndependentVariables))) +
-  geom_point(aes(colour=as.factor(IndependentVariables)))+
+  geom_line(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE) +
+  geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
   scale_color_grey()+
   theme_bw()+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-  ylab("Percent of simulations with significant random variable")+ 
+  ylab("")+ 
   xlab("Sample size")+
-  labs(colour = "Number of Predictors") +
-  ggtitle("All normal, H_1 1/0")+
+  ggtitle("")+
   theme_classic()
 
 figureNormBin1
 
 ## Normal H_1 and IV bin ##
 figureBinNorm1 <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultBinNorm1)+
-  geom_line(aes(colour=as.factor(IndependentVariables))) +
-  geom_point(aes(colour=as.factor(IndependentVariables)))+
+  geom_line(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE) +
+  geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
   scale_color_grey()+
   theme_bw()+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-  ylab("Percent of simulations with significant random variable")+ 
+  ylab("")+ 
   xlab("Sample size")+
   labs(colour = "Number of Predictors") +
-  ggtitle("All 1/0, H_1 normal")+
+  ggtitle("")+
   theme_classic()
 
 figureBinNorm1
+
+require(gridExtra)
+
+grid.arrange(figureNormal, figureBin, figureNormBin, figureBinNorm, figureNormal1, figureBin1, figureNormBin1, figureBinNorm1,
+          ncol = 4)
