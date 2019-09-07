@@ -867,8 +867,8 @@ DataGenListBinNorm <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6
 #### Simulation part ####
 ## Here is SD=TRUE
 ## General for all
-sample = c(50,100,200)
-rep=200
+sample = c(50,100)
+rep=20
 condIn<-c("TRUE","FALSE")
 condSD<-c("TRUE","FALSE")
 condPer<-c("TRUE","FALSE")
@@ -877,15 +877,25 @@ DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=Data
 
 ## Simulation ##
 # Remember to notice in which order the data comes in
-for (h in 1:length(condIn)) {
-  for (i in 1:length(DataGen)) {
-    for(j in 1:length(DataGen[[i]])){
-      res = mapply(function(x) mean(replicate(rep, phackingFunction(DataGen[[i]][[j]](x),"y1","x1", interaction = condIn[[h]] ,SD=FALSE))), x=sample)
-      result = data.frame(sample,res,j,h)
-      names(result)<-c("SampleSize","Pr","IndependentVariables","Interaction")
-      finalresult[[i]]=rbind(result,finalresult[[i]])
-    }
-  } 
+for (k in 1:length(condSD)) {
+  for (h in 1:length(condIn)) {
+    for (i in 1:length(DataGen)) {
+      for(j in 1:length(DataGen[[i]])){
+        res = mapply(function(x) mean(replicate(rep, phackingFunction(DataGen[[i]][[j]](x),"y1","x1", interaction = condIn[[h]] ,SD=condSD[[k]]))), x=sample)
+        result = data.frame(sample,res,j,h,k)
+        names(result)<-c("SampleSize","Pr","IndependentVariables","Interaction","OutlierExclusion")
+        finalresult[[i]]=rbind(result,finalresult[[i]])
+      }
+    } 
+  }
+}
+
+for (i in 1:length(finalresult)) {
+  
+  finalresult[[i]]$Interaction[finalresult[[i]]$Interaction == "1"] <- "In TRUE"
+  finalresult[[i]]$Interaction[finalresult[[i]]$Interaction == "2"] <- "In FALSE"
+  finalresult[[i]]$OutlierExclusion[finalresult[[i]]$OutlierExclusion == "1"] <- "SD TRUE"
+  finalresult[[i]]$OutlierExclusion[finalresult[[i]]$OutlierExclusion == "2"] <- "SD FALSE"
 }
 
 
@@ -896,7 +906,7 @@ figureNormal <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour
   geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
   scale_color_grey()+
   theme_bw()+
-  facet_grid(~Interaction)+
+  facet_grid(OutlierExclusion~Interaction)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),legend.position = "none")+
   ylab("Percent of simulations with at least one model with significant random variable")+ 
   xlab("Sample size")+
@@ -911,7 +921,7 @@ figureBin <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=In
   geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
   scale_color_grey()+
   theme_bw()+
-  facet_grid(~Interaction)+
+  facet_grid(OutlierExclusion~Interaction)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   ylab("")+ 
   xlab("Sample size")+
@@ -927,7 +937,7 @@ figureNormBin <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colou
   geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
   scale_color_grey()+
   theme_bw()+
-  facet_grid(~Interaction)+
+  facet_grid(OutlierExclusion~Interaction)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   ylab("")+  
   xlab("Sample size")+
@@ -943,7 +953,7 @@ figureBinNorm <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colou
   geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
   scale_color_grey()+
   theme_bw()+
-  facet_grid(~Interaction)+
+  facet_grid(OutlierExclusion~Interaction)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   ylab("")+ 
   xlab("Sample size")+
