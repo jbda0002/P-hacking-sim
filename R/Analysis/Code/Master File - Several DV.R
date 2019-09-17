@@ -25,7 +25,7 @@ library(Rlab)
 sample = c(100,200)
 
 ## Setting the number of repretetion
-rep=10
+rep=4
 ## Setting the correlation between dependent and independent 
 per=0.2
 perDV=0.5
@@ -108,7 +108,7 @@ figureNormBinDV <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, col
   theme_bw()+
   facet_grid(OutlierExclusion~Interaction)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-  ylab("")+  
+  ylab("corcent of simulations with at least one model with significant random variable")+  
   xlab("Sample size")+
   labs(colour = "Number of Predictors") +
   ggtitle("Dependent variable normal, independet variable 1/0")+
@@ -119,7 +119,7 @@ figureNormBinDV
 
 ## Save the figures
 ggsave(figureNormalDV,filename =file.path("Analysis/Result/Figures","figureNormalDV.jpeg"),width = 6.64,height = 5.70)
-ggsave(figureNormBinDV,filename =file.path("Analysis/Result/Figures","figureNormalDV.jpeg"),width = 6.64,height = 5.70)
+ggsave(figureNormBinDV,filename =file.path("Analysis/Result/Figures","figureNormalBinDV.jpeg"),width = 6.64,height = 5.70)
 
 ## Save the result file
 write.csv(finalresult,"Analysis/Result/ResultFile/ResultsDV.csv" )
