@@ -18,7 +18,7 @@ library(reshape2)
 library(Rlab)
 
 
-phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
+phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,cor=FALSE){
   ## Loading liberaries
   library(data.table)
   library(ggplot2)
@@ -239,7 +239,7 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
   
   Models <- TheModels[(TheModels$V2<=0.05|TheModels$V3<=0.05  ),]
 
-    if(Per==FALSE){
+    if(cor==FALSE){
       res <- ifelse(nrow(Models)>=1,1,0)
           }
     else{
@@ -272,11 +272,15 @@ remove_all_outliers1 <- function(df){
 
 #### Everything is normal dist.: ####
 
-dataGen1 <- function(N){
+## Corelation between independent variables and dependent variable 
+cor=0.1
+
+
+dataGen1 <- function(N,cor){
   
-  M = matrix(c(1, 0, 0.2,
+  M = matrix(c(1, 0, cor,
                0, 1, 0,
-               0.2, 0, 1
+               cor, 0, 1
   ), nrow=3, ncol=3)
   L = chol(M)
   nvars = dim(L)[1]
@@ -288,12 +292,12 @@ dataGen1 <- function(N){
   
   return(data)
 }
-dataGen2 <- function(N){
+dataGen2 <- function(N,cor){
   
-  M = matrix(c(1, 0, 0.2,0.2,
+  M = matrix(c(1, 0, cor,cor,
                0, 1, 0,0,
-               0.2, 0, 1,0,
-               0.2,0,0,1
+               cor, 0, 1,0,
+               cor,0,0,1
   ), nrow=4, ncol=4)
   L = chol(M)
   nvars = dim(L)[1]
@@ -304,13 +308,13 @@ dataGen2 <- function(N){
   names(data) = c('y1', 'x1', 'x2','x3')
   return(data)
 }
-dataGen3 <- function(N){
+dataGen3 <- function(N,cor){
   
-  M = matrix(c(1, 0.0, 0.2, 0.2,0.2,
+  M = matrix(c(1, 0.0, cor, cor,cor,
                0.0, 1, 0, 0,0,
-               0.2, 0, 1, 0,0,
-               0.2, 0, 0, 1,0,
-               0.2, 0, 0, 0, 1), nrow=5, ncol=5)
+               cor, 0, 1, 0,0,
+               cor, 0, 0, 1,0,
+               cor, 0, 0, 0, 1), nrow=5, ncol=5)
   L = chol(M)
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
@@ -320,14 +324,14 @@ dataGen3 <- function(N){
   
   return(data)
 }
-dataGen4 <- function(N){
+dataGen4 <- function(N,cor){
   
-  M = matrix(c(1, 0.0, 0.2, 0.2,0.2,0.2,
+  M = matrix(c(1, 0.0, cor, cor,cor,cor,
                0.0, 1, 0, 0, 0, 0,
-               0.2, 0, 1, 0, 0, 0,
-               0.2, 0, 0, 1, 0, 0,
-               0.2, 0, 0, 0, 1, 0,
-               0.2, 0, 0, 0, 0, 1), nrow=6, ncol=6)
+               cor, 0, 1, 0, 0, 0,
+               cor, 0, 0, 1, 0, 0,
+               cor, 0, 0, 0, 1, 0,
+               cor, 0, 0, 0, 0, 1), nrow=6, ncol=6)
   L = chol(M)
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
@@ -336,15 +340,15 @@ dataGen4 <- function(N){
   names(data) = c('y1', 'x1', 'x2', 'x3','x4','x5')
   return(data)
 }
-dataGen5 <- function(N){
+dataGen5 <- function(N,cor){
   
-  M = matrix(c(1, 0.0, 0.2, 0.2,0.2,0.2,0.2,
+  M = matrix(c(1, 0.0, cor, cor,cor,cor,cor,
                0.0, 1, 0, 0, 0, 0,0,
-               0.2, 0, 1, 0, 0, 0,0,
-               0.2, 0, 0, 1, 0, 0,0,
-               0.2, 0, 0, 0, 1, 0,0,
-               0.2, 0, 0, 0, 0, 1,0,
-               0.2, 0, 0, 0, 0, 0,1), nrow=7, ncol=7)
+               cor, 0, 1, 0, 0, 0,0,
+               cor, 0, 0, 1, 0, 0,0,
+               cor, 0, 0, 0, 1, 0,0,
+               cor, 0, 0, 0, 0, 1,0,
+               cor, 0, 0, 0, 0, 0,1), nrow=7, ncol=7)
   L = chol(M)
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
@@ -353,17 +357,17 @@ dataGen5 <- function(N){
   names(data) = c('y1', 'x1', 'x2', 'x3','x4','x5','x6')
   return(data)
 }
-dataGen6 <- function(N){
+dataGen6 <- function(N,cor){
   
   
-  M = matrix(c(1, 0.0, 0.2, 0.2,0.2,0.2,0.2,0.2,
+  M = matrix(c(1, 0.0, cor, cor,cor,cor,cor,cor,
                0.0, 1, 0, 0, 0, 0,0,0,
-               0.2, 0, 1, 0, 0, 0,0,0,
-               0.2, 0, 0, 1, 0, 0,0,0,
-               0.2, 0, 0, 0, 1, 0,0,0,
-               0.2, 0, 0, 0, 0, 1,0,0,
-               0.2, 0, 0, 0, 0, 0,1,0,
-               0.2, 0, 0, 0, 0, 0, 0,1
+               cor, 0, 1, 0, 0, 0,0,0,
+               cor, 0, 0, 1, 0, 0,0,0,
+               cor, 0, 0, 0, 1, 0,0,0,
+               cor, 0, 0, 0, 0, 1,0,0,
+               cor, 0, 0, 0, 0, 0,1,0,
+               cor, 0, 0, 0, 0, 0, 0,1
   ), nrow=8, ncol=8)
   L = chol(M)
   nvars = dim(L)[1]
@@ -373,19 +377,19 @@ dataGen6 <- function(N){
   names(data) = c('y1', 'x1', 'x2', 'x3','x4','x5','x6','x7')
   return(data)
 }
-dataGen7 <- function(N){
+dataGen7 <- function(N,cor){
   
   
   
-  M = matrix(c(1, 0.0, 0.2, 0.2,0.2,0.2,0.2,0.2,0.2,
+  M = matrix(c(1, 0.0, cor, cor,cor,cor,cor,cor,cor,
                0.0, 1, 0, 0, 0, 0,0,0,0,
-               0.2, 0, 1, 0, 0, 0,0,0,0,
-               0.2, 0, 0, 1, 0, 0,0,0,0,
-               0.2, 0, 0, 0, 1, 0,0,0,0,
-               0.2, 0, 0, 0, 0, 1,0,0,0,
-               0.2, 0, 0, 0, 0, 0,1,0,0,
-               0.2, 0, 0, 0, 0, 0, 0,1,0,
-               0.2, 0, 0, 0, 0, 0, 0, 0, 1
+               cor, 0, 1, 0, 0, 0,0,0,0,
+               cor, 0, 0, 1, 0, 0,0,0,0,
+               cor, 0, 0, 0, 1, 0,0,0,0,
+               cor, 0, 0, 0, 0, 1,0,0,0,
+               cor, 0, 0, 0, 0, 0,1,0,0,
+               cor, 0, 0, 0, 0, 0, 0,1,0,
+               cor, 0, 0, 0, 0, 0, 0, 0, 1
   ), nrow=9, ncol=9)
   L = chol(M)
   nvars = dim(L)[1]
@@ -399,10 +403,10 @@ dataGen7 <- function(N){
 DataGenListNorm <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6,dataGen7)
 
 #### Everything is normal dist. but with binary H_1 ####
-dataGen1 <- function(N){
+dataGen1 <- function(N,cor){
   
-  M = matrix(c(1, 0.2,
-               0.2, 1
+  M = matrix(c(1, cor,
+               cor, 1
                
   ), nrow=2, ncol=2)
   L = chol(M)
@@ -416,11 +420,11 @@ dataGen1 <- function(N){
   
   return(data)
 }
-dataGen2 <- function(N){
+dataGen2 <- function(N,cor){
   
-  M = matrix(c(1, 0.2, 0.2,
-               0.2, 1, 0,
-               0.2, 0, 1
+  M = matrix(c(1, cor, cor,
+               cor, 1, 0,
+               cor, 0, 1
   ), nrow=3, ncol=3)
   L = chol(M)
   nvars = dim(L)[1]
@@ -433,12 +437,12 @@ dataGen2 <- function(N){
   
   return(data)
 }
-dataGen3 <- function(N){
+dataGen3 <- function(N,cor){
   
-  M = matrix(c(1, 0.2, 0.2,0.2,
-               0.2, 1, 0,0,
-               0.2, 0, 1,0,
-               0.2,0,0,1
+  M = matrix(c(1, cor, cor,cor,
+               cor, 1, 0,0,
+               cor, 0, 1,0,
+               cor,0,0,1
   ), nrow=4, ncol=4)
   L = chol(M)
   nvars = dim(L)[1]
@@ -450,13 +454,13 @@ dataGen3 <- function(N){
   names(data) = c('y1', 'x2', 'x3',"x4","x1")
   return(data)
 }
-dataGen4 <- function(N){
+dataGen4 <- function(N,cor){
   
-  M = matrix(c(1, 0.2, 0.2, 0.2,0.2,
-               0.2, 1, 0, 0,0,
-               0.2, 0, 1, 0,0,
-               0.2, 0, 0, 1,0,
-               0.2, 0, 0, 0, 1), nrow=5, ncol=5)
+  M = matrix(c(1, cor, cor, cor,cor,
+               cor, 1, 0, 0,0,
+               cor, 0, 1, 0,0,
+               cor, 0, 0, 1,0,
+               cor, 0, 0, 0, 1), nrow=5, ncol=5)
   L = chol(M)
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
@@ -467,14 +471,14 @@ dataGen4 <- function(N){
   
   return(data)
 }
-dataGen5 <- function(N){
+dataGen5 <- function(N,cor){
   
-  M = matrix(c(1, 0.2, 0.2, 0.2,0.2,0.2,
-               0.2, 1, 0, 0, 0, 0,
-               0.2, 0, 1, 0, 0, 0,
-               0.2, 0, 0, 1, 0, 0,
-               0.2, 0, 0, 0, 1, 0,
-               0.2, 0, 0, 0, 0, 1), nrow=6, ncol=6)
+  M = matrix(c(1, cor, cor, cor,cor,cor,
+               cor, 1, 0, 0, 0, 0,
+               cor, 0, 1, 0, 0, 0,
+               cor, 0, 0, 1, 0, 0,
+               cor, 0, 0, 0, 1, 0,
+               cor, 0, 0, 0, 0, 1), nrow=6, ncol=6)
   L = chol(M)
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
@@ -485,15 +489,15 @@ dataGen5 <- function(N){
   
   return(data)
 }
-dataGen6 <- function(N){
+dataGen6 <- function(N,cor){
   
-  M = matrix(c(1, 0.2, 0.2, 0.2,0.2,0.2,0.2,
-               0.2, 1, 0, 0, 0, 0,0,
-               0.2, 0, 1, 0, 0, 0,0,
-               0.2, 0, 0, 1, 0, 0,0,
-               0.2, 0, 0, 0, 1, 0,0,
-               0.2, 0, 0, 0, 0, 1,0,
-               0.2, 0, 0, 0, 0, 0,1), nrow=7, ncol=7)
+  M = matrix(c(1, cor, cor, cor,cor,cor,cor,
+               cor, 1, 0, 0, 0, 0,0,
+               cor, 0, 1, 0, 0, 0,0,
+               cor, 0, 0, 1, 0, 0,0,
+               cor, 0, 0, 0, 1, 0,0,
+               cor, 0, 0, 0, 0, 1,0,
+               cor, 0, 0, 0, 0, 0,1), nrow=7, ncol=7)
   L = chol(M)
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
@@ -503,17 +507,17 @@ dataGen6 <- function(N){
   names(data) = c('y1', 'x2', 'x3',"x4","x5","x6","x7","x1")
   return(data)
 }
-dataGen7 <- function(N){
+dataGen7 <- function(N,cor){
   
   
-  M = matrix(c(1, 0.2, 0.2, 0.2,0.2,0.2,0.2,0.2,
-               0.2, 1, 0, 0, 0, 0,0,0,
-               0.2, 0, 1, 0, 0, 0,0,0,
-               0.2, 0, 0, 1, 0, 0,0,0,
-               0.2, 0, 0, 0, 1, 0,0,0,
-               0.2, 0, 0, 0, 0, 1,0,0,
-               0.2, 0, 0, 0, 0, 0,1,0,
-               0.2, 0, 0, 0, 0, 0, 0,1
+  M = matrix(c(1, cor, cor, cor,cor,cor,cor,cor,
+               cor, 1, 0, 0, 0, 0,0,0,
+               cor, 0, 1, 0, 0, 0,0,0,
+               cor, 0, 0, 1, 0, 0,0,0,
+               cor, 0, 0, 0, 1, 0,0,0,
+               cor, 0, 0, 0, 0, 1,0,0,
+               cor, 0, 0, 0, 0, 0,1,0,
+               cor, 0, 0, 0, 0, 0, 0,1
   ), nrow=8, ncol=8)
   L = chol(M)
   nvars = dim(L)[1]
@@ -529,10 +533,10 @@ DataGenListNormBin <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6
 
 
 #### Everything is bin dist. ####
-dataGen1 <- function(N){
+dataGen1 <- function(N,cor){
   
-  M = matrix(c(1, 0.2,
-               0.2, 1
+  M = matrix(c(1, cor,
+               cor, 1
                
   ), nrow=2, ncol=2)
   L = chol(M)
@@ -549,11 +553,11 @@ dataGen1 <- function(N){
   
   return(data)
 }
-dataGen2 <- function(N){
+dataGen2 <- function(N,cor){
   
-  M = matrix(c(1, 0.2, 0.2,
-               0.2, 1, 0,
-               0.2, 0, 1
+  M = matrix(c(1, cor, cor,
+               cor, 1, 0,
+               cor, 0, 1
   ), nrow=3, ncol=3)
   L = chol(M)
   nvars = dim(L)[1]
@@ -570,12 +574,12 @@ dataGen2 <- function(N){
   
   return(data)
 }
-dataGen3 <- function(N){
+dataGen3 <- function(N,cor){
   
-  M = matrix(c(1, 0.2, 0.2,0.2,
-               0.2, 1, 0,0,
-               0.2, 0, 1,0,
-               0.2,0,0,1
+  M = matrix(c(1, cor, cor,cor,
+               cor, 1, 0,0,
+               cor, 0, 1,0,
+               cor,0,0,1
   ), nrow=4, ncol=4)
   L = chol(M)
   nvars = dim(L)[1]
@@ -592,13 +596,13 @@ dataGen3 <- function(N){
   
   return(data)
 }
-dataGen4 <- function(N){
+dataGen4 <- function(N,cor){
   
-  M = matrix(c(1, 0.2, 0.2, 0.2,0.2,
-               0.2, 1, 0, 0,0,
-               0.2, 0, 1, 0,0,
-               0.2, 0, 0, 1,0,
-               0.2, 0, 0, 0, 1), nrow=5, ncol=5)
+  M = matrix(c(1, cor, cor, cor,cor,
+               cor, 1, 0, 0,0,
+               cor, 0, 1, 0,0,
+               cor, 0, 0, 1,0,
+               cor, 0, 0, 0, 1), nrow=5, ncol=5)
   L = chol(M)
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
@@ -614,14 +618,14 @@ dataGen4 <- function(N){
   
   return(data)
 }
-dataGen5 <- function(N){
+dataGen5 <- function(N,cor){
   
-  M = matrix(c(1, 0.2, 0.2, 0.2,0.2,0.2,
-               0.2, 1, 0, 0, 0, 0,
-               0.2, 0, 1, 0, 0, 0,
-               0.2, 0, 0, 1, 0, 0,
-               0.2, 0, 0, 0, 1, 0,
-               0.2, 0, 0, 0, 0, 1), nrow=6, ncol=6)
+  M = matrix(c(1, cor, cor, cor,cor,cor,
+               cor, 1, 0, 0, 0, 0,
+               cor, 0, 1, 0, 0, 0,
+               cor, 0, 0, 1, 0, 0,
+               cor, 0, 0, 0, 1, 0,
+               cor, 0, 0, 0, 0, 1), nrow=6, ncol=6)
   L = chol(M)
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
@@ -638,15 +642,15 @@ dataGen5 <- function(N){
   
   return(data)
 }
-dataGen6 <- function(N){
+dataGen6 <- function(N,cor){
   
-  M = matrix(c(1, 0.2, 0.2, 0.2,0.2,0.2,0.2,
-               0.2, 1, 0, 0, 0, 0,0,
-               0.2, 0, 1, 0, 0, 0,0,
-               0.2, 0, 0, 1, 0, 0,0,
-               0.2, 0, 0, 0, 1, 0,0,
-               0.2, 0, 0, 0, 0, 1,0,
-               0.2, 0, 0, 0, 0, 0,1), nrow=7, ncol=7)
+  M = matrix(c(1, cor, cor, cor,cor,cor,cor,
+               cor, 1, 0, 0, 0, 0,0,
+               cor, 0, 1, 0, 0, 0,0,
+               cor, 0, 0, 1, 0, 0,0,
+               cor, 0, 0, 0, 1, 0,0,
+               cor, 0, 0, 0, 0, 1,0,
+               cor, 0, 0, 0, 0, 0,1), nrow=7, ncol=7)
   L = chol(M)
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
@@ -663,17 +667,17 @@ dataGen6 <- function(N){
   data = as.data.frame(cbind(y1,x1,x2,x3,x4,x5,x6,x7))
   return(data)
 }
-dataGen7 <- function(N){
+dataGen7 <- function(N,cor){
   
   
-  M = matrix(c(1, 0.2, 0.2, 0.2,0.2,0.2,0.2,0.2,
-               0.2, 1, 0, 0, 0, 0,0,0,
-               0.2, 0, 1, 0, 0, 0,0,0,
-               0.2, 0, 0, 1, 0, 0,0,0,
-               0.2, 0, 0, 0, 1, 0,0,0,
-               0.2, 0, 0, 0, 0, 1,0,0,
-               0.2, 0, 0, 0, 0, 0,1,0,
-               0.2, 0, 0, 0, 0, 0, 0,1
+  M = matrix(c(1, cor, cor, cor,cor,cor,cor,cor,
+               cor, 1, 0, 0, 0, 0,0,0,
+               cor, 0, 1, 0, 0, 0,0,0,
+               cor, 0, 0, 1, 0, 0,0,0,
+               cor, 0, 0, 0, 1, 0,0,0,
+               cor, 0, 0, 0, 0, 1,0,0,
+               cor, 0, 0, 0, 0, 0,1,0,
+               cor, 0, 0, 0, 0, 0, 0,1
   ), nrow=8, ncol=8)
   L = chol(M)
   nvars = dim(L)[1]
@@ -696,10 +700,10 @@ dataGen7 <- function(N){
 DataGenListBin <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6,dataGen7)
 
 #### Everything is bin dist. but with normal H_1 ####
-dataGen1 <- function(N){
+dataGen1 <- function(N,cor){
   
-  M = matrix(c(1, 0.2,
-               0.2, 1
+  M = matrix(c(1, cor,
+               cor, 1
                
   ), nrow=2, ncol=2)
   L = chol(M)
@@ -718,9 +722,9 @@ dataGen1 <- function(N){
 }
 dataGen2 <- function(N){
   
-  M = matrix(c(1, 0.2, 0.2,
-               0.2, 1, 0,
-               0.2, 0, 1
+  M = matrix(c(1, cor, cor,
+               cor, 1, 0,
+               cor, 0, 1
   ), nrow=3, ncol=3)
   L = chol(M)
   nvars = dim(L)[1]
@@ -739,10 +743,10 @@ dataGen2 <- function(N){
 }
 dataGen3 <- function(N){
   
-  M = matrix(c(1, 0.2, 0.2,0.2,
-               0.2, 1, 0,0,
-               0.2, 0, 1,0,
-               0.2,0,0,1
+  M = matrix(c(1, cor, cor,cor,
+               cor, 1, 0,0,
+               cor, 0, 1,0,
+               cor,0,0,1
   ), nrow=4, ncol=4)
   L = chol(M)
   nvars = dim(L)[1]
@@ -761,11 +765,11 @@ dataGen3 <- function(N){
 }
 dataGen4 <- function(N){
   
-  M = matrix(c(1, 0.2, 0.2, 0.2,0.2,
-               0.2, 1, 0, 0,0,
-               0.2, 0, 1, 0,0,
-               0.2, 0, 0, 1,0,
-               0.2, 0, 0, 0, 1), nrow=5, ncol=5)
+  M = matrix(c(1, cor, cor, cor,cor,
+               cor, 1, 0, 0,0,
+               cor, 0, 1, 0,0,
+               cor, 0, 0, 1,0,
+               cor, 0, 0, 0, 1), nrow=5, ncol=5)
   L = chol(M)
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
@@ -783,12 +787,12 @@ dataGen4 <- function(N){
 }
 dataGen5 <- function(N){
   
-  M = matrix(c(1, 0.2, 0.2, 0.2,0.2,0.2,
-               0.2, 1, 0, 0, 0, 0,
-               0.2, 0, 1, 0, 0, 0,
-               0.2, 0, 0, 1, 0, 0,
-               0.2, 0, 0, 0, 1, 0,
-               0.2, 0, 0, 0, 0, 1), nrow=6, ncol=6)
+  M = matrix(c(1, cor, cor, cor,cor,cor,
+               cor, 1, 0, 0, 0, 0,
+               cor, 0, 1, 0, 0, 0,
+               cor, 0, 0, 1, 0, 0,
+               cor, 0, 0, 0, 1, 0,
+               cor, 0, 0, 0, 0, 1), nrow=6, ncol=6)
   L = chol(M)
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
@@ -807,13 +811,13 @@ dataGen5 <- function(N){
 }
 dataGen6 <- function(N){
   
-  M = matrix(c(1, 0.2, 0.2, 0.2,0.2,0.2,0.2,
-               0.2, 1, 0, 0, 0, 0,0,
-               0.2, 0, 1, 0, 0, 0,0,
-               0.2, 0, 0, 1, 0, 0,0,
-               0.2, 0, 0, 0, 1, 0,0,
-               0.2, 0, 0, 0, 0, 1,0,
-               0.2, 0, 0, 0, 0, 0,1), nrow=7, ncol=7)
+  M = matrix(c(1, cor, cor, cor,cor,cor,cor,
+               cor, 1, 0, 0, 0, 0,0,
+               cor, 0, 1, 0, 0, 0,0,
+               cor, 0, 0, 1, 0, 0,0,
+               cor, 0, 0, 0, 1, 0,0,
+               cor, 0, 0, 0, 0, 1,0,
+               cor, 0, 0, 0, 0, 0,1), nrow=7, ncol=7)
   L = chol(M)
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
@@ -833,14 +837,14 @@ dataGen6 <- function(N){
 dataGen7 <- function(N){
   
   
-  M = matrix(c(1, 0.2, 0.2, 0.2,0.2,0.2,0.2,0.2,
-               0.2, 1, 0, 0, 0, 0,0,0,
-               0.2, 0, 1, 0, 0, 0,0,0,
-               0.2, 0, 0, 1, 0, 0,0,0,
-               0.2, 0, 0, 0, 1, 0,0,0,
-               0.2, 0, 0, 0, 0, 1,0,0,
-               0.2, 0, 0, 0, 0, 0,1,0,
-               0.2, 0, 0, 0, 0, 0, 0,1
+  M = matrix(c(1, cor, cor, cor,cor,cor,cor,cor,
+               cor, 1, 0, 0, 0, 0,0,0,
+               cor, 0, 1, 0, 0, 0,0,0,
+               cor, 0, 0, 1, 0, 0,0,0,
+               cor, 0, 0, 0, 1, 0,0,0,
+               cor, 0, 0, 0, 0, 1,0,0,
+               cor, 0, 0, 0, 0, 0,1,0,
+               cor, 0, 0, 0, 0, 0, 0,1
   ), nrow=8, ncol=8)
   L = chol(M)
   nvars = dim(L)[1]
@@ -865,13 +869,13 @@ DataGenListBinNorm <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6
 
 
 #### Simulation part ####
-## Here is SD=TRUE
+
 ## General for all
-sample = c(50,100)
-rep=20
+sample = c(100,200)
+rep=40
 condIn<-c("TRUE","FALSE")
 condSD<-c("TRUE","FALSE")
-condPer<-c("TRUE","FALSE")
+condcor<-c("TRUE","FALSE")
 finalresult<-list(finalresultNorm=c(),finalresultBin=c(),finalresultNormBin=c(),finalresultBinNorm=c())
 DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=DataGenListBinNorm)
 
@@ -908,7 +912,7 @@ figureNormal <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour
   theme_bw()+
   facet_grid(OutlierExclusion~Interaction)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),legend.position = "none")+
-  ylab("Percent of simulations with at least one model with significant random variable")+ 
+  ylab("corcent of simulations with at least one model with significant random variable")+ 
   xlab("Sample size")+
   ggtitle("Depended normal, independet variable normal")+
   theme_classic()
@@ -963,123 +967,18 @@ figureBinNorm <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colou
 
 figureBinNorm
 
-#### Part of simulation with how many of the simulations that are significant ####
-#### Simulation part ####
-## Here is SD=FALSE
-## General for all
-finalresultNorm1<-c()
-finalresultNormBin1<-c()
-finalresultBin1<-c()
-finalresultBinNorm1<-c()
-
-## Normal simulation ##
-for(j in 1:length(DataGenListNorm)){
-  res = mapply(function(x) mean(replicate(rep, phackingFunction(DataGenListNorm[[j]](x),"y1","x1",SD=FALSE,Per=TRUE))), x=sample)
-  result = data.frame(sample,res,j)
-  names(result)<-c("SampleSize","Pr","IndependentVariables")
-  finalresultNorm1=rbind(result,finalresultNorm1)
-}
-
-## Bin simulation ##
-for(j in 1:length(DataGenListBin)){
-  res = mapply(function(x) mean(replicate(rep, phackingFunction(DataGenListBin[[j]](x),"y1","x1",SD=FALSE,Per=TRUE))), x=sample)
-  result = data.frame(sample,res,j)
-  names(result)<-c("SampleSize","Pr","IndependentVariables")
-  finalresultBin1=rbind(result,finalresultBin1)
-}
-
-## Normal and Bin. H_1 simulation ##
-for(j in 1:length(DataGenListNormBin)){
-  res = mapply(function(x) mean(replicate(rep, phackingFunction(DataGenListNormBin[[j]](x),"y1","x1",SD=FALSE,Per=TRUE))), x=sample)
-  result = data.frame(sample,res,j)
-  names(result)<-c("SampleSize","Pr","IndependentVariables")
-  finalresultNormBin1=rbind(result,finalresultNormBin1)
-}
-
-## Bin and Normal H_1 simulation ##
-for(j in 1:length(DataGenListBinNorm)){
-  res = mapply(function(x) mean(replicate(rep, phackingFunction(DataGenListBinNorm[[j]](x),"y1","x1",SD=FALSE,Per=TRUE))), x=sample)
-  result = data.frame(sample,res,j)
-  names(result)<-c("SampleSize","Pr","IndependentVariables")
-  finalresultBinNorm1=rbind(result,finalresultBinNorm1)
-}
-
-#### Figures ####
-## Normal ##
-figureNormal1 <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultNorm1)+
-  geom_line(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE) +
-  geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
-  scale_color_grey()+
-  theme_bw()+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),legend.position = "none")+
-  ylab("Percent of simulations with significant random variable")+ 
-  xlab("Sample size")+
-  ggtitle("")+
-  theme_classic()
-
-figureNormal1
-
-## Bin ##
-figureBin1 <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultBin1)+
-  geom_line(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE) +
-  geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
-  scale_color_grey()+
-  theme_bw()+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-  ylab("")+ 
-  xlab("Sample size")+
-  ggtitle("")+
-  theme_classic()
-
-figureBin1
-
-## Normal IV and H_1 bin ##
-figureNormBin1 <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultNormBin1)+
-  geom_line(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE) +
-  geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
-  scale_color_grey()+
-  theme_bw()+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-  ylab("")+ 
-  xlab("Sample size")+
-  ggtitle("")+
-  theme_classic()
-
-figureNormBin1
-
-## Normal H_1 and IV bin ##
-figureBinNorm1 <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultBinNorm1)+
-  geom_line(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE) +
-  geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
-  scale_color_grey()+
-  theme_bw()+
-  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
-  ylab("")+ 
-  xlab("Sample size")+
-  labs(colour = "Number of Predictors") +
-  ggtitle("")+
-  theme_classic()
-
-figureBinNorm1
-
-require(gridExtra)
-
-grid.arrange(figureNormal, figureBin, figureNormBin, figureBinNorm, figureNormal1, figureBin1, figureNormBin1, figureBinNorm1,
-          ncol = 4)
-
-
-
-
 #### Generate data with multiple DV #####
 ## Here there is a correlation of 0.5 between the two dependt variables (as in False-positive)
 ## Start with normal dist
 
-dataGen1 <- function(N){
+## Setup correlaction between the two dependent variables
+corDV=0.5
+dataGen1 <- function(N,cor,corDV){
   
-  M = matrix(c(1, 0.5, 0, 0.2,
-               0.5 ,1, 0, 0.2,
+  M = matrix(c(1, corDV, 0, cor,
+               corDV ,1, 0, cor,
                0,  0, 1,   0,
-               0.2, 0.2,  0, 1
+               cor, cor,  0, 1
   ), nrow=4, ncol=4)
   L = chol(M)
   nvars = dim(L)[1]
@@ -1091,13 +990,13 @@ dataGen1 <- function(N){
   
   return(data)
 }
-dataGen2 <- function(N){
+dataGen2 <- function(N,cor,corDV){
   
-  M = matrix(c(1, 0.5, 0, 0.2,0.2,
-               0.5 ,1, 0, 0.2,0.2,
+  M = matrix(c(1, corDV, 0, cor,cor,
+               corDV ,1, 0, cor,cor,
                0,  0, 1,   0,0,
-               0.2, 0.2,  0, 1,0,
-               0.2,0.2,0,0,1
+               cor, cor,  0, 1,0,
+               cor,cor,0,0,1
   ), nrow=5, ncol=5)
   
 
@@ -1110,14 +1009,14 @@ dataGen2 <- function(N){
   names(data) = c('y1',"y2", 'x1', 'x2','x3')
   return(data)
 }
-dataGen3 <- function(N){
+dataGen3 <- function(N,cor,corDV){
   
-  M = matrix(c(1, 0.5, 0, 0.2,0.2,0.2,
-               0.5 ,1, 0, 0.2,0.2,0.2,
+  M = matrix(c(1, corDV, 0, cor,cor,cor,
+               corDV ,1, 0, cor,cor,cor,
                0,  0, 1,   0,0,0,
-               0.2, 0.2,  0, 1,0,0,
-               0.2,0.2,0,0,1,0,
-               0.2,0.2,0,0,0,1
+               cor, cor,  0, 1,0,0,
+               cor,cor,0,0,1,0,
+               cor,cor,0,0,0,1
   ), nrow=6, ncol=6)
   L = chol(M)
   nvars = dim(L)[1]
@@ -1128,15 +1027,15 @@ dataGen3 <- function(N){
   
   return(data)
 }
-dataGen4 <- function(N){
+dataGen4 <- function(N,cor,corDV){
   
-  M = matrix(c(1, 0.5, 0, 0.2,0.2,0.2,0.2,
-               0.5 ,1, 0, 0.2,0.2,0.2,0.2,
+  M = matrix(c(1, corDV, 0, cor,cor,cor,cor,
+               corDV ,1, 0, cor,cor,cor,cor,
                0,  0, 1,   0,0,0,0,
-               0.2, 0.2,  0, 1,0,0,0,
-               0.2,0.2,0,0,1,0,0,
-               0.2,0.2,0,0,0,1,0,
-               0.2,0.2,0,0,0,0,1
+               cor, cor,  0, 1,0,0,0,
+               cor,cor,0,0,1,0,0,
+               cor,cor,0,0,0,1,0,
+               cor,cor,0,0,0,0,1
   ), nrow=7, ncol=7)
   L = chol(M)
   nvars = dim(L)[1]
@@ -1146,16 +1045,16 @@ dataGen4 <- function(N){
   names(data) = c('y1',"y2", 'x1', 'x2', 'x3','x4','x5')
   return(data)
 }
-dataGen5 <- function(N){
+dataGen5 <- function(N,cor,corDV){
   
-  M = matrix(c(1, 0.5, 0, 0.2,0.2,0.2,0.2,0.2,
-               0.5 ,1, 0, 0.2,0.2,0.2,0.2,0.2,
+  M = matrix(c(1, corDV, 0, cor,cor,cor,cor,cor,
+               corDV ,1, 0, cor,cor,cor,cor,cor,
                0,  0, 1,   0,0,0,0,0,
-               0.2, 0.2,  0, 1,0,0,0,0,
-               0.2,0.2,0,0,1,0,0,0,
-               0.2,0.2,0,0,0,1,0,0,
-               0.2,0.2,0,0,0,0,1,0,
-               0.2,0.2,0,0,0,0,0,1
+               cor, cor,  0, 1,0,0,0,0,
+               cor,cor,0,0,1,0,0,0,
+               cor,cor,0,0,0,1,0,0,
+               cor,cor,0,0,0,0,1,0,
+               cor,cor,0,0,0,0,0,1
   ), nrow=8, ncol=8)
   L = chol(M)
   nvars = dim(L)[1]
@@ -1165,18 +1064,18 @@ dataGen5 <- function(N){
   names(data) = c('y1',"y2", 'x1', 'x2', 'x3','x4','x5','x6')
   return(data)
 }
-dataGen6 <- function(N){
+dataGen6 <- function(N,cor,corDV){
   
   
-  M = matrix(c(1, 0.5, 0, 0.2,0.2,0.2,0.2,0.2,0.2,
-               0.5 ,1, 0, 0.2,0.2,0.2,0.2,0.2,0.2,
+  M = matrix(c(1, corDV, 0, cor,cor,cor,cor,cor,cor,
+               corDV ,1, 0, cor,cor,cor,cor,cor,cor,
                0,  0, 1,   0,0,0,0,0,0,
-               0.2, 0.2,  0, 1,0,0,0,0,0,
-               0.2,0.2,0,0,1,0,0,0,0,
-               0.2,0.2,0,0,0,1,0,0,0,
-               0.2,0.2,0,0,0,0,1,0,0,
-               0.2,0.2,0,0,0,0,0,1,0,
-               0.2,0.2,0,0,0,0,0,0,1
+               cor, cor,  0, 1,0,0,0,0,0,
+               cor,cor,0,0,1,0,0,0,0,
+               cor,cor,0,0,0,1,0,0,0,
+               cor,cor,0,0,0,0,1,0,0,
+               cor,cor,0,0,0,0,0,1,0,
+               cor,cor,0,0,0,0,0,0,1
   ), nrow=9, ncol=9)
   L = chol(M)
   nvars = dim(L)[1]
@@ -1186,20 +1085,20 @@ dataGen6 <- function(N){
   names(data) = c('y1',"y2", 'x1', 'x2', 'x3','x4','x5','x6','x7')
   return(data)
 }
-dataGen7 <- function(N){
+dataGen7 <- function(N,cor,corDV){
   
   
   
-  M = matrix(c(1, 0.5, 0, 0.2,0.2,0.2,0.2,0.2,0.2,0.2,
-               0.5 ,1, 0, 0.2,0.2,0.2,0.2,0.2,0.2,0.2,
+  M = matrix(c(1, corDV, 0, cor,cor,cor,cor,cor,cor,cor,
+               corDV ,1, 0, cor,cor,cor,cor,cor,cor,cor,
                0,  0, 1,   0,0,0,0,0,0,0,
-               0.2, 0.2,  0, 1,0,0,0,0,0,0,
-               0.2,0.2,0,0,1,0,0,0,0,0,
-               0.2,0.2,0,0,0,1,0,0,0,0,
-               0.2,0.2,0,0,0,0,1,0,0,0,
-               0.2,0.2,0,0,0,0,0,1,0,0,
-               0.2,0.2,0,0,0,0,0,0,1,0,
-               0.2,0.2,0,0,0,0,0,0,0,1
+               cor, cor,  0, 1,0,0,0,0,0,0,
+               cor,cor,0,0,1,0,0,0,0,0,
+               cor,cor,0,0,0,1,0,0,0,0,
+               cor,cor,0,0,0,0,1,0,0,0,
+               cor,cor,0,0,0,0,0,1,0,0,
+               cor,cor,0,0,0,0,0,0,1,0,
+               cor,cor,0,0,0,0,0,0,0,1
   ), nrow=10, ncol=10)
   L = chol(M)
   nvars = dim(L)[1]
@@ -1212,32 +1111,204 @@ dataGen7 <- function(N){
 
 DataGenListNormDV <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6,dataGen7)
 
+dataGen1 <- function(N,cor,corDV){
+  M = matrix(c(1, corDV, cor, 
+               corDV ,1, cor, 
+               cor,  cor, 1
+              
+  ), nrow=3, ncol=3)
+  L = chol(M)
+  nvars = dim(L)[1]
+  
+  r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
+  r = t(r)
+  x1<-rbinom(N,1,0.5)
+  data = as.data.frame(cbind(r,x1))
+  names(data) = c('y1', "y2",'x2',"x1")
+  
+  return(data)
+}
+dataGen2 <- function(N,cor,corDV){
+  
+  M = matrix(c(1, corDV, cor, cor,
+               corDV ,1, cor, cor,
+               cor,  cor, 1,   0,
+               cor, cor,  0, 1
+  ), nrow=4, ncol=4)
+  L = chol(M)
+  nvars = dim(L)[1]
+  
+  r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
+  r = t(r)
+  x1<-rbinom(N,1,0.5)
+  data = as.data.frame(cbind(r,x1))
+  names(data) = c('y1', "y2", 'x2', 'x3',"x1")
+  
+  return(data)
+}
+dataGen3 <- function(N,cor,corDV){
+  M = matrix(c(1, corDV, cor, cor,cor,
+               corDV ,1, cor, cor,cor,
+               cor,  cor, 1,   0,0,
+               cor, cor,  0, 1,0,
+               cor,cor,0,0,1
+  ), nrow=5, ncol=5)
+  L = chol(M)
+  nvars = dim(L)[1]
+  
+  r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
+  r = t(r)
+  x1<-rbinom(N,1,0.5)
+  data = as.data.frame(cbind(r,x1))
+  names(data) = c('y1',"y2", 'x2', 'x3',"x4","x1")
+  return(data)
+}
+dataGen4 <- function(N,cor,corDV){
+  
+  M = matrix(c(1, corDV, cor, cor,cor,cor,
+               corDV ,1, cor, cor,cor,cor,
+               cor,  cor, 1,   0,0,0,
+               cor, cor,  0, 1,0,0,
+               cor,cor,0,0,1,0,
+               cor,cor,0,0,0,1
+  ), nrow=6, ncol=6)
+  L = chol(M)
+  nvars = dim(L)[1]
+  r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
+  r = t(r)
+  x1<-rbinom(N,1,0.5)
+  data = as.data.frame(cbind(r,x1))
+  names(data) = c('y1',"y2", 'x2', 'x3',"x4","x5","x1")
+  
+  return(data)
+}
+dataGen5 <- function(N,cor,corDV){
+  
+  M = matrix(c(1, corDV, cor, cor,cor,cor,cor,
+               corDV ,1, cor, cor,cor,cor,cor,
+               cor,  cor, 1,   0,0,0,0,
+               cor, cor,  0, 1,0,0,0,
+               cor,cor,0,0,1,0,0,
+               cor,cor,0,0,0,1,0,
+               cor,cor,0,0,0,0,1
+  ), nrow=7, ncol=7)
+  L = chol(M)
+  nvars = dim(L)[1]
+  r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
+  r = t(r)
+  x1<-rbinom(N,1,0.5)
+  data = as.data.frame(cbind(r,x1))
+  names(data) = c('y1',"y2", 'x2', 'x3',"x4","x5","x6","x1")
+  
+  return(data)
+}
+dataGen6 <- function(N,cor,corDV){
+  
+  M = matrix(c(1, corDV, cor, cor,cor,cor,cor,cor,
+               corDV ,1, cor, cor,cor,cor,cor,cor,
+               cor,  cor, 1,   0,0,0,0,0,
+               cor, cor,  0, 1,0,0,0,0,
+               cor,cor,0,0,1,0,0,0,
+               cor,cor,0,0,0,1,0,0,
+               cor,cor,0,0,0,0,1,0,
+               cor,cor,0,0,0,0,0,1
+  ), nrow=8, ncol=8)
+  L = chol(M)
+  nvars = dim(L)[1]
+  r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
+  r = t(r)
+  x1<-rbinom(N,1,0.5)
+  data = as.data.frame(cbind(r,x1))
+  names(data) = c('y1',"y2", 'x2', 'x3',"x4","x5","x6","x7","x1")
+  return(data)
+}
+dataGen7 <- function(N,cor,corDV){
+  
+  
+  M = matrix(c(1, corDV, cor, cor,cor,cor,cor,cor,cor,
+               corDV ,1, cor, cor,cor,cor,cor,cor,cor,
+               cor,  cor, 1,   0,0,0,0,0,0,
+               cor, cor,  0, 1,0,0,0,0,0,
+               cor,cor,0,0,1,0,0,0,0,
+               cor,cor,0,0,0,1,0,0,0,
+               cor,cor,0,0,0,0,1,0,0,
+               cor,cor,0,0,0,0,0,1,0,
+               cor,cor,0,0,0,0,0,0,1
+  ), nrow=9, ncol=9)
+  L = chol(M)
+  nvars = dim(L)[1]
+  r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
+  r = t(r)
+  x1<-rbinom(N,1,0.5)
+  data = as.data.frame(cbind(r,x1))
+  names(data) = c('y1',"y2", 'x2', 'x3',"x4","x5","x6","x7","x8","x1")
+  return(data)
+}
+
+DataGenListNormBinDV <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6,dataGen7)
+
+
 ## Simulation
 
-sample = c(50,100,200,500)
-rep=200
-finalresultNormDV<-c()
+sample = c(50,100)
+rep=20
+condIn<-c("TRUE","FALSE")
+condSD<-c("TRUE","FALSE")
+condcor<-c("TRUE","FALSE")
+finalresult<-list(finalresultNormDV=c(),finalresultNormBinDV=c())
+DataGen<-list(m1=DataGenListNormDV,m2=DataGenListNormBinDV)
 
-
-## Normal simulation ##
-for(j in 1:length(DataGenListNormDV)){
-  res = mapply(function(x) mean(replicate(rep, phackingFunction(DataGenListNormDV[[j]](x),c("y1","y2"),"x1", interaction = FALSE ,SD=FALSE))), x=sample)
-  result = data.frame(sample,res,j)
-  names(result)<-c("SampleSize","Pr","IndependentVariables")
-  finalresultNormDV=rbind(result,finalresultNormDV)
+## Simulation ##
+# Remember to notice in which order the data comes in
+for (k in 1:length(condSD)) {
+  for (h in 1:length(condIn)) {
+    for (i in 1:length(DataGen)) {
+      for(j in 1:length(DataGen[[i]])){
+        res = mapply(function(x) mean(replicate(rep, phackingFunction(DataGen[[i]][[j]](x),c("y1","y2"),"x1", interaction = condIn[[h]] ,SD=condSD[[k]]))), x=sample)
+        result = data.frame(sample,res,j,h,k)
+        names(result)<-c("SampleSize","Pr","IndependentVariables","Interaction","OutlierExclusion")
+        finalresult[[i]]=rbind(result,finalresult[[i]])
+      }
+    } 
+  }
 }
+
+for (i in 1:length(finalresult)) {
+  
+  finalresult[[i]]$Interaction[finalresult[[i]]$Interaction == "1"] <- "In TRUE"
+  finalresult[[i]]$Interaction[finalresult[[i]]$Interaction == "2"] <- "In FALSE"
+  finalresult[[i]]$OutlierExclusion[finalresult[[i]]$OutlierExclusion == "1"] <- "SD TRUE"
+  finalresult[[i]]$OutlierExclusion[finalresult[[i]]$OutlierExclusion == "2"] <- "SD FALSE"
+}
+
 
 #### Figures ####
 ## Normal ##
-figureNormalDV <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresultNormDV)+
+figureNormalDV <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresult$finalresultNormDV)+
   geom_line(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE) +
   geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
   scale_color_grey()+
   theme_bw()+
+  facet_grid(OutlierExclusion~Interaction)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),legend.position = "none")+
-  ylab("Percent of simulations with at least one model with significant random variable")+ 
+  ylab("corcent of simulations with at least one model with significant random variable")+ 
   xlab("Sample size")+
   ggtitle("Depended normal, independet variable normal")+
   theme_classic()
+
+figureNormBin <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresult$finalresultNormBinDV)+
+  geom_line(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE) +
+  geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
+  scale_color_grey()+
+  theme_bw()+
+  facet_grid(OutlierExclusion~Interaction)+
+  theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
+  ylab("")+  
+  xlab("Sample size")+
+  labs(colour = "Number of Predictors") +
+  ggtitle("Dependent variable normal, independet variable 1/0")+
+  theme_classic()
+
+figureNormBin
 
 figureNormalDV
