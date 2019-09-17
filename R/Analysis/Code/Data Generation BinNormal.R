@@ -19,7 +19,7 @@ dataGen1 <- function(N,cor){
   
   return(data)
 }
-dataGen2 <- function(N){
+dataGen2 <- function(N,cor){
   
   M = matrix(c(1, cor, cor,
                cor, 1, 0,
@@ -40,7 +40,7 @@ dataGen2 <- function(N){
   
   return(data)
 }
-dataGen3 <- function(N){
+dataGen3 <- function(N,cor){
   
   M = matrix(c(1, cor, cor,cor,
                cor, 1, 0,0,
@@ -62,7 +62,7 @@ dataGen3 <- function(N){
   
   return(data)
 }
-dataGen4 <- function(N){
+dataGen4 <- function(N,cor){
   
   M = matrix(c(1, cor, cor, cor,cor,
                cor, 1, 0, 0,0,
@@ -84,7 +84,7 @@ dataGen4 <- function(N){
   
   return(data)
 }
-dataGen5 <- function(N){
+dataGen5 <- function(N,cor){
   
   M = matrix(c(1, cor, cor, cor,cor,cor,
                cor, 1, 0, 0, 0, 0,
@@ -108,7 +108,7 @@ dataGen5 <- function(N){
   
   return(data)
 }
-dataGen6 <- function(N){
+dataGen6 <- function(N,cor){
   
   M = matrix(c(1, cor, cor, cor,cor,cor,cor,
                cor, 1, 0, 0, 0, 0,0,
@@ -133,7 +133,7 @@ dataGen6 <- function(N){
   data = as.data.frame(cbind(y1,x1,x2,x3,x4,x5,x6,x7))
   return(data)
 }
-dataGen7 <- function(N){
+dataGen7 <- function(N,cor){
   
   
   M = matrix(c(1, cor, cor, cor,cor,cor,cor,cor,

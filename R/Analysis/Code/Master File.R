@@ -9,6 +9,7 @@
 #### Setting up the simulation ####
 ## Setting working directory
 setwd("C:/Users/jbda0002/Dropbox/Uppsala/Projects/P-Hacking paper/R")
+#setwd("C:/Users/jbda0002/Documents/Projects/P-hacking/trunk/R")
 set.seed(1234)
 
 ## Loading library
@@ -159,10 +160,10 @@ figureBinNorm <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colou
 figureBinNorm
 
 ## Save the figures
-ggsave(figureNormal,"Analysis/Result/Figures/figureNormal.jpeg",width = 580,height = 470)
-ggsave(figureBin,"Analysis/Result/Figures/figureBin.jpeg",width = 580,height = 470)
-ggsave(figureNormBin,"Analysis/Result/Figures/figureNormBin.jpeg",width = 580,height = 470)
-ggsave(figureBinNorm,"Analysis/Result/Figures/figureBinNorm.jpeg",width = 580,height = 470)
+ggsave(figureNormal,filename =file.path("Analysis/Result/Figures","figureNormal.jpeg"),width = 6.64,height = 5.70)
+ggsave(figureBin,filename =file.path("Analysis/Result/Figures","figureBin.jpeg"),width = 6.64,height = 5.70)
+ggsave(figureNormBin,filename =file.path("Analysis/Result/Figures","figureNormBin.jpeg"),width = 6.64,height = 5.70)
+ggsave(figureBinNorm,filename =file.path("Analysis/Result/Figures","figureBinNorm.jpeg"),width = 6.64,height = 5.70)
 
 ## Save the result file
 write.csv(finalresult,"Analysis/Result/ResultFile/Results.csv" )

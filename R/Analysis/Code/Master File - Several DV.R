@@ -9,6 +9,7 @@
 #### Setting up the simulation ####
 ## Setting working directory
 setwd("C:/Users/jbda0002/Dropbox/Uppsala/Projects/P-Hacking paper/R")
+#setwd("C:/Users/jbda0002/Documents/Projects/P-hacking/trunk/R")
 set.seed(1234)
 
 ## Loading library
@@ -117,8 +118,8 @@ figureNormalDV
 figureNormBinDV
 
 ## Save the figures
-ggsave(figureNormalDV,"Analysis/Result/Figures/figureNormalDV.jpeg",width = 580,height = 470)
-ggsave(figureNormBinDV,"Analysis/Result/Figures/figureNormBinDV.jpeg",width = 580,height = 470)
+ggsave(figureNormalDV,filename =file.path("Analysis/Result/Figures","figureNormalDV.jpeg"),width = 6.64,height = 5.70)
+ggsave(figureNormBinDV,filename =file.path("Analysis/Result/Figures","figureNormalDV.jpeg"),width = 6.64,height = 5.70)
 
 ## Save the result file
 write.csv(finalresult,"Analysis/Result/ResultFile/ResultsDV.csv" )
