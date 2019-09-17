@@ -8,8 +8,8 @@
 
 #### Setting up the simulation ####
 ## Setting working directory
-setwd("C:/Users/jbda0002/Dropbox/Uppsala/Projects/P-Hacking paper/R")
-#setwd("C:/Users/jbda0002/Documents/Projects/P-hacking/trunk/R")
+#setwd("C:/Users/jbda0002/Dropbox/Uppsala/Projects/P-Hacking paper/R")
+setwd("C:/Users/jbda0002/Documents/Projects/P-hacking/trunk/R")
 set.seed(1234)
 
 ## Loading library
@@ -41,11 +41,11 @@ source("Analysis/Code/phackingFunction.R")
 
 ## Making the list for the Normal Data
 source("Analysis/Code/Data Generation NormalDV.R")
-DataGenListNorm <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6,dataGen7)
+DataGenListNormDV <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6,dataGen7)
 
 ## Making the list for the Bin Data
 source("Analysis/Code/Data Generation NormalBinDV.R")
-DataGenListNormBin <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6,dataGen7)
+DataGenListNormBinDV <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6,dataGen7)
 
 
 #### Run the simulation ####
