@@ -23,6 +23,7 @@ library(parallel)
 library(doParallel)
 library(tidyr)
 library(doSNOW)
+library(tcltk)
 
 
 
@@ -32,7 +33,7 @@ library(doSNOW)
 sample = c(50,100,150,200,250,300,350)
 
 ## Setting the number of repretetion
-rep=150
+rep=50
 ## Setting the correlation between dependent and independent 
 per=0.2
 
@@ -77,14 +78,20 @@ finalresult<-list(finalresultNorm=c(),finalresultBin=c(),finalresultNormBin=c(),
 ## Collecting the different datatypes in one list
 DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=DataGenListBinNorm)
 
-cl <- makeCluster(20)
-registerDoParallel(cl)
+cl <- makeSOCKcluster(20)
+registerDoSNOW(cl)
+
 results=NULL
+
+pb <- txtProgressBar(max=7*4*2*2, style=3)
+progress <- function(n) setTxtProgressBar(pb, n)
+opts <- list(progress=progress)
+
 results<-
   foreach(k=1:length(condSD),.combine='rbind') %:%
     foreach(h=1:length(condIn),.combine='rbind') %:%
       foreach(i=1:length(DataGen), .combine='cbind') %:%
-        foreach(j=1:length(DataGen[[i]]),.combine=cbind,.packages=c("plyr","statip")) %dopar% {
+        foreach(j=1:length(DataGen[[i]]),.combine=cbind,.packages=c("plyr","statip"),.options.snow=opts) %dopar% {
           f = function() {
           fun = function(x) mean(replicate(rep, phackingFunction(DataGen[[i]][[j]](x,per),"y1","x1",interaction = condIn[[h]] ,SD=condSD[[k]])))
           mapply(x=sample, function(x) fun(x))
@@ -93,6 +100,7 @@ results<-
         }
 
 results<-as.data.frame(results)
+close(pb)
 stopCluster(cl)
 
 ## Normal
