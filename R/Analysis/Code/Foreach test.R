@@ -30,10 +30,10 @@ library(tcltk)
 ##### Things that can be changed in the simulation
 
 ## Selecting the sample sizes that should be used
-sample = c(50,100,150,200,250,300,350)
+sample = c(50,100,150,200,250,300,350,400,450,500)
 
 ## Setting the number of repretetion
-rep=50
+rep=500
 ## Setting the correlation between dependent and independent 
 per=0.2
 
@@ -78,15 +78,18 @@ finalresult<-list(finalresultNorm=c(),finalresultBin=c(),finalresultNormBin=c(),
 ## Collecting the different datatypes in one list
 DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=DataGenListBinNorm)
 
+## Choosing how many workers there should be used
 cl <- makeSOCKcluster(20)
+
+## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
 
-results=NULL
-
+## Making the process bar. The process bar will stand still towards the end, as it cannot take into account the time mapply will take
 pb <- txtProgressBar(max=7*4*2*2, style=3)
 progress <- function(n) setTxtProgressBar(pb, n)
 opts <- list(progress=progress)
 
+## Running the simulation 
 results<-
   foreach(k=1:length(condSD),.combine='rbind') %:%
     foreach(h=1:length(condIn),.combine='rbind') %:%
@@ -100,17 +103,21 @@ results<-
         }
 
 results<-as.data.frame(results)
+
+## Close process bar
 close(pb)
+
+## Stop the workers 
 stopCluster(cl)
 
-## Normal
+## Splitting the data into the different types of data
 finalresultNorm<-rbind(results[c(1:6)],results[c(7:12)],results[13:18],results[19:24],results[25:30],results[31:36],results[37:42])
 finalresultBin<-rbind(results[c(43:48)],results[c(49:54)],results[55:60],results[61:66],results[67:72],results[73:78],results[79:84])
 finalresultNormBin<-rbind(results[c(85:90)],results[c(91:96)],results[97:102],results[103:108],results[109:114],results[115:120],results[121:126])
 finalresultBinNorm<-rbind(results[c(127:132)],results[c(133:138)],results[139:144],results[145:150],results[151:156],results[157:162],results[163:168])
 
 
-
+## Putting them into a list
 finalresult<-list(finalresultNorm=finalresultNorm,finalresultBin=finalresultBin,finalresultNormBin=finalresultNormBin,finalresultBinNorm=finalresultBinNorm
                 )
 
