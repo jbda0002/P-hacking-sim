@@ -30,10 +30,10 @@ library(foreach)
 ##### Things that can be changed in the simulation
 
 ## Selecting the sample sizes that should be used
-sample = c(50,100,150)
+sample = c(50,100,150,200)
 
 ## Setting the number of repretetion
-rep=5
+rep=10
 ## Setting the correlation between dependent and independent 
 per=0.2
 
@@ -95,7 +95,7 @@ results<-
   foreach(h=1:length(condIn),.combine='rbind') %:%
   foreach(g=1:length(sample), .combine='rbind') %:%
   foreach(i=1:length(DataGen), .combine='cbind') %:%
-  foreach(j=1:length(DataGen[[i]]),.combine=cbind,.packages=c("plyr","statip")) %dopar% {
+  foreach(j=1:length(DataGen[[i]]),.combine=cbind,.packages=c("plyr","statip"),.options.snow=opts) %dopar% {
     f = function() {
       mean(replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],per),"y1","x1",interaction = condIn[[h]] ,SD=condSD[[k]])))
       
