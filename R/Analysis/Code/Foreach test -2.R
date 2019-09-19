@@ -85,36 +85,12 @@ cl <- makeSOCKcluster(6)
 registerDoSNOW(cl)
 
 ## Making the process bar. The process bar will stand still towards the end, as it cannot take into account the time mapply will take
-library(doSNOW)
-library(tcltk)
-
-cl <- makeSOCKcluster(6)
-registerDoSNOW(cl)
-
 pb <- txtProgressBar(max=7*4*2*2, style=3)
 progress <- function(n) setTxtProgressBar(pb, n)
 opts <- list(progress=progress)
 
-## Running the simulation 
-results<-system.time(
-  foreach(k=1:length(condSD),.combine='rbind') %:%
-    foreach(h=1:length(condIn),.combine='rbind') %:%
-      foreach(i=1:length(DataGen), .combine='cbind') %:%
-        foreach(j=1:length(DataGen[[i]]), .combine=cbind, .packages=c("plyr","statip"), .options.snow=opts) %dopar% {
-          f = function() {
-          fun = function(x) mean(replicate(rep, phackingFunction(DataGen[[i]][[j]](x,per),"y1","x1",interaction = condIn[[h]] ,SD=condSD[[k]])))
-          mapply(x=sample, function(x) fun(x))
-    }
-    data.frame(Pr=f(),Interaction=h,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample)
-        }
-)
-#results<-as.data.frame(results)
 
-pb <- txtProgressBar(max=7*4*2*2*length(sample), style=3)
-progress <- function(n) setTxtProgressBar(pb, n)
-opts <- list(progress=progress)
-
-results2<-system.time(
+results2<-
   foreach(k=1:length(condSD),.combine='rbind') %:%
   foreach(h=1:length(condIn),.combine='rbind') %:%
   foreach(i=1:length(DataGen), .combine='cbind') %:%
@@ -126,14 +102,15 @@ results2<-system.time(
     }
     data.frame(Pr=f(),Interaction=h,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample)
   }
-)
-#results<-as.data.frame(results)
+
+results<-as.data.frame(results)
 
 ## Close process bar
 close(pb)
 
 ## Stop the workers 
-stopCluster(cl)
+stopCluster(cl);print("Cluster stopped")
+registerDoSEQ()
 
 ## Splitting the data into the different types of data
 finalresultNorm<-rbind(results[c(1:6)],results[c(7:12)],results[13:18],results[19:24],results[25:30],results[31:36],results[37:42])

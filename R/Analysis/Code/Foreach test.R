@@ -102,13 +102,14 @@ results<-
     data.frame(Pr=f(),Interaction=h,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample)
         }
 
-results<-as.data.frame(results)
-
 ## Close process bar
 close(pb)
 
 ## Stop the workers 
-stopCluster(cl)
+stopCluster(cl); print("Cluster stopped.")
+
+# insert serial backend, otherwise error in repetetive tasks
+registerDoSEQ()
 
 ## Splitting the data into the different types of data
 finalresultNorm<-rbind(results[c(1:6)],results[c(7:12)],results[13:18],results[19:24],results[25:30],results[31:36],results[37:42])
