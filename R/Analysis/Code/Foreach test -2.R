@@ -30,10 +30,10 @@ library(foreach)
 ##### Things that can be changed in the simulation
 
 ## Selecting the sample sizes that should be used
-sample = c(50,100)
+sample = c(50,100,150)
 
 ## Setting the number of repretetion
-rep=1
+rep=5
 ## Setting the correlation between dependent and independent 
 per=0.2
 
@@ -85,22 +85,22 @@ cl <- makeSOCKcluster(6)
 registerDoSNOW(cl)
 
 ## Making the process bar. The process bar will stand still towards the end, as it cannot take into account the time mapply will take
-pb <- txtProgressBar(max=7*4*2*2, style=3)
+pb <- txtProgressBar(max=7*4*2*2*length(sample), style=3)
 progress <- function(n) setTxtProgressBar(pb, n)
 opts <- list(progress=progress)
 
 
-results2<-
+results<-
   foreach(k=1:length(condSD),.combine='rbind') %:%
   foreach(h=1:length(condIn),.combine='rbind') %:%
+  foreach(g=1:length(sample), .combine='rbind') %:%
   foreach(i=1:length(DataGen), .combine='cbind') %:%
-  foreach(g=1:length(sample), .combine='cbind') %:%
-  foreach(j=1:length(DataGen[[i]]),.combine=cbind,.packages=c("plyr","statip"), .options.snow=opts) %dopar% {
+  foreach(j=1:length(DataGen[[i]]),.combine=cbind,.packages=c("plyr","statip")) %dopar% {
     f = function() {
       mean(replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],per),"y1","x1",interaction = condIn[[h]] ,SD=condSD[[k]])))
       
     }
-    data.frame(Pr=f(),Interaction=h,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample)
+    data.frame(Pr=f(),Interaction=h,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]])
   }
 
 results<-as.data.frame(results)
