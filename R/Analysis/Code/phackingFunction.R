@@ -6,6 +6,7 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
   library(data.table)
   library(ggplot2)
   library(lessR)
+  library(dplyr)
   ## Creating datasets with outliers deleted if sd=TRUE 
   # This part of the code can also be optimized
   if(SD==TRUE){
@@ -49,15 +50,17 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
     dataoutlier<-list(dataoutlier2,dataoutlier25,dataoutlier3,dataoutlier4)
   }
   
-  #Making objects for saving model versions 
-  RModelF = NULL
-  RModelI = as.data.frame(matrix(0, ncol = n, nrow = 0))
-  ModelName =NULL
+
   
   #Collecting and counting all the different variables, except the DV and H_1
   Cols <- names(data)
   Cols <- Cols[! Cols %in% c(y,H_1)] 
   n <- length(Cols)
+  
+  #Making objects for saving model versions 
+  RModelF = NULL
+  RModelI = as.data.frame(matrix(0, ncol = n, nrow = 0))
+  ModelName =NULL
   
   #Making different combinations of the variables
   Combin <- unlist(
