@@ -100,6 +100,8 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
     start<- paste(c(start," + "),collapse = "")
   }
   
+  Formulas=sapply(Combin,function(i)
+    paste(start,paste(Cols[i],collapse=" + ")))
   
   if(interaction==TRUE){
     
@@ -113,16 +115,13 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
     Interactions <- sapply(CombinInter,function(i) 
       paste(CombH1,paste(Cols[i],collapse=":")))
     
-    Formulas <- sapply(Combin,function(i)
+    FormulasIN <- sapply(Combin,function(i)
       paste(start,paste(Interactions[i],collapse=" + ")))
 
-    
+    Formulas<-c(Formulas,FormulasIN)
     
   }
-  else{
-    Formulas=sapply(Combin,function(i)
-      paste(start,paste(Cols[i],collapse=" + ")))
-  }
+
   
   
   #Running all the models
@@ -146,7 +145,7 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
     
     #See if ther interaction with H_1 becomes significant
     holder<-as.data.frame(matrix(1, ncol = n, nrow = 1))
-    if(grepl("*",mod)==TRUE){
+    if(grepl("*",mod, fixed=TRUE)==TRUE){
       coef<-as.data.frame(coef)
       coef$names<-rownames(coef)
       coef<-as.data.table(coef)
@@ -196,7 +195,7 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
         
         #See if ther interaction with H_1 becomes significant
         holder<-as.data.frame(matrix(1, ncol = n, nrow = 1))
-        if(grepl("*",mod)==TRUE){
+        if(grepl("*",mod, fixed=TRUE)==TRUE){
           coef<-as.data.frame(coef)
           coef$names<-rownames(coef)
           coef<-as.data.table(coef)
