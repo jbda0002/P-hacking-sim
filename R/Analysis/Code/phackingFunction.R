@@ -1,14 +1,12 @@
 ### P-hacking function ###
 ## In this function if interaction is TRUE there will be an interaction between all main effects and the H_1 variable 
-
+## Furtheremore, there is four different outlier criterias there will be tested
 phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
   ## Loading liberaries
   library(data.table)
   library(ggplot2)
-  library(lessR)
   library(dplyr)
   ## Creating datasets with outliers deleted if sd=TRUE 
-  # This part of the code can also be optimized
   if(SD==TRUE){
     #Calculate means and sd for all variables
     #### Does this on individual variables or maybe aggegated like now but on the H_1
@@ -57,7 +55,7 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
   Cols <- Cols[! Cols %in% c(y,H_1)] 
   n <- length(Cols)
   
-  #Making objects for saving model versions 
+  #Making objects for saving model versions. RModelI has the dimensions that is needed to collect all the p-values
   RModelF = NULL
   RModelI = as.data.frame(matrix(0, ncol = n, nrow = 0))
   ModelName =NULL
@@ -95,11 +93,12 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
     
   }
   else{
-    #Starting of regression
+    #Starting of regression if there is not several dependent variables
     start<- paste(c(y,H_1),collapse = " ~ ")
     start<- paste(c(start," + "),collapse = "")
   }
   
+  ## Make all the regressions without interaction terms. 
   Formulas=sapply(Combin,function(i)
     paste(start,paste(Cols[i],collapse=" + ")))
   
@@ -109,15 +108,18 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
     CombinInter <- unlist(
       lapply(1, function(i)combn(1:n,i,simplify=FALSE)), recursive=FALSE)
     
+    ## Put together the random variable and all the dependent variables 
     CombH1<-paste(c(H_1,"*"),collapse = "")
     
     #All interactions terms
     Interactions <- sapply(CombinInter,function(i) 
-      paste(CombH1,paste(Cols[i],collapse=":")))
+      paste(CombH1,paste(Cols[i],collapse="")))
     
+    ## Make the models with the interaction terms 
     FormulasIN <- sapply(Combin,function(i)
       paste(start,paste(Interactions[i],collapse=" + ")))
-
+    
+    ## Combine with the models there have no interaction terms 
     Formulas<-c(Formulas,FormulasIN)
     
   }
@@ -143,15 +145,20 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
     p_h_1<-coef[2,4] 
     RModelF<-rbind(p_h_1,RModelF)
     
-    #See if ther interaction with H_1 becomes significant
+    #Make a holder for the p-values
     holder<-as.data.frame(matrix(1, ncol = n, nrow = 1))
+    
+    #See if ther interaction with H_1 becomes significant
     if(grepl("*",mod, fixed=TRUE)==TRUE){
       coef<-as.data.frame(coef)
       coef$names<-rownames(coef)
       coef<-as.data.table(coef)
+      
+      # Make a data.table with only the interaction terms 
       inter <- coef[like(names,":")]
       
       for (i in 1:nrow(inter)) {
+        #Put the p-values of the interaction terms into the holder
         p<-inter[i,4] 
         holder[i]<-p
       }
@@ -166,9 +173,10 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
   TheModels<-cbind(ModelName,RModelF,RModelI)
   TheModels<-as.data.table(TheModels)
   
-  #making them from factor to numeric
+  #Make a variable to indicate that there are nothing from the data removed
   TheModels$Outlier<-"Non removed"
   
+  # Clean out the holders for the result 
   RModelF = NULL
   RModelI = NULL
   ModelName =NULL
@@ -178,6 +186,8 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
   
   if(SD==TRUE){
     for(j in 1:length(dataoutlier)){
+      
+      ## Run all the models with the different data
       models_out<-lapply(Formulas,function(i)
         lm(as.formula(i),data=dataoutlier[[j]]))
       for(i in 1:length(models_out)){
@@ -186,6 +196,8 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
         #Finding the name of the model
         mod<-Formulas[[i]]
         ModelName<-rbind(mod,ModelName)
+        
+        ## Make the variable to indicate which outlier criteria 
         Outlier<-rbind(j,Outlier)
         
         #Collecting the p-value
@@ -193,31 +205,31 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
         p_h_1<-coef[2,4] 
         RModelF<-rbind(p_h_1,RModelF)
         
-        #See if ther interaction with H_1 becomes significant
+        #Make a holder for the p-values
         holder<-as.data.frame(matrix(1, ncol = n, nrow = 1))
+        
+        #See if ther interaction with H_1 becomes significant
         if(grepl("*",mod, fixed=TRUE)==TRUE){
           coef<-as.data.frame(coef)
           coef$names<-rownames(coef)
           coef<-as.data.table(coef)
+          
+          # Make a data.table with only the interaction terms 
           inter <- coef[like(names,":")]
           
           for (i in 1:nrow(inter)) {
+            #Put the p-values of the interaction terms into the holder
             p<-inter[i,4] 
             holder[i]<-p
-          } 
+          }
+          
         }
- 
+        
         RModelI<-rbind(holder,RModelI)
       }
     }
     TheModels_outlier<-cbind(ModelName,RModelF,RModelI,Outlier)
     TheModels_outlier<-as.data.table(TheModels_outlier)
-    
-    #making them from factor to numeric
-
-    
-    #Make the names such that they mach up to the outlier criteria. 
-    
     
     #Combine the 2 datastets
     TheModels<-rbind(TheModels_outlier,TheModels)
@@ -225,7 +237,7 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
   
   
   #Order the models if one wants all the models out in the end
-  #TheModels<- TheModels[with(TheModels, order(V2)), ]
+  TheModels<- TheModels[with(TheModels, order(RModelF)), ]
   
   
   Models<-TheModels %>% filter_all(any_vars(.<= 0.05))
