@@ -4,7 +4,6 @@
 phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE,large1=FALSE,large2=FALSE){
   ## Loading liberaries
   library(data.table)
-  library(ggplot2)
   library(dplyr)
   ## Creating datasets with outliers deleted if sd=TRUE 
   if(SD==TRUE){
@@ -273,8 +272,9 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE,larg
   #Order the models if one wants all the models out in the end
   TheModels<- TheModels[with(TheModels, order(RModelF)), ]
   
+  Models<-TheModels[apply(TheModels[, 2:ncol(TheModels)] <= 0.05, 1, any, na.rm=TRUE), ]
   
-  Models<-TheModels %>% filter_all(any_vars(.<= 0.05))
+
   
   if(Per==FALSE){
     res <- ifelse(nrow(Models)>=1,1,0)
