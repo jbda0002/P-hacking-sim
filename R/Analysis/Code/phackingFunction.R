@@ -249,8 +249,8 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE,larg
           coef<-as.data.table(coef)
           
           # Make a data.table with only the interaction terms 
-          inter <- coef[like(names,"x1:")]
-          
+          inter <- coef[like(names,":")]
+          if(nrow(inter)>=1){
           for (i in 1:nrow(inter)) {
             #Put the p-values of the interaction terms into the holder
             p<-inter[i,4] 
@@ -258,7 +258,7 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE,larg
           }
           
         }
-        
+        }
         RModelI<-rbind(holder,RModelI)
       }
     }
