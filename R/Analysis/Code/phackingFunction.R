@@ -1,7 +1,7 @@
 ### P-hacking function ###
 ## In this function if interaction is TRUE there will be an interaction between all main effects and the H_1 variable 
 ## Furtheremore, there is four different outlier criterias there will be tested
-phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
+phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE,large1=FALSE,large2=FALSE){
   ## Loading liberaries
   library(data.table)
   library(ggplot2)
@@ -119,6 +119,39 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
     FormulasIN <- sapply(Combin,function(i)
       paste(start,paste(Interactions[i],collapse=" + ")))
     
+    if(large1==TRUE){
+      
+      #Make all the two-way interactions
+      CombinTwo <- unlist(
+        lapply(2, function(i)combn(1:n,i,simplify=FALSE)), recursive=FALSE)
+      
+      Twoway=sapply(CombinTwo,function(i)
+        paste(paste(Cols[i],collapse="*")))
+      
+      CombinTwo_2 <- unlist(
+        lapply(1:length(CombinTwo), function(i)combn(1:length(CombinTwo),i,simplify=FALSE)), recursive=FALSE)
+      
+      Twoway_2=sapply(CombinTwo_2,function(i)
+        paste(paste(Twoway[i],collapse="+")))
+      # Make all the regressions without the two-way interactions
+      FormulasIN_2<-c(Formulas,FormulasIN)
+      #Put them together with the other functions
+    
+      Two=expand.grid(Formulas,Twoway)
+      FormulasIN=apply(Two, 1, paste, collapse="+")
+      
+    }
+    
+    if(large2==TRUE){
+    ## Make all the main effects
+    Main=sapply(Combin,function(i)
+      paste(paste(Cols[i],collapse=" + ")))
+    
+    result.df=expand.grid(FormulasIN,Main)
+    
+    ## Make all combinations, but where the main effect for the interaction is always there
+    FormulasIN=apply(result.df, 1, paste, collapse="+")
+    }
     ## Combine with the models there have no interaction terms 
     Formulas<-c(Formulas,FormulasIN)
     
@@ -157,12 +190,13 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
       # Make a data.table with only the interaction terms 
       inter <- coef[like(names,":")]
       
+      if(nrow(inter)>=1){
       for (i in 1:nrow(inter)) {
         #Put the p-values of the interaction terms into the holder
         p<-inter[i,4] 
         holder[i]<-p
       }
-      
+      }
     }
  
     RModelI<-rbind(holder,RModelI)
@@ -215,7 +249,7 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
           coef<-as.data.table(coef)
           
           # Make a data.table with only the interaction terms 
-          inter <- coef[like(names,":")]
+          inter <- coef[like(names,"x1:")]
           
           for (i in 1:nrow(inter)) {
             #Put the p-values of the interaction terms into the holder
@@ -250,5 +284,5 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE){
   }
   
   
-  return(res)
+  return(Models)
 }
