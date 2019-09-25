@@ -10,7 +10,7 @@
 ## Setting working directory
 #setwd("C:/Users/jbda0002/Dropbox/Uppsala/Projects/P-Hacking paper/R")
 setwd("C:/Users/jbda0002/Documents/Projects/P-hacking/trunk/R")
-set.seed(1234)
+set.seed(1111)
 
 ## Loading library
 library(ggplot2)
@@ -83,26 +83,27 @@ cl <- makeSOCKcluster(20)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
+#clusterExport(cl,c("DataGen","sample","condIn","condSD"))
 
 ## Making the process bar. The process bar will stand still towards the end, as it cannot take into account the time mapply will take
-pb <- txtProgressBar(max=7*4*2*2*length(sample), style=3)
+pb <- txtProgressBar(max=length(DataGenListNorm)*length(DataGen)*length(condSD)*length(condIn)*length(sample), style=3)
 progress <- function(n) setTxtProgressBar(pb, n)
 opts <- list(progress=progress)
 
-system.time(
+
 results<-
-  foreach(k=1:length(condSD),.combine='rbind') %:%
-  foreach(h=1:length(condIn),.combine='rbind') %:%
-  foreach(g=1:length(sample), .combine='rbind') %:%
-  foreach(i=1:length(DataGen), .combine='cbind') %:%
-  foreach(j=1:length(DataGen[[i]]),.combine=cbind,.packages=c("plyr","statip"),.options.snow=opts) %dopar% {
+  foreach(k=1:length(condSD),.combine=rbind) %:%
+  foreach(h=1:length(condIn),.combine=rbind, .inorder=FALSE) %:%
+  foreach(g=1:length(sample),.combine=rbind, .inorder=FALSE) %:%
+  foreach(i=1:length(DataGen),.combine=rbind, .inorder=FALSE) %:%
+  foreach(j=1:length(DataGen[[i]]),.combine=rbind,.packages=c("plyr","statip"),.options.snow=opts, .inorder=FALSE) %dopar% {
     f = function() {
       mean(replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],per),"y1","x1",interaction = condIn[[h]] ,SD=condSD[[k]])))
       
     }
     data.frame(Pr=f(),Interaction=h,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]])
   }
-)
+
 results<-as.data.frame(results)
 
 ## Close process bar
@@ -112,12 +113,13 @@ close(pb)
 stopCluster(cl);print("Cluster stopped")
 registerDoSEQ()
 
-## Splitting the data into the different types of data
-finalresultNorm<-rbind(results[c(1:6)],results[c(7:12)],results[13:18],results[19:24],results[25:30],results[31:36],results[37:42])
-finalresultBin<-rbind(results[c(43:48)],results[c(49:54)],results[55:60],results[61:66],results[67:72],results[73:78],results[79:84])
-finalresultNormBin<-rbind(results[c(85:90)],results[c(91:96)],results[97:102],results[103:108],results[109:114],results[115:120],results[121:126])
-finalresultBinNorm<-rbind(results[c(127:132)],results[c(133:138)],results[139:144],results[145:150],results[151:156],results[157:162],results[163:168])
 
+## Splitting the data into the different types of data
+finalresult<-results
+finalresultNorm<-finalresult[finalresult$Type==1,]
+finalresultBin<-finalresult[finalresult$Type==2,]
+finalresultNormBin<-finalresult[finalresult$Type==3,]
+finalresultBinNorm<-finalresult[finalresult$Type==4,]
 
 ## Putting them into a list
 finalresult<-list(finalresultNorm=finalresultNorm,finalresultBin=finalresultBin,finalresultNormBin=finalresultNormBin,finalresultBinNorm=finalresultBinNorm

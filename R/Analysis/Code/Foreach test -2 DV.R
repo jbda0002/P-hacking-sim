@@ -27,10 +27,10 @@ library(tcltk)
 ##### Things that can be changed in the simulation
 
 ## Selecting the sample sizes that should be used
-sample = c(50,100)
+sample = c(50,100,150,200,250,300,350,400,450,500)
 
 ## Setting the number of repretetion
-rep=50
+rep=1000
 ## Setting the correlation between dependent and independent 
 per=0.2
 perDV=0.5
@@ -69,7 +69,7 @@ finalresult<-list(finalresultNormDV=c(),finalresultNormBinDV=c())
 DataGen<-list(m1=DataGenListNormDV,m2=DataGenListNormBinDV)
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(6)
+cl <- makeSOCKcluster(20)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)

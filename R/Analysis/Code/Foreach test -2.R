@@ -30,10 +30,10 @@ library(foreach)
 ##### Things that can be changed in the simulation
 
 ## Selecting the sample sizes that should be used
-sample = c(50,100,150,200)
+sample = c(50,100,150,200,250,300,350,400,450,500)
 
 ## Setting the number of repretetion
-rep=10
+rep=1000
 ## Setting the correlation between dependent and independent 
 per=0.2
 
@@ -79,13 +79,13 @@ finalresult<-list(finalresultNorm=c(),finalresultBin=c(),finalresultNormBin=c(),
 DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=DataGenListBinNorm)
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(6)
-
+cl <- makeSOCKcluster(20)
+clusterExport(cl,c("DataGen","sample","condIn","condSD"))
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
 
 ## Making the process bar. The process bar will stand still towards the end, as it cannot take into account the time mapply will take
-pb <- txtProgressBar(max=7*4*2*2*length(sample), style=3)
+pb <- txtProgressBar(max=7*4*2*length(condIn)*length(sample), style=3)
 progress <- function(n) setTxtProgressBar(pb, n)
 opts <- list(progress=progress)
 
@@ -94,8 +94,8 @@ results<-
   foreach(k=1:length(condSD),.combine='rbind') %:%
   foreach(h=1:length(condIn),.combine='rbind') %:%
   foreach(g=1:length(sample), .combine='rbind') %:%
-  foreach(i=1:length(DataGen), .combine='cbind') %:%
-  foreach(j=1:length(DataGen[[i]]),.combine=cbind,.packages=c("plyr","statip"),.options.snow=opts) %dopar% {
+  foreach(i=1:length(DataGen), .combine='rbind') %:%
+  foreach(j=1:length(DataGen[[i]]),.combine=rbind,.packages=c("plyr","statip")) %dopar% {
     f = function() {
       mean(replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],per),"y1","x1",interaction = condIn[[h]] ,SD=condSD[[k]])))
       
@@ -113,10 +113,11 @@ stopCluster(cl);print("Cluster stopped")
 registerDoSEQ()
 
 ## Splitting the data into the different types of data
-finalresultNorm<-rbind(results[c(1:6)],results[c(7:12)],results[13:18],results[19:24],results[25:30],results[31:36],results[37:42])
-finalresultBin<-rbind(results[c(43:48)],results[c(49:54)],results[55:60],results[61:66],results[67:72],results[73:78],results[79:84])
-finalresultNormBin<-rbind(results[c(85:90)],results[c(91:96)],results[97:102],results[103:108],results[109:114],results[115:120],results[121:126])
-finalresultBinNorm<-rbind(results[c(127:132)],results[c(133:138)],results[139:144],results[145:150],results[151:156],results[157:162],results[163:168])
+finalresult<-results
+finalresultNorm<-finalresult[finalresult$Type==1,]
+finalresultBin<-finalresult[finalresult$Type==2,]
+finalresultNormBin<-finalresult[finalresult$Type==3,]
+finalresultBinNorm<-finalresult[finalresult$Type==4,]
 
 
 ## Putting them into a list
@@ -200,11 +201,11 @@ figureBinNorm
 #### Save the figures and the data
 
 ## Save the figures
-ggsave(figureNormal,filename =file.path("Analysis/Result/Figures","figureNormal.jpeg"),width = 6.64,height = 5.70)
-ggsave(figureBin,filename =file.path("Analysis/Result/Figures","figureBin.jpeg"),width = 6.64,height = 5.70)
-ggsave(figureNormBin,filename =file.path("Analysis/Result/Figures","figureNormBin.jpeg"),width = 6.64,height = 5.70)
-ggsave(figureBinNorm,filename =file.path("Analysis/Result/Figures","figureBinNorm.jpeg"),width = 6.64,height = 5.70)
+ggsave(figureNormal,filename =file.path("Analysis/Result/Figures","figureNormalNew.jpeg"),width = 6.64,height = 5.70)
+ggsave(figureBin,filename =file.path("Analysis/Result/Figures","figureBinNew.jpeg"),width = 6.64,height = 5.70)
+ggsave(figureNormBin,filename =file.path("Analysis/Result/Figures","figureNormBinNew.jpeg"),width = 6.64,height = 5.70)
+ggsave(figureBinNorm,filename =file.path("Analysis/Result/Figures","figureBinNormNew.jpeg"),width = 6.64,height = 5.70)
 
 ## Save the result file
-write.csv(finalresult,"Analysis/Result/ResultFile/Results.csv" )
+write.csv(finalresult,"Analysis/Result/ResultFile/ResultsNew.csv" )
 
