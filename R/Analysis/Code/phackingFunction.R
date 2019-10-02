@@ -114,7 +114,6 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE,larg
   
   if(large2==TRUE ){
     interaction=TRUE
-    large1=TRUE
   }
   if(large3==TRUE ){
     interaction=TRUE
