@@ -1,7 +1,13 @@
 ### P-hacking function ###
-## In this function if interaction is TRUE there will be an interaction between all main effects and the H_1 variable 
+## In this function if interaction is TRUE there will be an interaction between all main effects and the H_1 variable
 ## Furtheremore, there is four different outlier criterias there will be tested
-phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE,large1=FALSE,large2=FALSE){
+## large1 and large2 cannot be TRUE at the same time - if using any of these the modelset will explode!!
+
+## Setting interaction = TRUE: Use Power(1) and Power(2) but not the combinations
+## Setting Large1 = TRUE:  Use Power(1) and Power(2) and the combinations
+## Setting Large2 = TRUE: Use Power(1), Power(2) and Power(3) without there combinations
+## Setting Large3 = TRUE: Use Power(1), Power(2) and Power(3) and there combinations
+phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE,large1=FALSE,large2=FALSE,large3=FALSE){
   ## Loading liberaries
   library(data.table)
   library(dplyr)
@@ -100,9 +106,24 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE,larg
   ## Make all the regressions without interaction terms. 
   Formulas=sapply(Combin,function(i)
     paste(start,paste(Cols[i],collapse=" + ")))
+  Power1=Formulas
+  
+  if(large1==TRUE ){
+    interaction=TRUE
+  }
+  
+  if(large2==TRUE ){
+    interaction=TRUE
+    large1=TRUE
+  }
+  if(large3==TRUE ){
+    interaction=TRUE
+    large1=TRUE
+    large2=TRUE
+  }
   
   if(interaction==TRUE){
-    
+    ## This is Power(1) and Power(2)
     #Starting of interaction term
     CombinInter <- unlist(
       lapply(1, function(i)combn(1:n,i,simplify=FALSE)), recursive=FALSE)
@@ -118,45 +139,74 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE,larg
     FormulasIN <- sapply(Combin,function(i)
       paste(start,paste(Interactions[i],collapse=" + ")))
     
+    Formulas=c(Formulas,FormulasIN)
+    Power2=FormulasIN
+    
     if(large1==TRUE){
+      ## Put together Power(1) and Power(2)
+      ## There are models there are repeated here, so not a effecient set of models
       
-      #Make all the two-way interactions
+      
+      # Make all combinations of the two-way interactions
+      Interactions2 <- unlist(
+        lapply(1:length(Interactions), function(i)combn(1:length(Interactions),i,simplify=FALSE)), recursive=FALSE)
+      # But in the names of the variables and but a plus inbetween
+      Interactions_2=sapply(Interactions2,function(i)
+        paste(paste(Interactions[i],collapse="+")))
+      
+      
+      FormulasIN12=expand.grid(Power1,Interactions_2)
+      Power12=apply(FormulasIN12, 1, paste, collapse="+") 
+      
+      
+      Formulas=c(Power12,Power2,Power1)
+      
+    }
+    if(large2==TRUE){
+      ## Make Power(3) to put together with Power(1) and Power(2)
+      
+      #Make all the combinations of two-way interactions
       CombinTwo <- unlist(
         lapply(2, function(i)combn(1:n,i,simplify=FALSE)), recursive=FALSE)
       
+      # Make all the combinations with the names from Cols
       Twoway=sapply(CombinTwo,function(i)
         paste(paste(Cols[i],collapse="*")))
       
+      # Make all combinations of the two-way interactions
       CombinTwo_2 <- unlist(
         lapply(1:length(CombinTwo), function(i)combn(1:length(CombinTwo),i,simplify=FALSE)), recursive=FALSE)
-      
+      # But in the names of the variables and but a plus inbetween
       Twoway_2=sapply(CombinTwo_2,function(i)
-        paste(paste(Twoway[i],collapse="+")))
-      # Make all the regressions without the two-way interactions
-      FormulasIN_2<-c(Formulas,FormulasIN)
-      #Put them together with the other functions
-    
-      Two=expand.grid(Formulas,Twoway)
-      FormulasIN=apply(Two, 1, paste, collapse="+")
+         paste(paste(Twoway[i],collapse="+")))
+      
+      
+      Power3=sapply(CombinTwo_2,function(i)
+        paste(start,paste(Twoway_2[i],collapse=" + ")))
+      
+      Formulas=c(Power1,Power2,Power3)
       
     }
-    
-    if(large2==TRUE){
-    ## Make all the main effects
-    Main=sapply(Combin,function(i)
-      paste(paste(Cols[i],collapse=" + ")))
-    
-    result.df=expand.grid(FormulasIN,Main)
+
+    if(large3==TRUE){
+   
+    Power23=expand.grid(Interactions_2,Twoway_2)
+    Power13=expand.grid(Power1,Twoway_2)
     
     ## Make all combinations, but where the main effect for the interaction is always there
-    FormulasIN=apply(result.df, 1, paste, collapse="+")
+    Formulas23=apply(Power23, 1, paste, collapse="+")
+    Power13=apply(Power13, 1, paste, collapse="+")
+    
+    Power23=paste(start, Formulas23, sep="")
+    Power123=expand.grid(Power1,Formulas23)
+    
+    Formulas=c(apply(Power123, 1, paste, collapse="+"),Power1,Power2,Power3,Power12,Power13,Power23)
+    
     }
     ## Combine with the models there have no interaction terms 
-    Formulas<-c(Formulas,FormulasIN)
     
   }
 
-  
   
   #Running all the models
   models<-lapply(Formulas,function(i)
@@ -187,7 +237,7 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE,larg
       coef<-as.data.table(coef)
       
       # Make a data.table with only the interaction terms 
-      inter <- coef[like(names,":")]
+      inter <- coef[like(names,"x1:")]
       
       if(nrow(inter)>=1){
       for (i in 1:nrow(inter)) {
@@ -248,7 +298,7 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE,larg
           coef<-as.data.table(coef)
           
           # Make a data.table with only the interaction terms 
-          inter <- coef[like(names,":")]
+          inter <- coef[like(names,"x1:")]
           if(nrow(inter)>=1){
           for (i in 1:nrow(inter)) {
             #Put the p-values of the interaction terms into the holder
