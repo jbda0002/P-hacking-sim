@@ -5,7 +5,7 @@
 
 ## Setting interaction = TRUE: Use Power(1) and Power(2) but not the combinations
 ## Setting Large1 = TRUE:  Use Power(1) and Power(2) and the combinations
-## Setting Large2 = TRUE: Use Power(1), Power(2) and Power(3) without there combinations
+## Setting Large2 = TRUE: Use Power(1), Power(2) and Power(3) without there combinations. When using Power3, you need at least 2 covariates.
 ## Setting Large3 = TRUE: Use Power(1), Power(2) and Power(3) and there combinations
 phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE,large1=FALSE,large2=FALSE,large3=FALSE){
   ## Loading liberaries
@@ -114,6 +114,7 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE,larg
   
   if(large2==TRUE ){
     interaction=TRUE
+    large1=TRUE
   }
   if(large3==TRUE ){
     interaction=TRUE

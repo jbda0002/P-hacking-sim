@@ -872,7 +872,7 @@ DataGenListBinNorm <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6
 
 ## General for all
 sample = c(100,200)
-rep=40
+rep=2
 condIn<-c("TRUE","FALSE")
 condSD<-c("TRUE","FALSE")
 condcor<-c("TRUE","FALSE")
@@ -885,7 +885,7 @@ for (k in 1:length(condSD)) {
   for (h in 1:length(condIn)) {
     for (i in 1:length(DataGen)) {
       for(j in 1:length(DataGen[[i]])){
-        res = mapply(function(x) mean(replicate(rep, phackingFunction(DataGen[[i]][[j]](x),"y1","x1", interaction = condIn[[h]] ,SD=condSD[[k]]))), x=sample)
+        res = mapply(function(x) mean(replicate(rep, phackingFunction(DataGen[[i]][[j]](x,0.2),"y1","x1", interaction = condIn[[h]] ,SD=condSD[[k]]))), x=sample)
         result = data.frame(sample,res,j,h,k)
         names(result)<-c("SampleSize","Pr","IndependentVariables","Interaction","OutlierExclusion")
         finalresult[[i]]=rbind(result,finalresult[[i]])
