@@ -8,8 +8,8 @@
 
 #### Setting up the simulation ####
 ## Setting working directory
-setwd("C:/Users/jbda0002/Dropbox/Uppsala/Projects/P-Hacking paper/R")
-#setwd("C:/Users/jbda0002/Documents/Projects/P-hacking/trunk/R")
+#setwd("C:/Users/jbda0002/Dropbox/Uppsala/Projects/P-Hacking paper/R")
+setwd("C:/Users/jbda0002/Documents/Projects/P-hacking/trunk/R")
 set.seed(1234)
 
 ## Loading library
@@ -33,7 +33,7 @@ library(foreach)
 sample = c(50,100,150,200,250,300,350,400,450,500)
 
 ## Setting the number of repretetion
-rep=1000
+rep=3000
 ## Setting the correlation between dependent and independent 
 per=0.2
 
@@ -43,23 +43,23 @@ per=0.2
 source("Analysis/Code/Outlier Analysis.R")
 
 ## Loading the P-Hacking function
-source("Analysis/Code/phackingFunction.R")
+source("Analysis/Code/phackingFunction_v2-0.R")
 
 ## Making the list for the Normal Data
 source("Analysis/Code/Data Generation Normal.R")
-DataGenListNorm <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6,dataGen7)
+DataGenListNorm <- list(dataGen2,dataGen3,dataGen4)
 
 ## Making the list for the Bin Data
 source("Analysis/Code/Data Generation Bin.R")
-DataGenListBin <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6,dataGen7)
+DataGenListBin <- list(dataGen2,dataGen3,dataGen4)
 
 ## Making the list for the Bin Data
 source("Analysis/Code/Data Generation BinNormal.R")
-DataGenListBinNorm <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6,dataGen7)
+DataGenListBinNorm <- list(dataGen2,dataGen3,dataGen4)
 
 ## Making the list for the Bin Data
 source("Analysis/Code/Data Generation NormalBin.R")
-DataGenListNormBin <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6,dataGen7)
+DataGenListNormBin <- list(dataGen2,dataGen3,dataGen4)
 
 
 #### Run the simulation ####
@@ -68,7 +68,8 @@ DataGenListNormBin <- list(dataGen1,dataGen2,dataGen3,dataGen4,dataGen5,dataGen6
 
 
 ## The different condetions
-condIn<-c("TRUE","FALSE")
+P2<-c("TRUE","FALSE")
+P3<-c("TRUE","FALSE")
 condSD<-c("TRUE","FALSE")
 condcor<-c("TRUE","FALSE")
 
@@ -85,23 +86,26 @@ clusterExport(cl,c("DataGen","sample","condIn","condSD"))
 registerDoSNOW(cl)
 
 ## Making the process bar. The process bar will stand still towards the end, as it cannot take into account the time mapply will take
-pb <- txtProgressBar(max=7*4*2*length(condIn)*length(sample), style=3)
+pb <- txtProgressBar(max=length(DataGenListBin)*length(DataGen)*length(condSD)*length(P2)*length(P3)*length(sample), style=3)
 progress <- function(n) setTxtProgressBar(pb, n)
 opts <- list(progress=progress)
 
 
 results<-
-  foreach(k=1:length(condSD),.combine='rbind') %:%
-  foreach(h=1:length(condIn),.combine='rbind') %:%
-  foreach(g=1:length(sample), .combine='rbind') %:%
-  foreach(i=1:length(DataGen), .combine='rbind') %:%
-  foreach(j=1:length(DataGen[[i]]),.combine=rbind,.packages=c("plyr","statip")) %dopar% {
+  foreach(k=1:length(condSD),.combine=rbind) %:%
+  foreach(h=1:length(P2),.combine=rbind, .inorder=FALSE) %:%
+  foreach(l=1:length(P3),.combine=rbind, .inorder=FALSE) %:%
+  foreach(g=1:length(sample),.combine=rbind, .inorder=FALSE) %:%
+  foreach(i=1:length(DataGen),.combine=rbind, .inorder=FALSE) %:%
+  foreach(j=1:length(DataGen[[i]]),.combine=rbind,.packages=c("plyr","statip"),.options.snow=opts, .inorder=FALSE) %dopar% {
     f = function() {
-      mean(replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],per),"y1","x1",interaction = condIn[[h]] ,SD=condSD[[k]])))
+      
+      mean(replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],per),"y1","x1",Power_2 =P2[[h]],SD=condSD[[k]],Power_12 = P2[[h]],Power_3 = P3[[l]])))
       
     }
-    data.frame(Pr=f(),Interaction=h,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]])
+    data.frame(Pr=f(),Power2=h,Power3=l,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]])
   }
+
 
 results<-as.data.frame(results)
 
@@ -113,7 +117,7 @@ stopCluster(cl);print("Cluster stopped")
 registerDoSEQ()
 
 ## Splitting the data into the different types of data
-finalresult<-results
+finalresult<-results[results$OutlierExclusion==2,]
 finalresultNorm<-finalresult[finalresult$Type==1,]
 finalresultBin<-finalresult[finalresult$Type==2,]
 finalresultNormBin<-finalresult[finalresult$Type==3,]
@@ -127,8 +131,10 @@ finalresult<-list(finalresultNorm=finalresultNorm,finalresultBin=finalresultBin,
 ## Chaning the names in the result file such that they are easier to understand
 for (i in 1:length(finalresult)) {
   
-  finalresult[[i]]$Interaction[finalresult[[i]]$Interaction == "1"] <- "In TRUE"
-  finalresult[[i]]$Interaction[finalresult[[i]]$Interaction == "2"] <- "In FALSE"
+  finalresult[[i]]$Power2[finalresult[[i]]$Power2 == "1"] <- "Power2 True"
+  finalresult[[i]]$Power2[finalresult[[i]]$Power2 == "2"] <- "Power2 FALSE"
+  finalresult[[i]]$Power3[finalresult[[i]]$Power3 == "1"] <- "Power3 TRUE"
+  finalresult[[i]]$Power3[finalresult[[i]]$Power3 == "2"] <- "Power3 FALSE"
   finalresult[[i]]$OutlierExclusion[finalresult[[i]]$OutlierExclusion == "1"] <- "SD TRUE"
   finalresult[[i]]$OutlierExclusion[finalresult[[i]]$OutlierExclusion == "2"] <- "SD FALSE"
 }
@@ -140,7 +146,7 @@ figureNormal <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour
   geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
   scale_color_grey()+
   theme_bw()+
-  facet_grid(OutlierExclusion~Interaction)+
+  facet_grid(Power2~Power3)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),legend.position = "none")+
   ylab("Percent of simulations with at least one model with significant random variable")+ 
   xlab("Sample size")+
@@ -156,7 +162,7 @@ figureBin <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=In
   geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
   scale_color_grey()+
   theme_bw()+
-  facet_grid(OutlierExclusion~Interaction)+
+  facet_grid(Power2~Power3)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   ylab("Percent of simulations with at least one model with significant random variable")+
   xlab("Sample size")+
@@ -172,7 +178,7 @@ figureNormBin <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colou
   geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
   scale_color_grey()+
   theme_bw()+
-  facet_grid(OutlierExclusion~Interaction)+
+  facet_grid(Power2~Power3)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   ylab("Percent of simulations with at least one model with significant random variable")+ 
   xlab("Sample size")+
@@ -188,7 +194,7 @@ figureBinNorm <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colou
   geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
   scale_color_grey()+
   theme_bw()+
-  facet_grid(OutlierExclusion~Interaction)+
+  facet_grid(Power2~Power3)+
   theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank())+
   ylab("Percent of simulations with at least one model with significant random variable")+
   xlab("Sample size")+
