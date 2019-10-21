@@ -30,10 +30,10 @@ library(foreach)
 ##### Things that can be changed in the simulation
 
 ## Selecting the sample sizes that should be used
-sample = c(50,100,150,200,250,300,350,400,450,500)
+sample = c(50,100,150)
 
 ## Setting the number of repretetion
-rep=3000
+rep=30
 ## Setting the correlation between dependent and independent 
 per=0.2
 
@@ -100,15 +100,18 @@ results<-
   foreach(j=1:length(DataGen[[i]]),.combine=rbind,.packages=c("plyr","statip"),.options.snow=opts, .inorder=FALSE) %dopar% {
     f = function() {
       
-      mean(replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],per),"y1","x1",Power_2 =P2[[h]],SD=condSD[[k]],Power_12 = P2[[h]],Power_3 = P3[[l]])))
+      x<-(replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],per),"y1","x1",Power_2 =P2[[h]],SD=condSD[[k]],Power_12 = P2[[h]],Power_3 = P3[[l]])))
+      Stats<-c(mean(x),(sd(x)/length(x)))
+      Stats
       
     }
-    data.frame(Pr=f(),Power2=h,Power3=l,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]])
+    data.frame(f(),Power2=h,Power3=l,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]])
   }
 
 
 results<-as.data.frame(results)
-
+names(results)[1]<-"Pr"
+names(results)[2]<-"Sde"
 ## Close process bar
 close(pb)
 
@@ -141,8 +144,9 @@ for (i in 1:length(finalresult)) {
 
 ### Making and saving the different figures 
 
-figureNormal <-ggplot(aes(x=SampleSize, y=Pr, group=IndependentVariables, colour=IndependentVariables), data=finalresult$finalresultNorm)+
+figureNormal <-ggplot(aes(x=SampleSize, y=Pr, group=as.factor(IndependentVariables), colour=as.factor(IndependentVariables)), data=finalresult$finalresultNorm)+
   geom_line(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE) +
+  geom_errorbar(aes(ymin=Pr-Sde, ymax=Pr+Sde)) +
   geom_point(aes(colour=as.factor(IndependentVariables)),show.legend = FALSE)+
   scale_color_grey()+
   theme_bw()+
