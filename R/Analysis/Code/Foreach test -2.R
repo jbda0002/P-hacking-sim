@@ -33,7 +33,7 @@ library(foreach)
 sample = c(50,100,150)
 
 ## Setting the number of repretetion
-rep=30
+rep=200
 ## Setting the correlation between dependent and independent 
 per=0.2
 
@@ -101,7 +101,7 @@ results<-
     f = function() {
       
       x<-(replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],per),"y1","x1",Power_2 =P2[[h]],SD=condSD[[k]],Power_12 = P2[[h]],Power_3 = P3[[l]])))
-      Stats<-c(mean(x),(sd(x)/length(x)))
+      Stats<-t(c(mean(x),(sd(x)/sqrt(length(x)))))
       Stats
       
     }
