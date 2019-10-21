@@ -219,3 +219,55 @@ ggsave(figureBinNorm,filename =file.path("Analysis/Result/Figures","figureBinNor
 ## Save the result file
 write.csv(finalresult,"Analysis/Result/ResultFile/ResultsNew.csv" )
 
+
+
+#### If Per= TRUE run this code instead for plotting the data
+
+### Making and saving the different figures 
+library(scales)
+histNormal<-ggplot(aes(x=dist, colour=IndependentVariables),data = finalresult$finalresultNorm)+
+  facet_grid(Power2~Power3+IndependentVariables)+
+  geom_histogram(binwidth = 0.05,aes(y=length(DataGenListBin)*2*2*..count../sum(..count..)),show.legend = FALSE)+
+  theme_bw()+
+  theme_classic()+
+  ylab("Percentage")+
+  scale_y_continuous(limits = c(0, 1))
+histNormal
+
+
+histBin<-ggplot(aes(x=dist, colour=IndependentVariables),data = finalresult$finalresultBin)+
+  facet_grid(Power2~Power3+IndependentVariables)+
+  geom_histogram(binwidth = 0.05,aes(y=length(DataGenListBin)*2*2*..count../sum(..count..)),show.legend = FALSE)+
+  theme_bw()+
+  theme_classic()+
+  ylab("Percentage")+
+  scale_y_continuous(limits = c(0, 1))
+histBin
+
+histBinNorm<-ggplot(aes(x=dist, colour=IndependentVariables),data = finalresult$finalresultBinNorm)+
+  facet_grid(Power2~Power3+IndependentVariables)+
+  geom_histogram(binwidth = 0.05,aes(y=length(DataGenListBin)*2*2*..count../sum(..count..)),show.legend = FALSE)+
+  theme_bw()+
+  theme_classic()+
+  ylab("Percentage")+
+  scale_y_continuous(limits = c(0, 1))
+histBinNorm
+
+
+histNormBin<-ggplot(aes(x=dist, colour=IndependentVariables),data = finalresult$finalresultNormBin)+
+  facet_grid(Power2~Power3+IndependentVariables)+
+  geom_histogram(binwidth = 0.05,aes(y=length(DataGenListBin)*2*2*..count../sum(..count..)),show.legend = FALSE)+
+  theme_bw()+
+  theme_classic()+
+  ylab("Percentage")+
+  scale_y_continuous(limits = c(0, 1))
+histNormBin
+
+ggsave(histNormal,filename =file.path("Analysis/Result/Figures","figureNormalDist.jpeg"),width = 18,height = 9)
+ggsave(histBin,filename =file.path("Analysis/Result/Figures","figureBinDist.jpeg"),width = 18,height = 9)
+ggsave(histNormBin,filename =file.path("Analysis/Result/Figures","figureNormBinDist.jpeg"),width = 18,height = 9)
+ggsave(histBinNorm,filename =file.path("Analysis/Result/Figures","figureBinNormDist.jpeg"),width = 18,height = 9)
+
+
+
+
