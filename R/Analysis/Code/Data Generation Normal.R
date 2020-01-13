@@ -14,7 +14,7 @@ dataGen1 <- function(N,cor){
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
   r = t(r)
   data = as.data.frame(r)
-  names(data) = c('y1', 'x1', 'x2')
+  names(data) = c('y1', 'h1', 'x1')
   
   return(data)
 }
@@ -31,7 +31,7 @@ dataGen2 <- function(N,cor){
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
   r = t(r)
   data = as.data.frame(r)
-  names(data) = c('y1', 'x1', 'x2','x3')
+  names(data) = c('y1', 'h1', 'x1','x2')
   return(data)
 }
 dataGen3 <- function(N,cor){
@@ -46,7 +46,7 @@ dataGen3 <- function(N,cor){
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
   r = t(r)
   data = as.data.frame(r)
-  names(data) = c('y1', 'x1', 'x2', 'x3','x4')
+  names(data) = c('y1', 'h1', 'x1', 'x2','x3')
   
   return(data)
 }
@@ -63,7 +63,7 @@ dataGen4 <- function(N,cor){
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
   r = t(r)
   data = as.data.frame(r)
-  names(data) = c('y1', 'x1', 'x2', 'x3','x4','x5')
+  names(data) = c('y1', 'h1', 'x1', 'x2','x3','x4')
   return(data)
 }
 dataGen5 <- function(N,cor){
@@ -80,7 +80,7 @@ dataGen5 <- function(N,cor){
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
   r = t(r)
   data = as.data.frame(r)
-  names(data) = c('y1', 'x1', 'x2', 'x3','x4','x5','x6')
+  names(data) = c('y1', 'h1', 'x1', 'x2','x3','x4','x5')
   return(data)
 }
 dataGen6 <- function(N,cor){
@@ -100,7 +100,7 @@ dataGen6 <- function(N,cor){
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
   r = t(r)
   data = as.data.frame(r)
-  names(data) = c('y1', 'x1', 'x2', 'x3','x4','x5','x6','x7')
+  names(data) = c('y1', 'h1', 'x1', 'x2','x3','x4','x5','x6')
   return(data)
 }
 dataGen7 <- function(N,cor){
@@ -122,6 +122,6 @@ dataGen7 <- function(N,cor){
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
   r = t(r)
   data = as.data.frame(r)
-  names(data) = c('y1', 'x1', 'x2', 'x3','x4','x5','x6','x7','x8')
+  names(data) = c('y1', 'h1', 'x1', 'x2','x3','x4','x5','x6','x7')
   return(data)
 }

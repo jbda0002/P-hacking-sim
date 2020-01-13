@@ -7,7 +7,7 @@
 ## Setting Large1 = TRUE:  Use Power(1) and Power(2) and the combinations
 ## Setting Large2 = TRUE: Use Power(1), Power(2) and Power(3) without there combinations. When using Power3, you need at least 2 covariates.
 ## Setting Large3 = TRUE: Use Power(1), Power(2) and Power(3) and there combinations
-phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE,large1=FALSE,large2=FALSE,large3=FALSE){
+phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE,large1=FALSE,large2=FALSE,large3=FALSE,Main=TRUE){
   ## Loading liberaries
   library(data.table)
   library(dplyr)
@@ -122,7 +122,52 @@ phackingFunction<-function(data,y,H_1,interaction = TRUE,SD=FALSE,Per=FALSE,larg
     large2=TRUE
   }
   
-  if(interaction==TRUE){
+  if(interaction==TRUE & Main == TRUE){
+    ## This is Power(1) and Power(2)
+    #Starting of interaction term
+    CombinInter <- unlist(
+      lapply(1, function(i)combn(1:n,i,simplify=FALSE)), recursive=FALSE)
+    
+    ## Put together the random variable and all the dependent variables 
+    CombH1<-paste(c(H_1,"*"),collapse = "")
+    
+    #All interactions terms
+    Interactions <- sapply(CombinInter,function(i) 
+      paste(CombH1,paste(Cols[i],collapse="")))
+    
+    ## Make the models with the interaction terms 
+    FormulasIN <- sapply(Combin,function(i)
+      paste(start,paste(Interactions[i],collapse=" + ")))
+    
+    ## The combinations of the main effect that needs to be tested if they are in the interaction
+    Test=  sapply(Combin,function(i)
+      paste(Cols[i],collapse="|"))
+    
+    ## Make object to capture the functions where to add main effect
+    FoirmulasInC=NULL
+    for (j in 1:length(Test)) {
+      ## Test if variable is part of the interaction term
+      loop=grep(Test[j], FormulasIN,invert=TRUE)
+      
+      ## For those where the term is not part of the interaction term, add them
+      for (k in loop){
+        
+        ## Paste on the main effects that are needed
+        Form= paste(FormulasIN[k],paste("+",Test[j]))
+        ## Change the | to a +
+        Form=gsub("\\|", "+", Form)
+        ## Put them into a list
+        FoirmulasInC=rbind(Form,FoirmulasInC)
+      }
+   
+    }
+    
+    ## Combine Power(1+2) with Power(1)
+    Formulas=c(Formulas,FormulasIN,FoirmulasInC)
+    Power2=FormulasIN
+    
+  }
+  if(interaction==TRUE & Main == TRUE){
     ## This is Power(1) and Power(2)
     #Starting of interaction term
     CombinInter <- unlist(

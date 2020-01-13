@@ -17,58 +17,120 @@
 ### Function that are being used in the function. 
 ## Sonja: I'm not sure where to have these in all this. I'm looking into making more functions in the other parts as well
 ## I haven't figured out the factor part yet, but sure it will come :) - mainly how to extract the p-values without that the code becomes really long
+InterceptMain<-function(Combinations,names,formel){ #need fixing/optimizing
+  
+  Test= sapply(Combinations,function(i)
+    paste0(names[i],collapse="|"))
+  
+  ## Make object to capture the functions where to add main effect
+  FoirmulasInC=NULL
+  for (j in 1:length(Test)) {
+    ## Test if variable is part of the interaction term
+    loop=grep(Test[j], formel,invert=TRUE)
+    
+    ## For those where the term is not part of the interaction term, add them
+    for (k in loop){
+      
+      ## Paste on the main effects that are needed
+      Form= paste0(formel[k],paste0("+",Test[j]))
+      ## Change the | to a +
+      Form=gsub("\\|", "+", Form)
+      ## Put them into a list
+      FoirmulasInC=rbind(Form,FoirmulasInC)
+    }
+  }
+  return(FoirmulasInC)
+}
 
- source(here::here("remove_outliers_sd.R")) 
- source(here::here("remove_outliers_range.R"))
- source(here::here("pvaluecapture.R"))
- source(here::here("addmaineffects.R"))
-
+pvaluevapture<-function(coefficients,holder){
+  co<-as.data.frame(coefficients)
+  co$names<-rownames(co)
+  co<-as.data.table(co)
+  
+  # Make a data.table with only the interaction terms 
+  Int<-paste(H_1,":",sep = "")
+  inter <- co[like(names,Int)]
+  if(nrow(inter)>=1){
+    for (i in 1:nrow(inter)) {
+      #Put the p-values of the interaction terms into the holder
+      p<-inter[i,4] 
+      holder[i]<-p
+    }
+  }
+  return(holder)
+}
+data = dataGen1(200,0.2)
 phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FALSE, Power_13=FALSE
                            ,Power_23=FALSE,Power_123=FALSE
                            ,SD=FALSE,Per=FALSE,Main=TRUE,pvalue=0.05){
-
-    library(dplyr)
-  ## delete outliers if SD = TRUE 
-  
+  ## Loading liberaries
+  library(data.table)
+  library(dplyr)
+  ## Creating datasets with outliers deleted if sd=TRUE 
   if(SD==TRUE){
-    
+    # Calculate means and sd for all variables
     #### Does this on individual variables or maybe aggegated like now but on the H_1
-    #comment 1
+    descriptives = data.table(sapply(data, function(x)
+      c(
+        mean = mean(x, na.rm = T), sd = sd(x, na.rm = T)
+      ))) #comment 1
     
-    # sd * 2 (Miller, 1991)
-    outlier1 <- remove_outliers_sd(data, 2)
+    #sd*2
+    #Miller, 1991
     
-    # sd * 2.5 (Miller, 1991)
-    outlier2 <- remove_outliers_sd(data, 2.5)
-      
-    # sd * 3 (Howell, 1998)
-    outlier3 <- remove_outliers_sd(data, 3)
+    check_outlier <- function(x, y, sd) {
+      sapply(x, function(i)
+        (i > y[1] + sd * y[2]))
+    }
     
-    # outside 1.5 times interquartile range (above and below)
-    outlier4 <- remove_numeric_outliers(data)
+    outlier1 <-
+      as.data.frame(mapply(check_outlier, abs(data), descriptives, 2))
+    outlier1 <- cbind(data, outlier1)
+    outlier1 <- outlier1[!Reduce(`|`, lapply(outlier1, grepl,
+                                             pattern = "TRUE")), ]
     
-    # combine all outlier data sets in a list
+    #sd*2.5
+    #Miller, 1991
+    outlier2 <-
+      as.data.frame(mapply(check_outlier, abs(data), descriptives, 2.5))
+    outlier2 <- cbind(data, outlier2)
+    outlier2 <- outlier1[!Reduce(`|`, lapply(outlier1, grepl,
+                                             pattern = "TRUE")), ]
+    
+    #sd*3
+    #Howell, 1998 - Statistical methods in human sciences
+    outlier3 <-
+      as.data.frame(mapply(check_outlier, abs(data), descriptives, 3))
+    outlier3 <- cbind(data, outlier3)
+    outlier3 <- outlier1[!Reduce(`|`, lapply(outlier1, grepl,
+                                             pattern = "TRUE")), ]
+    
+    #Outlier 4
+    # outside 1.5 times interquartile range - above and below
+    outlier4 <- remove_all_outliers1(data)
     dataoutlier <-
       list(outlier1, outlier2, outlier3, outlier4)
   }
   
+  
   #Collecting and counting all the different variables, except the DV and H_1
   Cols <- names(data)
-  Cols <- Cols[! Cols %in% c(y,H_1)] 
+  Cols <- Cols[! Cols %in% c('y1','x1')] #change back
   n <- length(Cols)
   
+  
   #Making objects for saving model versions. RModelI has the dimensions that is needed to collect all the p-values
-  ModelName = NULL
+  ModelName =NULL
   
   ## If h1 is a factor, then the placeholer for the interaction must be changed
-  if(sapply(data[grep(H_1, colnames(data))], is.factor)==TRUE){ 
+  if(sapply(data[grep('x1', colnames(data))], is.factor)==TRUE){ #change back H_1
   
-    level=sapply(data[grep(H_1, colnames(data))], nlevels)-1 
+    level=sapply(data[grep('x1', colnames(data))], nlevels)-1 #change back H_1
     RModelI = as.data.frame(matrix(0, ncol = n*level, nrow = 0))
     RModelF=as.data.frame(matrix(0, ncol = level, nrow = 0))
   }
   
-  if(sapply(data[grep(H_1, colnames(data))], is.factor)==F){ 
+  if(sapply(data[grep('x1', colnames(data))], is.factor)==F){ #change back H_1
    
     RModelI = as.data.frame(matrix(0, ncol = n, nrow = 0))
     RModelF = NULL
@@ -80,41 +142,43 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
   # Look if there are multiple DV
   ## MOve this to the start of the code, such that we don't need the for loop
   
-  mvDV <- ifelse(length(y) >= 2, TRUE, FALSE)
+  mvDV<-ifelse(length('y1')>=2,TRUE,FALSE) #change back to y
   
-  if (mvDV == TRUE) {
-    #Make average
-    data <- data[c(y, H_1, Cols)]
-    data$yavg <-
-      1 / length(y) * rowSums(data[1:length(y)]) #double check that it outputs correct result
+  if(mvDV==TRUE){
+    #Make average 
+    data<-data[c('y','H_1',Cols)] #remove quotations
+    data$yavg<-1/length('y')*rowSums(data[1:length('y')]) #double check that it outputs correct result
     
-    if (SD == TRUE) {
+    if(SD==TRUE){
       for (j in 1:length(dataoutlier)) {
-        dataoutlier[[j]] <- dataoutlier[[j]][c(y, H_1, Cols)]
-        dataoutlier[[j]]$yavg <-
-          1 / length(y) * rowSums(dataoutlier[[j]][1:length(y)])
+        dataoutlier[[j]]<-dataoutlier[[j]][c(y,H_1,Cols)]
+        dataoutlier[[j]]$yavg<-1/length(y)*rowSums(dataoutlier[[j]][1:length(y)])
       }
       
     }
     # Add this to the list of dependent variables
-    y = c(y, "yavg")
+    y=c(y,"yavg")
     
-    start = NULL
+    start=NULL
     
-    for (i in 1:length(y)) {
-      start_i <- paste(c(y[i], "~", H_1, "+"), collapse = " ")
-      start <- rbind(start, start_i)
+    for (i in 1:length('y')) { #remove quotations
+      start_i<- paste(c('y'[i],'H_1 +'),collapse = " ~ ") #need fixing
+      #start_i<- paste(c(start_i," + "),collapse = "")
+      start<-rbind(start,start_i)
     }
     
-  } else {
+  }
+  
+  else{
     #Starting of regression if there is no several dependent variables
-    start <- paste(c(y, "~", H_1, "+"), collapse = " ")
+    start<- paste(c('y','H_1 +'),collapse = " ~ ") #need fixing
+    #start<- paste(c(start," + "),collapse = "")
   }
   
   ## Make all the regressions without interaction terms. 
   Formulas=sapply(Combin,function(i)
-    paste(start,paste(Cols[i],collapse=" + "))) 
-  Power1=Formulas 
+    paste0(start,paste0(Cols[i],collapse=" + ")))
+  Power1=Formulas
   
   if(Power_2==TRUE & Main == TRUE){
     Power_12=TRUE
@@ -122,17 +186,6 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
   
   if(Power_3==TRUE & Main == TRUE){
     Power_13=TRUE
-  }
-  
-  
-  if(Power_12==TRUE & Power_2==F & Main == F){
-    Power_2=TRUE
-    print("Power_2 has been set to TRUE") ## Change wording
-  }
-  
-  if(Power_13==TRUE & Power_3==F & Main == F){
-    Power_3=TRUE
-    print("Power_3 has been set to TRUE") ## Change wording
   }
   
   
@@ -145,15 +198,15 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
         lapply(1, function(i)combn(1:n,i,simplify=FALSE)), recursive=FALSE)
       
       ## Put together the random variable and all the dependent variables 
-      CombH1<-paste(c(H_1,"*"),collapse =" ")
+      CombH1<-paste0(c(H_1,"*"),collapse = "")
       
       #All interactions terms
       Interactions <- sapply(CombinInter,function(i) 
-        paste(CombH1,paste(Cols[i],collapse=" ")))
+        paste0(CombH1,paste0(Cols[i],collapse="")))
       
       ## Make the models with the interaction terms 
       FormulasIN <- sapply(Combin,function(i)
-        paste(start,paste(Interactions[i],collapse=" + "))) #I removed plus
+        paste0(start,paste0(Interactions[i],collapse=" + ")))
       
       ## Adding the main effects where it is possible
       
@@ -460,14 +513,14 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
     if(Main==TRUE){
       if(grepl("*",mod, fixed=TRUE)==TRUE){
         
-        holder<-pvaluecapture(coef,holder,H_1)
+        holder<-pvaluevapture(coef,holder)
       }
     }
     if(Main==FALSE){  
       Int<-paste(H_1,":",sep = "")
       
       if(grepl(Int,mod, fixed=TRUE)==TRUE){
-        holder<-pvaluecapture(coef,holder,H_1)
+        holder<-pvaluevapture(coef,holder)
       }
     }
     RModelI<-rbind(holder,RModelI)
@@ -516,13 +569,13 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
         #See if ther interaction with H_1 becomes significant
         if(Main==TRUE){
           if(grepl("*",mod, fixed=TRUE)==TRUE){
-            holder<-pvaluecapture(coef,holder,H_1)
+            holder<-pvaluevapture(coef,holder)
           }
         }
         if(Main==FALSE){
           Int<-paste(H_1,":",sep = "")
           if(grepl(Int,mod, fixed=TRUE)==TRUE){
-            holder<-pvaluecapture(coef,holder,H_1)
+            holder<-pvaluevapture(coef,holder)
           }
         }
         RModelI<-rbind(holder,RModelI)

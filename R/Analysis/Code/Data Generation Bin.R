@@ -1,29 +1,13 @@
 ### Data Generation Bin ###
+
+
+library(statip)
 dataGen1 <- function(N,cor){
   
-  M = matrix(c(1, cor,
-               cor, 1
+  M = matrix(c(1, cor,0,
+               cor, 1,0,
+               0,0,1
                
-  ), nrow=2, ncol=2)
-  L = chol(M)
-  nvars = dim(L)[1]
-  
-  r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
-  r = t(r)
-  u <- pnorm(r)
-  y1=r[,1]
-  x2=qbern(u[,2],0.5)
-  x1<-rbinom(N,1,0.5)
-  data = as.data.frame(cbind(y1,x1,x2))
-  
-  
-  return(data)
-}
-dataGen2 <- function(N,cor){
-  
-  M = matrix(c(1, cor, cor,
-               cor, 1, 0,
-               cor, 0, 1
   ), nrow=3, ncol=3)
   L = chol(M)
   nvars = dim(L)[1]
@@ -32,20 +16,19 @@ dataGen2 <- function(N,cor){
   r = t(r)
   u <- pnorm(r)
   y1=r[,1]
-  x2=qbern(u[,2],0.5)
-  x3=qbern(u[,3],0.5)
-  x1<-rbinom(N,1,0.5)
-  data = as.data.frame(cbind(y1,x1,x2,x3))
+  x1=qbern(u[,2],0.5)
+  h1=qbern(u[,3],0.5)
+  data = as.data.frame(cbind(y1,h1,x1))
   
   
   return(data)
 }
-dataGen3 <- function(N,cor){
+dataGen2 <- function(N,cor){
   
-  M = matrix(c(1, cor, cor,cor,
+  M = matrix(c(1, cor, cor,0,
                cor, 1, 0,0,
                cor, 0, 1,0,
-               cor,0,0,1
+               0,0,0,1
   ), nrow=4, ncol=4)
   L = chol(M)
   nvars = dim(L)[1]
@@ -54,111 +37,141 @@ dataGen3 <- function(N,cor){
   r = t(r)
   u <- pnorm(r)
   y1=r[,1]
-  x2=qbern(u[,2],0.5)
-  x3=qbern(u[,3],0.5)
-  x4=qbern(u[,4],0.5)
-  x1<-rbinom(N,1,0.5)
-  data = as.data.frame(cbind(y1,x1,x2,x3,x4))
+  x1=qbern(u[,2],0.5)
+  x2=qbern(u[,3],0.5)
+  h1=qbern(u[,4],0.5)
+  data = as.data.frame(cbind(y1,h1,x1,x2))
+  
+  
+  return(data)
+}
+dataGen3 <- function(N,cor){
+  
+  M = matrix(c(1, cor, cor,cor,0,
+               cor, 1, 0,0,0,
+               cor, 0, 1,0,0,
+               cor,0,0,1,0,
+               0,0,0,0,1
+  ), nrow=5, ncol=5)
+  L = chol(M)
+  nvars = dim(L)[1]
+  
+  r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
+  r = t(r)
+  u <- pnorm(r)
+  y1=r[,1]
+  x1=qbern(u[,2],0.5)
+  x2=qbern(u[,3],0.5)
+  x3=qbern(u[,4],0.5)
+  h1=qbern(u[,5],0.5)
+  data = as.data.frame(cbind(y1,h1,x1,x2,x3))
   
   return(data)
 }
 dataGen4 <- function(N,cor){
   
-  M = matrix(c(1, cor, cor, cor,cor,
-               cor, 1, 0, 0,0,
-               cor, 0, 1, 0,0,
-               cor, 0, 0, 1,0,
-               cor, 0, 0, 0, 1), nrow=5, ncol=5)
+  M = matrix(c(1, cor, cor, cor,cor,0,
+               cor, 1, 0, 0,0,0,
+               cor, 0, 1, 0,0,0,
+               cor, 0, 0, 1,0,0,
+               cor, 0, 0, 0, 1,0,
+               0,0,0,0,0,1
+               ), nrow=6, ncol=6)
   L = chol(M)
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
   r = t(r)
   u <- pnorm(r)
   y1=r[,1]
-  x2=qbern(u[,2],0.5)
-  x3=qbern(u[,3],0.5)
-  x4=qbern(u[,4],0.5)
-  x5=qbern(u[,5],0.5)
-  x1<-rbinom(N,1,0.5)
-  data = as.data.frame(cbind(y1,x1,x2,x3,x4,x5))
+  x1=qbern(u[,2],0.5)
+  x2=qbern(u[,3],0.5)
+  x3=qbern(u[,4],0.5)
+  x4=qbern(u[,5],0.5)
+  h1=qbern(u[,6],0.5)
+  data = as.data.frame(cbind(y1,h1,x1,x2,x3,x4))
   
   return(data)
 }
 dataGen5 <- function(N,cor){
   
-  M = matrix(c(1, cor, cor, cor,cor,cor,
-               cor, 1, 0, 0, 0, 0,
-               cor, 0, 1, 0, 0, 0,
-               cor, 0, 0, 1, 0, 0,
-               cor, 0, 0, 0, 1, 0,
-               cor, 0, 0, 0, 0, 1), nrow=6, ncol=6)
-  L = chol(M)
-  nvars = dim(L)[1]
-  r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
-  r = t(r)
-  u <- pnorm(r)
-  y1=r[,1]
-  x2=qbern(u[,2],0.5)
-  x3=qbern(u[,3],0.5)
-  x4=qbern(u[,4],0.5)
-  x5=qbern(u[,5],0.5)
-  x6=qbern(u[,6],0.5)
-  x1<-rbinom(N,1,0.5)
-  data = as.data.frame(cbind(y1,x1,x2,x3,x4,x5,x6))
-  
-  return(data)
-}
-dataGen6 <- function(N,cor){
-  
-  M = matrix(c(1, cor, cor, cor,cor,cor,cor,
+  M = matrix(c(1, cor, cor, cor,cor,cor,0,
                cor, 1, 0, 0, 0, 0,0,
                cor, 0, 1, 0, 0, 0,0,
                cor, 0, 0, 1, 0, 0,0,
                cor, 0, 0, 0, 1, 0,0,
                cor, 0, 0, 0, 0, 1,0,
-               cor, 0, 0, 0, 0, 0,1), nrow=7, ncol=7)
+               0,0,0,0,0,0,1
+               ), nrow=7, ncol=7)
   L = chol(M)
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
   r = t(r)
   u <- pnorm(r)
   y1=r[,1]
-  x2=qbern(u[,2],0.5)
-  x3=qbern(u[,3],0.5)
-  x4=qbern(u[,4],0.5)
-  x5=qbern(u[,5],0.5)
-  x6=qbern(u[,6],0.5)
-  x7=qbern(u[,7],0.5)
-  x1<-rbinom(N,1,0.5)
-  data = as.data.frame(cbind(y1,x1,x2,x3,x4,x5,x6,x7))
+  x1=qbern(u[,2],0.5)
+  x2=qbern(u[,3],0.5)
+  x3=qbern(u[,4],0.5)
+  x4=qbern(u[,5],0.5)
+  x5=qbern(u[,6],0.5)
+  h1=qbern(u[,7],0.5)
+  data = as.data.frame(cbind(y1,h1,x1,x2,x3,x4,x5))
+  
   return(data)
 }
-dataGen7 <- function(N,cor){
+dataGen6 <- function(N,cor){
   
-  
-  M = matrix(c(1, cor, cor, cor,cor,cor,cor,cor,
+  M = matrix(c(1, cor, cor, cor,cor,cor,cor,0,
                cor, 1, 0, 0, 0, 0,0,0,
                cor, 0, 1, 0, 0, 0,0,0,
                cor, 0, 0, 1, 0, 0,0,0,
                cor, 0, 0, 0, 1, 0,0,0,
                cor, 0, 0, 0, 0, 1,0,0,
                cor, 0, 0, 0, 0, 0,1,0,
-               cor, 0, 0, 0, 0, 0, 0,1
-  ), nrow=8, ncol=8)
+               0,0,0,0,0,0,0,1
+               ), nrow=8, ncol=8)
   L = chol(M)
   nvars = dim(L)[1]
   r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
   r = t(r)
   u <- pnorm(r)
   y1=r[,1]
-  x2=qbern(u[,2],0.5)
-  x3=qbern(u[,3],0.5)
-  x4=qbern(u[,4],0.5)
-  x5=qbern(u[,5],0.5)
-  x6=qbern(u[,6],0.5)
-  x7=qbern(u[,7],0.5)
-  x8=qbern(u[,8],0.5)
-  x1<-rbinom(N,1,0.5)
-  data = as.data.frame(cbind(y1,x1,x2,x3,x4,x5,x6,x7,x8))
+  x1=qbern(u[,2],0.5)
+  x2=qbern(u[,3],0.5)
+  x3=qbern(u[,4],0.5)
+  x4=qbern(u[,5],0.5)
+  x5=qbern(u[,6],0.5)
+  x6=qbern(u[,7],0.5)
+  h1=qbern(u[,8],0.5)
+  data = as.data.frame(cbind(y1,h1,x1,x2,x3,x4,x5,x6))
+  return(data)
+}
+dataGen7 <- function(N,cor){
+  
+  
+  M = matrix(c(1, cor, cor, cor,cor,cor,cor,cor,0,
+               cor, 1, 0, 0, 0, 0,0,0,0,
+               cor, 0, 1, 0, 0, 0,0,0,0,
+               cor, 0, 0, 1, 0, 0,0,0,0,
+               cor, 0, 0, 0, 1, 0,0,0,0,
+               cor, 0, 0, 0, 0, 1,0,0,0,
+               cor, 0, 0, 0, 0, 0,1,0,0,
+               cor, 0, 0, 0, 0, 0, 0,1,0,
+               0,0,0,0,0,0,0,0,1
+  ), nrow=9, ncol=9)
+  L = chol(M)
+  nvars = dim(L)[1]
+  r = t(L) %*% matrix(rnorm(nvars*N), nrow=nvars, ncol=N)
+  r = t(r)
+  u <- pnorm(r)
+  y1=r[,1]
+  x1=qbern(u[,2],0.5)
+  x2=qbern(u[,3],0.5)
+  x3=qbern(u[,4],0.5)
+  x4=qbern(u[,5],0.5)
+  x5=qbern(u[,6],0.5)
+  x6=qbern(u[,7],0.5)
+  x7=qbern(u[,8],0.5)
+  h1=qbern(u[,9],0.5)
+  data = as.data.frame(cbind(y1,h1,x1,x2,x3,x4,x5,x6,x7))
   return(data)
 }

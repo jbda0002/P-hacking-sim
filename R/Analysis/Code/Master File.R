@@ -33,33 +33,31 @@ library(foreach)
 sample = c(50,100,150)
 
 ## Setting the number of repretetion
-rep=200
+rep=40
 ## Setting the correlation between dependent and independent 
 per=0.2
 
 
 
-## Loading the outlier Functions used in P-hacking function
-source("Analysis/Code/Outlier Analysis.R")
 
 ## Loading the P-Hacking function
-source("Analysis/Code/phackingFunction_v2-0.R")
+source(here::here("phackingFunction_v2-0.R"))
 
 ## Making the list for the Normal Data
-source("Analysis/Code/Data Generation Normal.R")
-DataGenListNorm <- list(dataGen2,dataGen3,dataGen4)
+source("Data Generation Normal.R")
+DataGenListNorm <- list(dataGen1,dataGen2,dataGen3,dataGen4)
 
 ## Making the list for the Bin Data
-source("Analysis/Code/Data Generation Bin.R")
-DataGenListBin <- list(dataGen2,dataGen3,dataGen4)
+source("Data Generation Bin.R")
+DataGenListBin <- list(dataGen1,dataGen2,dataGen3,dataGen4)
 
 ## Making the list for the Bin Data
-source("Analysis/Code/Data Generation BinNormal.R")
-DataGenListBinNorm <- list(dataGen2,dataGen3,dataGen4)
+source("Data Generation BinNormal.R")
+DataGenListBinNorm <- list(dataGen1,dataGen2,dataGen3,dataGen4)
 
 ## Making the list for the Bin Data
-source("Analysis/Code/Data Generation NormalBin.R")
-DataGenListNormBin <- list(dataGen2,dataGen3,dataGen4)
+source("Data Generation NormalBin.R")
+DataGenListNormBin <- list(dataGen1,dataGen2,dataGen3,dataGen4)
 
 
 #### Run the simulation ####
@@ -80,8 +78,8 @@ finalresult<-list(finalresultNorm=c(),finalresultBin=c(),finalresultNormBin=c(),
 DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=DataGenListBinNorm)
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(20)
-clusterExport(cl,c("DataGen","sample","condIn","condSD"))
+cl <- makeSOCKcluster(7)
+#clusterExport(cl,c("DataGen","sample","condIn","condSD"))
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
 
@@ -96,17 +94,19 @@ results<-
   foreach(h=1:length(P2),.combine=rbind, .inorder=FALSE) %:%
   foreach(l=1:length(P3),.combine=rbind, .inorder=FALSE) %:%
   foreach(g=1:length(sample),.combine=rbind, .inorder=FALSE) %:%
-  foreach(i=1:length(DataGen),.combine=rbind, .inorder=FALSE) %:%
-  foreach(j=1:length(DataGen[[i]]),.combine=rbind,.packages=c("plyr","statip"),.options.snow=opts, .inorder=FALSE) %dopar% {
+  foreach(i=1:length(DataGen),.combine=rbind, .inorder=F) %:%
+  foreach(j=1:length(DataGen[[i]]),.combine=rbind,.packages=c("plyr","statip","data.table"),.options.snow = opts, .inorder=FALSE) %dopar% {
     f = function() {
       
-      x<-(replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],per),"y1","x1",Power_2 =P2[[h]],SD=condSD[[k]],Power_12 = P2[[h]],Power_3 = P3[[l]])))
+      x<-(replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],per),"y1","h1",Power_2 =P2[[h]],SD=condSD[[k]],Power_3 = P3[[l]])))
       Stats<-t(c(mean(x),(sd(x)/sqrt(length(x)))))
       Stats
       
     }
     data.frame(f(),Power2=h,Power3=l,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]])
   }
+
+
 
 
 results<-as.data.frame(results)
