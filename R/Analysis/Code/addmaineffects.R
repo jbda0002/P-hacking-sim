@@ -9,19 +9,18 @@ InterceptMain <-
     loop = sapply(Test, function(y)
       grep(y, formula, invert = T))
     
+    loop[sapply(loop, function(x) length(x)==0)] <- NULL
+    
     ## Add the covariate
     Form = unlist(
-      mapply(x = loop, y = 1:length(Test), function(x, y)
+      mapply(x = loop, y = 1:(length(Test)-1), function(x, y)
         paste(formula[x], "+", Test[y])),
       recursive = F,
       use.names = F
     )
     
     
-    Form = gsub("\\|", " + ", Form)
-    
-    ## Only save the once that have a whole function
-    FoirmulasInC = Form[grep("~", Form)]
+    FoirmulasInC = gsub("\\|", " + ", Form)
     
     return(FoirmulasInC)
   }

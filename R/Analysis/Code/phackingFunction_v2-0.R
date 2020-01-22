@@ -15,9 +15,6 @@
 
 
 ### Function that are being used in the function. 
-## Sonja: I'm not sure where to have these in all this. I'm looking into making more functions in the other parts as well
-## I haven't figured out the factor part yet, but sure it will come :) - mainly how to extract the p-values without that the code becomes really long
-
  source(here::here("remove_outliers_sd.R")) 
  source(here::here("remove_outliers_range.R"))
  source(here::here("pvaluecapture.R"))
@@ -57,22 +54,6 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
   Cols <- Cols[! Cols %in% c(y,H_1)] 
   n <- length(Cols)
   
-  #Making objects for saving model versions. RModelI has the dimensions that is needed to collect all the p-values
-  ModelName = NULL
-  
-  ## If h1 is a factor, then the placeholer for the interaction must be changed
-  if(sapply(data[grep(H_1, colnames(data))], is.factor)==TRUE){ 
-  
-    level=sapply(data[grep(H_1, colnames(data))], nlevels)-1 
-    RModelI = as.data.frame(matrix(0, ncol = n*level, nrow = 0))
-    RModelF=as.data.frame(matrix(0, ncol = level, nrow = 0))
-  }
-  
-  if(sapply(data[grep(H_1, colnames(data))], is.factor)==F){ 
-   
-    RModelI = as.data.frame(matrix(0, ncol = n, nrow = 0))
-    RModelF = NULL
-  }
   #Making different combinations of the variables
   Combin <- unlist(
     lapply(1:n, function(i)combn(1:n,i,simplify=FALSE)), recursive=FALSE)
@@ -135,6 +116,8 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
     print("Power_3 has been set to TRUE") ## Change wording
   }
   
+  ## This is needed if there is only one covariate
+  FoirmulasInC=NULL
   
   if(Main==TRUE){
  
@@ -157,8 +140,9 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
       
       ## Adding the main effects where it is possible
       
+      if(length(n)>1){
       FoirmulasInC<-InterceptMain(Combin,Cols,FormulasIN)
-      
+      }
       ## Combine Power(1+2) with Power(1) and Power(2)
       Formulas=c(Power1,FormulasIN,FoirmulasInC)
       Power12=FoirmulasInC
@@ -189,8 +173,9 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
         paste0(start,paste0(Twoway_2[i],collapse=" + ")))
       
       ## Adding the main effects where it is possible
+      if(length(n)>1){
       FoirmulasInC<-InterceptMain(Combin,Cols,Power3)
-      
+      }
       ## Combine Power(1+3) with Power(1) and Power(3)
       Formulas=c(Power1,Power3,FoirmulasInC)
       Power13=c(Power3,FoirmulasInC)
@@ -238,8 +223,9 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
       FormulasIN=apply(Power23, 1, paste0, collapse=" + ")
       
       ## Adding the main effects where it is possible
+      if(length(n)>1){
       FoirmulasInC<-InterceptMain(Combin,Cols,FormulasIN)
-      
+      }
       ## Combine Power(1+2) with Power(1) and Power(2)
       if(Power_12==TRUE & Power_13==TRUE){
         Formulas=c(Power1,Power2,Power13,FormulasIN,FoirmulasInC,Power12)
@@ -439,55 +425,8 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
     lm(as.formula(i),data=data))
   
   
-  #Collecting the p-values
-  
-  for(i in 1:length(models)){
-    
-    
-    #Finding the name of the model
-    mod<-Formulas[[i]]
-    ModelName<-rbind(mod,ModelName)
-    
-    #Collecting the p-value
-    coef <-summary(models[[i]])$coefficients
-    p_h_1<-coef[2,4] 
-    RModelF<-rbind(p_h_1,RModelF)
-    
-    #Make a holder for the p-values
-    holder<-as.data.frame(matrix(NA, ncol = n, nrow = 1))
-    
-    #See if ther interaction with H_1 becomes significant
-    if(Main==TRUE){
-      if(grepl("*",mod, fixed=TRUE)==TRUE){
-        
-        holder<-pvaluecapture(coef,holder,H_1)
-      }
-    }
-    if(Main==FALSE){  
-      Int<-paste(H_1,":",sep = "")
-      
-      if(grepl(Int,mod, fixed=TRUE)==TRUE){
-        holder<-pvaluecapture(coef,holder,H_1)
-      }
-    }
-    RModelI<-rbind(holder,RModelI)
-  }
-  
-  
   #Combine all the p-values
-  TheModels<-cbind(ModelName,RModelF,RModelI)
-
-  
-  #Make a variable to indicate that there are nothing from the data removed
-  TheModels$Outlier<-"Non removed"
-  
-  # Clean out the holders for the result 
-  RModelF = NULL
-  RModelI = NULL
-  ModelName =NULL
-  Outlier= NULL
-  
-  
+  TheModels<-pvaluemain(models,Formulas,"None removed",SD=F,Main,H_1)
   
   if(SD==TRUE){
     for(j in 1:length(dataoutlier)){
@@ -495,56 +434,31 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
       ## Run all the models with the different data
       models_out<-lapply(Formulas,function(i)
         lm(as.formula(i),data=dataoutlier[[j]]))
-      for(i in 1:length(models_out)){
-        
-        
-        #Finding the name of the model
-        mod<-Formulas[[i]]
-        ModelName<-rbind(mod,ModelName)
-        
-        ## Make the variable to indicate which outlier criteria 
-        Outlier<-rbind(j,Outlier)
-        
-        #Collecting the p-value
-        coef <-summary(models_out[[i]])$coefficients
-        p_h_1<-coef[2,4] 
-        RModelF<-rbind(p_h_1,RModelF)
-        
-        #Make a holder for the p-values
-        holder<-as.data.frame(matrix(NA, ncol = n, nrow = 1))
-        
-        #See if ther interaction with H_1 becomes significant
-        if(Main==TRUE){
-          if(grepl("*",mod, fixed=TRUE)==TRUE){
-            holder<-pvaluecapture(coef,holder,H_1)
-          }
-        }
-        if(Main==FALSE){
-          Int<-paste(H_1,":",sep = "")
-          if(grepl(Int,mod, fixed=TRUE)==TRUE){
-            holder<-pvaluecapture(coef,holder,H_1)
-          }
-        }
-        RModelI<-rbind(holder,RModelI)
-      }
+      
+      TheModelsoutlier=pvaluemain(models_out,Formulas,j,SD=T,Main,H_1)
+      
+      TheModels<-rbind(TheModelsoutlier,TheModels)
     }
-    TheModels_outlier<-cbind(ModelName,RModelF,RModelI,Outlier)
     
-    
-    #Combine the 2 datastets
-    TheModels<-rbind(TheModels_outlier,TheModels)
-  }
-  
+    }
   
   #Order the models if one wants all the models out in the end
   TheModels<-as.data.table(TheModels)
   TheModels<- TheModels[with(TheModels, order(RModelF)), ]
   
-  ##Change the name of the data.frame
-  names<-c("Model","Main effect",paste("Interaction",1:n,sep = " "),"Outlier")
-  names(TheModels)<-names
+  # Delete column if only NA
+  TheModels=TheModels %>% select_if(~sum(!is.na(.)) > 0)
   
-  Models<-TheModels[apply(TheModels[, 2:ncol(TheModels)] <= pvalue, 1, any, na.rm=TRUE), ]
+  ##Change the name of the data.frame
+  
+  if(length(TheModels)>3){
+  names<-c("Model","Main effect",paste("Interaction",1:n,sep = " "),"Outlier") ## If there is no interactions then it will come with an error since names are too long
+  names(TheModels)<-names
+  }
+  
+
+  
+  Models<-TheModels[apply(TheModels[, 2:(ncol(TheModels)-1)] <= pvalue, 1, any, na.rm=TRUE), ]
   
   
   ## This part is only for the simulation
