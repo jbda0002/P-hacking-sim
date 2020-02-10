@@ -60,6 +60,14 @@ DataGenListBinNorm <- list(dataGen3)
 source("Data Generation NormalBin.R")
 DataGenListNormBin <- list(dataGen3)
 
+## Making the list for the Bin Data with effect coding
+source("Data Generation Bin effect coding_v2-0.R")
+DataGenListBin <- list(dataGen3)
+
+## Making the list for the Bin Data with effect coding
+source("Data Generation BinNormal effect coding_v2-0.R")
+DataGenListBinNorm <- list(dataGen3)
+
 
 #### Run the simulation ####
 
@@ -79,7 +87,7 @@ condMain<-c("TRUE","FALSE")
 ## Collecting the different datatypes in one list
 #DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=DataGenListBinNorm)
 
-DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin)
+DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListBinEffect)
 
 ## Choosing how many workers there should be used
 cl <- makeSOCKcluster(20)
@@ -271,8 +279,8 @@ figureonedata$Main[figureonedata$Main==1]<-"Main = TRUE"
 figureonedata$Main[figureonedata$Main==2]<-"Main = FALSE"
 figureonedata$Type[figureonedata$Type==1]<-"h1=Normal, Co=Normal"
 figureonedata$Type[figureonedata$Type==2]<-"h1=Binary, Co=Binary"
-figureonedata$Type[figureonedata$Type==3]<-"h1=Normal, Co=Binary"
-figureonedata$Type[figureonedata$Type==4]<-"h1=Binary, Co=Normal"
+figureonedata$Type[figureonedata$Type==3]<-"h1=Binary, Co=Binary Effect Coding"
+
 
 figureonedata$Set <- factor(figureonedata$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
 figureonedata$Pr<-as.numeric(figureonedata$Pr)
@@ -294,8 +302,7 @@ figuretwodata$Main[figuretwodata$Main==1]<-"Main = TRUE"
 figuretwodata$Main[figuretwodata$Main==2]<-"Main = FALSE"
 figuretwodata$Type[figuretwodata$Type==1]<-"h1=Normal, Co=Normal"
 figuretwodata$Type[figuretwodata$Type==2]<-"h1=Binary, Co=Binary"
-figuretwodata$Type[figuretwodata$Type==3]<-"h1=Normal, Co=Binary"
-figuretwodata$Type[figuretwodata$Type==4]<-"h1=Binary, Co=Normal"
+figureonedata$Type[figureonedata$Type==3]<-"h1=Binary, Co=Binary Effect Coding"
 figuretwodata$OutlierExclusion[figuretwodata$OutlierExclusion==1]<-"TRUE"
 figuretwodata$OutlierExclusion[figuretwodata$OutlierExclusion==2]<-"FALSE"
 
@@ -328,8 +335,7 @@ figurethreedata$Main[figurethreedata$Main==1]<-"Main = TRUE"
 figurethreedata$Main[figurethreedata$Main==2]<-"Main = FALSE"
 figurethreedata$Type[figurethreedata$Type==1]<-"h1=Normal, Co=Normal"
 figurethreedata$Type[figurethreedata$Type==2]<-"h1=Binary, Co=Binary"
-figurethreedata$Type[figurethreedata$Type==3]<-"h1=Normal, Co=Binary"
-figurethreedata$Type[figurethreedata$Type==4]<-"h1=Binary, Co=Normal"
+figureonedata$Type[figureonedata$Type==3]<-"h1=Binary, Co=Binary Effect Coding"
 
 
 figurethreedata$Set <- factor(figurethreedata$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
