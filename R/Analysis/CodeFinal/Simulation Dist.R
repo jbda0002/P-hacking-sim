@@ -1,11 +1,5 @@
 ### Master file Dist 2.0###
 
-
-## Code for p-hacking and simulation
-## This code has both a function that can look at interactionterms, multiple dependt variables and there average
-## and different "outlier" criterias. These interactions are only with one other variable, 
-## but can be generalized such that it takes all interactions but the modelset will explode exponentially
-
 #### Setting up the simulation ####
 ## Setting working directory
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
@@ -107,7 +101,7 @@ resultsMTDist<-
   foreach(j=1:length(DataGen[[i]]),.combine=rbind,.packages=c("plyr","statip","data.table","BinNor","dplyr"), .inorder=FALSE) %dopar% {
     f = function() {
       
-      phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",Power_12 =P2[[h]],SD=condSD[[k]],Power_13 = P3[[l]],Main = T,Per = TRUE)
+      phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = T,Per = TRUE)
     
       
     }
@@ -116,7 +110,7 @@ resultsMTDist<-
     if(h==2 & l==2){
       f = function() {
         
-        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",SD=condSD[[k]],Power_123 = T,Main = T,Per = TRUE)
+        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = T,Per = TRUE)
        
         
       }
@@ -166,7 +160,7 @@ resultsMFDist<-
   foreach(j=1:length(DataGen[[i]]),.combine=rbind,.packages=c("plyr","statip","data.table","BinNor"), .inorder=FALSE) %dopar% {
     f = function() {
       
-   phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",Power_2 =P2[[h]],SD=condSD[[k]],Power_3 = P3[[l]],Main = F,Per = TRUE)
+   phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",HCI =P2[[h]],outlierexclusion=condSD[[k]],CCI = P3[[l]],Main = F,Per = TRUE)
   
       
     }
@@ -174,7 +168,7 @@ resultsMFDist<-
     if(h!=2 | l!=2){
     f = function() {
       
-      phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",Power_12 =P2[[h]],SD=condSD[[k]],Power_13 = P3[[l]],Main = F,Per = TRUE)
+      phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = F,Per = TRUE)
   
       
     }
@@ -191,14 +185,14 @@ resultsMFDist<-
     if(h==2 & l==2){
       f = function() {
         
-       phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",SD=condSD[[k]],Power_123 = T,Main = F,Per = TRUE)
+       phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = F,Per = TRUE)
      
         
       }
       data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
       f=function(){
-        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",SD=condSD[[k]],Power_23 = T,Main = F,Per = TRUE)
+        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],HCI_CCI = T,Main = F,Per = TRUE)
       
       }
       data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
