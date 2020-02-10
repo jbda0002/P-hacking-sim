@@ -2,9 +2,6 @@
 
 
 ## Code for p-hacking and simulation
-## This code has both a function that can look at interactionterms, multiple dependt variables and there average
-## and different "outlier" criterias. These interactions are only with one other variable, 
-## but can be generalized such that it takes all interactions but the modelset will explode exponentially
 
 #### Setting up the simulation ####
 ## Setting working directory
@@ -108,7 +105,7 @@ resultsMT<-
     ## Simulation for set: Ma, Ma + HCI and Ma + CCI
      f = function() {
       
-      x<-replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",Power_12 =P2[[h]],SD=condSD[[k]],Power_13 = P3[[l]],Main = T))
+      x<-replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = T))
       Stats<-t(c(mean(x),(sd(x)/sqrt(length(x)))))
       Stats
       
@@ -117,7 +114,7 @@ resultsMT<-
     if(h==2 & l==2){
       u = function() {
         
-        x<-replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",SD=condSD[[k]],Power_123 = T,Main = T))
+        x<-replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = T))
         Stats<-t(c(mean(x),(sd(x)/sqrt(length(x)))))
        
         Stats
@@ -168,7 +165,7 @@ resultsMF<-
     ## Simulation for set: MA, HCI and CCI
     f = function() {
       
-      x<-replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",Power_2 =P2[[h]],SD=condSD[[k]],Power_3 = P3[[l]],Main = F))
+      x<-replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",HCI =P2[[h]],outlierexclusion=condSD[[k]],CCI = P3[[l]],Main = F))
       Stats<-t(c(mean(x),(sd(x)/sqrt(length(x)))))
       Stats
       
@@ -179,7 +176,7 @@ resultsMF<-
     if(h!=2 | l!=2){
     u = function() {
       
-      x<-replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",Power_12 =P2[[h]],SD=condSD[[k]],Power_13 = P3[[l]],Main = F))
+      x<-replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = F))
       Stats<-t(c(mean(x),(sd(x)/sqrt(length(x)))))
       Stats
       
@@ -201,14 +198,14 @@ resultsMF<-
      if(h==2 & l==2){
       u = function() {
         
-        x<-replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",SD=condSD[[k]],Power_123 = T,Main = F))
+        x<-replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = F))
         Stats<-t(c(mean(x),(sd(x)/sqrt(length(x)))))
         
         return(Stats)
         
       }
       b=function(){
-        x<-replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",SD=condSD[[k]],Power_23 = T,Main = F))
+        x<-replicate(rep, phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],HCI_CCI = T,Main = F))
         Stats<-t(c(mean(x),(sd(x)/sqrt(length(x)))))
         return(Stats)
       }

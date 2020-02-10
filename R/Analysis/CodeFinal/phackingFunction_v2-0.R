@@ -1,4 +1,3 @@
-
 ### P-hacking function ###
 ## This function has the ability to p-hack data with the help of the research degrees of freedom described in 
 ## Christensen, J. D., Orquin, J. L., Perkovic, S., Lagerkvist, C. J.,
@@ -6,29 +5,29 @@
 ## The different options:
 ## Inserting multiple dependent variables the function wil test of all them including the average of them
 ## Setting Main = False: This will allow models where there are interaction terms without the corresponding main effect
-## Power_12 = TRUE: This gives you the combination of Power(1)+Power(1+2) 
-## Power_2 = TRUE: This can only be used if Main = FALSE, this gives the models in Power(2). If TRUE and Main = TRUE it will give you the same as Power_12=TRUE
-## Power_13 = TRUE: This gives the combinations in Power(1+3)
-## Power_3 = TRUE: This gives Power(3) if Main=FALSE otherwise it will give the same as Power_13=TRUE
-## Power_23 = TRUE: This gives you Power(2+3). This is however only possible if Main = FALSE
-## Power_123 = TRUE: Gives you the models in Power(1+2+3). Using this will explode the model set. 
-## SD = TRUE: Uses four different outlier criteria
+## Ma_HCI = TRUE: This gives you the combination of Power(1)+Power(1+2) 
+## HCI = TRUE: This can only be used if Main = FALSE, this gives the models in Power(2). If TRUE and Main = TRUE it will give you the same as Ma_HCI=TRUE
+## Ma_CCI = TRUE: This gives the combinations in Power(1+3)
+## CCI = TRUE: This gives Power(3) if Main=FALSE otherwise it will give the same as Ma_CCI=TRUE
+## HCI_CCI = TRUE: This gives you Power(2+3). This is however only possible if Main = FALSE
+## Ma_HCI_CCI = TRUE: Gives you the models in Power(1+2+3). Using this will explode the model set. 
+## outlierexclusion = TRUE: Uses four different outlier criteria
 
 
 ### Function that are being used in the function. 
- source(("remove_outliers_sd.R")) 
- source(("remove_outliers_range.R"))
- source(("pvaluecapture.R"))
- source(("addmaineffects.R"))
+ source(here::here("remove_outliers_sd.R")) 
+ source(here::here("remove_outliers_range.R"))
+ source(here::here("pvaluecapture.R"))
+ source(here::here("addmaineffects.R"))
 
-phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FALSE, Power_13=FALSE
-                           ,Power_23=FALSE,Power_123=FALSE
-                           ,SD=FALSE,Per=FALSE,Main=TRUE,pvalue=0.05){
+phackingFunction<-function(data,y,H_1,HCI = FALSE,CCI=FALSE,Ma_HCI=FALSE, Ma_CCI=FALSE
+                           ,HCI_CCI=FALSE,Ma_HCI_CCI=FALSE
+                           ,outlierexclusion=FALSE,Per=FALSE,Main=TRUE,pvalue=0.05){
 
     library(dplyr)
-  ## delete outliers if SD = TRUE 
+  ## delete outliers if outlierexclusion = TRUE 
   
-  if(SD==TRUE){
+  if(outlierexclusion==TRUE){
     
     #### Does this on individual variables or maybe aggegated like now but on the H_1
     #comment 1
@@ -70,7 +69,7 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
     data$yavg <-
       1 / length(y) * rowSums(data[1:length(y)]) #double check that it outputs correct result
     
-    if (SD == TRUE) {
+    if (outlierexclusion == TRUE) {
       for (j in 1:length(dataoutlier)) {
         dataoutlier[[j]] <- dataoutlier[[j]][c(y, H_1, Cols)]
         dataoutlier[[j]]$yavg <-
@@ -96,25 +95,25 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
   ## Make all the regressions without interaction terms. 
   Formulas=sapply(Combin,function(i)
     paste(start,paste(Cols[i],collapse=" + "))) 
-  Power1=Formulas 
+  Ma=Formulas 
   
-  if(Power_2==TRUE & Main == TRUE){
-    Power_12=TRUE
+  if(HCI==TRUE & Main == TRUE){
+    Ma_HCI=TRUE
   }
   
-  if(Power_3==TRUE & Main == TRUE){
-    Power_13=TRUE
+  if(CCI==TRUE & Main == TRUE){
+    Ma_CCI=TRUE
   }
   
   
-  if(Power_12==TRUE & Power_2==F & Main == F){
-    Power_2=TRUE
-    print("Power_2 has been set to TRUE") ## Change wording
+  if(Ma_HCI==TRUE & HCI==F & Main == F){
+    HCI=TRUE
+    print("HCI has been set to TRUE") ## Change wording
   }
   
-  if(Power_13==TRUE & Power_3==F & Main == F){
-    Power_3=TRUE
-    print("Power_3 has been set to TRUE") ## Change wording
+  if(Ma_CCI==TRUE & CCI==F & Main == F){
+    CCI=TRUE
+    print("CCI has been set to TRUE") ## Change wording
   }
   
   ## This is needed if there is only one covariate
@@ -122,8 +121,8 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
   
   if(Main==TRUE){
  
-    if(Power_12==TRUE){
-      ## This is Power(1) and Power(2)
+    if(Ma_HCI==TRUE){
+      ## This is Ma and HCI
       #Starting of interaction term
       CombinInter <- unlist(
         lapply(1, function(i)combn(1:n,i,simplify=FALSE)), recursive=FALSE)
@@ -145,13 +144,13 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
       FoirmulasInC<-InterceptMain(Combin,Cols,FormulasIN)
       }
       ## Combine Power(1+2) with Power(1) and Power(2)
-      Formulas=c(Power1,FormulasIN,FoirmulasInC)
+      Formulas=c(Ma,FormulasIN,FoirmulasInC)
       Power12=FoirmulasInC
       
       Power2=FormulasIN
       
     }
-    if(Power_13==TRUE){
+    if(Ma_CCI==TRUE){
       ## Make Power(3) to put together with Power(1) and Power(2)
       
       #Make all the combinations of two-way interactions
@@ -178,18 +177,18 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
       FoirmulasInC<-InterceptMain(Combin,Cols,Power3)
       }
       ## Combine Power(1+3) with Power(1) and Power(3)
-      Formulas=c(Power1,Power3,FoirmulasInC)
+      Formulas=c(Ma,Power3,FoirmulasInC)
       Power13=c(Power3,FoirmulasInC)
       
       
-      if(Power_12==TRUE){
-        Formulas=c(Power1,Power2,Power12,Power13)
+      if(Ma_HCI==TRUE){
+        Formulas=c(Ma,Power2,Power12,Power13)
       }
       else{
-        Formulas=c(Power1,Power13)
+        Formulas=c(Ma,Power13)
       }
     }
-    if(Power_123==TRUE){
+    if(Ma_HCI_CCI==TRUE){
      
        CombinInter <- unlist(
         lapply(1, function(i)combn(1:n,i,simplify=FALSE)), recursive=FALSE)
@@ -228,17 +227,17 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
       FoirmulasInC<-InterceptMain(Combin,Cols,FormulasIN)
       }
       ## Combine Power(1+2) with Power(1) and Power(2)
-      if(Power_12==TRUE & Power_13==TRUE){
-        Formulas=c(Power1,Power2,Power13,FormulasIN,FoirmulasInC,Power12)
+      if(Ma_HCI==TRUE & Ma_CCI==TRUE){
+        Formulas=c(Ma,Power2,Power13,FormulasIN,FoirmulasInC,Power12)
       }
-      if(Power_12==FALSE & Power_13==TRUE){
-        Formulas=c(Power1,Power13,FormulasIN,FoirmulasInC)
+      if(Ma_HCI==FALSE & Ma_CCI==TRUE){
+        Formulas=c(Ma,Power13,FormulasIN,FoirmulasInC)
       }
-      if(Power_12==TRUE & Power_13==FALSE){
-        Formulas=c(Power1,Power2,FormulasIN,FoirmulasInC,Power12)
+      if(Ma_HCI==TRUE & Ma_CCI==FALSE){
+        Formulas=c(Ma,Power2,FormulasIN,FoirmulasInC,Power12)
       }
-      if(Power_12==FALSE & Power_13==FALSE){
-        Formulas=c(Power1,FormulasIN,FoirmulasInC)
+      if(Ma_HCI==FALSE & Ma_CCI==FALSE){
+        Formulas=c(Ma,FormulasIN,FoirmulasInC)
       }
       
       Power123=c(FormulasIN,FoirmulasInC)
@@ -248,7 +247,7 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
   }
   else{
     
-    if(Power_2==TRUE){
+    if(HCI==TRUE){
       ## This is Power(1) and Power(2)
       #Starting of interaction term
       CombinInter <- unlist(
@@ -266,7 +265,7 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
         paste0(start,paste0(Interactions[i],collapse=" + ")))
       Power2=FormulasIN
       
-      if(Power_12==TRUE){
+      if(Ma_HCI==TRUE){
         # Make all combinations of the two-way interactions
         Interactions2 <- unlist(
           lapply(1:length(Interactions), function(i)combn(1:length(Interactions),i,simplify=FALSE)), recursive=FALSE)
@@ -276,17 +275,17 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
           paste0(paste0(Interactions[i],collapse=" + ")))
         
         
-        FormulasIN12=expand.grid(Power1,Interactions_2)
+        FormulasIN12=expand.grid(Ma,Interactions_2)
         Power12=apply(FormulasIN12, 1, paste0, collapse=" + ") 
         
         
-        Formulas=c(Power12,Power2,Power1)
+        Formulas=c(Power12,Power2,Ma)
       }
       else{
-        Formulas=c(Power1,Power2)
+        Formulas=c(Ma,Power2)
       }
     }
-    if(Power_3==TRUE){
+    if(CCI==TRUE){
       ## Make Power(3) to put together with Power(1) 
       
       #Make all the combinations of two-way interactions
@@ -307,21 +306,21 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
       Power3=sapply(CombinTwo_2,function(i)
         paste0(start,paste0(Twoway_2[i],collapse=" + ")))
       
-      if(Power_13==TRUE){
-        FormulasIN13=expand.grid(Power1,Twoway_2)
+      if(Ma_CCI==TRUE){
+        FormulasIN13=expand.grid(Ma,Twoway_2)
         Power13=apply(FormulasIN13, 1, paste0, collapse=" + ") 
       }
       
       
-      if(Power_13==TRUE){
+      if(Ma_CCI==TRUE){
         Formulas=c(Formulas,Power3,Power13)
       }
-      if(Power_13==FALSE){
+      if(Ma_CCI==FALSE){
         Formulas=c(Formulas,Power3)
       }
 
     }
-    if(Power_23==TRUE){
+    if(HCI_CCI==TRUE){
       #Make all the combinations of two-way interactions
       CombinTwo <- unlist(
         lapply(2, function(i)combn(1:n,i,simplify=FALSE)), recursive=FALSE)
@@ -367,7 +366,7 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
       
       Formulas<-c(Formulas,Power23)
     }
-    if(Power_123==TRUE){
+    if(Ma_HCI_CCI==TRUE){
       
       #Make all the combinations of two-way interactions
       CombinTwo <- unlist(
@@ -411,7 +410,7 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
       Formulas23=apply(Power23, 1, paste0, collapse=" + ")
 
       Power23=paste0(start, Formulas23, sep="")
-      Power123=expand.grid(Power1,Formulas23)
+      Power123=expand.grid(Ma,Formulas23)
       
         Formulas=c(apply(Power123, 1, paste0, collapse=" + "),Formulas)
 
@@ -427,16 +426,16 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
   
   
   #Combine all the p-values
-  TheModels<-pvaluemain(models,Formulas,"None removed",SD=F,Main,H_1)
+  TheModels<-pvaluemain(models,Formulas,"None removed",outlierexclusion=F,Main,H_1)
   
-  if(SD==TRUE){
+  if(outlierexclusion==TRUE){
     for(j in 1:length(dataoutlier)){
       
       ## Run all the models with the different data
       models_out<-lapply(Formulas,function(i)
         lm(as.formula(i),data=dataoutlier[[j]]))
       
-      TheModelsoutlier=pvaluemain(models_out,Formulas,j,SD=T,Main,H_1)
+      TheModelsoutlier=pvaluemain(models_out,Formulas,j,outlierexclusion=T,Main,H_1)
       
       TheModels<-rbind(TheModelsoutlier,TheModels)
     }
@@ -447,7 +446,16 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
   TheModels<-as.data.table(TheModels)
   TheModels<- TheModels[with(TheModels, order(RModelF)), ]
   
-
+  # Delete column if only NA
+  TheModels=TheModels %>% select_if(~sum(!is.na(.)) > 0)
+  
+  ##Change the name of the data.frame
+  
+  if(length(TheModels)>3){
+  names<-c("Model","Main effect",paste("Interaction",1:n,sep = " "),"Outlier") ## If there is no interactions then it will come with an error since names are too long
+  names(TheModels)<-names
+  }
+  
 
   
   Models<-TheModels[apply(TheModels[, 2:(ncol(TheModels)-1)] <= pvalue, 1, any, na.rm=TRUE), ]
@@ -462,6 +470,5 @@ phackingFunction<-function(data,y,H_1,Power_2 = FALSE,Power_3=FALSE,Power_12=FAL
   }
   
   
-  return(res)
+  return(TheModels)
 }
-
