@@ -1,5 +1,5 @@
 ### Master file ###
-
+library(here)
 
 ## Code for p-hacking and simulation
 
@@ -22,17 +22,17 @@ library(tcltk)
 library(parallel)
 library(doParallel)
 library(foreach)
-library(here)
+
 
 
 
 ##### Things that can be changed in the simulation
 
 ## Selecting the sample sizes that should be used
-sample = c(100,150,200,250,300)
+sample = c(100,150)
 
 ## Setting the number of repretetion
-rep=2000
+rep=10
 ## Setting the correlation between dependent and independent 
 corr=c(0.2,0.3,0.4)
 
@@ -40,33 +40,33 @@ corr=c(0.2,0.3,0.4)
 
 
 ## Loading the P-Hacking function
-source("phackingFunction_v2-0.R")
+source(here::here("CodeFinal","phackingFunction_v2-0.R"))
 
 
 ### Here it is added how many covariates there should be in the simulation
 ## Making the list for the Normal Data
-source("Data Generation Normal.R")
-DataGenListNorm <- list(dataGen3)
+source(here::here("CodeFinal","Data","Data Generation Normal.R"))
+DataGenListNorm <- list(dataGen2,dataGen3,dataGen4)
 
 ## Making the list for the Bin Data
-source("Data Generation Bin_v2-0.R")
-DataGenListBin <- list(dataGen3)
+source(here::here("CodeFinal","Data","Data Generation Bin_v2-0.R"))
+DataGenListBin <- list(dataGen2,dataGen3,dataGen4)
 
 ## Making the list for the Bin Data
-source("Data Generation BinNormal_v2-0.R")
-DataGenListBinNorm <- list(dataGen3)
+source(here::here("CodeFinal","Data","Data Generation BinNormal_v2-0.R"))
+DataGenListBinNorm <- list(dataGen2,dataGen3,dataGen4)
 
 ## Making the list for the Bin Data
-source("Data Generation NormalBin.R")
-DataGenListNormBin <- list(dataGen3)
+source(here::here("CodeFinal","Data","Data Generation NormalBin.R"))
+DataGenListNormBin <- list(dataGen2,dataGen3,dataGen4)
 
 ## Making the list for the Bin Data with effect coding
-source("Data Generation Bin effect coding_v2-0.R")
-DataGenListBin <- list(dataGen3)
+source(here::here("CodeFinal","Data","Data Generation Bin effect coding_v2-0.R"))
+DataGenListBinEffect <- list(dataGen2,dataGen3,dataGen4)
 
 ## Making the list for the Bin Data with effect coding
-source("Data Generation BinNormal effect coding_v2-0.R")
-DataGenListBinNorm <- list(dataGen3)
+source(here::here("CodeFinal","Data","Data Generation BinNormal effect coding_v2-0.R"))
+DataGenListBinNormEffect <- list(dataGen2,dataGen3,dataGen4)
 
 
 #### Run the simulation ####
@@ -85,9 +85,7 @@ condMain<-c("TRUE","FALSE")
 #### Simulation for Main =T ####
 
 ## Collecting the different datatypes in one list
-#DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=DataGenListBinNorm)
-
-DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListBinEffect)
+DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=DataGenListBinNorm,m4=DataGenListBinEffect,m5=DataGenListBinNormEffect)
 
 ## Choosing how many workers there should be used
 cl <- makeSOCKcluster(20)
@@ -273,13 +271,13 @@ finalresults=finalresults[!finalresults$Set==0,]
 
 ### Figure 1
 
-figureonedata<-finalresults[finalresults$SampleSize==200 & finalresults$Correlation==0.2 & finalresults$OutlierExclusion==2,]
+figureonedata<-finalresults[finalresults$SampleSize==200 & finalresults$Correlation==0.2 & finalresults$OutlierExclusion==2 & finalresults$IndependentVariables=2,]
 
 figureonedata$Main[figureonedata$Main==1]<-"Main = TRUE"
 figureonedata$Main[figureonedata$Main==2]<-"Main = FALSE"
 figureonedata$Type[figureonedata$Type==1]<-"h1=Normal, Co=Normal"
 figureonedata$Type[figureonedata$Type==2]<-"h1=Binary, Co=Binary"
-figureonedata$Type[figureonedata$Type==3]<-"h1=Binary, Co=Binary Effect Coding"
+figureonedata$Type[figureonedata$Type==3]<-"h1=Binary, Co=Binary EF"
 
 
 figureonedata$Set <- factor(figureonedata$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
@@ -289,20 +287,26 @@ Figure1 = ggplot(figureonedata)+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("False-positive rate")
+  ylab("False-positive rate")+
+  theme(axis.text.x = element_text(color = "grey20", size = 17, angle = 65, hjust = .5, vjust = .5, face = "plain"),
+        axis.text.y = element_text(color = "grey20", size = 17, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", size = 17, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.y = element_text(color = "grey20", size = 17, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.x = element_text(color = "grey20", size = 15, angle = 0, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.y = element_text(color = "grey20", size = 15, angle = 90, hjust = .5, vjust = .5, face = "plain"))
 
 
 Figure1
 #### Figure 2 ####
 ## Average affect over number of covariates
-figuretwodata<-as.data.table(finalresults[finalresults$SampleSize==200 & finalresults$Correlation==0.2,])
+figuretwodata<-as.data.table(finalresults[finalresults$SampleSize==200 & finalresults$Correlation==0.2 & finalresults$IndependentVariables=2,])
 
 
 figuretwodata$Main[figuretwodata$Main==1]<-"Main = TRUE"
 figuretwodata$Main[figuretwodata$Main==2]<-"Main = FALSE"
 figuretwodata$Type[figuretwodata$Type==1]<-"h1=Normal, Co=Normal"
 figuretwodata$Type[figuretwodata$Type==2]<-"h1=Binary, Co=Binary"
-figureonedata$Type[figureonedata$Type==3]<-"h1=Binary, Co=Binary Effect Coding"
+figuretwodata$Type[figuretwodata$Type==3]<-"h1=Binary, Co=Binary EF"
 figuretwodata$OutlierExclusion[figuretwodata$OutlierExclusion==1]<-"TRUE"
 figuretwodata$OutlierExclusion[figuretwodata$OutlierExclusion==2]<-"FALSE"
 
@@ -320,22 +324,28 @@ Figure2 = ggplot(figuretwodatadiff)+
   geom_bar(aes(x=Set,y=diff), stat = "identity",position="dodge")+
   facet_grid(Type~Main)+
   theme_apa()+
-  ggtitle("Added effect from outlier exclusion")+
   xlab("Model set")+
-  ylab("Difference between false-positive rate")
+  ylab("Difference between false-positive rate")+
+  theme(axis.text.x = element_text(color = "grey20", size = 17, angle = 65, hjust = .5, vjust = .5, face = "plain"),
+        axis.text.y = element_text(color = "grey20", size = 17, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", size = 17, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.y = element_text(color = "grey20", size = 17, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.x = element_text(color = "grey20", size = 15, angle = 0, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.y = element_text(color = "grey20", size = 15, angle = 90, hjust = .5, vjust = .5, face = "plain"))
 Figure2
+
 
 ### Figure 3 ###
 ## Here we will just make some examples
 # In general there is no effect from sample size expect for Binary covarietes and not require main effect to be present
-figurethreedata<-finalresults[ finalresults$Correlation==0.2 & finalresults$Type==2 & finalresults$OutlierExclusion==2,]
+figurethreedata<-finalresults[ finalresults$Correlation==0.2 & finalresults$Type==2 & finalresults$OutlierExclusion==2 & finalresults$IndependentVariables=2,]
 
 
 figurethreedata$Main[figurethreedata$Main==1]<-"Main = TRUE"
 figurethreedata$Main[figurethreedata$Main==2]<-"Main = FALSE"
 figurethreedata$Type[figurethreedata$Type==1]<-"h1=Normal, Co=Normal"
 figurethreedata$Type[figurethreedata$Type==2]<-"h1=Binary, Co=Binary"
-figureonedata$Type[figureonedata$Type==3]<-"h1=Binary, Co=Binary Effect Coding"
+figureonedata$Type[figureonedata$Type==3]<-"h1=Binary, Co=Binary EF"
 
 
 figurethreedata$Set <- factor(figurethreedata$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
@@ -348,17 +358,65 @@ Figure3<-ggplot(aes(x=SampleSize, y=Pr), data=figurethreedata[figurethreedata$Ty
   facet_grid(Set~Main)+
   ylab("")+
   xlab("Sample size")+
-  theme_apa()
+  theme_apa()+
+  theme(axis.text.x = element_text(color = "grey20", size = 17, angle = 65, hjust = .5, vjust = .5, face = "plain"),
+        axis.text.y = element_text(color = "grey20", size = 17, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", size = 17, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.y = element_text(color = "grey20", size = 17, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.x = element_text(color = "grey20", size = 15, angle = 0, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.y = element_text(color = "grey20", size = 15, angle = 90, hjust = .5, vjust = .5, face = "plain"))
 
 Figure3
 
 
 
-
 ### Save figures and tables 
 
-ggsave(Figure1,filename =file.path("figure1.jpeg"),width = 8,height = 9)
-ggsave(Figure2,filename =file.path("figure2.jpeg"),width = 8,height = 9)
-ggsave(Figure3,filename =file.path("figure3.jpeg"),width = 8,height = 9)
+## Move a folder down
+setwd('..')
+
+ggsave(Figure1,filename =file.path("Result","Figures","v2.0","figure1.jpeg"),width = 12.5,height = 10)
+ggsave(Figure2,filename =file.path("Result","Figures","v2.0","figure2.jpeg"),width = 12.5,height = 10)
+ggsave(Figure3,filename =file.path("Result","Figures","v2.0","figure3.jpeg"),width = 8,height = 12)
 
 
+## Save tables
+df <- apply(figuretwodatadiff,2,as.character)
+write.csv(as.data.frame(df),file.path("Result","ResultFile","OutlierDiff.csv"))
+
+
+## Figures for the Appendix
+
+### the effect of increase in correlation ###
+
+figurefourdata<-finalresults[finalresults$SampleSize==200 & finalresults$OutlierExclusion==2  & finalresults$IndependentVariables=2,]
+
+figurefourdata$Main[figurefourdata$Main==1]<-"Main = TRUE"
+figurefourdata$Main[figurefourdata$Main==2]<-"Main = FALSE"
+figurefourdata$Type[figurefourdata$Type==1]<-"h1=Normal, Co=Normal"
+figurefourdata$Type[figurefourdata$Type==2]<-"h1=Binary, Co=Binary"
+figurefourdata$Type[figurefourdata$Type==3]<-"h1=Binary, Co=Binary EF"
+
+
+figurefourdata$Set <- factor(figurefourdata$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
+figurefourdata$Pr<-as.numeric(figurefourdata$Pr)
+
+Figure4 = ggplot(figurefourdata)+
+  geom_bar(aes(x=Set,y=Pr), stat = "identity",position="dodge")+
+  facet_grid(Type + Main~Correlation)+
+  theme_apa()+
+  xlab("Model set")+
+  ylab("False-positive rate")+
+  theme(axis.text.x = element_text(color = "grey20", size = 17, angle = 65, hjust = .5, vjust = .5, face = "plain"),
+        axis.text.y = element_text(color = "grey20", size = 17, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", size = 17, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.y = element_text(color = "grey20", size = 17, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.x = element_text(color = "grey20", size = 15, angle = 0, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.y = element_text(color = "grey20", size = 15, angle = 90, hjust = .5, vjust = .5, face = "plain"))
+
+
+Figure4
+
+
+## Save figures
+ggsave(Figure4,filename =file.path("Result","Figures","v2.0","figure4.jpeg"),width = 12.5,height = 12)

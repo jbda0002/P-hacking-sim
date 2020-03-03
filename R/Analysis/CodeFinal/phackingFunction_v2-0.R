@@ -15,10 +15,10 @@
 
 
 ### Function that are being used in the function. 
- source(here::here("remove_outliers_sd.R")) 
- source(here::here("remove_outliers_range.R"))
- source(here::here("pvaluecapture.R"))
- source(here::here("addmaineffects.R"))
+ source(here::here("CodeFinal","HelpFunctions","remove_outliers_sd.R")) 
+ source(here::here("CodeFinal","HelpFunctions","remove_outliers_range.R"))
+ source(here::here("CodeFinal","HelpFunctions","pvaluecapture.R"))
+ source(here::here("CodeFinal","HelpFunctions","addmaineffects.R"))
 
 phackingFunction<-function(data,y,H_1,HCI = FALSE,CCI=FALSE,Ma_HCI=FALSE, Ma_CCI=FALSE
                            ,HCI_CCI=FALSE,Ma_HCI_CCI=FALSE
@@ -426,7 +426,7 @@ phackingFunction<-function(data,y,H_1,HCI = FALSE,CCI=FALSE,Ma_HCI=FALSE, Ma_CCI
   
   
   #Combine all the p-values
-  TheModels<-pvaluemain(models,Formulas,"None removed",outlierexclusion=F,Main,H_1)
+  TheModels<-pvaluemain(models,Formulas,"None removed",F,Main,H_1)
   
   if(outlierexclusion==TRUE){
     for(j in 1:length(dataoutlier)){
@@ -435,7 +435,7 @@ phackingFunction<-function(data,y,H_1,HCI = FALSE,CCI=FALSE,Ma_HCI=FALSE, Ma_CCI
       models_out<-lapply(Formulas,function(i)
         lm(as.formula(i),data=dataoutlier[[j]]))
       
-      TheModelsoutlier=pvaluemain(models_out,Formulas,j,outlierexclusion=T,Main,H_1)
+      TheModelsoutlier=pvaluemain(models_out,Formulas,j,T,Main,H_1)
       
       TheModels<-rbind(TheModelsoutlier,TheModels)
     }
@@ -470,5 +470,5 @@ phackingFunction<-function(data,y,H_1,HCI = FALSE,CCI=FALSE,Ma_HCI=FALSE, Ma_CCI
   }
   
   
-  return(TheModels)
+  return(res)
 }
