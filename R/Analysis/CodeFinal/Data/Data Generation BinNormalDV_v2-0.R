@@ -10,9 +10,9 @@ dataGen2 <- function(N,cor,corDV){
   
   M = matrix(c(1, 0,0,cor,cor,cor,
                0, 1,0,cor,cor,cor,
-               0,0,1,0,0,0,0,
+               0,0,1,0,0,0,
                cor,cor,0,1,corDV,corDV,
-               cor,cor,0,corDV,1,
+               cor,cor,0,corDV,1,corDV,
                cor,cor,0,corDV,corDV,1
                
   ), nrow=6, ncol=6)
@@ -34,9 +34,9 @@ dataGen3 <- function(N,cor,corDV){
   M = matrix(c(1, 0,0,0,cor,cor,cor,
                0, 1,0,0,cor,cor,cor,
                0,0,1,0,cor,cor,cor,
-               0,0,0,1,0,0,0,0,
+               0,0,0,1,0,0,0,
                cor,cor,cor,0,1,corDV,corDV,
-               cor,cor,cor,0,corDV,1,
+               cor,cor,cor,0,corDV,1,corDV,
                cor,cor,cor,0,corDV,corDV,1
                
   ), nrow=7, ncol=7)
@@ -57,13 +57,13 @@ dataGen4 <- function(N,cor,corDV){
                0, 1,0,0,0,cor,cor,cor,
                0,0,1,0,0,cor,cor,cor,
                0,0,0,1,0,cor,cor,cor,
-               0,0,0,0,1,0,0,0,0,
+               0,0,0,0,1,0,0,0,
                cor,cor,cor,cor,0,1,corDV,corDV,
-               cor,cor,cor,cor,0,corDV,1,
+               cor,cor,cor,cor,0,corDV,1,corDV,
                cor,cor,cor,cor,0,corDV,corDV,1
                
   ), nrow=8, ncol=8)
-  sigma.star=compute.sigma.star( no.nor=2,no.bin=4, prop.vec.bin=prop.vec.bin,
+  sigma.star=compute.sigma.star( no.nor=4,no.bin=4, prop.vec.bin=prop.vec.bin,
                                  corr.mat=M)
   mydata=as.data.frame(jointly.generate.binary.normal(N,no.bin,no.nor,prop.vec.bin,
                                                       mean.vec.nor,var.nor, sigma_star=sigma.star$sigma_star))
