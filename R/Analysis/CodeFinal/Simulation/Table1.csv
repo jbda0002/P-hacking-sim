@@ -1,0 +1,23 @@
+"","Main","Set","Type","mean"
+"1",1,"Ma + HCI","h1=Normal, Co=Normal",0.0828833333333333
+"2",1,"Ma + HCI","h1=Binary, Co=Binary",0.0733333333333333
+"3",1,"Ma + CCI","h1=Normal, Co=Normal",0.04925
+"4",1,"Ma + CCI","h1=Binary, Co=Binary",0.04845
+"5",1,"Ma","h1=Normal, Co=Normal",0.0474
+"6",1,"Ma + HCI + CCI","h1=Normal, Co=Normal",0.0813833333333333
+"7",1,"Ma","h1=Binary, Co=Binary",0.0501666666666667
+"8",1,"Ma + HCI + CCI","h1=Binary, Co=Binary",0.0724833333333333
+"9",2,"HCI","h1=Normal, Co=Normal",0.0847666666666667
+"10",2,"Ma + HCI","h1=Normal, Co=Normal",0.101153333333333
+"11",2,"HCI","h1=Binary, Co=Binary",0.34365
+"12",2,"Ma + HCI","h1=Binary, Co=Binary",0.317593333333333
+"13",2,"CCI","h1=Normal, Co=Normal",0.0494
+"14",2,"Ma + CCI","h1=Normal, Co=Normal",0.0503285714285714
+"15",2,"CCI","h1=Binary, Co=Binary",0.049975
+"16",2,"Ma + CCI","h1=Binary, Co=Binary",0.0528857142857143
+"17",2,"Ma","h1=Normal, Co=Normal",0.0449666666666667
+"18",2,"Ma + HCI + CCI","h1=Normal, Co=Normal",0.0974416666666667
+"19",2,"HCI + CCI","h1=Normal, Co=Normal",0.0888333333333333
+"20",2,"Ma","h1=Binary, Co=Binary",0.0503
+"21",2,"Ma + HCI + CCI","h1=Binary, Co=Binary",0.141508333333333
+"22",2,"HCI + CCI","h1=Binary, Co=Binary",0.129133333333333

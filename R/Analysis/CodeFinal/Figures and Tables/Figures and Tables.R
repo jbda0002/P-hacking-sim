@@ -202,29 +202,19 @@ table1data<-as.data.table(figuredist[figuredist$SampleSize==200 & figuredist$Cor
                                        & figuredist$Type!="h1=Normal, Co=Binary" & figuredist$Type!="h1=Binary, Co=Normal"
                                        & figuredist$Type!="h1=Binary, Co=Binary Effect" & figuredist$Type!="h1=Normal, Co=Binary Effect" ,])
 
-Table1=figuredist[,list(mean=mean(f..)),by=c("Main","Set","Type","IndependentVariables")]
+Table1=table1data[,list(mean=mean(f..)),by=c("Main","Set","Type")]
 
 ## The effect of using outlier exclusion (Figure for SM)
-figuredist<-as.data.table(finalresults[finalresults$SampleSize==200 & finalresults$Correlation ==0.2 & finalresults$IndependentVariables==1 & finalresults$OutlierExclusion==2
-                                       & finalresults$Type!=3 & finalresults$Type!=4 & finalresults$Type!=5 & finalresults$Type!=6,])
-figuredist<-figuredist[figuredist$Power2==1 & figuredist$Power3==2 & figuredist$Power12==2 & figuredist$Power13==2|
-                         figuredist$Power2==2 & figuredist$Power3==1 & figuredist$Power12==2 & figuredist$Power13==2|
-                         figuredist$Power2==2 & figuredist$Power3==2 & figuredist$Power12==2 & figuredist$Power13==2|
-                         figuredist$Power2==2 & figuredist$Power3==2 & figuredist$Power12==1 & figuredist$Power13==2|
-                         figuredist$Power2==2 & figuredist$Power3==2 & figuredist$Power12==2 & figuredist$Power13==1,]
+tabledata<-as.data.table(figuredist[figuredist$SampleSize==200 & figuredist$Correlation ==0.2 &  figuredist$IndependentVariables==1
+                                     & figuredist$Type!="h1=Normal, Co=Binary" & figuredist$Type!="h1=Binary, Co=Normal"
+                                     & figuredist$Type!="h1=Binary, Co=Binary Effect" & figuredist$Type!="h1=Normal, Co=Binary Effect" ,])
 
-meanDist=figuredist[,list(mean=mean(f..)),by=c("Main","Set","Type","OutlierExclusion")]
+meanDist=tabledata[,list(mean=mean(f..)),by=c("Main","Set","Type","OutlierExclusion")]
 first=meanDist[meanDist$OutlierExclusion==1]
 second=meanDist[meanDist$OutlierExclusion==2]
 
 meanDistOut <- merge(first,second, by=c("Main","Set","Type")) 
 meanDistOut$diff=meanDistOut$mean.x-meanDistOut$mean.y
-
-meanDistOut$Main[meanDistOut$Main==1]<-"Main = TRUE"
-meanDistOut$Main[meanDistOut$Main==2]<-"Main = FALSE"
-meanDistOut$Type[meanDistOut$Type==1]<-"h1=Normal, Co=Normal"
-meanDistOut$Type[meanDistOut$Type==2]<-"h1=Binary, Co=Binary"
-
 
 
 meanDistOut$Set <- factor(meanDistOut$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
@@ -247,15 +237,11 @@ Figure1_SM
 ## Effect of using an extra covariate (figure for SM)
 
 
-figuredist<-as.data.table(finalresults[finalresults$SampleSize==200 & finalresults$Correlation ==0.2 & finalresults$OutlierExclusion==2
-                                       & finalresults$Type!=3 & finalresults$Type!=4 & finalresults$Type!=5 & finalresults$Type!=6,])
-figuredist<-figuredist[figuredist$Power2==1 & figuredist$Power3==2 & figuredist$Power12==2 & figuredist$Power13==2|
-                         figuredist$Power2==2 & figuredist$Power3==1 & figuredist$Power12==2 & figuredist$Power13==2|
-                         figuredist$Power2==2 & figuredist$Power3==2 & figuredist$Power12==2 & figuredist$Power13==2|
-                         figuredist$Power2==2 & figuredist$Power3==2 & figuredist$Power12==1 & figuredist$Power13==2|
-                         figuredist$Power2==2 & figuredist$Power3==2 & figuredist$Power12==2 & figuredist$Power13==1,]
+tabledata<-as.data.table(figuredist[figuredist$SampleSize==200 & figuredist$Correlation ==0.2 & figuredist$OutlierExclusion ==2                                     & figuredist$Type!="h1=Normal, Co=Binary" & figuredist$Type!="h1=Binary, Co=Normal"
+                                     & figuredist$Type!="h1=Binary, Co=Binary Effect" & figuredist$Type!="h1=Normal, Co=Binary Effect" ,])
 
-meanDist=figuredist[,list(mean=mean(f..)),by=c("Main","Set","Type","IndependentVariables")]
+
+meanDist=tabledata[,list(mean=mean(f..)),by=c("Main","Set","Type","IndependentVariables")]
 first=meanDist[meanDist$IndependentVariables==2]
 second=meanDist[meanDist$IndependentVariables==1]
 
@@ -265,10 +251,6 @@ meanDistCov$diff=meanDistCov$mean.x-meanDistCov$mean.y
 
 meanDistCov$Main[meanDistCov$Main==1]<-"Main = TRUE"
 meanDistCov$Main[meanDistCov$Main==2]<-"Main = FALSE"
-meanDistCov$Type[meanDistCov$Type==1]<-"h1=Normal, Co=Normal"
-meanDistCov$Type[meanDistCov$Type==2]<-"h1=Binary, Co=Binary"
-
-
 
 meanDistCov$Set <- factor(meanDistCov$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
 
@@ -291,15 +273,11 @@ Figure2_SM
 ### The effect of an increase in sample (Figure to SM)
 
 
-figuredist<-as.data.table(finalresults[finalresults$IndependentVariables==1 & finalresults$Correlation ==0.2 & finalresults$OutlierExclusion==2
-                                       & finalresults$Type!=3 & finalresults$Type!=4 & finalresults$Type!=5 & finalresults$Type!=6,])
-figuredist<-figuredist[figuredist$Power2==1 & figuredist$Power3==2 & figuredist$Power12==2 & figuredist$Power13==2|
-                         figuredist$Power2==2 & figuredist$Power3==1 & figuredist$Power12==2 & figuredist$Power13==2|
-                         figuredist$Power2==2 & figuredist$Power3==2 & figuredist$Power12==2 & figuredist$Power13==2|
-                         figuredist$Power2==2 & figuredist$Power3==2 & figuredist$Power12==1 & figuredist$Power13==2|
-                         figuredist$Power2==2 & figuredist$Power3==2 & figuredist$Power12==2 & figuredist$Power13==1,]
+tabledata<-as.data.table(figuredist[figuredist$Correlation ==0.2 & figuredist$OutlierExclusion ==2 & figuredist$IndependentVariables==1
+                                     & figuredist$Type!="h1=Normal, Co=Binary" & figuredist$Type!="h1=Binary, Co=Normal"
+                                     & figuredist$Type!="h1=Binary, Co=Binary Effect" & figuredist$Type!="h1=Normal, Co=Binary Effect" ,])
 
-meanDist=figuredist[,list(mean=mean(f..)),by=c("Main","Set","Type","SampleSize")]
+meanDist=tabledata[,list(mean=mean(f..)),by=c("Main","Set","Type","SampleSize")]
 
 ## Creating the different levels of the sample 
 a1=meanDist[meanDist$SampleSize==100]
@@ -372,12 +350,9 @@ Figure3_SM
 
 ## The effect of higher correlations (Figure to SM)
 
-figuredist<-as.data.table(finalresults[finalresults$IndependentVariables==2 & finalresults$SampleSize ==200 & finalresults$OutlierExclusion==2,])
-figuredist<-figuredist[figuredist$Power2==1 & figuredist$Power3==2 & figuredist$Power12==2 & figuredist$Power13==2|
-                         figuredist$Power2==2 & figuredist$Power3==1 & figuredist$Power12==2 & figuredist$Power13==2|
-                         figuredist$Power2==2 & figuredist$Power3==2 & figuredist$Power12==2 & figuredist$Power13==2|
-                         figuredist$Power2==2 & figuredist$Power3==2 & figuredist$Power12==1 & figuredist$Power13==2|
-                         figuredist$Power2==2 & figuredist$Power3==2 & figuredist$Power12==2 & figuredist$Power13==1,]
+figuredist<-as.data.table(figuredist[figuredist$SampleSize==200  & figuredist$OutlierExclusion ==2 & figuredist$IndependentVariables==1
+                                     & figuredist$Type!="h1=Normal, Co=Binary" & figuredist$Type!="h1=Binary, Co=Normal"
+                                     & figuredist$Type!="h1=Binary, Co=Binary Effect" & figuredist$Type!="h1=Normal, Co=Binary Effect" ,])
 
 meanDist=figuredist[,list(mean=mean(f..)),by=c("Main","Set","Type","Correlation")]
 
@@ -445,37 +420,12 @@ Figure4_SM<-ggplot(aes(x=Cor, y=Inc,group = 1), data=meanDistCorrInc)+
 
 Figure4_SM
 
-## Calculate false-positive rates
-
-falsepositverateData<-as.data.table(finalresults)
-falsepositverateData<-falsepositverateData[falsepositverateData$Power2==1 & falsepositverateData$Power3==2 & falsepositverateData$Power12==2 & falsepositverateData$Power13==2|
-                                             falsepositverateData$Power2==2 & falsepositverateData$Power3==1 & falsepositverateData$Power12==2 & falsepositverateData$Power13==2|
-                                             falsepositverateData$Power2==2 & falsepositverateData$Power3==2 & falsepositverateData$Power12==2 & falsepositverateData$Power13==2|
-                                             falsepositverateData$Power2==2 & falsepositverateData$Power3==2 & falsepositverateData$Power12==1 & falsepositverateData$Power13==2|
-                                             falsepositverateData$Power2==2 & falsepositverateData$Power3==2 & falsepositverateData$Power12==2 & falsepositverateData$Power13==1,]
-
-falsepositverateData$rate=ifelse(falsepositverateData$f..>0,1,0)
-
-falsepostive=falsepositverateData[,list(mean=mean(rate)),by=c("Main","Set","Type","SampleSize","OutlierExclusion","Correlation","IndependentVariables")]
-
-## Figures
+## Figures with False-positive rate for the appendix
 
 
 ### Figure 1
 
-figureonedata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion==2 & falsepostive$IndependentVariables==2,]
-
-figureonedata$Main[figureonedata$Main==1]<-"Main = TRUE"
-figureonedata$Main[figureonedata$Main==2]<-"Main = FALSE"
-figureonedata$Type[figureonedata$Type==1]<-"h1=Normal, Co=Normal"
-figureonedata$Type[figureonedata$Type==2]<-"h1=Binary, Co=Binary"
-figureonedata$Type[figureonedata$Type==1]<-"h1=Normal, Co=Normal"
-figureonedata$Type[figureonedata$Type==2]<-"h1=Binary, Co=Binary"
-figureonedata$Type[figureonedata$Type==3]<-"h1=Normal, Co=Binary"
-figureonedata$Type[figureonedata$Type==4]<-"h1=Binary, Co=Normal"
-figureonedata$Type[figureonedata$Type==5]<-"h1=Binary, Co=Binary Effect"
-figureonedata$Type[figureonedata$Type==6]<-"h1=Normal, Co=Binary Effect"
-
+figureonedata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==2,]
 
 
 figureonedata$Set <- factor(figureonedata$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
@@ -497,23 +447,9 @@ Figure1 = ggplot(figureonedata)+
 Figure1
 
 #### Figure 2 ####
-## Average affect over number of covariates
-figuretwodata<-as.data.table(falsepostive[falsepostive$SampleSize==200  & falsepostive$OutlierExclusion==2,]
+## Average affect of using outlier criteria
+figuretwodata<-as.data.table(falsepostive[falsepostive$SampleSize==200  & falsepostive$IndependentVariables==1,]
 )
-
-figuretwodata$Main[figuretwodata$Main==1]<-"Main = TRUE"
-figuretwodata$Main[figuretwodata$Main==2]<-"Main = FALSE"
-figuretwodata$Type[figuretwodata$Type==1]<-"h1=Normal, Co=Normal"
-figuretwodata$Type[figuretwodata$Type==2]<-"h1=Binary, Co=Binary"
-figuretwodata$Type[figuretwodata$Type==3]<-"h1=Normal, Co=Binary"
-figuretwodata$Type[figuretwodata$Type==4]<-"h1=Binary, Co=Normal"
-figuretwodata$Type[figuretwodata$Type==5]<-"h1=Binary, Co=Binary Effect"
-figuretwodata$Type[figuretwodata$Type==6]<-"h1=Normal, Co=Binary Effect"
-figuretwodata$OutlierExclusion[figuretwodata$OutlierExclusion==1]<-"TRUE"
-figuretwodata$OutlierExclusion[figuretwodata$OutlierExclusion==2]<-"FALSE"
-
-figuretwodata$Set <- factor(figuretwodata$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
-figuretwodata$mean<-as.numeric(figuretwodata$mean)
 
 first=figuretwodata[figuretwodata$OutlierExclusion=="TRUE"]
 second=figuretwodata[figuretwodata$OutlierExclusion=="FALSE"]
@@ -521,16 +457,8 @@ second=figuretwodata[figuretwodata$OutlierExclusion=="FALSE"]
 figuretwodatadiff <- merge(first,second, by=c("Main","Set","Type","IndependentVariables","Correlation")) 
 figuretwodatadiff$diff=figuretwodatadiff$mean.x-figuretwodatadiff$mean.y
 
-## Calculate the added effect of one more covariate
 
-first=figuretwodata[figuretwodata$IndependentVariables==1]
-second=figuretwodata[figuretwodata$IndependentVariables==2]
-
-figuretwodatadiff2 <- merge(first,second, by=c("Main","Set","Type","Correlation"),all=T, allow.cartesian=TRUE) 
-figuretwodatadiff2$diff=figuretwodatadiff2$mean.y-figuretwodatadiff2$mean.x
-
-
-Figure2 = ggplot(figuretwodatadiff2)+
+Figure2 = ggplot(figuretwodatadiff)+
   geom_bar(aes(x=Set,y=diff), stat = "identity",position="dodge")+
   facet_grid(Type~Main+Correlation)+
   theme_apa()+
@@ -578,3 +506,30 @@ Figure3<-ggplot(aes(x=SampleSize, y=Pr), data=figurethreedata)+
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
 
 Figure3
+
+
+#### Figure 4 ####
+## Average affect over number of covariates
+figuretwodata<-as.data.table(falsepostive[falsepostive$SampleSize==200  & falsepostive$OutlierExclusion=="FALSE",]
+)
+
+first=figuretwodata[figuretwodata$IndependentVariables==1]
+second=figuretwodata[figuretwodata$IndependentVariables==2]
+
+figuretwodatadiff2 <- merge(first,second, by=c("Main","Set","Type","Correlation"),all=T, allow.cartesian=TRUE) 
+figuretwodatadiff2$diff=figuretwodatadiff2$mean.y-figuretwodatadiff2$mean.x
+
+
+Figure2 = ggplot(figuretwodatadiff2)+
+  geom_bar(aes(x=Set,y=diff), stat = "identity",position="dodge")+
+  facet_grid(Type~Main+Correlation)+
+  theme_apa()+
+  xlab("Model set")+
+  ylab("Difference between false-positive rate")+
+  theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
+        axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
+Figure2
