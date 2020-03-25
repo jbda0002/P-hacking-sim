@@ -26,13 +26,12 @@ library(here)
 
 ##### Things that can be changed in the simulation
 
-## Selecting the sample sizes that should be used
-sample = c(200,250,300)
+sample = c(200)
 
 ## Setting the number of repretetion
-repdist=20
+repdist=1000
 ## Setting the correlation between dependent and independent 
-corr=0.2
+corr=c(0.2,0.3,0.4)
 corrDV=0.5
 
 
@@ -265,10 +264,10 @@ figuredist<-figuredist[figuredist$Power2==1 & figuredist$Power3==2 & figuredist$
 meanDist=figuredist[,list(mean=mean(f..)),by=c("Main","Set","Type","SampleSize", "IndependentVariables","OutlierExclusion","Correlation")]
 
 
-write.csv(meanDist,'meanDistSample.csv')
+write.csv(meanDist,'meanDistSampleDV.csv')
 
 ## Create Table 1
-figuredist<-as.data.table(finalresults[finalresults$SampleSize==200 & finalresults$Correlation ==0.2 & finalresults$OutlierExclusion ==2 & finalresults$IndependentVariables==1
+figuredist<-as.data.table(finalresults[finalresults$Correlation ==0.2 & finalresults$IndependentVariables==1
                                        & finalresults$Type!=3 & finalresults$Type!=4 & finalresults$Type!=5 & finalresults$Type!=6,])
 figuredist<-figuredist[figuredist$Power2==1 & figuredist$Power3==2 & figuredist$Power12==2 & figuredist$Power13==2|
                          figuredist$Power2==2 & figuredist$Power3==1 & figuredist$Power12==2 & figuredist$Power13==2|
@@ -424,13 +423,18 @@ falsepostive=falsepositverateData[,list(mean=mean(rate)),by=c("Main","Set","Type
 
 ### Figure 1
 
-figureonedata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$Correlation==0.2 & falsepostive$OutlierExclusion==2 & falsepostive$IndependentVariables==2
-                            & falsepostive$Type!=3 & falsepostive$Type!=4 & falsepostive$Type!=5 & falsepostive$Type!=6,]
+figureonedata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$IndependentVariables==2,]
 
 figureonedata$Main[figureonedata$Main==1]<-"Main = TRUE"
 figureonedata$Main[figureonedata$Main==2]<-"Main = FALSE"
 figureonedata$Type[figureonedata$Type==1]<-"h1=Normal, Co=Normal"
 figureonedata$Type[figureonedata$Type==2]<-"h1=Binary, Co=Binary"
+figureonedata$Type[figureonedata$Type==1]<-"h1=Normal, Co=Normal"
+figureonedata$Type[figureonedata$Type==2]<-"h1=Binary, Co=Binary"
+figureonedata$Type[figureonedata$Type==3]<-"h1=Normal, Co=Binary"
+figureonedata$Type[figureonedata$Type==4]<-"h1=Binary, Co=Normal"
+figureonedata$Type[figureonedata$Type==5]<-"h1=Binary, Co=Binary Effect"
+figureonedata$Type[figureonedata$Type==6]<-"h1=Normal, Co=Binary Effect"
 
 
 
@@ -438,16 +442,16 @@ figureonedata$Set <- factor(figureonedata$Set,levels = c("Ma", "HCI", "CCI", "Ma
 figureonedata$Pr<-as.numeric(figureonedata$mean)
 Figure1 = ggplot(figureonedata)+
   geom_bar(aes(x=Set,y=Pr), stat = "identity",position="dodge")+
-  facet_grid(Type~Main)+
+  facet_grid(Type~Main+Correlation)+
   theme_apa()+
   xlab("Model set")+
   ylab("False-positive rate")+
-  theme(axis.text.x = element_text(color = "grey20", size = 17, angle = 65, hjust = .5, vjust = .5, face = "plain"),
-        axis.text.y = element_text(color = "grey20", size = 17, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 17, angle = 0, hjust = .5, vjust = 0, face = "plain"),
-        axis.title.y = element_text(color = "grey20", size = 17, angle = 90, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.x = element_text(color = "grey20", size = 15, angle = 0, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.y = element_text(color = "grey20", size = 15, angle = 90, hjust = .5, vjust = .5, face = "plain"))
+  theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
+        axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
 
 
 Figure1
@@ -455,7 +459,7 @@ Figure1
 
 ### The effect of sample size
 
-figurethreedata<-falsepostive[ falsepostive$Correlation==0.2 & falsepostive$Type==2 & falsepostive$OutlierExclusion==2 & falsepostive$IndependentVariables==2
+figurethreedata<-falsepostive[ falsepostive$Correlation==0.2   & falsepostive$IndependentVariables==2
                                & falsepostive$Type!=3 & falsepostive$Type!=4 & falsepostive$Type!=5 & falsepostive$Type!=6,]
 
 figurethreedata$Main[figurethreedata$Main==1]<-"Main = TRUE"
