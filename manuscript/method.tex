@@ -1,0 +1,148 @@
+\section{Method}
+
+To investigate our main research question on how often a hypothesis variable with no effect on the dependent variable can become significant, we performed a simulation. We tested this using the discussed flexibilities, i.e. under different model specifications, with and without outlier deletion, with several dependent variables, and with different coding of the binary variable. These were tested using different sample sizes, different correlations between the dependent variable and the covariates, and different types of data structure. In a very simple case in which there would only be one test to perform for each model, the FPP and FPR would be 5\%. In this case, however, we are expanding the model set with several tests and controlling for interactions that are not present. With several tests within each regression and interactions without main effects, it would be expected that the FPP and FPR would no longer be at 5\%. However, how the different tests interact with each other and how the increase in sample size and different correlation structures affect is not obvious. Therefore, we chose to test the FPP and FPR using simulations as calculating the FPP and FPR was not straightforward.
+
+\subsection{Model Set}
+To build the model set, we first needed to define the variables being used. We denote the hypothesis variable as h1, all the covariates as X=(x1,x2,..,xn), and the dependent variable as y. To better understand the building of the model sets, the different interactions were split into three sets. The first set only had the main effects including only the hypothesis variable without any covariates (Ma), the second set included models that had interactions between the hypothesis variable and the covariates (HCI), and the last set contained the models that had interactions between the covariates (CCI). An example with two covariates can be seen in Table 1 (excluding the constant and the coefficient in front of each variable for the sake of simplicity). The hypothesis variable was present in all three sets.
+To obtain the full set of models, we also needed the combinations of the three sets. There were two possible choices: restricting our sets so the main effect was always present when there was an interaction or allowing for interactions without any main effects. In Table 1, we show the combination of all sets where the main effect is always included provided there is an interaction term. The other case can be seen in Supplementary Information. \\
+
+
+\begin{table}[]
+\caption{}
+\caption*{\footnotesize Set of models when there are two covariates and only one dependent variable}
+\centering
+\begin{tabular}{cc}
+\toprule
+Model set & Models \\ 
+\midrule
+\multirow{4}{*}{Ma} & $y=h_1$ \\ & $y=h_1+x_1$ \\ & $y=h_1+x_2$ \\ & $y=h_1+x_1+x_2$  \\ & \\
+\multirow{3}{*}{HCI} & $y=h_1+h_1x_1$ \\ & $y=h_1+h_1x_2$ \\ & $y=h_1+h_1x_1+h_1x_2$  \\& \\
+CCI & $y=h_1+x_1x_2$ \\ & \\
+\multirow{5}{*}{Ma+HCI} & $y=h_1+x_1+h_1x_1$  \\ & $y=h_1+x_2+h_1x_2$  \\& $y=h_1+x_1+x_2+h_1x_1$  \\& $y=h_1+x_1+x_2+h_1x_2$  \\& $y=h_1+x_1+x_2+h_1x_1+h_1x_2$ \\ & \\
+Ma+CCI & $y=h_1+x_1+x_2+x_1x_2$ \\ & \\
+HCI+CCI & Empty set \\ & \\
+\multirow{3}{*}{Ma+HCI+CCI} & $y=h_1+x_1+x_2+h_1x_2+x_1x_2$ \\ & $y=h_1+x_1+x_2+h_1x_2+x_1x_2$ \\ & $y=h_1+x_1+x_2+h_1x_1+h_1x_2+x_1x_2$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+If we require that the main effect to follow all interactions, the union of HCI and CCI will always be empty. This would not be the case if we did not have this constraint (see Supplementary Information). After dividing our models into the different sets, it was possible to calculate how many models were in each set and how many possible models existed. These calculations are shown in Equation (1). \\
+
+\begin{equation} 
+\begin{aligned}
+\#models={} & \underbrace{\left(2^n\right)}_{Ma}+\underbrace{\sum^n_{j=1}{\left(2^j-1\right)\left( \begin{array}{c}
+n \\ 
+j \end{array}
+\right)}}_{Ma+HCI} + \\ 
+& \underbrace{\sum^n_{j=2}{\left( \begin{array}{c}
+n \\ 
+j \end{array}
+\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}}_{Ma+CCI} + \\
+& \underbrace{\sum^n_{j=2}{\left( \begin{array}{c}
+n \\ 
+j \end{array}
+\right)\left(2^j-1\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}}_{Ma+HCI+CCI}\ \  
+\end{aligned}
+\end{equation} 
+
+n denotes the number of the covariates collected. A more thorough work through of this equation can be found in the supplementary material.
+We did not include the sets HCI, CCI, and HCI+CCI as these were interaction terms with no corresponding main effect. For the case, where we had two covariates, the number of models became as follows: \\
+
+
+\begin{aligned}
+\centering
+\[\left(2^2-1\right)+
+\sum^2_{j=1}{\left(2^j-1\right)\left( \begin{array}{c}
+2 \\ 
+j \end{array}
+\right)}+
+\sum^2_{j=2}{\left( \begin{array}{c}
+2 \\ 
+j \end{array}
+\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)} +  
+ \sum^2_{j=2}{\left( \begin{array}{c}
+2 \\ 
+j \end{array}
+\right)\left(2^j-1\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}= \\
+ 3+5+1+3*1=12\] 
+\end{aligned}
+
+
+The number of models in each set for the different numbers of covariates under the restriction that the main effect must always follow the interactions can be seen in Table 2. The other case can be found in the Supplementary Information. \\
+
+\begin{table}
+\caption{}
+\centering
+\caption*{\footnotesize Number of models for different numbers of covariates when the constitutive terms must be present}
+\begin{tabular}{cccccc} \hline
+\toprule
+Number of covariates & Ma & Ma+HCI & Ma+CCI & Ma+HCI+CCI & Total number of models \\ 
+\midrule
+2 & 3 & 5 & 1 & 3 & 12 \\ 
+3 & 7 & 19 & 10 & 58 & 94 \\ 
+4 & 15 & 65 & 97 & 1159 & 1336 \\ 
+5 & 31 & 221 & 1418 & 36958 & 38618 \\ 
+6 & 63 & 665 & 40005 & 2269799 & 2310532 \\ 
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+In the simulation, the focus was on two to four covariates as this was enough to give us an idea of how the increase in the model set affected the FPP. 
+
+\subsection{Outlier Criteria}
+Following the findings of \cite{Leyes2013}, four different outlier criteria were included. Three of the outlier criteria were based on the standard deviation (2, 2.5, and 3), while one used the interquartile range \citep{Rousseeuw2011}. Each outlier criterion was used on the entire dataset and not only on individual variables. If any observation fulfilled the outlier criteria, the observation was omitted from the analysis. As the outlier criteria chosen here only worked for continuous variables, there were cases where only the dependent variable was tested for outliers.
+
+\subsection{Collecting Multiple Dependent Variables}
+To test the consequences of collecting several dependent variables, three variables were collected simultaneously. These were correlated with r=0.5. Furthermore, the average of the three dependent variables was computed to yield a fourth dependent variable. With these four dependent variables, the model set would expand four times compared to when there is only one dependent variable. This implies that every time three dependent variables were collected, there were four different regressions to run.
+
+\subsection{Coding of Variables}
+For the cases in which either the covariates or the hypothesis variable were binary, these were coded in two different ways. They were either dummy coded with 1/0 or effects coded with 1/-1. These were tested separately to determine if any of the coding would result in a higher FPP and FPR with the other flexibilities.
+
+\subsection{Data Generating Process}
+As the goal of the simulation was to determine how often our completely random hypothesis variable could be made significant, this was generated with zero correlation with the dependent variable. The hypothesis variable could have two different distributions: a normal distribution (continuous variable) or a binomial distribution (binary variable). The covariates were simulated using the same distribution, but all the covariates presented in one simulation had the same distribution. As linear regressions were used, the dependent variable could only be normally distributed. Four different cases could be built using these kinds of distributions for the hypothesis variable and the covariates: a continuous hypothesis variable and continuous covariates; a binary hypothesis variable and continuous covariates; a continuous hypothesis variable and binary covariates; and a binary hypothesis variable and binary covariates. If a variable was generated as a binary variable, it was both dummy coded and effects coded.
+The correlation between y and X was set to three different levels: r = 0.2; r = 0.3; and r = 0.4, which denote medium-strength correlations \citep{Cohen1989}. The correlation between the hypothesis variable and all other variables was set to zero. The correlations between the covariates were also set to zero to ensure that the results are not driven by omitted variable bias. If any variable was not included, it would only be reflected in the error term, and this would still be uncorrelated with the rest of the variables. The correlation matrix for when there was only one dependent variable is presented in Table 3. \\
+
+\begin{table}
+\caption{}
+\centering
+\caption*{\footnotesize Correlation of simulated data with only one dependent variable, r = $\{$.2,.3,.4$\}$}
+\begin{tabular}{c|ccccccc} 
+\toprule
+ & y & h${}_{1}$ & x${}_{1}$ & x${}_{2}$ & x${}_{3}$ & ... & x${}_{n}$ \\ 
+ \midrule
+y & 1 &  &  &  &  &  &  \\ 
+h${}_{1}$ & 0 & 1 &  &  &  &  &  \\ 
+x${}_{1}$ & r & 0 & 1 &  &  &  &  \\  
+x${}_{2}$ & r & 0 & 0 & 1 &  &  &  \\  
+x${}_{3}$ & r & 0 & 0 & 0 & 1 &  &  \\  
+... & r & 0 & 0 & 0 & 0 & 1 &  \\ 
+x${}_{n}$ & r & 0 & 0 & 0 & 0 & 0 & 1 \\ 
+\bottomrule
+\end{tabular}
+\end{table}
+
+
+If a variable was generated as a normally distributed variable, it was generated with a mean of 0 and a standard deviation of 1, while binomial variables were generated with a 50\% chance of success in each trial. To test how the sample size affected the FPP and FPR, the simulation included samples with sizes ranging from 100 to 300 with increasing steps of 50. 
+
+\subsection{Simulation}
+In general, for the simulation, the different flexibilities were investigated one by one. This implies that we started with the model set to determine the FPP in the different sets and to determine what happens when we add the other flexibilities. With the post-hoc inclusion of hypothesis and interactions used by researchers, we focused on how the different flexibilities affected each of the model sets. For the data structure, we only included cases in which the hypothesis variable and covariates were continuous and where these were binary. The results for the two other cases looked identical to the cases when using three or more covariates as the results were mainly driven by the distribution of the covariates. The results for the other two cases can be found in the supplementary material for the paper. When the effect of increasing samples was not investigated, the sample was set at 200. This was to ensure that it was not just a low power of the simulation that drove these results. When the effect of different correlation levels were not tested, the correlation was set to r=0.2 for the correlation between the dependent variable and covariates.\\
+
+A package for the different kinds of flexibilities along with the simulation was programmed in R \citep{Team2018}. When the covariates had a binomial distribution, the variables were simulated using the package BinNor \citep{Demirtas2014}. This was done to ensure that the correlation matrix would also hold under this data type. The data were analyzed with a simple t-test using linear regressions. Every time h1 became significant, either by itself or in an interaction with another variable, it was considered a “success.” The simulation was done 10,000 times. The FPP was defined as \\
+
+\[FPP_i=\left. \left\{\begin{array}{c}
+1\ if\ any\ h_1\ is\ significant \\ 
+0\ if\ no\ h_1\ is\ significant\  \end{array}
+\right.\] 
+\[FPP=\frac{\sum^{10000}_i{FPP_i}}{10000}\] 
+
+
+Here FPP${}_{i}$ indicates if any of the models in the model set had a significant result. If that is the case it takes the value 1 otherwise 0. For FPR is the ratio of the models with a significant result and can be written as \\
+
+\[FPR_i=\frac{\#models\ with\ significant\ result}{\#models\ in\ the\ model\ set}\] 
+\[FPR=\frac{\sum^{10000}_i{FPR_i}}{10000}\] 
+
+
+The full code for the simulation and the code for the figures can be found in the supplementary materials. 
+
