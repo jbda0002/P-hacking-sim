@@ -1,0 +1,122 @@
+% --------------------------------------------------------------
+% Preamble
+% --------------------------------------------------------------
+
+\documentclass[english,natbib,man,floatsintext]{apa6}
+% \usepackage{arxiv}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{url}            % simple URL typesetting
+\usepackage{hyperref}       % hyperlinks
+\usepackage{xcolor}
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{tabularx}
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{gensymb}        % degree, angle symbols
+\usepackage{lscape} 
+
+% for math equations and symbols
+\usepackage{amsmath} 
+\usepackage{amssymb}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\SD}{\mathit{SD}}
+\newcommand{\SE}{\mathit{SE}}
+\newcommand{\BF}{\mathit{BF}}
+\DeclareMathOperator\arctanh{arctanh}
+
+% This prevents placing floats before a section.
+\usepackage{placeins}
+
+% bibliography
+%\usepackage{natbib}
+
+% allows for floats when doing jou or doc style
+\usepackage{graphicx}      
+\graphicspath{{./Figures/}}  
+%\usepackage{float}
+
+% for long tables
+\usepackage{longtable}
+% for multitables
+\usepackage{multirow}
+
+% linenumbers
+\usepackage[mathlines]{lineno}
+
+% in APA man mode captions are too large
+% making sure they are reasonable
+\usepackage{setspace}
+% \usepackage[font=singlespacing]{caption}
+% \captionsetup{font=singlespacing}
+
+%%% some support for commenting
+\usepackage{color}
+\definecolor{Blue}{RGB}{0,0,255}
+\definecolor{Red}{RGB}{255,0,0}
+\definecolor{Green}{RGB}{0,255,0}
+\newcommand{\jdc}[1]{\textcolor{Red}{[Jacob DC: #1]}}  
+\newcommand{\jlo}[1]{\textcolor{Blue}{[Jacob O: #1]}} 
+\newcommand{\spe}[1]{\textcolor{Green}{[Sonja: #1]}}
+
+% ---------------------------------------------------------
+% Title, authors
+% ---------------------------------------------------------
+
+\title{How (even preregistered) research can produce false positive findings}
+\shorttitle{preregistered research and false positive findings}
+
+\fourauthors{Jacob D. Christensen*}{Jacob L. Orquin}{Sonja Perkovic}{Carl Johan Lagerkvist}
+\fouraffiliations{Swedish University of Agricultural Sciences}{Aarhus University and Reykjavik University}{Aarhus University}{Swedish University of Agricultural Sciences}
+
+\authornote{Jacob D. Christensen, *Correspondence concerning this article should be addressed to Jacob D. Christensen, Department of Economics at Swedish University of Agricultural Sciences. E-mail: jacob.dalgaard.christensen@slu.se.}
+
+% ---------------------------------------------------------
+% Abstract
+% ---------------------------------------------------------
+
+\abstract{Using simulation methods, we show that even a preregistered analysis of a single hypothesized independent variable can produce false positive findings at a much higher rate than the expected 5\%. By including interactions between the hypothesized variable and covariates, omitting main effects when estimating interactions, using dummy coded variables, and surprisingly by using large sample sizes, simple regression analyses sometimes produce type I errors up to 40\% of the time. Using combinatorics, we show that including three covariates generate 94 possible models, using 6 over 2.3 million models. Systematically exploring a model set with just 3 covariates nearly guarantees a false positive finding. While labeling unregistered analyses as exploratory is an important practice, interpreting their p-values may still be meaningless.             
+}
+
+\keywords{type I error, false positive statistics, replicability, simulation} 
+
+\begin{document}
+\maketitle
+
+% introduction
+\input{manuscript/introduction}
+
+% method section
+\input{manuscript/method}
+
+% results section
+\input{manuscript/results}
+
+% discussion section
+\input{manuscript/discussion}
+
+% author contributions
+\section{Author contributions}
+JDC and JLO developed the study concept. JDC and SP performed the analyses. JDC, SP, CJL, and JLO wrote the manuscript. 
+
+% data and code
+\section{Data availability}
+Raw data and code for analyses and manuscript are available at \url{https://osf.io}.
+
+% reference list
+\bibliographystyle{apalike}
+\bibliography{references.bib}
+\clearpage
+
+% appendix
+ \input{manuscript/appendix}
+
+\end{document}
