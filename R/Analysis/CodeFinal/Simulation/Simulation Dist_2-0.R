@@ -3,7 +3,7 @@
 #### Setting up the simulation ####
 ## Setting working directory
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-set.seed(1234)
+set.seed(1230)
 
 ## Set output directory
 output = dirname(dirname(getwd()))
@@ -33,7 +33,7 @@ library(here)
 sample = c(200)
 
 ## Setting the number of repretetion
-repdist=200
+repdist=10000
 ## Setting the correlation between dependent and independent 
 corr=c(0.2)
 
@@ -1252,5 +1252,5 @@ registerDoSEQ()
 
 ## Save the data
 
-write.csv(finalresults,paste0(output,"/Resultfile/results.csv"),sep=";")
-write.csv(resultsFullset,paste0(output,"/Resultfile/resultsFullSet.csv"),sep=";")
+fwrite(finalresults,paste0(output,"/Files/Results.csv"),sep = ";")
+fwrite(resultsFullset,paste0(output,"/Files/resultsFullSet.csv"),sep=";")
