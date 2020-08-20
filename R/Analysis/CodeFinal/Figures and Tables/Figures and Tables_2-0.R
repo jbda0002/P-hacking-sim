@@ -2,7 +2,7 @@
 
 ## Set output directory
 output = dirname(dirname(getwd()))
-output=c(output,"\Result")
+output=paste0(output,"/Result")
 
 library(data.table)
 library(ggplot2)
@@ -11,7 +11,8 @@ library(ggpubr)
 library(Rmisc)
 
 ##Load the data
-finalresults = read.csv(paste0(output,"/Resultfile/results.csv"),sep=",")
+fileplace=paste0(output,"/Files/ResultsSim.csv")
+finalresults = fread(fileplace,sep=";")
 ## Figures for paper ##
 
 ## Make the false positve data
@@ -69,7 +70,8 @@ Figure1A = ggplot(figuredata,aes(x=Set))+
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
 
-
+##Save data
+fwrite(figuredata,paste0(output,"/Files/figuredata1A.csv"),sep=";")
 Figure1A
 
 ## Figure 1B
@@ -102,6 +104,9 @@ Figure1B = ggplot(figuredata,aes(x=Set))+
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
+
+##Save data
+fwrite(figuredata,paste0(output,"/Files/figuredata1B.csv"),sep=";")
 Figure1B
 
 ## Figure 1C
@@ -135,6 +140,9 @@ Figure1C = ggplot(figuredata,aes(x=Set))+
         axis.title.y = element_blank(),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
+
+##Save data
+fwrite(figuredata,paste0(output,"/Files/figuredata1C.csv"),sep=";")
 Figure1C
 
 ## Figure 1D
@@ -166,6 +174,9 @@ Figure1D<-ggplot(aes(x=SampleSize), data=figuredata)+
         axis.title.y = element_blank(),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
+
+##Save data
+fwrite(figuredata,paste0(output,"/Files/figuredata1D.csv"),sep=";")
 
 Figure1D
 
