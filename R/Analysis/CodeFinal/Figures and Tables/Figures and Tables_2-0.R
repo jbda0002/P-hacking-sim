@@ -1,7 +1,7 @@
 ##Load lib
 
 ## Set output directory
-output = dirname(dirname(getwd()))
+output = dirname((getwd()))
 output=paste0(output,"/Result")
 
 library(data.table)
