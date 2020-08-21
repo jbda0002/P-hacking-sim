@@ -1,7 +1,8 @@
 ##Load lib
 
 ## Set output directory
-output = dirname((getwd()))
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+output = dirname(dirname(getwd()))
 output=paste0(output,"/Result")
 
 library(data.table)
@@ -65,7 +66,7 @@ Figure1A = ggplot(figuredata,aes(x=Set))+
   ylab("Probability")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
@@ -100,7 +101,7 @@ Figure1B = ggplot(figuredata,aes(x=Set))+
   ylab("Difference in probability")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
@@ -133,11 +134,11 @@ Figure1C = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  # ylab("Difference between false-positive rate")+
+  ylab("Difference between false-positive rate")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
-        axis.title.y = element_blank(),
+        axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
 
@@ -165,13 +166,13 @@ Figure1D<-ggplot(aes(x=SampleSize), data=figuredata)+
   geom_point(aes( y=FPR),show.legend = FALSE,color="#FF6666")+
  # scale_color_grey()+
   facet_grid(Set~Main+Type)+
-  # ylab("False-positive rate")+
+  ylab("Probability")+
   xlab("Sample size")+
   theme_apa()+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 8, angle = 0, hjust = .5, vjust = 0, face = "plain"),
-        axis.title.y = element_blank(),
+        axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
 
@@ -180,6 +181,7 @@ fwrite(figuredata,paste0(output,"/Files/figuredata1D.csv"),sep=";")
 
 Figure1D
 
+
 Figure1 = ggarrange(Figure1A, Figure1D, Figure1B,Figure1C, 
                     labels = c("A", "B", "C","D"),
                     ncol = 2, nrow = 2)
@@ -187,6 +189,10 @@ Figure1
 
 
 ggsave(Figure1,filename = file.path(output,"Figures","Figure1.jpeg"),width = 15,height = 17)
+ggsave(Figure1A,filename = file.path(output,"Figures","Figure1A.jpeg"),width = 6,height = 7)
+ggsave(Figure1B,filename = file.path(output,"Figures","Figure1B.jpeg"),width = 6,height = 7)
+ggsave(Figure1C,filename = file.path(output,"Figures","Figure1C.jpeg"),width = 6,height = 7)
+ggsave(Figure1D,filename = file.path(output,"Figures","Figure1D.jpeg"),width = 6,height = 7)
 
 
 ### Using the full model set ###
