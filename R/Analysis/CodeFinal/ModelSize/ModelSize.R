@@ -48,7 +48,9 @@ for (i in covarites) {
   set=c(i,number_of_models,fullset)
   TableModelsFalse=rbind(TableModelsFalse,set)
 }
-TableModelsFalse
+TableModelsFalse=as.data.frame(TableModelsFalse)
+names(TableModelsFalse)=c("Number of covariates" , "Ma" ,"HCI","CCI", "Ma+HCI" , "Ma+CCI","HCI+CCI", "Ma+HCI+CCI", "Number of models")
+
 ## Main = T 
 #Main = F
 #Ma
@@ -96,8 +98,15 @@ for (i in covarites) {
   set=c(i,number_of_models,fullset)
   TableModelsTrue=rbind(TableModelsTrue,set)
 }
+TableModelsTrue=as.data.frame(TableModelsTrue)
+rownames(TableModelsTrue)=NULL
+names(TableModelsTrue)=c("Number of covariates", "Ma","Ma+HCI", "Ma+CCI", "Ma+HCI+CCI", "Number of models")
+
 
 ## Save tables 
+
+
 library(xtable)
-print(xtable(TableModelsTrue,digits = 0, type = "latex"), file = "ModelNumber.tex")
-print(xtable(TableModelsFalse,digits = 0, type = "latex"), file = "ModelNumberFalse.tex")
+print(xtable(TableModelsTrue,digits = 0, type = "latex",
+             auto=T,include.rownames=FALSE), file = "ModelNumber.tex")
+print(xtable(TableModelsFalse,digits = 0, type = "latex", include.rownames=FALSE), file = "ModelNumberFalse.tex")
