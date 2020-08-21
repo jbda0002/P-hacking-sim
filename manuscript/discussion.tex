@@ -1,40 +1,34 @@
 \section{Discussion}
+With simulations showing an increase in the FPP even just labeling the research as exploitative might be a bad idea \citep{Simmons2011}. It is clear that preregristration can help with lowering the FPP, as it will bind the researcher to one single analyisis. However, with literature showing that even with just running one model can increase the false positive preregistration might not be enough (REF). It is not clear that it is enough to lower the FPR all the way to 5\%. To test if pregregristration is enough we used a simulation to look at how FPP and FPR were affected by different flexibilities. More precisely, we looked into the flexibilities; constructing a model set with several covariates, using multiple outlier criteria, and collecting different dependent variables. We also looked on how the precision of the estimates (a bigger sample) and the correlations between the dependent variable and the covariates affected the ability to find a significant effect both when the study would be labeled as exploratory but also under the criteria of preregistration. 
 
-- Background and research question: moving towards higher reproducibility by fighting false positive results. One of the ways researchers have moved to lower this is with open science and preregistration. 
-- troubles in paradise: is prereg enough?
-With literature showing that even with just running one model can increase the false positive preregistration might not be enough (REF). 
-With simulations showing an increase in the FPP even just labeling the research as exploitative might be a bad idea \citep{Simmons2011}. 
-Using a simulation, we looked at how FPP and FPR were affected by different flexibilities. More precisely, we looked into the flexibilities; constructing a model set with several covariates, using multiple outlier criteria, and collecting different dependent variables. We also looked on how the precision of the estimates (a bigger sample) and the correlations between the dependent variable and the covariates affected the ability to find a significant effect both when the study would be labeled as exploratory but also under the criteria of preregistration. 
+Preregistration is not enough to lower the FPR to 5\%  in some cases. This happens when main effects are not included and the covariates are dummy coded. In this case the FPR can get as high as ...\%, meaning that when the research just run random model from a given set there is already a false positive rate at ...\%. This happens due to the fact that the interaction effect captures the true effect that would have been from the main effect. So even though some literature still suggest this when the reasoning is just theory based, there seems to be no good reason for this as long as the covariates are dummy coded. This also means that the FPR falls as soon as the variable is effects coded, but it still due not drop down to an FPR at 5\%. The only way to overcome this issue is to always include the main effect as soon as interactions are of interest. However, even in the sets that that includeds the main effects and interactions the FPR will still be slightly higher than 5\%. This is simple due to the fact that multiple test's are been looked at at the same time. A simple solution to overcome this issue is to correct the p-values for this multiple comparison, such as using Bonferroni correction \citep{dunn1961multiple}.
+Given that it is possible to get a FPP at a 100\% labeling research that goes further than the preregistered analysis as exploratory can have little to no meaning. Even with doing correct analysis as including all t constitutive terms and correcting p-values to follow the amount of test in a given model the FPP is still higher than 5\%. 
+    
+It has been suggested that one way to lower the FPP would be to ensure big enough sample \citep{Simmons2011}. Even with the recommendation has been loosened a bit, the same suggestion still holds, increase the sample could help with lowering the FPP \cite{s}. This is however not a reasonable way to lower the FPP or the FPR. And even worse, if using some bad practices, having a big sample can ensure that one would find a significant result. It is still the case that low power can increase the effect size of non significant results (REF), but expecting that it will lower the FPP and FPR is not the case for any model set. 
 
-
-- our RQ: analyze FPP AND FPR to understand the risk of false positive findings even under prereg and labelling as "exploratory"
-- How did we answer this: short recap on sim setup
-- main findings:
-	- Preregistration is not enough to lower the FPR to 5\%  in some cases. This happens when main effects are not included and the covariates are dummy coded. In this case the FPR can get as high as ...\%, meaning that when the research just run random model from a given set there is already a false positive rate at ...\%. This happens due to the fact that the interaction effect captures the true effect that would have been from the main effect. So even though some literature still suggest this when the reasoning is just theory based, there seems to be no good reason for this as long as the covariates are dummy coded. This also means that the FPR falls as soon as the variable is effects coded, but it still due not drop down to an FPR at 5\%. The only way to overcome this issue is to always include the main effect as soon as interactions are of interest. However, even in the sets that that includeds the main effects and interactions the FPR will still be slightly higher than 5\%. This is simple due to the fact that multiple test's are been looked at at the same time. A simple solution to overcome this issue is to correct the p-values for this multiple comparison, such as using Bonferroni correction (REF).
-    - we need solid statistics (always have main effects) and correcting p-values 
-	- exploratory analyses still gives issues - p-values have little to no meaning
-	- sample size is not the solution and can even bring problems
-- recommendations
-- additional contribution to model selection and machine learning research: calculate how big the model set is depending on which part in the set one is looking at - if not interested in one specific the sets Ma, CCI and Ma+ CCI are the sets to look at
-
-Note: make calculations in appendix
-
-
+\subsection{Recommendations}
+\hfill\\
 Guidelines for researchers 
-\begin{itemize}
-\item Follow the principals and guidelines of open science.
+\subsubsection{Follow the principals and guidelines of open science}
 Researchers should follow the guidelines already developed (Nosek et al., 2015) to get the FPP to the expected 5\%.
-\item Use effects coding and not dummy coding
+\subsubsection{Use effects coding and not dummy coding.}
 If there, for some reason, should be a reason not to include main effects when doing interactions. This lowers both the FPP and FPR for sets that include HCI and there is no main effect present.
-\item Use Bonferroni corrections when looking at interactions. When running regressions (or ANOVA) with interaction effects a Bonferroni correction should be used. If this is not being done the FPR will be higher than 5\%, and therefore the FPP would also be higher than 5\%.
-\end{itemize}
+\subsubsection{Use Bonferroni corrections when looking at interactions.}
+When running regressions with interaction effects a Bonferroni correction should be used. If this is not being done the FPR will be higher than 5\%, and therefore the FPP would also be higher than 5\%.
+
 
 
 Guidelines for reviewer and editors
-\begin{itemize}
-\item Look for correction of p-values
+
+\subsubsection{Look for correction of p-values}
 If multiple comparisons are being made or interaction effects are used, there should be a correction of the p-values
-\item Demand main effects follow interaction effects
+\subsubsection{Demand main effects follow interaction effects}
 If the main effect is not included when interaction effects are investigated there should be a thorough explanation of why this is the case.
-\end{itemize}
+
+
+\subsection{Additional Contributions}
+
+It is not only for researchers who care about false positives in researcher the developed model set specification can help think about the consequences of flexibilities. This also gives a way for researchers who work with machine learning to talk about different parts of the model set with some minor changes in the sets. Since researchers who work with machine learning rarely care about one specific variable but rather the predictability of a general model, having the set HCI is not meaning full. Rather it matters with the level of interactions that would be allowed into the model set and how this expand the model set. We therefore instead splitting the CCI set into how many levels of interactions are allowed. In Table ... can be seen the number of models for the different sets with and without the restriction of having constitutive terms. As for the the calculations for the other model set the derivation of the sets can be found in appendix .... 
+
+
  
