@@ -108,5 +108,5 @@ names(TableModelsTrue)=c("Number of covariates", "Ma","Ma+HCI", "Ma+CCI", "Ma+HC
 
 library(xtable)
 print(xtable(TableModelsTrue,digits = 0, type = "latex",
-             auto=T,include.rownames=FALSE), file = "ModelNumber.tex")
-print(xtable(TableModelsFalse,digits = 0, type = "latex", include.rownames=FALSE), file = "ModelNumberFalse.tex")
+              caption ="" ),include.rownames=FALSE, file = "ModelNumberTrue.tex")
+print(xtable(TableModelsFalse,digits = 0, type = "latex",caption =""), include.rownames=FALSE, file = "ModelNumberFalse.tex")
