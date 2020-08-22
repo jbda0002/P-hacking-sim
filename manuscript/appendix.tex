@@ -1,7 +1,9 @@
 \section{Supplementary Material} 
 
 \setcounter{table}{0}
+\setcounter{figure}{0}
 \renewcommand{\thetable}{SI\arabic{table}}
+\renewcommand{\thefigure}{SI\arabic{figure}}
 
 \subsection{Formula for Set Size}
 To calculate the size of the different sets, we will use the binomial coefficients to calculate the possible combinations. The general form of the binominal coefficient is written as
@@ -555,3 +557,10 @@ k \end{array}
 
 
 \subsection{Further results from the simulation}
+
+\begin{figure}[t]
+\includegraphics[width=0.8\textwidth]{R/Analysis/Result/Figures/Figure1BF.jpeg}
+\centering
+\caption{Black is the FPP and red is FPR.  Splitting the false-positive rate by model set and whether the main effects should follow interactions or not. Same figures as Figure 1-4 but with Bonferroni correction}
+\label{fig:mainfigure}
+\end{figure}
