@@ -554,11 +554,56 @@ k \end{array}
 \noindent Number of models split into the different sets and number of covariates when we need constitutive terms.
 
 
+\subsection{Model set for machine learning}
+When a researcher is not interested in one specific variable but rather the overall prediction of a given model, such as in machine learning, the same type of sets can be used to calculate the size of the model sets. 
+As is with the case of hypothesis testing the researcher can either demand that the main effect are always present when having interaction or it can loosen on this assumption and not require this. \\
 
+\subsubsection{When no restrictions are in place.}
+In this case there are three different sets; Ma, CCI and Ma + CCI. In this case however there is no variable that needs to be present all the time as earlier ($h_1$). The calculations of the sets are however simelar as an example with two covarietes can be seen in Table SI8.  
+
+\begin{table}
+\caption{}
+\begin{tabular}{lc} 
+\toprule
+Set & Models \\ 
+\midrule
+\multirow{4}{*}{Ma} & $y=c$\\ & $y=x_1$\\ & $y=x_2$\\ & $y=x_1+x_2$\\ &  \\  
+\multirow{1}{*}{CCI} & $y=x_1x_2$\\  & \\ 
+\multirow{3}{*}{Ma + CCI}  & $y=x_1 + x_1x_2$\\ & $y=x_2 + x_1x_2$\\ & $y=x_1+x_2 + x_1x_2$\\ &  \\  
+\bottomrule
+\end{tabular}
+\end{table}
+
+The calcultation for the setsize follows along as it did earlier and is therefore
+\\
+\[\#models\ in\ Ma=\left(2^n\right)\] 
+\[\#models\ in\ CCI=\left(2^k-1\right)\] 
+\[\#models\ in\ Ma+CCI=\left(2^n-1\right)\left(2^k-1\right)\] 
+where $k=\left( \begin{array}{c}
+n \\ 
+2 \end{array}
+\right)$. 
+
+Given different number of variables the number of possible models can be seen in Table SI9. These are when only allowing for two-way interactions, but this framework can easliy be expanded to include higher order interactions. \\
+
+%insert table
+
+\subsubsection{When restrictions are in place.}
+This follows along the calculations of earlier. But here the only sets that are of interest is Ma and Ma + CCI.\\
+The number of models in this case is then \\
+
+\[\#models\ in\ Ma=\left(2^n\right)\] 
+\[\#models\ in\ Ma+CCI=\sum^n_{k=2}{\left( \begin{array}{c}
+n \\ 
+k \end{array}
+\right)}\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)\ \]  
+
+//
+The number of models with different numbers of variables can be seen in Table SI10
+
+%insert table 
 
 \subsection{Further results from the simulation}
-
-
 FPP and FPR for full model sets under different condetions. Here there is no split between each model set
 
 
