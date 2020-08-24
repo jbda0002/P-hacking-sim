@@ -1,4 +1,4 @@
-\section{Supplementary Material} 
+\part*{Supplementary Material} 
 
 \setcounter{table}{0}
 \setcounter{figure}{0}
@@ -20,8 +20,8 @@ i \end{array}
 
 When we need to calculate the size of each set, we need to split them into two different cases; one where we allow interactions without having main terms present, and the other where main terms should always follow the interaction. \\
 
-\subsection{Case 1 – No Restriction}
-\subsubsection{Ma} \hfill 
+\section{Case 1 – No Restriction}
+\subsection{Ma}
 
 To calculate the size of the sets, we can use the binomial coefficient. Since the size of the set Ma will be all the combinations of the covariates. Let us denote the number of covariates with n. If we have an example with three covariates meaning n=3, then the combination of these where we have all three present can be written with the binomial coefficient as
 \[\left( \begin{array}{c}
@@ -73,12 +73,11 @@ n \\
 i \end{array}
 \right)}=\left(2^n\right)\] 
 
-\subsubsection{Formally Written} \hfill \break 
+\subsubsection{Formally Written} \break 
 \noindent Let X be the set of covariates 
 \[X=\left.x_1,x_2,..,x_n\right.\] 
 \[\left|X\right|=n\] 
 \[\left|\mathcal{P}\left(X\right)\right|=2^n\] 
-
 
 \noindent The set Ma is then the power set of H excluding the empty set
 \[Ma=\left.S:S\subseteq X\right.\] 
@@ -89,12 +88,10 @@ Each element $S\in Ma$ is a set of the covariates e.g. $S=\left.x_3,x_7\right.$ 
 
 The same line of reasoning goes for the set HCI. Here, it is all the interactions between the covariates and the hypothesis variable 
 
-
 \[I_h(X)=\left.\left.x_i,h\right.:x_i\in X\right.\] 
 \[HCI=\left.T:T\subseteq I_h\left(X\right),T\neq \textrm{\O}\right.\] 
 The number of models in this set is only the power set excluding the empty set
 \[\left|HCI\right|\boldsymbol{=}2^n-1\] 
-
 
 \subsection{CCI}
 
@@ -197,7 +194,7 @@ CCI & $y=h_1+x_1x_2$ & \\
 
 
 
-\subsection{Case 2 – With Restriction}
+\section{Case 2 – With Restriction}
 
 In this case, we need to ensure that any time there is an interaction, the main terms follow. This means that if our hypothesis variable interacts with a covariate, both the hypothesis variable and the covariate need to enter the model linearly as well, e.g.,
 \[y=h_1+x_1+h_1x_1\] 
@@ -205,7 +202,6 @@ In this case, we need to ensure that any time there is an interaction, the main 
 Here, we have an interaction between our hypothesis variable h${}_{1\ }$and a covariate x${}_{1}$${}_{.}$ Therefore, the terms also enter the model by themselves. This restriction does not change how we calculate the set size of Ma as there are no interactions here. The way to calculate the size of this is therefore the same in the two cases, we will therefore focus on the other relevant sets. However, it means that we cannot count the models that lie in the sets HCI and CCI as these do not have the main effect following the interactions. The first set we then need to calculate is the set Ma + HCI.
 
 \subsection{Ma + HCI}
-
 For the sake of simplicity, we start with a case where n=3. The models that are within this set can be seen in Table SI2 in the case where n=3 \\
 
 \begin{table}[]
@@ -394,8 +390,6 @@ Set & Models \\
 \end{tabular}
 \end{table}
 
-
-
 As in this case, we always need to have at least two covariates for this set to fulfil the requirement that we have set; we can only split out Ma+CCI into two parts; the first part has two covariates and the second part has three. The first set Ma+CCI(2) is straightforward as this set is only the number of combinations of the three covariates that can be made multiplied with the combinations of two of these covariates that are included
 
 \noindent 
@@ -489,7 +483,6 @@ Let k be an indicator of how many covariates that are included. Since we are usi
 Let L be a subset of X of size k.
 \[L=\left.S:S\subset X,\left|S\right|=k,k\in T\right.\] 
 
-
 \noindent The number of interactions that can be made for a given k is then
 \[I_k\left(X\right)=\left.\left.x_i,x_j\right.:x_i\in L,x_j\in L,x_i\neq x_j\right.\] 
 For a given k, the number of two-way interactions that can be made is then
@@ -543,18 +536,14 @@ k \end{array}
 
 \input{R/Analysis/CodeFinal/ModelSize/ModelNumberFalse}
 
-
-
 \noindent The number of models split into the different sets and number of covariates when there is no restriction on the main effect.
 
 \input{R/Analysis/CodeFinal/ModelSize/ModelNumberTrue}
 
-
-
 \noindent Number of models split into the different sets and number of covariates when we need constitutive terms.
 
 
-\subsection{Model set for machine learning}
+\section{Model set for machine learning}
 When a researcher is not interested in one specific variable but rather the overall prediction of a given model, such as in machine learning, the same type of sets can be used to calculate the size of the model sets. 
 As is with the case of hypothesis testing the researcher can either demand that the main effect are always present when having interaction or it can loosen on this assumption and not require this. \\
 
@@ -586,9 +575,10 @@ n \\
 
 Given different number of variables the number of possible models can be seen in Table SI9. These are when only allowing for two-way interactions, but this framework can easliy be expanded to include higher order interactions. \\
 
-%insert table
+\input{R/Analysis/CodeFinal/ModelSize/ModelNumberFalseML}
 
-\subsubsection{When restrictions are in place.}
+
+\subsection{When restrictions are in place.}
 This follows along the calculations of earlier. But here the only sets that are of interest is Ma and Ma + CCI.\\
 The number of models in this case is then \\
 
@@ -598,12 +588,11 @@ n \\
 k \end{array}
 \right)}\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)\ \]  
 
-//
 The number of models with different numbers of variables can be seen in Table SI10
 
-%insert table 
+\input{R/Analysis/CodeFinal/ModelSize/ModelNumberTrueML}
 
-\subsection{Further results from the simulation}
+\section{Further results from the simulation}
 FPP and FPR for full model sets under different condetions. Here there is no split between each model set
 
 
