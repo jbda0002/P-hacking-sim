@@ -135,7 +135,7 @@ Figure1C = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Difference between false-positive rate")+
+  ylab("Difference in probability")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
