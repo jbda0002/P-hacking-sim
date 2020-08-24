@@ -10,6 +10,7 @@ library(ggplot2)
 library(jtools)
 library(ggpubr)
 library(Rmisc)
+library(xtable)
 
 ##Load the data
 fileplace=paste0(output,"/Files/ResultsSim.csv")
@@ -197,13 +198,17 @@ ggsave(Figure1D,filename = file.path(output,"Figures","Figure1D.jpeg"),width = 6
 
 ### Using the full model set ###
 
-resultsFullset=read.csv(paste0(output,"/Resultfile/resultsFullSet.csv"),sep=",")
+resultsFullset=fread(paste0(output,"/Files/resultsFullSet.csv"),sep=";")
 
 falsepositverateDataFull<-as.data.table(resultsFullset)
 
 falsepositverateDataFull$rate=ifelse(falsepositverateDataFull$f..>0,1,0)
 
-falsepostiveFULL=falsepositverateDataFull[,list(meanF=mean(rate),meanD=mean(f..)),by=c("Main","Type","SampleSize","OutlierExclusion","Correlation","IndependentVariables")]
+falsepostiveFULL=falsepositverateDataFull[,list(FPP=mean(rate),FPR=mean(f..)),by=c("Main","Type","SampleSize","OutlierExclusion","Correlation","IndependentVariables")]
+falsepostiveFULL$Main=ifelse(falsepostiveFULL$Main==1,"TRUE","FALSE")
+falsepostiveFULL$Type=ifelse(falsepostiveFULL$Type==1,"Normal","Binomial")
+falsepositverateDataFull$IndependentVariables=falsepositverateDataFull$IndependentVariables+1
+print(xtable(falsepostiveFULL,digits = 2, type = "latex"), include.rownames=FALSE, file = "FullModelSet.tex")
 
 falsepostiveFULL
 
@@ -388,10 +393,7 @@ Figure2SI<-ggplot( data=meanDistCorrInc)+
 Figure2SI
 
 
-## Using several covariates
-
-
-
+## Using several dependent variables
 figuredata<-as.data.table(falsepostive[falsepostive$SampleSize==200  & falsepostive$OutlierExclusion=="FALSE" & falsepostive$Correlation==0.2 & falsepostive$IndependentVariables==1
                                        & falsepostive$Type!="h1=Binary, Co=Binary Effect" & falsepostive$Type!="h1=Normal, Co=Binary Effect",]
                         )
