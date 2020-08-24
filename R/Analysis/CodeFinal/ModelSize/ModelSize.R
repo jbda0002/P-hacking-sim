@@ -51,8 +51,21 @@ for (i in covarites) {
 TableModelsFalse=as.data.frame(TableModelsFalse)
 names(TableModelsFalse)=c("Number of covariates" , "Ma" ,"HCI","CCI", "Ma+HCI" , "Ma+CCI","HCI+CCI", "Ma+HCI+CCI", "Number of models")
 
+## Model set size when there is no specefic variable of intrest
+TableModelsFalseML = NULL
+## Make the table
+for (i in covarites) {
+  number_of_models=c(Ma(i),CCI(i),Ma_CCI(i))
+  fullset=sum(number_of_models)
+  set=c(i,number_of_models,fullset)
+  TableModelsFalseML=rbind(TableModelsFalseML,set)
+}
+TableModelsFalseML=as.data.frame(TableModelsFalseML)
+names(TableModelsFalseML)=c("Number of covariates" , "Ma" ,"CCI" , "Ma+CCI", "Number of models")
+
+
 ## Main = T 
-#Main = F
+
 #Ma
 Ma = function(n){
   number = 2^n
@@ -102,11 +115,27 @@ TableModelsTrue=as.data.frame(TableModelsTrue)
 rownames(TableModelsTrue)=NULL
 names(TableModelsTrue)=c("Number of covariates", "Ma","Ma+HCI", "Ma+CCI", "Ma+HCI+CCI", "Number of models")
 
+## When there is no specefic variable of interest
+TableModelsTrueML = NULL
+## Make the table
+for (i in covarites) {
+  number_of_models=c(Ma(i),Ma_CCI(i))
+  fullset=sum(number_of_models)
+  set=c(i,number_of_models,fullset)
+  TableModelsTrueML=rbind(TableModelsTrueML,set)
+}
+TableModelsTrueML=as.data.frame(TableModelsTrueML)
+rownames(TableModelsTrueML)=NULL
+names(TableModelsTrueML)=c("Number of covariates", "Ma", "Ma+CCI", "Number of models")
+
 
 ## Save tables 
 
 
 library(xtable)
 print(xtable(TableModelsTrue,digits = 0, type = "latex",
-              caption ="" ), caption.placement = "top",include.rownames=FALSE, file = "ModelNumberTrue.tex")
+             caption ="" ), caption.placement = "top",include.rownames=FALSE, file = "ModelNumberTrue.tex")
+print(xtable(TableModelsTrueML,digits = 0, type = "latex",
+             caption ="" ), caption.placement = "top",include.rownames=FALSE, file = "ModelNumberTrueML.tex")
 print(xtable(TableModelsFalse,digits = 0, type = "latex",caption =""), caption.placement = "top", include.rownames=FALSE, file = "ModelNumberFalse.tex")
+print(xtable(TableModelsFalseML,digits = 0, type = "latex",caption =""), caption.placement = "top", include.rownames=FALSE, file = "ModelNumberFalseML.tex")
