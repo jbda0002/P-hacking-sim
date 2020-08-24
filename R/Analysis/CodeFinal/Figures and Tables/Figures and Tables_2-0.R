@@ -207,7 +207,7 @@ falsepositverateDataFull$rate=ifelse(falsepositverateDataFull$f..>0,1,0)
 falsepostiveFULL=falsepositverateDataFull[,list(FPP=mean(rate),FPR=mean(f..)),by=c("Main","Type","SampleSize","OutlierExclusion","Correlation","IndependentVariables")]
 falsepostiveFULL$Main=ifelse(falsepostiveFULL$Main==1,"TRUE","FALSE")
 falsepostiveFULL$Type=ifelse(falsepostiveFULL$Type==1,"Normal","Binomial")
-falsepositverateDataFull$IndependentVariables=falsepositverateDataFull$IndependentVariables+1
+falsepostiveFULL$IndependentVariables=falsepostiveFULL$IndependentVariables+1
 print(xtable(falsepostiveFULL,digits = 2, type = "latex"), include.rownames=FALSE, file = "FullModelSet.tex")
 
 falsepostiveFULL
