@@ -1,12 +1,9 @@
 \section{Method}
-
-To investigate our main research question on how often a hypothesis variable with no effect on the dependent variable can become significant, we performed a simulation. We tested this using the discussed flexibilities, i.e. under different model specifications, with and without outlier deletion, with several dependent variables, and with different coding of the binary variable. These were tested using different sample sizes, different correlations between the dependent variable and the covariates, and different types of data structure. In a very simple case in which there would only be one test to perform for each model, the FPP and FPR would be 5\%. In this case, however, we are expanding the model set with several tests and controlling for interactions that are not present. With several tests within each regression and interactions without main effects, it would be expected that the FPP and FPR would no longer be at 5\%. However, how the different tests interact with each other and how the increase in sample size and different correlation structures affect is not obvious. Therefore, we chose to test the FPP and FPR using simulations as calculating the FPP and FPR was not straightforward.
-
+To investigate our main research question on how often a hypothesis variable with no effect on the dependent variable can become significant, we performed a simulation. We tested this using the discussed flexibilities, i.e. under different model specifications, with and without outlier deletion, with several dependent variables, and with different coding of the binary variable. These were tested using different sample sizes, different correlations between the dependent variable and the covariates, and different types of data structure. In a very simple case in which there would only be one test to perform for each model, the FPP and FPR would be 5\%. In this case, however, we are expanding the model set with several tests and controlling for interactions that are not present. With several tests within each regression and interactions without main effects, it would be expected that the FPP and FPR would no longer be at 5\%. However, how the different tests interact with each other and how the increase in sample size and different correlation structures affect is not obvious. Therefore, we chose to test the FPP and FPR using simulations as calculating the FPP and FPR was not straightforward.\\
 \subsection{Model Set}
 To build the model set, we first needed to define the variables being used. We denote the hypothesis variable as h1, all the covariates as X=(x1,x2,..,xn), and the dependent variable as y. To better understand the building of the model sets, the different interactions were split into three sets. The first set only had the main effects including only the hypothesis variable without any covariates (Ma), the second set included models that had interactions between the hypothesis variable and the covariates (HCI), and the last set contained the models that had interactions between the covariates (CCI). An example with two covariates can be seen in Table 1 (excluding the constant and the coefficient in front of each variable for the sake of simplicity). The hypothesis variable was present in all three sets.
 To obtain the full set of models, we also needed the combinations of the three sets. There were two possible choices: restricting our sets so the main effect was always present when there was an interaction or allowing for interactions without any main effects. In Table 1, we show the combination of all sets where the main effect is always included provided there is an interaction term. The other case can be seen in Supplementary Information. \\
-
-
+\newpage
 \begin{table}[]
 \caption{}
 \caption*{\footnotesize Set of models when there are two covariates and only one dependent variable}
@@ -49,8 +46,9 @@ j \end{array}
 n denotes the number of the covariates collected. A more thorough work through of this equation can be found in the supplementary material.
 We did not include the sets HCI, CCI, and HCI+CCI as these were interaction terms with no corresponding main effect. For the case, where we had two covariates, the number of models became as follows: \\
 
-$
-\begin{aligned}
+
+\begin{equation*}
+\end{equation*}
 \centering
 \left(2^2-1\right)+
 \sum^2_{j=1}{\left(2^j-1\right)\left( \begin{array}{c}
@@ -60,14 +58,14 @@ j \end{array}
 \sum^2_{j=2}{\left( \begin{array}{c}
 2 \\ 
 j \end{array}
-\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)} +  
+\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)} \\ +  
  \sum^2_{j=2}{\left( \begin{array}{c}
 2 \\ 
 j \end{array}
 \right)\left(2^j-1\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}= \\
  3+5+1+3*1=12 
-\end{aligned}
-$
+\end{equation*}
+
 
 The number of models in each set for the different numbers of covariates under the restriction that the main effect must always follow the interactions can be seen in Table 2. The other case can be found in the Supplementary Information. \\
 
