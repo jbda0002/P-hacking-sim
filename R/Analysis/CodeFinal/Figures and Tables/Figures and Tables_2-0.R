@@ -57,8 +57,9 @@ figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExcl
                          & falsepostive$Type!="h1=Binary, Co=Binary Effect" & falsepostive$Type!="h1=Normal, Co=Binary Effect",]
 
 Figure1A = ggplot(figuredata,aes(x=Set))+
-  geom_bar(aes(x=Set,y=Pr), stat = "identity",position="dodge")+
-  geom_bar(aes(x=Set,y=FPR), stat = "identity",position="dodge", fill = "#FF6666")+
+  geom_bar(aes(x=Set,y=Pr, fill = "FPP"), stat = "identity",position="dodge")+
+  geom_bar(aes(x=Set,y=FPR, fill = "FPR"), stat = "identity",position="dodge")+
+  scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
   facet_grid(Type~Main)+
@@ -92,8 +93,9 @@ figuredata$diff=figuredata$mean.x-figuredata$mean.y
 figuredata$FPRdiff=figuredata$FPR.x-figuredata$FPR.y
 
 Figure1B = ggplot(figuredata,aes(x=Set))+
-  geom_bar(aes(x=Set,y=diff), stat = "identity",position="dodge")+
-  geom_bar(aes(x=Set,y=FPRdiff), stat = "identity",position="dodge", fill = "#FF6666")+
+  geom_bar(aes(x=Set,y=diff,fill="FPP"), stat = "identity",position="dodge")+
+  geom_bar(aes(x=Set,y=FPRdiff,fill="FPR"), stat = "identity",position="dodge")+
+  scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPRdiff,3),label=round(FPRdiff,3)), vjust=-1)+
   #geom_text( aes(y=round(diff,3),label=round(diff,3)), vjust=-1)+
   facet_grid(Type~Main)+
@@ -128,8 +130,9 @@ figuredata$FPRdiff=figuredata$FPR.y-figuredata$FPR.x
 
 
 Figure1C = ggplot(figuredata,aes(x=Set))+
-  geom_bar(aes(x=Set,y=diff), stat = "identity",position="dodge")+
-  geom_bar(aes(x=Set,y=FPRdiff), stat = "identity",position="dodge", fill = "#FF6666")+
+  geom_bar(aes(x=Set,y=diff,fill="FPP"), stat = "identity",position="dodge")+
+  geom_bar(aes(x=Set,y=FPRdiff,fill="FPR"), stat = "identity",position="dodge")+
+  scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPRdiff,3),label=round(FPRdiff,3)), vjust=-1)+
   #geom_text( aes(y=round(diff,3),label=round(diff,3)), vjust=-1)+
   facet_grid(Type~Main)+
@@ -154,18 +157,18 @@ Figure1C
 figuredata<-as.data.table(falsepostive[ falsepostive$OutlierExclusion=="FALSE" & falsepostive$Correlation==0.2 & falsepostive$IndependentVariables==1 & falsepostive$DV==1
                                         & falsepostive$Type!="h1=Normal, Co=Binary" & falsepostive$Type!="h1=Binary, Co=Normal"
                                         & falsepostive$Type!="h1=Binary, Co=Binary Effect" & falsepostive$Type!="h1=Normal, Co=Binary Effect"
-                                        & falsepostive$Type!="h1=Normal, Co=Normal",]
+                                        ,]
 )
 figuredata$Set <- factor(figuredata$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
 figuredata$Pr<-as.numeric(figuredata$mean)
 
 
 Figure1D<-ggplot(aes(x=SampleSize), data=figuredata)+
-  geom_line(aes( y=Pr),show.legend = FALSE,color="#000000") +
-  geom_point(aes( y=Pr),show.legend = FALSE,color="#000000")+
-  geom_line(aes( y=FPR),show.legend = FALSE,color="#FF6666") +
-  geom_point(aes( y=FPR),show.legend = FALSE,color="#FF6666")+
- # scale_color_grey()+
+  geom_line(aes( y=Pr,color="black")) +
+  geom_point(aes( y=Pr),color="black")+
+  geom_line(aes( y=FPR,color="red")) +
+  geom_point(aes( y=FPR),color="red")+
+  scale_color_manual(values = c("black","red"),labels = c("FPP", "FPR"))+
   facet_grid(Set~Main+Type)+
   ylab("Probability")+
   xlab("Sample size")+
@@ -217,120 +220,7 @@ falsepostiveFULL
 #### Figures for the appendix #### 
 
 
-figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==2 & falsepostive$Correlation==0.2 & falsepostive$DV==1
-                         ,]
-
-Figure1ASI = ggplot(figuredata,aes(x=Set))+
-  geom_bar(aes(x=Set,y=Pr), stat = "identity",position="dodge")+
-  geom_bar(aes(x=Set,y=FPR), stat = "identity",position="dodge", fill = "#FF6666")+
-  #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
-  #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main)+
-  theme_apa()+
-  xlab("Model set")+
-  ylab("Probability")+
-  theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
-        axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
-        axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
-
-
-Figure1ASI
-
-## Figure 1B
-# Effect of using outlier citeria, with two covariates and sample size at 200
-figuredata<-as.data.table(falsepostive[falsepostive$SampleSize==200  & falsepostive$IndependentVariables==1 & falsepostive$Correlation==0.2 & falsepostive$DV==1 ,]
-)
-
-
-first=figuredata[figuredata$OutlierExclusion=="TRUE"]
-second=figuredata[figuredata$OutlierExclusion=="FALSE"]
-
-figuredata <- merge(first,second, by=c("Main","Set","Type"),all=T, allow.cartesian=TRUE) 
-figuredata$diff=figuredata$mean.x-figuredata$mean.y
-figuredata$FPRdiff=figuredata$FPR.x-figuredata$FPR.y
-
-Figure1BSI = ggplot(figuredata,aes(x=Set))+
-  geom_bar(aes(x=Set,y=diff), stat = "identity",position="dodge")+
-  geom_bar(aes(x=Set,y=FPRdiff), stat = "identity",position="dodge", fill = "#FF6666")+
-  #geom_text( aes(y=round(FPRdiff,3),label=round(FPRdiff,3)), vjust=-1)+
-  #geom_text( aes(y=round(diff,3),label=round(diff,3)), vjust=-1)+
-  facet_grid(Type~Main)+
-  theme_apa()+
-  xlab("Model set")+
-  ylab("Difference in probability")+
-  theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
-        axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
-        axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
-Figure1BSI
-
-## Figure 1C
-# Adding an extra covariate
-
-figuredata<-as.data.table(falsepostive[falsepostive$SampleSize==200  & falsepostive$OutlierExclusion=="FALSE" & falsepostive$Correlation==0.2 & falsepostive$DV==1,]
-)
-
-first=figuredata[figuredata$IndependentVariables==1]
-second=figuredata[figuredata$IndependentVariables==2]
-
-figuredata <- merge(first,second, by=c("Main","Set","Type"),all=T, allow.cartesian=TRUE) 
-figuredata$diff=figuredata$mean.y-figuredata$mean.x
-figuredata$FPRdiff=figuredata$FPR.y-figuredata$FPR.x
-
-
-Figure1CSI = ggplot(figuredata,aes(x=Set))+
-  geom_bar(aes(x=Set,y=diff), stat = "identity",position="dodge")+
-  geom_bar(aes(x=Set,y=FPRdiff), stat = "identity",position="dodge", fill = "#FF6666")+
-  #geom_text( aes(y=round(FPRdiff,3),label=round(FPRdiff,3)), vjust=-1)+
-  #geom_text( aes(y=round(diff,3),label=round(diff,3)), vjust=-1)+
-  facet_grid(Type~Main)+
-  theme_apa()+
-  xlab("Model set")+
-  # ylab("Difference between false-positive rate")+
-  theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
-        axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
-        axis.title.y = element_blank(),
-        strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
-Figure1CSI
-
-## Figure 1D
-# The effect of bigger sample
-
-
-figuredata<-as.data.table(falsepostive[ falsepostive$OutlierExclusion=="FALSE" & falsepostive$Correlation==0.2 & falsepostive$IndependentVariables==1 & falsepostive$DV==1,]
-)
-figuredata$Set <- factor(figuredata$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
-figuredata$Pr<-as.numeric(figuredata$mean)
-
-
-Figure1DSI<-ggplot(aes(x=SampleSize), data=figuredata)+
-  geom_line(aes( y=Pr),show.legend = FALSE,color="#000000") +
-  geom_point(aes( y=Pr),show.legend = FALSE,color="#000000")+
-  geom_line(aes( y=FPR),show.legend = FALSE,color="#FF6666") +
-  geom_point(aes( y=FPR),show.legend = FALSE,color="#FF6666")+
-  # scale_color_grey()+
-  facet_grid(Set~Main+Type)+
-  # ylab("False-positive rate")+
-  xlab("Sample size")+
-  theme_apa()+
-  theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
-        axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 8, angle = 0, hjust = .5, vjust = 0, face = "plain"),
-        axis.title.y = element_blank(),
-        strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
-
-Figure1DSI
-
-
-## The effect of higher correlations (Figure to SM)
+## The effect of higher correlations ##
 
 meanDist<-as.data.table(falsepostive[falsepostive$SampleSize==200  & falsepostive$OutlierExclusion =="FALSE" & falsepostive$IndependentVariables==1 & falsepostive$DV==1
                                      & falsepostive$Type!="h1=Binary, Co=Binary Effect" & falsepostive$Type!="h1=Normal, Co=Binary Effect",])
@@ -377,11 +267,11 @@ meanDistCorrInc$Set <- factor(meanDistCorrInc$Set,levels = c("Ma", "HCI", "CCI",
 
 
 Figure2SI<-ggplot( data=meanDistCorrInc)+
-  geom_bar(aes(x=Cor, y=Inc,group = 1), stat = "identity",position="dodge") +
-  geom_bar(aes(x=Cor,y=IncFPR), stat = "identity",position="dodge", fill = "#FF6666")+
-  scale_color_grey()+
+  geom_bar(aes(x=Cor,y=Inc, fill = "FPP"), stat = "identity",position="dodge")+
+  geom_bar(aes(x=Cor,y=IncFPR, fill = "FPR"), stat = "identity",position="dodge")+
+  scale_fill_manual(values=c("black","red"))+
   facet_grid(Type~Main+Set)+
-  ylab("Increase in models with a significant hypothesis variable")+
+  ylab("Difference in probability")+
   xlab("Correlation increase")+
   theme_apa()+
   geom_hline(yintercept=0)+
@@ -389,11 +279,12 @@ Figure2SI<-ggplot( data=meanDistCorrInc)+
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
         axis.title.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.x = element_text(color = "grey20", size = 10, angle = 40, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.x = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
 
 Figure2SI
 
+ggsave(Figure2SI,filename = file.path(output,"Figures","Figure2SI.jpeg"),width = 6,height = 7)
 
 ## Using several dependent variables
 figuredata<-as.data.table(falsepostive[falsepostive$SampleSize==200  & falsepostive$OutlierExclusion=="FALSE" & falsepostive$Correlation==0.2 & falsepostive$IndependentVariables==1
@@ -409,8 +300,9 @@ figuredata$FPRdiff=figuredata$FPR.y-figuredata$FPR.x
 
 
 Figure3SI = ggplot(figuredata,aes(x=Set))+
-  geom_bar(aes(x=Set,y=diff), stat = "identity",position="dodge")+
-  geom_bar(aes(x=Set,y=FPRdiff), stat = "identity",position="dodge", fill = "#FF6666")+
+  geom_bar(aes(x=Set,y=diff, fill = "FPP"), stat = "identity",position="dodge")+
+  geom_bar(aes(x=Set,y=FPRdiff, fill = "FPR"), stat = "identity",position="dodge")+
+  scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPRdiff,3),label=round(FPRdiff,3)), vjust=-1)+
   #geom_text( aes(y=round(diff,3),label=round(diff,3)), vjust=-1)+
   facet_grid(Type~Main)+
@@ -424,3 +316,136 @@ Figure3SI = ggplot(figuredata,aes(x=Set))+
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
 Figure3SI
+ggsave(Figure3SI,filename = file.path(output,"Figures","Figure3SI.jpeg"),width = 6,height = 7)
+
+
+figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==2 & falsepostive$Correlation==0.2 & falsepostive$DV==1
+                         ,]
+## For all sets of variables
+
+figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==1 & falsepostive$Correlation==0.2 & falsepostive$DV==1
+                        ,]
+
+Figure1ASI = ggplot(figuredata,aes(x=Set))+
+  geom_bar(aes(x=Set,y=Pr, fill = "FPP"), stat = "identity",position="dodge")+
+  geom_bar(aes(x=Set,y=FPR, fill = "FPR"), stat = "identity",position="dodge")+
+  scale_fill_manual(values=c("black","red"))+
+  #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
+  #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
+  facet_grid(Type~Main)+
+  theme_apa()+
+  xlab("Model set")+
+  ylab("Probability")+
+  theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
+        axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
+
+Figure1ASI
+
+## Figure 1B
+# Effect of using outlier citeria, with two covariates and sample size at 200
+figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$IndependentVariables==1 & falsepostive$Correlation==0.2 & falsepostive$DV==1
+                        ,]
+
+
+
+first=figuredata[figuredata$OutlierExclusion=="TRUE"]
+second=figuredata[figuredata$OutlierExclusion=="FALSE"]
+
+figuredata <- merge(first,second, by=c("Main","Set","Type"),all=T, allow.cartesian=TRUE) 
+figuredata$diff=figuredata$mean.x-figuredata$mean.y
+figuredata$FPRdiff=figuredata$FPR.x-figuredata$FPR.y
+
+Figure1BSI = ggplot(figuredata,aes(x=Set))+
+  geom_bar(aes(x=Set,y=diff,fill="FPP"), stat = "identity",position="dodge")+
+  geom_bar(aes(x=Set,y=FPRdiff,fill="FPR"), stat = "identity",position="dodge")+
+  scale_fill_manual(values=c("black","red"))+
+  #geom_text( aes(y=round(FPRdiff,3),label=round(FPRdiff,3)), vjust=-1)+
+  #geom_text( aes(y=round(diff,3),label=round(diff,3)), vjust=-1)+
+  facet_grid(Type~Main)+
+  theme_apa()+
+  xlab("Model set")+
+  ylab("Difference in probability")+
+  theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
+        axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
+
+##Save data
+Figure1BSI
+
+## Figure 1C
+# Adding an extra covariate
+
+figuredata<-as.data.table(falsepostive[falsepostive$SampleSize==200  & falsepostive$OutlierExclusion=="FALSE" & falsepostive$Correlation==0.2 & falsepostive$DV==1
+                                     ,]
+)
+
+first=figuredata[figuredata$IndependentVariables==1]
+second=figuredata[figuredata$IndependentVariables==2]
+
+figuredata <- merge(first,second, by=c("Main","Set","Type"),all=T, allow.cartesian=TRUE) 
+figuredata$diff=figuredata$mean.y-figuredata$mean.x
+figuredata$FPRdiff=figuredata$FPR.y-figuredata$FPR.x
+
+
+Figure1CSI = ggplot(figuredata,aes(x=Set))+
+  geom_bar(aes(x=Set,y=diff,fill="FPP"), stat = "identity",position="dodge")+
+  geom_bar(aes(x=Set,y=FPRdiff,fill="FPR"), stat = "identity",position="dodge")+
+  scale_fill_manual(values=c("black","red"))+
+  #geom_text( aes(y=round(FPRdiff,3),label=round(FPRdiff,3)), vjust=-1)+
+  #geom_text( aes(y=round(diff,3),label=round(diff,3)), vjust=-1)+
+  facet_grid(Type~Main)+
+  theme_apa()+
+  xlab("Model set")+
+  ylab("Difference in probability")+
+  theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
+        axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
+
+##Save data
+Figure1CSI
+
+## Figure 1D
+# The effect of bigger sample
+figuredata<-as.data.table(falsepostive[ falsepostive$OutlierExclusion=="FALSE" & falsepostive$Correlation==0.2 & falsepostive$IndependentVariables==1 & falsepostive$DV==1
+                                       ,]
+)
+figuredata$Set <- factor(figuredata$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
+figuredata$Pr<-as.numeric(figuredata$mean)
+
+
+Figure1DSI<-ggplot(aes(x=SampleSize), data=figuredata)+
+  geom_line(aes( y=Pr,color="black")) +
+  geom_point(aes( y=Pr),color="black")+
+  geom_line(aes( y=FPR,color="red")) +
+  geom_point(aes( y=FPR),color="red")+
+  scale_color_manual(values = c("black","red"),labels = c("FPP", "FPR"))+
+  facet_grid(Set~Main+Type)+
+  ylab("Probability")+
+  xlab("Sample size")+
+  theme_apa()+
+  theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
+        axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
+        axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
+
+##Save data
+
+Figure1DSI
+ggsave(Figure1ASI,filename = file.path(output,"Figures","Figure1ASI.jpeg"),width = 6,height = 7)
+ggsave(Figure1BSI,filename = file.path(output,"Figures","Figure1BSI.jpeg"),width = 6,height = 7)
+ggsave(Figure1CSI,filename = file.path(output,"Figures","Figure1CSI.jpeg"),width = 6,height = 7)
+ggsave(Figure1DSI,filename = file.path(output,"Figures","Figure1DSI.jpeg"),width = 6,height = 7)
+
+

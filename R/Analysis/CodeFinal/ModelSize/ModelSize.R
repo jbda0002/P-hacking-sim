@@ -134,8 +134,8 @@ names(TableModelsTrueML)=c("Number of covariates", "Ma", "Ma+CCI", "Number of mo
 
 library(xtable)
 print(xtable(TableModelsTrue,digits = 0, type = "latex",
-             caption ="" ), caption.placement = "top",include.rownames=FALSE, file = "ModelNumberTrue.tex")
+             caption ="",align = c("l","l","c","c","c","c","c"),auto = T ), caption.placement = "top",include.rownames=FALSE, file = "ModelNumberTrue.tex", table.placement = "!h")
 print(xtable(TableModelsTrueML,digits = 0, type = "latex",
-             caption ="" ), caption.placement = "top",include.rownames=FALSE, file = "ModelNumberTrueML.tex")
-print(xtable(TableModelsFalse,digits = 0, type = "latex",caption =""), caption.placement = "top", include.rownames=FALSE, file = "ModelNumberFalse.tex")
-print(xtable(TableModelsFalseML,digits = 0, type = "latex",caption =""), caption.placement = "top", include.rownames=FALSE, file = "ModelNumberFalseML.tex")
+             caption ="" ,auto = T), caption.placement = "top",include.rownames=FALSE, file = "ModelNumberTrueML.tex", table.placement = "!h")
+print(xtable(TableModelsFalse,digits = 0, type = "latex",caption ="",auto = T), caption.placement = "top", include.rownames=FALSE, file = "ModelNumberFalse.tex", table.placement = "!h",scalebox='0.8')
+print(xtable(TableModelsFalseML,digits = 0, type = "latex",caption ="",auto = T), caption.placement = "top", include.rownames=FALSE, file = "ModelNumberFalseML.tex", table.placement = "!h")
