@@ -155,13 +155,14 @@ For the final parts, the math follows directly as this is just the product of th
 \[\#models\ in\ Ma+CCI=\left(2^n-1\right)\left(2^k-1\right)\] 
 \[\#models\ in\ Ma+HCI+CCI={\left(2^n-1\right)}^2\left(2^k-1\right)\] 
 So, the number of models then becomes
-
+\begin{equation*}
 \begin{aligned}
-\[\#model={}\\
+\#model=\\
 & \underbrace{\left(2^n\right)}_{Ma}+\underbrace{\left(2^n-1\right)}_{HCI}+\underbrace{\left(2^k-1\right)}_{CCI}+\\
-& \underbrace{{\left(2^n-1\right)}^2}_{Ma+HCI}+\underbrace{\left(2^n-1\right)\left(2^k-1\right)}_{HCI+CCI}+\underbrace{\left(2^n-1\right)\left(2^k-1\right)}_{Ma+CCI}+\\
-&\underbrace{{\left(2^n-1\right)}^2\left(2^k-1\right)}_{Ma+HCI+CCI}\] 
-\end{aligned} \\
+&\underbrace{{\left(2^n-1\right)}^2}_{Ma+HCI}+\underbrace{\left(2^n-1\right)\left(2^k-1\right)}_{HCI+CCI}+\underbrace{\left(2^n-1\right)\left(2^k-1\right)}_{Ma+CCI}+\\
+&\underbrace{{\left(2^n-1\right)}^2\left(2^k-1\right)}_{Ma+HCI+CCI} 
+\end{aligned}
+\end{equation*} \\
 
 For the case where n=2, (as in the Table SI1) this gives us
 \[k=\left( \begin{array}{c}
@@ -264,9 +265,9 @@ For the set Ma+HCI(2), the first part we need is the number of combinations of t
 2 \\ 
 2 \end{array}
 \right)$ combinations of the interactions possible. Combining this give us
-
+\begin{equation*}
 \begin{aligned}
-\[\#\ of\ models\ in\ Ma+HCI\ \left(2\right)=\\
+\#\ of\ models\ in\ Ma+HCI\ \left(2\right)=\\
 & \left( \begin{array}{c}
 2 \\ 
 1 \end{array}
@@ -289,13 +290,14 @@ i \end{array}
 \right)=\left(2^2-1\right)\left( \begin{array}{c}
 3 \\ 
 2 \end{array}
-\right)=9\] 
+\right)=9
 
 \end{aligned}
+\end{equation*}
 The same reasoning goes for Ma + HCI(3); here we just have one more as we can also have all three interaction terms in the model at the same time. So, if we write this is in same way as before we get
-
+\begin{equation*}
 \begin{aligned}
-\[\#\ of\ models\ in\ Ma+HCI\ \left(3\right)=\\
+\#\ of\ models\ in\ Ma+HCI\ \left(3\right)=\\
 &\left( \begin{array}{c}
 3 \\ 
 1 \end{array}
@@ -325,8 +327,9 @@ i \end{array}
 &\left(2^3-1\right)\left( \begin{array}{c}
 3 \\ 
 3 \end{array}
-\right)=7\]
+\right)=7
 \end{aligned}
+\end{equation*}
 
 
 We can then sum all these together to get the size of the set
@@ -435,7 +438,7 @@ However, it is only in this special case that we can just sum to our n=3. In gen
 n \\ 
 2 \end{array}
 \right)=\frac{n\left(n-1\right)}{2}$. This then becomes
-\[\#\ of\ models\ in\ Ma+CCI\ \left(3\right)=\left( \begin{array}{c}
+\[\#of models in Ma+CCI\ \left(3\right)=\left( \begin{array}{c}
 3 \\ 
 3 \end{array}
 \right)\sum^3_{i=1}{\left( \begin{array}{c}
@@ -550,11 +553,12 @@ k \end{array}
 When a researcher is not interested in one specific variable but rather the overall prediction of a given model, such as in machine learning, the same type of sets can be used to calculate the size of the model sets. 
 As is with the case of hypothesis testing the researcher can either demand that the main effect are always present when having interaction or it can loosen on this assumption and not require this. \\
 
-\subsubsection{When no restrictions are in place.}
+\subsection{When no restrictions are in place.}
 In this case there are three different sets; Ma, CCI and Ma + CCI. In this case however there is no variable that needs to be present all the time as earlier ($h_1$). The calculations of the sets are however simelar as an example with two covarietes can be seen in Table SI8.  
 
 \begin{table}
 \caption{}
+\centering
 \begin{tabular}{lc} 
 \toprule
 Set & Models \\ 
@@ -566,7 +570,7 @@ Set & Models \\
 \end{tabular}
 \end{table}
 
-The calcultation for the setsize follows along as it did earlier and is therefore
+The calcultation for the set size follows along as it did earlier and is therefore
 \\
 \[\#models\ in\ Ma=\left(2^n\right)\] 
 \[\#models\ in\ CCI=\left(2^k-1\right)\] 
