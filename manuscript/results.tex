@@ -11,7 +11,7 @@ Adding one more covariate (such that the analysis included three) to the analysi
 \begin{figure}[t]
 \includegraphics[width=0.6\textwidth]{R/Analysis/Result/Figures/Figure1A.jpeg}
 \centering
-\caption{Black is the FPP and red is FPR.  Splitting the false-positive by model set and whether the main effects should follow interactions or not. If Main=False, there were no restrictions. Sample size was set to 200, a correlation between the dependent variable and covariates was \textit{r}=0.2 and we used two covariates.}
+\caption{Black is the FPP and red is FPR. The probability of the FPP and FPR given different model sets, the presence of main effects when having interactions and hypothesis variable distributions. Sample size was set to 200, a correlation between the dependent variable and covariates was \textit{r}=0.2 and we used two covariates.}
 \label{fig:mainfigure}
 \end{figure}
 
@@ -19,7 +19,7 @@ Adding one more covariate (such that the analysis included three) to the analysi
 \begin{figure}[t]
 \includegraphics[width=0.6\textwidth]{R/Analysis/Result/Figures/Figure1C.jpeg}
 \centering
-\caption{Added effect of having one more covariate.  The description of the figure is otherwise the same as for Figure 1.}
+\caption{Added effect on FPP and FPR of using one more covariate. The description of the figure is otherwise the same as for Figure 1.}
 \label{fig:mainfigure}
 \end{figure}
 
@@ -29,16 +29,16 @@ Here we were interested in how outlier deletion affected the FPP and FPR across 
 \begin{figure}[t]
 \includegraphics[width=0.6\textwidth]{R/Analysis/Result/Figures/Figure1B.jpeg}
 \centering
-\caption{Added effect of using multiple outlier criteria. Black is the added effect to FPP and red is the added effect to FPR.  Splitting the false-positive rate by model set and whether the main effects should follow interactions or not. If Main=False we had no restrictions. Sample size set at 200, a correlation between the dependent variable and covariates set at r=0.2 and using two covariates.}
+\caption{Added effect of using multiple outlier criteria. Black is the added effect to FPP and red is the added effect to FPR.  The description of the figure is otherwise the same as for Figure 1}
 \label{fig:mainfigure}
 \end{figure}
 
 \subsection{Multiple dependent variables}
-Here we looked at the effect of multiple dependent variables on the FPP and FPR across different sets of the models. We did not specify any outlier criteria and all binary variables were dummy coded. Collecting multiple dependent variables and using their average increased the FPP. This was a general result regardless of data structures, model sets, and if main effects were included or not. The effect of using three dependent variables and their average can be seen in Figure 3SI in supplementary material. This increase was the highest for the sets where there were interactions between the hypothesis variable and the covariates, no matter the data structure and other specifications. For these sets, the increase in the FPP was around 15\%. The increase in the FPR seems to be mainly driven by the increase in the number of models, as the FPR did not increase for any of the sets. 
+Here we looked at the effect of multiple dependent variables on the FPP and FPR across different sets of the models. We did not specify any outlier criteria and all binary variables were dummy coded. Collecting multiple dependent variables and using their average increased the FPP. This was a general result regardless of data structures, model sets, and if main effects were included or not. The effect of using three dependent variables and their average can be seen in Figure S3 in supplementary material. This increase was the highest for the sets where there were interactions between the hypothesis variable and the covariates, no matter the data structure and other specifications. For these sets, the increase in the FPP was around 15\%. The increase in the FPR seems to be mainly driven by the increase in the number of models, as the FPR did not increase for any of the sets. 
 
 \subsection{Sample size and correlation}
-Increasing the sample size and thereby the precision of the estimates did not seem to lower the FPP. Even worse, when the main effects were not included, the larger sample size increased the FPP (See Figure 4). In this case, the FPP went just under 100\% when the sample size increased. The larger sample did not only increase the FPP, but also the FPR. The FPR got as high as 41\% for the HCI set with binary data and no restrictions. This means that running only one model from these sets would give the FPP of 41\%. 
-A higher correlation between the dependent variable and the covariates also increased the FPR for some sets. In general, the FPP was higher when the correlation was higher and the main effects did not follow the interactions. The model sets with the highest increase were the sets that contained some type of HCI. The effect was most pronounced when the data was binary and dummy coded (see Supplementary Material). The increase in the FPP for these sets was between 15\% and 23\% when the correlation increased from r=0.2 to r=0.3. When the correlation increased from r=0.3 to r=0.4, the FPP increased only for those sets where there was still room for an increase, since a high number of the sets already had the FPP close to 100\% (see Figure S1). The increase in correlation also affected the FPR for the same sets increasing it to as high as 10\%. When the main effects were present, the FPP and FPR seemed to be stable as the correlation increased (See Figure S1).
+Increasing the sample size and thereby the precision of the estimates did not seem to lower the FPP. Even worse, when the main effects were not included, the larger sample size increased the FPP when the covariate was dummy coded and interactions were allowed (See Figure 4). In this case, the FPP went just under 100\% when the sample size increased. The larger sample did not only increase the FPP, but also the FPR. The FPR got as high as 42\% for the HCI set with binary data and no restrictions. For continues covariates the result looked the same for when main effects should follow int interaction or not, but there was still no positive effect from increasing the sample size. 
+A higher correlation between the dependent variable and the covariates also increased the FPP and FPR for some sets. In general, the FPR and FPP was higher when the correlation was higher and the main effects did not follow the interactions. The model sets with the highest increase for both FPR and FPP were the sets that contained HCI. The effect was most pronounced when the covariates were binary and dummy coded (see Figure S2). The increase in the FPP for these sets was between 15\% and 23\% when the correlation increased from r=0.2 to r=0.3. When the correlation increased from r=0.3 to r=0.4, the FPP increased only for those sets where there was still room for an increase, since a high number of the sets already had the FPP close to 100\% (see Figure S1). The increase in correlation also affected the FPR for the same sets increasing it to as high as 10\%. When the main effects were present, the FPP and FPR seemed to be stable as the correlation increased (See Figure S1).
 
 \begin{figure}[t]
 \includegraphics[width=0.6\textwidth]{R/Analysis/Result/Figures/Figure1D.jpeg}
