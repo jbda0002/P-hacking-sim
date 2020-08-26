@@ -49,10 +49,10 @@ j \end{array}
 n denotes the number of the covariates collected. A more thorough work through of this equation can be found in the supplementary material.
 We did not include the sets HCI, CCI, and HCI+CCI as these were interaction terms with no corresponding main effect. For the case, where we had two covariates, the number of models became as follows: \\
 
-
+$
 \begin{aligned}
 \centering
-\[\left(2^2-1\right)+
+\left(2^2-1\right)+
 \sum^2_{j=1}{\left(2^j-1\right)\left( \begin{array}{c}
 2 \\ 
 j \end{array}
@@ -65,9 +65,9 @@ j \end{array}
 2 \\ 
 j \end{array}
 \right)\left(2^j-1\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}= \\
- 3+5+1+3*1=12\] 
+ 3+5+1+3*1=12 
 \end{aligned}
-
+$
 
 The number of models in each set for the different numbers of covariates under the restriction that the main effect must always follow the interactions can be seen in Table 2. The other case can be found in the Supplementary Information. \\
 
@@ -111,7 +111,7 @@ x${}_{n}$ & r & 0 & 0 & 0 & 0 & 0 & 1 \\
 If a variable was generated as a normally distributed variable, it was generated with a mean of 0 and a standard deviation of 1, while binomial variables were generated with a 50\% chance of success in each trial. To test how the sample size affected the FPP and FPR, the simulation included samples with sizes ranging from 100 to 300 with increasing steps of 50. 
 
 \subsection{Simulation}
-We investigated the different flexibilities one at the time. This implies that we started with the model set to determine the FPP in the different sets and to determine what happens when we add the other flexibilities. With the post-hoc inclusion of hypothesis and interactions used by researchers, we focused on how the different flexibilities affected each of the model sets. For the data structure, we only included cases in which the hypothesis variable and covariates were continuous and where these were binary. The results for the two other cases looked identical to the cases when using three or more covariates as the results were mainly driven by the distribution of the covariates. The results for the other two cases can be found in the supplementary material for the paper. When the effect of increasing samples was not investigated, the sample was set to 200 to ensure power was reasonably high. When the effect of different correlation levels was not tested, the correlation between the dependent variable and covariates was set to \textit{r}=0.2.\\
+We investigated the different flexibilities one at the time. This implies that we started with the different model sets to determine the FPP and FPR in these and thereafter looked what happend when more flexibilities were added. With the post-hoc inclusion of hypothesis and interactions used by researchers, we focused on how the different flexibilities affected each of the model sets. For the data structure, we only included cases in which the hypothesis variable and covariates were continuous and where these were binary. The results for the two other cases looked identical to the cases when using three or more covariates as the results were mainly driven by the distribution of the covariates. The results for the other two cases can be found in the supplementary material for the paper. When the effect of increasing samples was not investigated, the sample was set to 200 to ensure a reasanable sample compared to the amount of variables. When the effect of different correlation levels was not tested, the correlation between the dependent variable and covariates was set to \textit{r}=0.2.\\
 
 A code for the different kinds of flexibilities along with the simulation was programmed in R \citep{Team2018}. When the covariates had a binomial distribution, the variables were simulated using the package BinNor \citep{Demirtas2014}. This was done to ensure that the correlation matrix would also hold under this data type. The data were analyzed with a simple t-test using linear regressions. Every time h1 became significant, either by itself or in an interaction with another variable, it was considered a “success". The iteration number was 10,000. The FPP was defined as \\
 
