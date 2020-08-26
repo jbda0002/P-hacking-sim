@@ -111,9 +111,9 @@ x${}_{n}$ & r & 0 & 0 & 0 & 0 & 0 & 1 \\
 If a variable was generated as a normally distributed variable, it was generated with a mean of 0 and a standard deviation of 1, while binomial variables were generated with a 50\% chance of success in each trial. To test how the sample size affected the FPP and FPR, the simulation included samples with sizes ranging from 100 to 300 with increasing steps of 50. 
 
 \subsection{Simulation}
-In general, for the simulation, the different flexibilities were investigated one by one. This implies that we started with the model set to determine the FPP in the different sets and to determine what happens when we add the other flexibilities. With the post-hoc inclusion of hypothesis and interactions used by researchers, we focused on how the different flexibilities affected each of the model sets. For the data structure, we only included cases in which the hypothesis variable and covariates were continuous and where these were binary. The results for the two other cases looked identical to the cases when using three or more covariates as the results were mainly driven by the distribution of the covariates. The results for the other two cases can be found in the supplementary material for the paper. When the effect of increasing samples was not investigated, the sample was set at 200. This was to ensure that it was not just a low power of the simulation that drove these results. When the effect of different correlation levels were not tested, the correlation was set to r=0.2 for the correlation between the dependent variable and covariates.\\
+We investigated the different flexibilities one at the time. This implies that we started with the model set to determine the FPP in the different sets and to determine what happens when we add the other flexibilities. With the post-hoc inclusion of hypothesis and interactions used by researchers, we focused on how the different flexibilities affected each of the model sets. For the data structure, we only included cases in which the hypothesis variable and covariates were continuous and where these were binary. The results for the two other cases looked identical to the cases when using three or more covariates as the results were mainly driven by the distribution of the covariates. The results for the other two cases can be found in the supplementary material for the paper. When the effect of increasing samples was not investigated, the sample was set to 200 to ensure power was reasonably high. When the effect of different correlation levels was not tested, the correlation between the dependent variable and covariates was set to \textit{r}=0.2.\\
 
-A package for the different kinds of flexibilities along with the simulation was programmed in R \citep{Team2018}. When the covariates had a binomial distribution, the variables were simulated using the package BinNor \citep{Demirtas2014}. This was done to ensure that the correlation matrix would also hold under this data type. The data were analyzed with a simple t-test using linear regressions. Every time h1 became significant, either by itself or in an interaction with another variable, it was considered a “success.” The simulation was done 10,000 times. The FPP was defined as \\
+A code for the different kinds of flexibilities along with the simulation was programmed in R \citep{Team2018}. When the covariates had a binomial distribution, the variables were simulated using the package BinNor \citep{Demirtas2014}. This was done to ensure that the correlation matrix would also hold under this data type. The data were analyzed with a simple t-test using linear regressions. Every time h1 became significant, either by itself or in an interaction with another variable, it was considered a “success". The iteration number was 10,000. The FPP was defined as \\
 
 \[FPP_i=\left. \left\{\begin{array}{c}
 1\ if\ any\ h_1\ is\ significant \\ 
@@ -122,11 +122,11 @@ A package for the different kinds of flexibilities along with the simulation was
 \[FPP=\frac{\sum^{10000}_i{FPP_i}}{10000}\] 
 
 
-Here FPP${}_{i}$ indicates if any of the models in the model set had a significant result. If that is the case it takes the value 1 otherwise 0. For FPR is the ratio of the models with a significant result and can be written as \\
+Here FPP${}_{i}$ indicates if any of the models in the model set had a significant result. If that is the case, it takes the value 1, otherwise 0. FPR is the ratio of the models with a significant result and can be written as \\
 
 \[FPR_i=\frac{\#models\ with\ significant\ result}{\#models\ in\ the\ model\ set}\] 
 \[FPR=\frac{\sum^{10000}_i{FPR_i}}{10000}\] 
 
 
-The full code for the simulation and the code for the figures can be found in the supplementary materials. 
+The full code for the simulation and figures can be found in the supplementary materials. 
 
