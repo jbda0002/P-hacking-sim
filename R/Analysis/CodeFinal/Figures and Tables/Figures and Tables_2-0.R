@@ -433,12 +433,13 @@ Figure1DSI<-ggplot(aes(x=SampleSize), data=figuredata)+
   ylab("Probability")+
   xlab("Sample size")+
   theme_apa()+
-  theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
+  theme(axis.text.x = element_text(color = "grey20", size = 7, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
         axis.title.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.x = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
+        strip.text.x = element_text(color = "grey20", size = 5, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"),
+        legend.text=element_text(color = "grey20",size=5))
 Figure1DSI
 ##Save data
 ggsave(Figure1ASI,filename = file.path(output,"Figures","Figure1ASI.jpeg"),width = 6,height = 7)
