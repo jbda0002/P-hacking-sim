@@ -4,9 +4,7 @@ library(data.table)
 library(ggthemes)
 library(dplyr)
 
-falsepostive = fread("C:/Users/Jacob Dalgaard/Documents/GitHub/P-hacking-sim/R/shiny/Data/dataShiny.csv",sep=";")
-## Figures for paper ##
-names(falsepostive)[names(falsepostive) == "Pr"] <- "FPP"
+falsepostive = fread("Data/dataShiny.csv",sep=";")
 
 ui <- fluidPage(
   titlePanel("FPP and FPR"),
@@ -23,7 +21,7 @@ sidebarLayout(
 mainPanel(
     plotOutput("plot", click = "plot_click"),
     fluidRow(
-      column(width = 7,
+      column(width = 8,
              h4("Click on the top of the black bar to get the information. \nPoints near click"),
              verbatimTextOutput("click_info")
       )
