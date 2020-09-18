@@ -1,4 +1,4 @@
-\part*{Supplementary Information} 
+\part*{Supplementary Material} 
 
 \setcounter{table}{0}
 \setcounter{figure}{0}
@@ -12,7 +12,7 @@ n \\
 k \end{array}
 \right)=\frac{n!}{k!\left(n-k\right)!}\] 
 
-Where ``!'' is the factorial operator. So $n!=n\times \left(n-1\right)\times \left(n-2\right)\times \left(n-3\right)\times \dots \times 3\times 2\times 1$. One rule that is being used over and over again is the fact that we can rewrite the sum of binomial coefficients excluding the empty set (i.e. i=0) as 
+Where ``!'' is the factorial operator. So $n!=n\times \left(n-1\right)\times \left(n-2\right)\times \left(n-3\right)\times \dots \times 3\times 2\times 1$. One rule that is being used over and over again is the fact that we can rewrite the sum of binomial coefficients excluding the empty set (i.e. not including i=0) as 
 \[\sum^n_{i=1}{\left( \begin{array}{c}
 n \\ 
 i \end{array}
@@ -75,21 +75,21 @@ i \end{array}
 
 \subsubsection{Formally Written} \break 
 \noindent Let X be the set of covariates 
-\[X=\left.x_1,x_2,..,x_n\right.\] 
+\[X=\{\left.x_1,x_2,..,x_n\right.\}\] 
 \[\left|X\right|=n\] 
 \[\left|\mathcal{P}\left(X\right)\right|=2^n\] 
 
-\noindent The set Ma is then the power set of H excluding the empty set
-\[Ma=\left.S:S\subseteq X\right.\] 
+\noindent The set Ma is then the power set of X 
+\[Ma=\{\left.S:S\subseteq X\right.\}\] 
 
 Each element $S\in Ma$ is a set of the covariates e.g. $S=\left.x_3,x_7\right.$ or any combination of the covariates, including the empty set
 \[\left|Ma\right|=2^n\] 
 \subsection{HCI}
 
-The same line of reasoning goes for the set HCI. Here, it is all the interactions between the covariates and the hypothesis variable 
+The same line of reasoning goes for the set HCI and we will therefore only write it formally. Here, it is all the interactions between the covariates and the hypothesis variable 
 
-\[I_h(X)=\left.\left.x_i,h\right.:x_i\in X\right.\] 
-\[HCI=\left.T:T\subseteq I_h\left(X\right),T\neq \textrm{\O}\right.\] 
+\[I_h(X)=\left.\left\{.x_i,h\right.:x_i\in X\right.\}\] 
+\[HCI=\left.\{T:T\subseteq I_h\left(X\right),T\neq \textrm{\O}\right.\}\] 
 The number of models in this set is only the power set excluding the empty set
 \[\left|HCI\right|\boldsymbol{=}2^n-1\] 
 
@@ -126,17 +126,17 @@ So, the general term for the number of models in CCI is then
 n(n-1)/2 \\ 
 i \end{array}
 \right)}=(2^{n(n-1)/2}-1)\] 
-Since we have no restrictions on the combinations of these sets, the combination of these are only the sets multiplied with each other. Collecting all this, the number in the different sets for the general case becomes
+
 
 \subsubsection{Formally written}
 First step is to make the set of all the combinations of the covariates
-\[I_k\left(X\right)=\left.\left.x_i,x_j\right.:x_i\in X,x_j\in X,x_i\neq x_j\right.\] 
+\[I_k\left(X\right)=\{\left.\left.x_i,x_j\right.:x_i\in X,x_j\in X,x_i\neq x_j\right.\}\] 
 \[\left|I_k\left(X\right)\right|=\left( \begin{array}{c}
 n \\ 
 2 \end{array}
 \right)=\frac{n\left(n-1\right)\left(n-2\right)!}{\left(n-2\right)!}\frac{1}{2}=n(n-1)/2\] 
 The set of all combinations is then all the subsets of $I_k\left(X\right)$ excluding the empty set
-\[P\left(I_k\left(X\right)\right)=\left.J:J\subseteq I_k\left(X\right),J\neq \textrm{\O}\right.\] 
+\[P\left(I_k\left(X\right)\right)=\{\left.J:J\subseteq I_k\left(X\right),J\neq \textrm{\O}\right.\}\] 
 \[\left|CCI\right|=\left|P\left(I_k\left(X\right)\right)\right|=2^{\left|I_k\left(X\right)\right|}-1=2^{n(n-1)/2}-1\] 
 In the previous part, $\left( \begin{array}{c}
 n \\ 
@@ -346,12 +346,12 @@ k \end{array}
 \subsection{Ma + CCI}
 
 Let J be the set of indicators of how many interactions are between the covariates and the hypothesis variable 
-\[J=\left.1,2,3,4,\dots ,n\right.\] 
+\[J=\{\left.1,2,3,4,\dots ,n\right.\}\] 
 Let L be a subset of X of size k.
-\[L=\left.S:S\subset X,\left|S\right|=k,k\in J\right.\] 
+\[L=\{\left.S:S\subset X,\left|S\right|=k,k\in J\right.\}\] 
 
 The number of interactions that can be made between a covariate and the hypothesis variable for a given k is then
-\[I_h\left(X\right)=\left.\left.x_i,h\right.:x_i\in L\right.\] 
+\[I_h\left(X\right)=\{\left.\left.x_i,h\right.:x_i\in L\right.\}\] 
 \[\left|I_h\left(X\right)\right|=k\] 
 
 For each k, the number of interactions is just the power set of X excluding the empty set
@@ -485,12 +485,12 @@ The last part that we need to calculate the complete set is Ma + HCI + CCI
 Here, we are here using the same notation and definitions for the sets and used in the case without restrictions. 
 
 Let k be an indicator of how many covariates that are included. Since we are using interactions, k must start at two 
-\[T=\left.2,3,4,\dots ,n\right.\] 
+\[T=\{\left.2,3,4,\dots ,n\right.\}\] 
 Let L be a subset of X of size k.
-\[L=\left.S:S\subset X,\left|S\right|=k,k\in T\right.\] 
+\[L=\{\left.S:S\subset X,\left|S\right|=k,k\in T\right.\}\] 
 
 \noindent The number of interactions that can be made for a given k is then
-\[I_k\left(X\right)=\left.\left.x_i,x_j\right.:x_i\in L,x_j\in L,x_i\neq x_j\right.\] 
+\[I_k\left(X\right)=\{\left.\left.x_i,x_j\right.:x_i\in L,x_j\in L,x_i\neq x_j\right.\}\] 
 For a given k, the number of two-way interactions that can be made is then
 \[\left|I_k\left(X\right)\right|=\left( \begin{array}{c}
 k \\ 
@@ -498,7 +498,7 @@ k \\
 \right)=\frac{k!}{2!\left(k-2\right)!}=\frac{k\left(k-1\right)\left(k-2\right)!}{\left(k-2\right)!}\frac{1}{2}=\frac{k\left(k-1\right)}{2}\] 
 
 We then need the combination of all the two-way interactions. For all k, we can take the power set of $I_k\left(H\right)$ excluding the empty set
-\[P\left(I_k\left(X\right)\right)=\left.T:T\subset I_k\left(X\right),T\neq \textrm{\O}\right.\] 
+\[P\left(I_k\left(X\right)\right)=\{\left.T:T\subset I_k\left(X\right),T\neq \textrm{\O}\right.\}\] 
 \[\left|P\left(I_k\left(X\right)\right)\right|=2^{\left|I_k\left(X\right)\right|}-1=2^{\frac{k\left(k-1\right)}{2}}-1\] 
 With n covariates, there exist $\left( \begin{array}{c}
 n \\ 
