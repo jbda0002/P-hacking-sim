@@ -147,7 +147,6 @@ n \\
 \subsection{Full model set}
 For the final parts, the math follows directly as this is just the product of the sets calculated here. 
 
-
 \[\#models\ in\ Ma=\left(2^n\right)\] 
 \[\#models\ in\ HCI=\left(2^n-1\right)\] 
 \[\#models\ in\ CCI=\left(2^k-1\right)\] 
@@ -180,7 +179,7 @@ For the case where n=2, (as in the Table SI1) this gives us
 \centering
 \begin{tabular}{cc}
 \toprule
-Model set & Models \\ 
+Model set & Models \\  
 \midrule
 \multirow{4}{*}{Ma} & $y=h_1$ \\ & $y=h_1+x_1$ \\ & $y=h_1+x_2$ \\ & $y=h_1+x_1+x_2$ & \\ 
 \multirow{3}{*}{HCI} & $y=h_1+h_1x_1$ \\ & $y=h_1+h_1x_2$ \\ & $y=h_1+h_1x_1+h_1x_2$ & \\
@@ -193,11 +192,9 @@ CCI & $y=h_1+x_1x_2$ & \\
 \end{tabular}
 \end{table}
 
-
-
 \section{Case 2 – With Restriction}
 
-In this case, we need to ensure that any time there is an interaction, the main terms follow. This means that if our hypothesis variable interacts with a covariate, both the hypothesis variable and the covariate need to enter the model linearly as well, e.g.,
+In this case, we need to ensure that any time there is an interaction, the main terms follow. This means that if the hypothesis variable interacts with a covariate, both the hypothesis variable and the covariate need to enter the model linearly as well, e.g.,
 \[y=h_1+x_1+h_1x_1\] 
 
 Here, we have an interaction between our hypothesis variable h${}_{1\ }$and a covariate x${}_{1}$${}_{.}$ Therefore, the terms also enter the model by themselves. This restriction does not change how we calculate the set size of Ma as there are no interactions here. The way to calculate the size of this is therefore the same in the two cases, we will therefore focus on the other relevant sets. However, it means that we cannot count the models that lie in the sets HCI and CCI as these do not have the main effect following the interactions. The first set we then need to calculate is the set Ma + HCI.
@@ -218,9 +215,7 @@ Model set & Models \\
 \end{tabular}
 \end{table}
 
-
 We can split this set into three parts. One where there is only one main effect and one where there is two main effects and the final one with three main effects as shown in Table SI3.\\
-
 
 \begin{table}
 \caption{}
@@ -235,7 +230,6 @@ Set & Models \\
 \bottomrule
 \end{tabular}
 \end{table}
-\\
 
 We can then calculate the size of each of these sets separately. Let us start with Ma+HCI (1). Here the number of models is the product of how many combinations that can be made with one variable (so this is 1) and how many interactions that can be made. Using the same shorthand notation with the binomial coefficient, we can write this one as
 \[\#\ of\ models\ in\ Ma+HCI\ \left(1\right)=\left( \begin{array}{c}
