@@ -49,7 +49,7 @@ for (i in covarites) {
   TableModelsFalse=rbind(TableModelsFalse,set)
 }
 TableModelsFalse=as.data.frame(TableModelsFalse)
-names(TableModelsFalse)=c("Number of covariates" , "Ma" ,"HCI","CCI", "Ma+HCI" , "Ma+CCI","HCI+CCI", "Ma+HCI+CCI", "Number of models")
+names(TableModelsFalse)=c("Number of covariates" , "ME" ,"HCI","CCI", "ME+HCI" , "ME+CCI","HCI+CCI", "ME+HCI+CCI", "Number of models")
 
 ## Model set size when there is no specefic variable of intrest
 TableModelsFalseML = NULL
@@ -61,7 +61,7 @@ for (i in covarites) {
   TableModelsFalseML=rbind(TableModelsFalseML,set)
 }
 TableModelsFalseML=as.data.frame(TableModelsFalseML)
-names(TableModelsFalseML)=c("Number of covariates" , "Ma" ,"CCI" , "Ma+CCI", "Number of models")
+names(TableModelsFalseML)=c("Number of covariates" , "ME" ,"CCI" , "ME+CCI", "Number of models")
 
 
 ## Main = T 
@@ -113,7 +113,7 @@ for (i in covarites) {
 }
 TableModelsTrue=as.data.frame(TableModelsTrue)
 rownames(TableModelsTrue)=NULL
-names(TableModelsTrue)=c("Number of covariates", "Ma","Ma+HCI", "Ma+CCI", "Ma+HCI+CCI", "Number of models")
+names(TableModelsTrue)=c("Number of covariates", "ME","ME+HCI", "ME+CCI", "ME+HCI+CCI", "Number of models")
 
 ## When there is no specefic variable of interest
 TableModelsTrueML = NULL
@@ -126,15 +126,21 @@ for (i in covarites) {
 }
 TableModelsTrueML=as.data.frame(TableModelsTrueML)
 rownames(TableModelsTrueML)=NULL
-names(TableModelsTrueML)=c("Number of covariates", "Ma", "Ma+CCI", "Number of models")
+names(TableModelsTrueML)=c("Number of covariates", "ME", "ME+CCI", "Number of models")
 
 
 ## Save tables 
-
+comment          <- list()
+comment$pos      <- list()
+comment$pos[[1]] <- c(nrow(variables))
+comment$command  <- c(paste("\\hline \n", 
+                            "{\\textbf{Note: }ME = models with the main effects only; ME + HCI = models with the main effects and interactions between the variable of interest and covariates; ME + CCI = models with the main effects and interactions between covariates; ME + HCI + CCI = models with the main effects and the interactions between the variable of interest and covariates and the interactions between covariates. \n",
+                            sep = ""))
+caption_True = "The total number of models for any given set considering the different number of covariates with the restriction that the main effects should always be present when there are the interaction effects."
 
 library(xtable)
 print(xtable(TableModelsTrue,digits = 0, type = "latex",
-             caption ="",align = c("l","l","c","c","c","c","c"),auto = T ), caption.placement = "top",include.rownames=FALSE, file = "ModelNumberTrue.tex", table.placement = "!h")
+             caption =caption_True,align = c("l","l","c","c","c","c","c"),auto = T ), caption.placement = "top",add.to.row =comment,include.rownames=FALSE, file = "ModelNumberTrue.tex", table.placement = "!h")
 print(xtable(TableModelsTrueML,digits = 0, type = "latex",
              caption ="" ,auto = T), caption.placement = "top",include.rownames=FALSE, file = "ModelNumberTrueML.tex", table.placement = "!h")
 print(xtable(TableModelsFalse,digits = 0, type = "latex",caption ="",auto = T), caption.placement = "top", include.rownames=FALSE, file = "ModelNumberFalse.tex", table.placement = "!h",scalebox='0.8')
