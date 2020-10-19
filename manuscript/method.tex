@@ -1,129 +1,113 @@
 \section{Method}
-Focusing on the different flexibilities we investigated the FPP and FPR for a completely random variable using simulations. We tested this using the discussed flexibilities i.e., under different model specifications, with and without outlier deletion, with several dependent variables, and with different coding of the binary variable. These were tested using different sample sizes, different correlations between the dependent variable and the covariates, and different types of data structure. In a very simple case in which there would only be one test to perform for each model, the FPP and FPR would be 5\%. In this case, however, we are expanding the model set with several tests and controlling for interactions that are not present. With several tests within each regression and the interactions without including the main effects, it would be expected that the FPP and FPR would no longer be 5\%. However, it is not obvious how the different tests interact with each other and how the increase in sample size and different correlation structures affect the FPP. Therefore, we chose to calculate the FPP and FPR using simulations as deriving closed-form solutions of the FPP and FPR was not straightforward.\\
+Focusing on the different flexibilities, we investigated the FPP and FPR for a variable that was uncorrelated with any other variable using a simulation. We used the previously discussed flexibilities i.e., different model specifications, outlier deletion present or absent, several dependent variables, and different sample sizes. These were tested using different correlations between the dependent variable and the covariates, and different types of data structure. Even though in some simple cases it would be possible to calculate a closed-form solution for the FPP and FPR (e.g., when looking at only one main effect), we used a simulation to do that since it was not clear how the combination of different flexibilities used here would impact the FPP and FPR.\\
+
 \subsection{Model Set}
-When a researcher has to select what model (or models) to run there are a lot of different decisions that can be made. Under a completely randomized experiment, it would only be necessary to focus on the variable of interest, what we will define as hypothesis variable $h_1$, and the dependent variable \cite{angrist2008mostly}. However in many cases the researcher is either interested in how this variable interacts with other variables or the could be a need to control for other. We therefore need to build the model set with this in mind. We therefore denote a set of covariates as $X=(x_1,x_2,..,x_n)$, and the dependent variable as y. To better understand the building of the model sets, the different interactions were split into three sets. The first set had only the main effects including only the hypothesis variable without any covariates (Ma); the second set included models that had interactions between the hypothesis variable and the covariates (HCI); and the last set contained the models that had interactions between the covariates (CCI). An example with two covariates can be seen in Table 1 (excluding the constant and the coefficient in front of each variable for the sake of simplicity). The hypothesis variable was present in all three sets.
-To obtain the full set of models, we also needed the combinations of the three sets. There were two possible choices: restricting our sets so that the main effect was always present when there was an interaction or allowing for interactions without including any main effects. In Table 1, we show the combination of all sets where the main effect is always included provided there is an interaction term. The other case can be seen in Supplementary Material in Table S1. \\
-\newpage
+When the researcher has to select what model(s) to use for testing a hypothesis, there are a lot of different decisions that can be made regarding what variables to collect and how they should enter the model. Under a completely randomized experiment, it would only be necessary to focus on the variable of interest, which we define as $h_1$, and the dependent variable, $y$ \citep{angrist2008mostly}. However, in many cases the researcher is either interested in how the variable of interest interacts with other variables or there is a need to control for other variables, which we call covariates and denote them as $X=(x_1,x_2,..,x_n)$. For instance, this could be the case in the experimental setting where no complete randomization could be obtained or for observational data where controlling for different variables is needed to avoid bias \citep{angrist2008mostly}. We, therefore, needed to build the model set having these additional covariates in mind. \\ 
+To better understand the building of the model sets, we divided the models into seven sets based on different interaction structures. The first three sets contained the variable of interest and simple interactions, whereas the last four sets were the combinations of these three sets. An example of the first three model sets can be seen in Table 1 (excluding the constant and the coefficient in front of each variable for the sake of simplicity). The first set had only the main effects including only the variable of interest without any covariates (ME); the second set included models that had interactions between the variable of interest and the covariates (HCI); and the last set contained the models that had interactions between the covariates (CCI). The variable of interest was present in all three sets.
+To obtain the last four model sets, we also needed the combinations of the three sets. There were two possible choices: restricting our sets so that the main effects were always present when there was an interaction or allowing for interactions without including any main effects. In Table 2, we show the combination of all sets where the main effects are always included provided there is an interaction term. The other case, where the main effects are not required to follow, can be seen in Supplementary Material in Table S1. \\
+
 \begin{table}[]
 \caption{}
-\caption*{\footnotesize Model sets when there are two covariates and only one dependent variable}
+\caption*{\footnotesize An overview of the first three model sets when there are two covariates and one dependent variable. Here $h_1$ is the variable of interest and $x_1$ and $x_2$ are two covariates. The ME set contains all the main effects, the HCI set consists of the interactions between the variable of interest and the covariates, and the CCI set includes the interactions between the covariates.}
 \centering
 \begin{tabular}{cc}
 \toprule
 Model set & Models \\ 
 \midrule
-\multirow{4}{*}{Ma} & $y=h_1$ \\ & $y=h_1+x_1$ \\ & $y=h_1+x_2$ \\ & $y=h_1+x_1+x_2$  \\ & \\
+\multirow{4}{*}{ME} & $y=h_1$ \\ & $y=h_1+x_1$ \\ & $y=h_1+x_2$ \\ & $y=h_1+x_1+x_2$  \\ & \\
 \multirow{3}{*}{HCI} & $y=h_1+h_1x_1$ \\ & $y=h_1+h_1x_2$ \\ & $y=h_1+h_1x_1+h_1x_2$  \\& \\
-CCI & $y=h_1+x_1x_2$ \\ & \\
-\multirow{5}{*}{Ma+HCI} & $y=h_1+x_1+h_1x_1$  \\ & $y=h_1+x_2+h_1x_2$  \\& $y=h_1+x_1+x_2+h_1x_1$  \\& $y=h_1+x_1+x_2+h_1x_2$  \\& $y=h_1+x_1+x_2+h_1x_1+h_1x_2$ \\ & \\
-Ma+CCI & $y=h_1+x_1+x_2+x_1x_2$ \\ & \\
-HCI+CCI & Empty set \\ & \\
-\multirow{3}{*}{Ma+HCI+CCI} & $y=h_1+x_1+x_2+h_1x_1+x_1x_2$ \\ & $y=h_1+x_1+x_2+h_1x_2+x_1x_2$ \\ & $y=h_1+x_1+x_2+h_1x_1+h_1x_2+x_1x_2$ \\
+CCI & $y=h_1+x_1x_2$ \\ 
 \bottomrule
 \end{tabular}
 \end{table}
 
 
-If we require that the main effect has to follow all interactions, the union of HCI and CCI will always be empty. This follows since there is no main effects in either of these sets and therefore the combination of these would not fulfill the requirement that there most be main effects when using interactions. This would not be the case if we did not have this constraint (see Supplementary Material Case 1). Equation (1) was used to calculate the number of models for the different part of the model set and the full model set. \\
+\begin{table}[hbt!]
+\centering
+\caption{}
+\caption*{\footnotesize An overview of all the model sets when there are two covariates and one dependent variable with the restriction that the main effects should be present when having the interactions between variables. The ME set contains all the main effects, the ME + HCI set includes the main effects and the interactions between the variable of interest and the covariates, the ME + CCI set contains the main effects and the interactions between the covariates, and the ME + HCI + CCI set contains the main effects, the interactions between the variable of interest and covariates, and the interactions between the covariates. The HCI, CCI and HCI + CCI sets are empty sets since they contain the interactions but not the required main effects.}
+\begin{threeparttable}
+\begin{tabular}{cc}
+\toprule
+Model set & Models \\ 
+\midrule
+\multirow{4}{*}{ME} & $y=h_1$ \\ & $y=h_1+x_1$ \\ & $y=h_1+x_2$ \\ & $y=h_1+x_1+x_2$  \\ & \\
+\multirow{1}{*}{HCI} & Empty set  \\& \\
+CCI & Empty set  \\ & \\
+\multirow{5}{*}{ME + HCI} & $y=h_1+x_1+h_1x_1$  \\ & $y=h_1+x_2+h_1x_2$  \\& $y=h_1+x_1+x_2+h_1x_1$  \\& $y=h_1+x_1+x_2+h_1x_2$  \\& $y=h_1+x_1+x_2+h_1x_1+h_1x_2$ \\ & \\
+ME + CCI & $y=h_1+x_1+x_2+x_1x_2$ \\ & \\
+HCI + CCI & Empty set \\ & \\
+\multirow{3}{*}{ME + HCI + CCI} & $y=h_1+x_1+x_2+h_1x_1+x_1x_2$ \\ & $y=h_1+x_1+x_2+h_1x_2+x_1x_2$ \\ & $y=h_1+x_1+x_2+h_1x_1+h_1x_2+x_1x_2$ \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\textit{Note}: If we require that the main effects have to follow all the interactions, the combination of HCI and CCI will always be empty. This is because there are no main effects related to the covariates in either of these sets and therefore the combination of these would not fulfill the requirement that there must be the main effects when using the interactions. This would not be the case if we did not have this constraint (see Supplementary Material Case 1).
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+Equation (1) is used to calculate the total number of models including all model sets given the number of covariates. Each part of Equation (1) can also be used to calculate the size of a specific model set. The derivation of this equation can be found in Supplementary Material Case 2. \\
 
 \begin{equation} 
 \begin{aligned}
-\#models={} & \underbrace{\left(2^n\right)}_{Ma}+\underbrace{\sum^n_{j=1}{\left(2^j-1\right)\left( \begin{array}{c}
-n \\ 
-j \end{array}
-\right)}}_{Ma+HCI} + \\ 
-& \underbrace{\sum^n_{j=2}{\left( \begin{array}{c}
-n \\ 
-j \end{array}
-\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}}_{Ma+CCI} + \\
-& \underbrace{\sum^n_{j=2}{\left( \begin{array}{c}
-n \\ 
-j \end{array}
-\right)\left(2^j-1\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}}_{Ma+HCI+CCI}\ \  
+\#models={} & \underbrace{\left(2^n\right)}_{ME}+\underbrace{\sum^n_{j=1}{\left(2^j-1\right)\binom{n}{j}}}_{ME + HCI} + \\ 
+& \underbrace{\sum^n_{j=2}{\binom{n}{j}\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}}_{ME + CCI} + \\
+& \underbrace{\sum^n_{j=2}{\binom{n}{j}\left(2^j-1\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}}_{ME + HCI + CCI}\ \  
 \end{aligned}
 \end{equation} 
 
-where \textit{n} denotes the number of the covariates collected. A more thorough work behind this equation can be found in the Supplementary Material.
-Equation (1) did not include the sets HCI, CCI, and HCI+CCI as these were interaction terms with no corresponding main effect, and therefore empty sets with the restriction in place. For the case where we had two covariates, the number of models became as follows: \\
+where $n$ denotes the number of the covariates collected and $\binom{n}{j}$ is a binomial coefficient, calculation of which is explained in the Supplementary Material under the Formula for Set Size section.
+Equation (1) did not include the sets HCI, CCI, and HCI + CCI as these were interaction terms with no corresponding main effect, and therefore empty sets. For the case where we had two covariates, the total number of models was calculated as follows: \\
 
 
 \begin{equation*}
 \centering
-\left(2^2-1\right)+
-\sum^2_{j=1}{\left(2^j-1\right)\left( \begin{array}{c}
-2 \\ 
-j \end{array}
-\right)}+
-\sum^2_{j=2}{\left( \begin{array}{c}
-2 \\ 
-j \end{array}
-\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}\\+  
- \sum^2_{j=2}{\left( \begin{array}{c}
-2\\ 
-j \end{array}
-\right)\left(2^j-1\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}= \\
- 3+5+1+3*1=12 
+\left(2^2\right)+
+\sum^2_{j=1}{\left(2^j-1\right) \binom{2}{j}}+
+\sum^2_{j=2}{\binom{2}{j}\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}+  
+\sum^2_{j=2}{\binom{2}{j}\left(2^j-1\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}= \\
+4+5+1+3*1=13 
 \end{equation*}
 
 
-The number of models in each set for the different numbers of covariates under the restriction that the main effect must always follow the interactions can be seen in Table 2. The number of models, when there is no restriction that the main effect should follow interaction terms, can be seen in Table S6 in Supplementary Material. \\
+The number of models in each set for the different number of covariates given the restriction that the main effects must always follow the interaction effect can be seen in Table 3. The number of models, when there is no such restriction in place, can be seen in Table S6 in Supplementary Material. \\
 
+The total number of models for any given set considering the different number of covariates with the restriction that the main effects should always be present when there are the interaction effects. 
+Note: ME = models with the main effects only; ME + HCI = models with the main effects and interactions between the variable of interest and covariates; ME + CCI = models with the main effects and interactions between covariates; ME + HCI + CCI = models with the main effects and the interactions between the variable of interest and covariates and the interactions between covariates. 
 \input{R/Analysis/CodeFinal/ModelSize/ModelNumberTrue}
 
-In the simulation, we focused on two to four covariates as this was enough to give us an idea of how the increase in the model set affected the FPP and FPR. 
+In the simulation, we focused on two to four covariates as this was enough to give us an idea of how the increase in the size of the model set affected the FPP and FPR. 
 
 \subsection{Outlier Criteria}
-Following the findings of \cite{Leyes2013}, four different outlier criteria were included. Three of the outlier criteria were based on the standard deviation (2, 2.5, and 3), while one used the interquartile range \citep{Rousseeuw2011}. Each outlier criterion was used on the entire dataset and not only on individual variables. If any observation fulfilled the outlier criteria, the observation was omitted from the analysis. As the outlier criteria chosen here only worked for continuous variables, there were cases where only the dependent variable was tested for outliers.
+Following the findings of \cite{Leyes2013}, four different outlier criteria were included. Three of the outlier criteria were based on the standard deviation (2, 2.5, and 3), while the remaining one used the interquartile range \citep{Rousseeuw2011}. Each outlier criterion was used on the entire dataset and not only on individual variables. If any observation fulfilled the outlier criteria, the observation was omitted from the analysis. As the outlier criteria chosen here only worked for continuous variables, there were cases where only the dependent variable was tested for outliers.
 
 \subsection{Collecting Multiple Correlated Dependent Variables}
-Why and wriet they are on the same scale. To test the consequences of collecting several correlated dependent variables (\textit{r}=0.5), we tested having three such variables. Furthermore, we computed the average of the three dependent variables to yield a fourth dependent variable. With these four dependent variables, the model set expanded four times compared to when there is only one dependent variable. In other words, every time three dependent variables were generated, we ran four different regressions. 
+As in \cite{Simmons2011} we tested the effect of using several dependent variables. The reason why a researcher would do this could be many, but could be if the researcher wants to measure something like performance but is not completely sure how to measure it in a good way and therefore get different types of performance. To test the consequences of collecting several correlated dependent variables (\textit{r}=0.5), we tested having three such variables. Furthermore, we computed the average of the three dependent variables to yield a fourth dependent variable. With these four dependent variables, the model set expanded four times compared to when there was only one dependent variable. In other words, every time three dependent variables were generated, we ran four different regressions. 
 
 \subsection{Coding of Variables}
-For the cases in which either the covariates or the hypothesis variable were binary, these were coded in two different ways. They were either dummy coded with 1/0 or effects coded with 1/-1. These were tested separately to determine if any of the coding would result in a higher FPP and FPR, considering the other flexibilities as well. 
+For the cases in which either the covariates or the variable of interest were binary, these were coded in two different ways. They were either dummy coded with 1/0 or effects coded with 1/-1. These were tested separately to determine if any of the coding would result in a higher FPP and FPR, considering the other flexibilities as well. 
 
 \subsection{Data Generating Process}
-As the goal of the simulation was to determine how often our completely random hypothesis variable could be made significant, we made sure it was not correlated with the dependent variable. The hypothesis variable could have two different distributions: a normal distribution (continuous variable) or a binomial distribution (binary variable). The covariates were simulated using the same distributions, but all the covariates presented in one simulation had the same distribution. As linear regressions were used, the dependent variable could only be normally distributed. Four different cases could be built using these kinds of distributions for the hypothesis variable and the covariates: a continuous hypothesis variable and continuous covariates; a binary hypothesis variable and continuous covariates; a continuous hypothesis variable and binary covariates; and a binary hypothesis variable and binary covariates. If a variable was generated as a binary variable, it was both dummy coded and effects coded.
-The correlation between y and X was set to three different levels: \textit{r} = 0.2; \textit{r} = 0.3; and \textit{r} = 0.4, which denote medium-strength correlations \citep{Cohen1989}. The correlation between the hypothesis variable and all other variables was set to zero. The correlations between the covariates were also set to zero to ensure that the results were not driven by omitted variable bias. If any variable was not included, it would only be reflected in the error term, and this would still be uncorrelated with the rest of the variables. The correlation matrix for when there was only one dependent variable is presented in Table 3. \\
-
-\begin{table}
-\caption{}
-\centering
-\caption*{\footnotesize Correlation of simulated data with only one dependent variable, r = $\{$.2,.3,.4$\}$}
-\begin{tabular}{c|ccccccc} 
-\toprule
- & y & h${}_{1}$ & x${}_{1}$ & x${}_{2}$ & x${}_{3}$ & ... & x${}_{n}$ \\ 
- \midrule
-y & 1 &  &  &  &  &  &  \\ 
-h${}_{1}$ & 0 & 1 &  &  &  &  &  \\ 
-x${}_{1}$ & r & 0 & 1 &  &  &  &  \\  
-x${}_{2}$ & r & 0 & 0 & 1 &  &  &  \\  
-x${}_{3}$ & r & 0 & 0 & 0 & 1 &  &  \\  
-... & r & 0 & 0 & 0 & 0 & 1 &  \\ 
-x${}_{n}$ & r & 0 & 0 & 0 & 0 & 0 & 1 \\ 
-\bottomrule
-\end{tabular}
-\end{table}
-
+As the goal of the simulation was to determine how often our completely random variable of interest could be made significant, we made sure it was not correlated with the dependent variable. The variable of interest could have two different distributions: a normal distribution (continuous variable) or a binomial distribution (binary variable). The covariates were simulated using the same distributions; however, all covariates generated in one simulation had the same distribution. As linear regressions were used, the dependent variable could only be normally distributed. Four different cases could be built using these kinds of distributions for the variable of interest and the covariates: a continuous variable of interest and continuous covariates; a binary variable of interest and continuous covariates; a continuous variable of interest and binary covariates; and a binary variable of interest and binary covariates. If a variable was generated as a binary variable, it was both dummy coded and effects coded.
+The correlation between y and X was set to three different levels: \textit{r} = 0.2; \textit{r} = 0.3; and \textit{r} = 0.4, which denote medium-strength correlations \citep{Cohen1989}. The correlation between the variable of interest and all other variables was set to zero. The correlations between the covariates were also set to zero to ensure that the results were not driven by omitted variable bias. If a relevant variable was not included, this would only be reflected in the error term, and still be uncorrelated with the remaining variables. The correlation matrix for when there was only one dependent variable is presented in Table S11 in Supplementary Material. \\
 
 If a variable was generated as a normally distributed variable, it was generated with a mean of 0 and a standard deviation of 1, while binomial variables were generated with a 50\% chance of success in each trial. To test how the sample size affected the FPP and FPR, the simulation included samples with sizes ranging from 100 to 300 with increasing steps of 50. 
 
 \subsection{Simulation}
-We investigated the different flexibilities one at the time. This implies that we started with the different model sets to determine the FPP and FPR in these and thereafter examined what happend when more flexibilities were added. Regarding the data structure, we only included cases in which the hypothesis variable and covariates had the same distribution. For the two other cases i.e. where the hypothesis variable was binary and the covariates were continuous and the other way around can be found in Supplementary Material. This were included here since they had similar results as what is presented in the paper as it seems it is the distribution of the covariate that drives a lot of the results. When the effect of increasing samples was not investigated, the sample was set to 200 to ensure a reasonable sample compared to the amount of variables. When the effect of different correlation levels was not tested, the correlation between the dependent variable and covariates was set to \textit{r}=0.2.\\
-
-A code for the different kinds of flexibilities along with the simulation was programmed in R \citep{Team2018}. When the covariates had a binomial distribution, the variables were simulated using the package BinNor \citep{Demirtas2014}. This was done to ensure that the correlation matrix would also hold under this data type. The data were analyzed with linear regressions. Every time $h_1$ became significant, either by itself or in an interaction with another variable, it was considered a “success". The iteration number was 10,000. The FPP was defined as \\
+In the simulation presented in the result section, we only included cases in which the variable of interest and covariates had the same distribution. The two other cases i.e., where the variable of interest was binary and the covariates were continuous and the other way around can be found in Supplementary Material. These were not included here since the results were similar to what is presented in the results section, possibly due to the distribution of the covariates which seems to drive the results. When the effect of increasing samples was not investigated, the sample was set to 200 to ensure a reasonable sample compared to the number of variables. When the effect of different correlation levels was not tested, the correlation between the dependent variable and covariates was set to \textit{r}=0.2.\\
+A code for the different kinds of flexibilities along with the simulation was programmed in R \citep{Team2018}. When the covariates had a binomial distribution, the variables were simulated using the package BinNor \citep{Demirtas2014}. This was done to ensure that the correlation matrix would also hold under this data type. The data were analyzed with linear regressions. Every time $h_1$ became significant, either by itself or in an interaction with another variable, it was considered a “success". We ran  10,000 simulation iterations. The FPP was defined as \\
 
 \[FPP_i=\left. \left\{\begin{array}{c}
-1\ if\ any\ h_1\ is\ significant \\ 
-0\ if\ no\ h_1\ is\ significant\  \end{array}
+1\ if\ h_1\ is\ significant\ in\ at\ least\ one \ of\ the\ tested\ models \\ 
+0\ otherwise\  \end{array}
 \right.\] 
 \[FPP=\frac{\sum^{10000}_i{FPP_i}}{10000}\] 
 
 
-Here FPP${}_{i}$ indicates if any of the models in the model set had a significant result. If that is the case, it takes the value 1, otherwise 0. The FPR is the ratio of the models with a significant result and can be written as \\
+Here FPP${}_{i}$ indicates if any of the models in the model set had a significant result. If that is the case, it takes the value of 1, otherwise 0. The FPR is the ratio of the models with a significant result and can be written as \\
 
 \[FPR_i=\frac{\#models\ with\ significant\ result}{\#models\ in\ the\ model\ set}\] 
 \[FPR=\frac{\sum^{10000}_i{FPR_i}}{10000}\] 
 
 
-The full code for the simulation and figures can be found in Supplementary Material. 
 
