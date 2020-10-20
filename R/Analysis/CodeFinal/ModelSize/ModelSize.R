@@ -140,7 +140,7 @@ caption_True = "The total number of models for any given set considering the dif
 
 library(xtable)
 print(xtable(TableModelsTrue,digits = 0, type = "latex",
-             caption =caption_True,align = c("l","l","c","c","c","c","c"),auto = T ), caption.placement = "top",add.to.row =comment,include.rownames=FALSE, file = "ModelNumberTrue.tex", table.placement = "!h")
+             caption =caption_True,align = c("l","l","c","c","c","c","c"),auto = T ), caption.placement = "top",include.rownames=FALSE, file = "ModelNumberTrue.tex", table.placement = "!h",add.to.row =comment)
 print(xtable(TableModelsTrueML,digits = 0, type = "latex",
              caption ="" ,auto = T), caption.placement = "top",include.rownames=FALSE, file = "ModelNumberTrueML.tex", table.placement = "!h")
 print(xtable(TableModelsFalse,digits = 0, type = "latex",caption ="",auto = T), caption.placement = "top", include.rownames=FALSE, file = "ModelNumberFalse.tex", table.placement = "!h",scalebox='0.8')
