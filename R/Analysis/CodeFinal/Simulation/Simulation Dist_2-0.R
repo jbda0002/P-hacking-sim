@@ -12,7 +12,6 @@ output=paste0(output,"/Result")
 ## Loading library
 library(ggplot2)
 library(jtools)
-library(ggpubr)
 library(data.table)
 library(plyr)
 library(reshape2)
@@ -78,7 +77,7 @@ DataGenListBinNormEffect <- list(dataGen2,dataGen3)
 ## The different condetions
 P2<-c("TRUE","FALSE")
 P3<-c("TRUE","FALSE")
-condSD<-c("FALSE")
+condSD<-c("TRUE","FALSE")
 condMain<-c("TRUE","FALSE")
 
 ### Since there is a difference between the sets when Main is False and True two different simulations are made
@@ -564,7 +563,7 @@ resultsMTDist<-
   foreach(t=1:repdist,.combine=rbind,.packages=c("plyr","statip","data.table","BinNor","dplyr"),.options.snow = opts, .inorder=FALSE) %dopar% {
     f = function() {
       
-      phackingFunction(DataGen[[i]][[j]](sample[[g]],cor=corr[[c]],corDV=corrDV[[1]]),c("y1","y2","y3"),"h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = T,Per = TRUE)
+      phackingFunction(DataGen[[i]][[j]](sample[[g]],cor=corr[[c]],corDV=corrDV[[1]]),c("y1","y2"),"h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = T,Per = TRUE)
       
       
     }
@@ -573,7 +572,7 @@ resultsMTDist<-
     if(h==2 & l==2){
       f = function() {
         
-        phackingFunction(DataGen[[i]][[j]](sample[[g]],cor=corr[[c]],corDV=corrDV[[1]]),c("y1","y2","y3"),"h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = T,Per = TRUE)
+        phackingFunction(DataGen[[i]][[j]](sample[[g]],cor=corr[[c]],corDV=corrDV[[1]]),c("y1","y2"),"h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = T,Per = TRUE)
         
         
       }
@@ -623,7 +622,7 @@ resultsMFDist<-
   foreach(t=1:repdist,.combine=rbind,.packages=c("plyr","statip","data.table","BinNor"),.options.snow = opts, .inorder=FALSE) %dopar% {
     f = function() {
       
-      phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2","y3"),"h1",HCI =P2[[h]],outlierexclusion=condSD[[k]],CCI = P3[[l]],Main = F,Per = TRUE)
+      phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2"),"h1",HCI =P2[[h]],outlierexclusion=condSD[[k]],CCI = P3[[l]],Main = F,Per = TRUE)
       
       
     }
@@ -631,7 +630,7 @@ resultsMFDist<-
     if(h!=2 | l!=2){
       f = function() {
         
-        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2","y3"),"h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = F,Per = TRUE)
+        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2"),"h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = F,Per = TRUE)
         
         
       }
@@ -648,14 +647,14 @@ resultsMFDist<-
     if(h==2 & l==2){
       f = function() {
         
-        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2","y3"),"h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = F,Per = TRUE)
+        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2"),"h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = F,Per = TRUE)
         
         
       }
       data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
       f=function(){
-        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2","y3"),"h1",outlierexclusion=condSD[[k]],HCI_CCI = T,Main = F,Per = TRUE)
+        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2"),"h1",outlierexclusion=condSD[[k]],HCI_CCI = T,Main = F,Per = TRUE)
         
       }
       data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
@@ -1178,23 +1177,22 @@ corr=c(0.2)
 ### Here it is added how many covariates there should be in the simulation
 ## Making the list for the Normal Data
 source(here::here("CodeFinal","Data","Data Generation Normal.R"))
-DataGenListNorm <- list(dataGen2)
+DataGenListNorm <- list(dataGen2,dataGen3)
 
 ## Making the list for the Bin Data
 source(here::here("CodeFinal","Data","Data Generation Bin_v2-0.R"))
-DataGenListBin <- list(dataGen2)
+DataGenListBin <- list(dataGen2,dataGen3)
 
 
 
 #### Run the simulation ####
 
-## General for all
 
 
 ## The different condetions
 P2<-c("TRUE")
 P3<-c("TRUE")
-condSD<-c("FALSE")
+condSD<-c("TRUE","FALSE")
 condMain<-c("TRUE","FALSE")
 
 ### Since there is a difference between the sets when Main is False and True two different simulations are made

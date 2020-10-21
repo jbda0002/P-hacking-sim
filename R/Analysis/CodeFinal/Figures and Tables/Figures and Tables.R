@@ -4,6 +4,7 @@ library(data.table)
 library(ggplot2)
 library(jtools)
 library(ggpubr)
+library(Rmisc)
 
 ##Load the data
 
@@ -195,14 +196,15 @@ figuredist$Type[figuredist$Type==6]<-"h1=Normal, Co=Binary Effect"
 meanDist=figuredist[,list(mean=mean(f..)),by=c("Main","Set","Type","SampleSize", "IndependentVariables","OutlierExclusion","Correlation")]
 
 
-write.csv(meanDist,'meanDistSample.csv')
 
 ## Create Table 1
 table1data<-as.data.table(figuredist[figuredist$SampleSize==200 & figuredist$Correlation ==0.2 & figuredist$OutlierExclusion ==2 & figuredist$IndependentVariables==1
                                        & figuredist$Type!="h1=Normal, Co=Binary" & figuredist$Type!="h1=Binary, Co=Normal"
                                        & figuredist$Type!="h1=Binary, Co=Binary Effect" & figuredist$Type!="h1=Normal, Co=Binary Effect" ,])
 
-Table1=table1data[,list(mean=mean(f..)),by=c("Main","Set","Type")]
+Table1=table1data[,list(mean=mean(f..),confL=CI(f..)[3], confU=CI(f..)[1]),by=c("Main","Set","Type")]
+
+write.csv(Table1,'Table1.csv')
 
 ## The effect of using outlier exclusion (Figure for SM)
 tabledata<-as.data.table(figuredist[figuredist$SampleSize==200 & figuredist$Correlation ==0.2 &  figuredist$IndependentVariables==1
