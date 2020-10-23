@@ -13,7 +13,7 @@ library(Rmisc)
 library(xtable)
 
 ##Load the data
-fileplace=paste0(output,"/Files/ResultsSim.csv")
+fileplace=paste0(output,"/Files/Results.csv")
 finalresults = fread(fileplace,sep=";")
 ## Figures for paper ##
 
@@ -46,6 +46,7 @@ falsepostive$OutlierExclusion[falsepostive$OutlierExclusion==1]<-"TRUE"
 
 
 falsepostive$Set <- factor(falsepostive$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
+levels(falsepostive$Set) <- c("ME", "HCI", "CCI", "ME + HCI","ME + CCI","HCI + CCI","ME + HCI + CCI")
 falsepostive$Pr<-as.numeric(falsepostive$mean)
 
 ## Figure 1A
@@ -159,7 +160,7 @@ figuredata<-as.data.table(falsepostive[ falsepostive$OutlierExclusion=="FALSE" &
                                         & falsepostive$Type!="h1=Binary, Co=Binary Effect" & falsepostive$Type!="h1=Normal, Co=Binary Effect"
                                         ,]
 )
-figuredata$Set <- factor(figuredata$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
+figuredata$Set <- factor(figuredata$Set,levels = c("ME", "HCI", "CCI", "ME + HCI","ME + CCI","HCI + CCI","ME + HCI + CCI"))
 figuredata$Pr<-as.numeric(figuredata$mean)
 
 
@@ -263,7 +264,7 @@ names(second)[5]="IncFPR"
 
 meanDistCorrInc=do.call("rbind",list(first,second))
 
-meanDistCorrInc$Set <- factor(meanDistCorrInc$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
+meanDistCorrInc$Set <- factor(meanDistCorrInc$Set,levels = c("ME", "HCI", "CCI", "ME + HCI","ME + CCI","HCI + CCI","ME + HCI + CCI"))
 
 
 Figure2SI<-ggplot( data=meanDistCorrInc)+
@@ -419,7 +420,7 @@ Figure1CSI
 figuredata<-as.data.table(falsepostive[ falsepostive$OutlierExclusion=="FALSE" & falsepostive$Correlation==0.2 & falsepostive$IndependentVariables==1 & falsepostive$DV==1
                                        ,]
 )
-figuredata$Set <- factor(figuredata$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
+figuredata$Set <- factor(figuredata$Set,levels = c("ME", "HCI", "CCI", "ME + HCI","ME + CCI","HCI + CCI","ME + HCI + CCI"))
 figuredata$Pr<-as.numeric(figuredata$mean)
 
 
