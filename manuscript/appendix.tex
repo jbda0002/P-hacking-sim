@@ -12,23 +12,29 @@ n \\
 k \end{array}
 \right)=\frac{n!}{k!\left(n-k\right)!}\] 
 
-where ``!'' is the factorial operator. So $n!=n\times \left(n-1\right)\times \left(n-2\right)\times \left(n-3\right)\times \dots \times 3\times 2\times 1$. One rule that has been repeatedly used is that we can rewrite the sum of binomial coefficients excluding the empty set (i.e., not including i=0) as 
+where $n$ is the number of elements so in our case the number of covariates that we want to include, and $k$ is the number of elements taken out. $!$ is the factorial operator, so $n!=n\times \left(n-1\right)\times \left(n-2\right)\times \left(n-3\right)\times \dots \times 3\times 2\times 1$. The binomial coefficients therefore gives us the number of ways that $k$ elements can be picked from a set of the size $n$. One rule that has been repeatedly used is that we can rewrite the sum of binomial coefficients excluding the empty set (i.e., not including i=0) as 
 \[\sum^n_{i=1}{\left( \begin{array}{c}
 n \\ 
 i \end{array}
 \right)}=2^n-1\] 
-
+\\
+If we include the empty set, as it would be the case in some sets, we include i=0 and this becomes
+\[\sum^n_{i=0}{\left( \begin{array}{c}
+n \\ 
+i \end{array}
+\right)}=2^n\] 
+\\
 When calculating the size of each set, we considered two different cases; one where we allowed interactions without having main effects present, and the other one where main effects should always follow the interaction. \\
 
 \section{Case 1 – No Restriction}
-\subsection{Ma}
+\subsection{ME}
 
-To calculate the size of the sets, we used the binomial coefficient since the size of the  Ma set will be all the combinations of the covariates including the empty set (where only the variable of interest is present). Let us denote the number of covariates with n. If we have an example with three covariates (n=3), then the combination of these where we have all three covariates present can be written using the binomial coefficient as
+To calculate the size of the sets, we used the binomial coefficient since the size of the ME set will be all the combinations of the covariates including the model where it is only the variable of interest (in this terminology also called the empty set). Let us denote the number of covariates with n. If we have an example with three covariates (n=3), then the combination of these where we have all three covariates present can be written using the binomial coefficient as
 \[\left( \begin{array}{c}
 3 \\ 
 3 \end{array}
-\right)=\frac{3!}{3!\left(3-3\right)!}=1\]. 
-If only two covariates are present at the same time, then the number of possible combinations becomes 
+\right)=\frac{3!}{3!\left(3-3\right)!}=1\]
+If only two covariates are present from the set of three covariates at the same time, then the number of possible combinations becomes 
 \[\left( \begin{array}{c}
 3 \\ 
 2 \end{array}
@@ -46,7 +52,7 @@ Finally, where no covariates are present, the number of possible combinations is
 The total number of models in this set will then be the sum of all these
 
 
-\[\#models\ in\ Ma=\left( \begin{array}{c}
+\[\#models\ in\ ME=\left( \begin{array}{c}
 3 \\ 
 3 \end{array}
 \right)+\left( \begin{array}{c}
@@ -63,12 +69,12 @@ The total number of models in this set will then be the sum of all these
 i \end{array}
 \right)}\] 
 Using the rule for adding binomial coefficients, we can rewrite this into
-\[\#models\ in\ Ma=\sum^3_{i=0}{\left( \begin{array}{c}
+\[\#models\ in\ ME=\sum^3_{i=0}{\left( \begin{array}{c}
 3 \\ 
 i \end{array}
 \right)}=\left(2^3\right)=8\] 
 We can further generalize this to the n covariates case as follows 
-\[\#models\ in\ Ma=\sum^n_{i=1}{\left( \begin{array}{c}
+\[\#models\ in\ ME=\sum^n_{i=0}{\left( \begin{array}{c}
 n \\ 
 i \end{array}
 \right)}=\left(2^n\right)\] 
@@ -79,14 +85,14 @@ i \end{array}
 \[\left|X\right|=n\] 
 
 
-\noindent The set Ma is then the power set of X 
-\[Ma=\{\left.S:S\subseteq X\right.\}\] 
+\noindent The set ME is then the power set of X 
+\[ME=\{\left.S:S\subseteq X\right.\}\] 
 
-Each element $S\in Ma$ is a set of the covariates (e.g., $S=\left.x_3,x_7\right.$) or any combination of the covariates, including the empty set. This is just the power set of X and the size of the set can be written as
-\[\left|Ma\right|=|\mathcal{P}\left(X\right)|=2^n\] 
+Each element $S\in ME$ is a set of the covariates (e.g., $S=\left.x_3,x_7\right.$) or any combination of the covariates, including the empty set. This is just the power set of X and the size of the set can be written as
+\[\left|ME\right|=|\mathcal{P}\left(X\right)|=2^n\] 
 \subsection{HCI}
 
-The same line of reasoning goes for the HCI set and we therefore only write it formally. Here, it is all the interactions between the covariates and the variable of interest 
+The same line of reasoning goes for the set HCI as for set ME and we therefore only write it formally. Here, we just need to calculate the number of possible interactions between the variable of interest and the covariates. This set will therefore have the same size as ME, as there are just as many covariates as there are two-way combinations between the variable of interest and the covariates excluding the empty set.
 
 \[I_h(X)=\left.\left\{\{x_i,h\}\right.:x_i\in X\right.\}\] 
 \[HCI=\left.\{T:T\subseteq I_h\left(X\right),T\neq \textrm{\O}\right.\}\] 
@@ -95,12 +101,12 @@ The total number of models in this set is only the power set excluding the empty
 
 \subsection{CCI}
 
-For the CCI set, we need the combinations of the combinations as this is the combination of the two-way interaction of the covariates. First we need to calculate the number of possible combinations of the covariates. If we stick to the case with n=3, then the number of combinations is as follows
+For the CCI set, we need the combinations of all the two-way interactions between the covariates themselves. This means we first need to calculate the possible number of two-way interactions between the interactions and thereafter the number of combinations of these interactions. If we stick to the case with n=3, then the number of combinations is as follows
 \[\#\ of\ two-way\ interactions=\left( \begin{array}{c}
 3 \\ 
 2 \end{array}
 \right)=\frac{3!}{2!\left(3-2\right)!}=3\] 
-Then we can do the same as for the Ma and HCI sets, but here our starting point is the number of two-way interactions. 
+We can now make the combinations of these interaction effects. Meaning our $n$ is not the number of covariates in this case but the number of two-way interactions that can be made with three covariates.  
 
 \noindent 
 \[\#models\ in\ CCI=\left( \begin{array}{c}
@@ -116,8 +122,8 @@ Then we can do the same as for the Ma and HCI sets, but here our starting point 
 3 \\ 
 i \end{array}
 \right)}=7\] 
-In the general case, let us define the number of two-way interactions with k; this gives us
-\[k=\left( \begin{array}{c}
+In the general case, let us define the number of two-way interactions with h; this gives us
+\[h=\left( \begin{array}{c}
 n \\ 
 2 \end{array}
 \right)=n(n-1)/2\] 
@@ -125,7 +131,7 @@ So the general term for the total number of models in CCI is then
 \[\#models\ in\ CCI=\sum^{n(n-1)/2}_{i=1}{\left( \begin{array}{c}
 n(n-1)/2 \\ 
 i \end{array}
-\right)}=(2^{n(n-1)/2}-1)=2^k-1\] 
+\right)}=(2^{n(n-1)/2}-1)=2^h-1\] 
 
 
 \subsubsection{Formally written}
@@ -139,42 +145,41 @@ n \\
 The set of all combinations is then all the subsets of $I_k\left(X\right)$ excluding the empty set
 \[P\left(I_k\left(X\right)\right)=\{\left.J:J\subseteq I_k\left(X\right),J\neq \textrm{\O}\right.\}\] 
 \[\left|CCI\right|=\left|P\left(I_k\left(X\right)\right)\right|=2^{\left|I_k\left(X\right)\right|}-1=2^{n(n-1)/2}-1\] 
-In the previous part, $\left( \begin{array}{c}
+defining 
+\[h=\left( \begin{array}{c}
 n \\ 
 2 \end{array}
-\right)$ was defined as k, so we can write this as
-\[\left|CCI\right|=2^k-1\] \\
+\right)=n(n-1)/2\] \\
+so we can write the number of models in CCI as
+\[\left|CCI\right|=2^h-1\] \\
 
 \subsection{Full model set}
-For the final parts, the math follows directly from the previous equations as these sets are the product of the previously calculated sets. 
+For the sets, meaning the sets ME + HCI , ME + CCI and ME + HCI + CCI, the math follows directly from the previous equations as these sets are the product of the previously calculated sets. 
 
-\[\#models\ in\ Ma=\left(2^n\right)\] 
+\[\#models\ in\ ME=\left(2^n\right)\] 
 \[\#models\ in\ HCI=\left(2^n-1\right)\] 
-\[\#models\ in\ CCI=\left(2^k-1\right)\] 
-\[\#models\ in\ Ma+HCI={\left(2^n-1\right)}^2\] 
-\[\#models\ in\ Ma+CCI=\left(2^n-1\right)\left(2^k-1\right)\] 
-\[\#models\ in\ Ma+HCI+CCI={\left(2^n-1\right)}^2\left(2^k-1\right)\] 
+\[\#models\ in\ CCI=\left(2^h-1\right)\] 
+\[\#models\ in\ ME+HCI={\left(2^n-1\right)}^2\] 
+\[\#models\ in\ ME+CCI=\left(2^n-1\right)\left(2^h-1\right)\] 
+\[\#models\ in\ ME+HCI+CCI={\left(2^n-1\right)}^2\left(2^h-1\right)\] 
 So the total number of models including all sets then becomes
 \begin{equation*}
 \begin{aligned}
 \#model=\\
-& \underbrace{\left(2^n\right)}_{Ma}+\underbrace{\left(2^n-1\right)}_{HCI}+\underbrace{\left(2^k-1\right)}_{CCI}+\\
-&\underbrace{{\left(2^n-1\right)}^2}_{Ma+HCI}+\underbrace{\left(2^n-1\right)\left(2^k-1\right)}_{HCI+CCI}+\underbrace{\left(2^n-1\right)\left(2^k-1\right)}_{Ma+CCI}+\\
-&\underbrace{{\left(2^n-1\right)}^2\left(2^k-1\right)}_{Ma+HCI+CCI} 
+& \underbrace{\left(2^n\right)}_{ME}+\underbrace{\left(2^n-1\right)}_{HCI}+\underbrace{\left(2^h-1\right)}_{CCI}+\\
+&\underbrace{{\left(2^n-1\right)}^2}_{ME+HCI}+\underbrace{\left(2^n-1\right)\left(2^h-1\right)}_{HCI+CCI}+\underbrace{\left(2^n-1\right)\left(2^h-1\right)}_{ME+CCI}+\\
+&\underbrace{{\left(2^n-1\right)}^2\left(2^h-1\right)}_{ME+HCI+CCI} 
 \end{aligned}
-\end{equation*} \\
+\end{equation*}
 
 For the case where n=2, (as in the Table S1), this gives us
-\[k=\left( \begin{array}{c}
+\[h=\left( \begin{array}{c}
 2 \\ 
 2 \end{array}
 \right)=1\] 
 \[\#model=\left(2^2\right)+\left(2^2-1\right)+\left(2^1-1\right)+{\left(2^2-1\right)}^2+2\left(2^2-1\right)\left(2^1-1\right)+{\left(2^2-1\right)}^2\left(2^1-1\right)=32\] 
-\eject 
 
-
-
-\begin{table}[]
+\begin{table}[hbt!]
 \caption{}
 \caption*{\footnotesize Overview of all models per each model set when there are two covariates and one dependent variable}
 \centering
@@ -182,58 +187,58 @@ For the case where n=2, (as in the Table S1), this gives us
 \toprule
 Model set & Models \\  
 \midrule
-\multirow{4}{*}{Ma} & $y=h_1$ \\ & $y=h_1+x_1$ \\ & $y=h_1+x_2$ \\ & $y=h_1+x_1+x_2$ & \\ 
+\multirow{4}{*}{ME} & $y=h_1$ \\ & $y=h_1+x_1$ \\ & $y=h_1+x_2$ \\ & $y=h_1+x_1+x_2$ & \\ 
 \multirow{3}{*}{HCI} & $y=h_1+h_1x_1$ \\ & $y=h_1+h_1x_2$ \\ & $y=h_1+h_1x_1+h_1x_2$ & \\
 CCI & $y=h_1+x_1x_2$ & \\ 
-\multirow{9}{*}{Ma+HCI} & $y=h_1+x_1+h_1x_1$\\ & $y=h_1+x_1+h_1x_2$\\ & $y=h_1+x_1+h_1x_1+h_1x_2$\\ & $y=h_1+x_2+h_1x_1$\\ & $y=h_1+x_2+h_1x_2$\\ & $y=h_1+x_2+h_1x_1+h_1x_2$\\ & $y=h_1+x_1+x_2+h_1x_1$\\ & $y=h_1+x_1+x_2+h_1x_2$\\ & $y=h_1+x_1+x_2+h_1x_1+h_1x_2$ & \\ 
-\multirow{3}{*}{Ma+CCI} & $y=h_1+x_1+x_1x_2$\\ & $y=h_1+x_2+x_1x_2$\\ & $y=h_1+x_1+x_2+x_1x_2$ & \\
+\multirow{9}{*}{ME+HCI} & $y=h_1+x_1+h_1x_1$\\ & $y=h_1+x_1+h_1x_2$\\ & $y=h_1+x_1+h_1x_1+h_1x_2$\\ & $y=h_1+x_2+h_1x_1$\\ & $y=h_1+x_2+h_1x_2$\\ & $y=h_1+x_2+h_1x_1+h_1x_2$\\ & $y=h_1+x_1+x_2+h_1x_1$\\ & $y=h_1+x_1+x_2+h_1x_2$\\ & $y=h_1+x_1+x_2+h_1x_1+h_1x_2$ & \\ 
+\multirow{3}{*}{ME+CCI} & $y=h_1+x_1+x_1x_2$\\ & $y=h_1+x_2+x_1x_2$\\ & $y=h_1+x_1+x_2+x_1x_2$ & \\
 \multirow{3}{*}{HCI+CCI} & $y=h_1+h_1x_1+x_1x_2$\\ & $y=h_1+h_1x_2+x_1x_2$\\ & $y=h_1+h_1x_1+h_1x_2+x_1x_2$ & \\
-\multirow{9}{*}{Ma+HCI+CCI} & $y=h_1+x_1+h_1x_1+x_1x_2$\\ & $y=h_1+x_1+h_1x_2+x_1x_2$\\ & $y=h_1+x_1+h_1x_1+h_1x_2+x_1x_2$\\ & $y=h_1+x_2+h_1x_1+x_1x_2$\\ & $y=h_1+x_2+h_1x_2+x_1x_2$\\ & $y=h_1+x_2+h_1x_1+h_1x_2+x_1x_2$\\ & $y=h_1+x_1+x_2+h_1x_1+x_1x_2$\\ & $y=h_1+x_1+x_2+h_1x_2+x_1x_2$\\ & $y=h_1+x_1+x_2+h_1x_1+h_1x_2+x_1x_2$ \\ 
+\multirow{9}{*}{ME+HCI+CCI} & $y=h_1+x_1+h_1x_1+x_1x_2$\\ & $y=h_1+x_1+h_1x_2+x_1x_2$\\ & $y=h_1+x_1+h_1x_1+h_1x_2+x_1x_2$\\ & $y=h_1+x_2+h_1x_1+x_1x_2$\\ & $y=h_1+x_2+h_1x_2+x_1x_2$\\ & $y=h_1+x_2+h_1x_1+h_1x_2+x_1x_2$\\ & $y=h_1+x_1+x_2+h_1x_1+x_1x_2$\\ & $y=h_1+x_1+x_2+h_1x_2+x_1x_2$\\ & $y=h_1+x_1+x_2+h_1x_1+h_1x_2+x_1x_2$ \\ 
 \bottomrule
 \end{tabular}
 \end{table}
-
+\newpage
 \section{Case 2 – With Restriction}
 
-In this case, we need to ensure that any time there is an interaction, the main effects follow. This means that if the variable of interest interacts with a covariate, both the variable of interest and the covariate need to enter the model linearly, e.g.,
+In this case, we need to ensure that any time there is an interaction, the main effects follow. This means that if the variable of interest interacts with a covariate, both the variable of interest and the covariate will be present as main effects, e.g.,
 \[y=h_1+x_1+h_1x_1\] 
 
-Here, we have an interaction between our variable of interest $h_1$ and a covariate $x_1$. Therefore, the terms also enter the model by themselves. This restriction does not change how we calculate the set size of Ma as there are no interactions in Ma set. The way to calculate the size of Ma set is therefore the same in the two cases (i.e., with and without restriction); we will therefore focus on calculating the other set sizes. However, having a restriction that main effects should always follow when having interactions means that we need to exclude the models from the HCI and CCI sets as these do not have the main effect following the interactions. The first set we then need to calculate is the Ma + HCI set.
+In the previous equation, we have an interaction between our variable of interest $h_1$ and a covariate $x_1$. Therefore, the main effects also enter the model by themselves. This restriction does not change how we calculate the set size of ME as there are no interactions in ME set. The way to calculate the size of ME set is therefore the same in the two cases (i.e., with and without restriction); we will therefore focus on calculating the other set sizes. However, having a restriction that main effects should always follow when having interactions means that we need to exclude the models from the HCI and CCI sets as these do not have the main effect following the interactions. The first set we then need to calculate is the ME + HCI set.
 
-\subsection{Ma + HCI}
+\subsection{ME + HCI}
 For the sake of simplicity, we start with a case where n=3. The models that are within this set can be seen in Table S2 in the case where n=3 \\
 
-\begin{table}[]
+\begin{table}[hbt!]
 \caption{}
-\caption*{\footnotesize Overview of models per each set when there are two covariates and one dependent variable}
+\caption*{Overview of models for the set ME + HCI when there are three covariates and one dependent variable}
 \centering
 \begin{tabular}{cc}
 \toprule
 Model set & Models \\ 
 \midrule
-\multirow{19}{*}{Ma+HCI} & $y=h_1+x_1+h_1x_1$\\ &  $y=h_1+x_2+h_1x_2$\\ &  $y=h_1+x_3+h_1x_3$\\ & $y=h_1+x_1+x_2+h_1x_1$\\ & $y=h_1+x_1+x_3+h_1x_1$\\ & $y=h_1+x_3+x_1+h_1x_3$\\ & $y=h_1+x_3+x_2+h_1x_3$\\ & $y=h_1+x_2+x_1+h_1x_2$\\ & $y=h_1+x_2+x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1$\\ & $y=h_1+x_1+x_2+x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_3$\\ & $y=h_1+x_1+x_2+h_1x_1+h_1x_2$\\ & $y=h_1+x_1+x_3+h_1x_1+h_1x_3$\\ & $y=h_1+x_1+x_2+h_1x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_3$\\ & $y=h_1+x_1+x_2+x_3+h_1x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_2+h_1x_3$\\  
+\multirow{19}{*}{ME+HCI} & $y=h_1+x_1+h_1x_1$\\ &  $y=h_1+x_2+h_1x_2$\\ &  $y=h_1+x_3+h_1x_3$\\ & $y=h_1+x_1+x_2+h_1x_1$\\ & $y=h_1+x_1+x_3+h_1x_1$\\ & $y=h_1+x_3+x_1+h_1x_3$\\ & $y=h_1+x_3+x_2+h_1x_3$\\ & $y=h_1+x_2+x_1+h_1x_2$\\ & $y=h_1+x_2+x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1$\\ & $y=h_1+x_1+x_2+x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_3$\\ & $y=h_1+x_1+x_2+h_1x_1+h_1x_2$\\ & $y=h_1+x_1+x_3+h_1x_1+h_1x_3$\\ & $y=h_1+x_1+x_2+h_1x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_3$\\ & $y=h_1+x_1+x_2+x_3+h_1x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_2+h_1x_3$\\  
 \bottomrule
 \end{tabular}
 \end{table}
 
-In Table S3, we divided the Ma+HCI into three parts - Ma+HCI(1), Ma+HCI(2), and Ma+HCI(3) Ma+HCI(1)- which contain all the models where there are one, two, or three covariates, respectively. \\
+In Table S3, we divided the ME+HCI into three parts - ME+HCI(1), ME+HCI(2), and ME+HCI(3) ME+HCI(1)- which contain all the models where there are one, two, or three covariates, respectively. \\
 
-\begin{table}
-\caption{}
+\begin{table}[hbt!]
+\caption{Split for the set ME + HCI into three subsets when there is three covariates and one dependent variable}
 \centering
 \begin{tabular}{lc}  
 \toprule
 Set & Models \\
 \midrule
-\multirow{3}{*}{Ma+HCI(1)} & $y=h_1+x_1+h_1x_1$\\ & $y=h_1+x_2+h_1x_2$\\ & $y=h_1+x_3+h_1x_3$\\ & \\ 
-\multirow{9}{*}{Ma+HCI(2)} & $y=h_1+x_1$$+x_2+h_1x_1$\\ & $y=h_1+x_1+x_3+h_1x_1$\\ & $y=h_1+x_3+x_1+h_1x_3$\\ & $y=h_1+x_3+x_2+h_1x_3$\\ & $y=h_1+x_2+x_1+h_1x_2$\\ & $y=h_1+x_2+x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+h_1x_1+h_1x_2$\\ & $y=h_1+x_1+x_3+h_1x_1+h_1x_3$\\ & $y=h_1+x_1+x_2+h_1x_3+h_1x_2$\\  & \\  
-\multirow{7}{*}{Ma+HCI(3)} & $y=h_1+x_1+x_2+x_3+h_1x_1$\\ & $y=h_1+x_1+x_2+x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_3$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_3$\\ & $y=h_1+x_1+x_2+x_3+h_1x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_2+h_1x_3$\\  
+\multirow{3}{*}{ME+HCI(1)} & $y=h_1+x_1+h_1x_1$\\ & $y=h_1+x_2+h_1x_2$\\ & $y=h_1+x_3+h_1x_3$\\ & \\ 
+\multirow{9}{*}{ME+HCI(2)} & $y=h_1+x_1$$+x_2+h_1x_1$\\ & $y=h_1+x_1+x_3+h_1x_1$\\ & $y=h_1+x_3+x_1+h_1x_3$\\ & $y=h_1+x_3+x_2+h_1x_3$\\ & $y=h_1+x_2+x_1+h_1x_2$\\ & $y=h_1+x_2+x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+h_1x_1+h_1x_2$\\ & $y=h_1+x_1+x_3+h_1x_1+h_1x_3$\\ & $y=h_1+x_1+x_2+h_1x_3+h_1x_2$\\  & \\  
+\multirow{7}{*}{ME+HCI(3)} & $y=h_1+x_1+x_2+x_3+h_1x_1$\\ & $y=h_1+x_1+x_2+x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_3$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_3$\\ & $y=h_1+x_1+x_2+x_3+h_1x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_2+h_1x_3$\\  
 \bottomrule
 \end{tabular}
 \end{table}
 
-To calculate the size of each of these sets separately, we only need to focus on the number of covariates that enters the model as per assumption the variable of interest $h_1$ is always present. Let us start with Ma+HCI(1). Here the total number of models is the product of how many combinations can be made with one variable (so this is 1) and how many interactions can be made. Using the same shorthand notation with the binomial coefficient as so far, we can write this one as
-\[\#\ of\ models\ in\ Ma+HCI\ \left(1\right)=\left( \begin{array}{c}
+To calculate the size of each of these sets separately, we only need to focus on the number of covariates that enters the model as per assumption the variable of interest $h_1$ is always present. Let us start with ME+HCI(1). In this set there can only be one covariate present at the time, here is therefore three combinations, this can be written as $\binom{3}{1}$. In this set, since there only is one covariate, the interaction term that has the same covariate will always be there, and there can be made no other combinations, or this is the same as $\binom{1}{1}$. Using the same shorthand notation with the binomial coefficient as so far, we can write this one as
+\[\#\ of\ models\ in\ ME+HCI\ \left(1\right)=\left( \begin{array}{c}
 1 \\ 
 1 \end{array}
 \right)\left( \begin{array}{c}
@@ -250,19 +255,19 @@ i \end{array}
 1 \end{array}
 \right)=3\] 
 
-This way of writing up the formula makes sense when we have to put them all together.
+Using this notation for the formulation makes sense when we have to combine the three sets of ME + CCI into one to calculate all the models in ME + CCI.
 
-For the Ma+HCI(2) set, first we need to calculate the number of combinations for the main effect that can be made when there are two covariates present at all time and that is $\left( \begin{array}{c}
-3 \\ 2 \end{array}\right)$. Next we need to calculate the number of combinations of the main effects that can be present. As we have two covariates present all the time, these are the ones that can be used in the interaction term. Since the covariates interact with $h_1$, there can either be one or two interaction terms present. Hence, we have $\left( \begin{array}{c}
+For the ME+HCI(2) set, first we need to calculate the number of combinations for the main effect that can be made when there are two covariates present at all time and that is $\left( \begin{array}{c}
+3 \\ 2 \end{array}\right)$. Next we need to calculate the number of combinations of interactions that can be present. As we have two covariates present all the time, these are the ones that can be used in the interaction effects. Since the covariates interact with $h_1$, there can either be one or two interaction effects present. Hence, we have $\left( \begin{array}{c}
 2 \\ 
 1 \end{array}
 \right)\ $and $\left( \begin{array}{c}
 2 \\ 
 2 \end{array}
-\right)$ combinations of the interaction effects possible. Combining this gives us
+\right)$ combinations of the interaction effects possible. Combining the number of covariates with the number of possible interactions we get
 \begin{equation*}
 \begin{aligned}
-\#\ of\ models\ in\ Ma+HCI\ \left(2\right)=\\
+\#\ of\ models\ in\ ME+HCI(2)=\\
 & \left( \begin{array}{c}
 2 \\ 
 1 \end{array}
@@ -289,10 +294,10 @@ i \end{array}
 
 \end{aligned}
 \end{equation*}
-The same reasoning goes for Ma + HCI(3); the only difference here is that we have one more covariate as we can also have all three covariates in the model at the same time. So if we write this is in same way as before we get
+The same reasoning goes for ME + HCI(3); the only difference here is that we have one more covariate. So if we write the combinations that are possible with three covariates is in same way as before we get
 \begin{equation*}
 \begin{aligned}
-\#\ of\ models\ in\ Ma+HCI\ \left(3\right)=\\
+\#\ of\ models\ in\ ME+HCI(3)=\\
 &\left( \begin{array}{c}
 3 \\ 
 1 \end{array}
@@ -327,13 +332,13 @@ i \end{array}
 \end{equation*}
 
 
-We can then sum all these together to get the size of the set
-\[\#\ of\ models\ in\ Ma+HCI=\sum^3_{k=1}{(2^k-1)\left( \begin{array}{c}
+We can then sum all the three sets ME + HCI(1), ME + HCI(2) and ME + HCI(3) together to get the size of the set ME + HCI
+\[\#\ of\ models\ in\ ME+HCI=\sum^3_{k=1}{(2^k-1)\left( \begin{array}{c}
 3 \\ 
 k \end{array}
 \right)}\] 
 For the case with n covariates, this becomes
-\[\#\ of\ models\ in\ Ma+HCI=\sum^n_{k=1}{(2^k-1)\left( \begin{array}{c}
+\[\#\ of\ models\ in\ ME+HCI=\sum^n_{k=1}{(2^k-1)\left( \begin{array}{c}
 n \\ 
 k \end{array}
 \right)}\] 
@@ -358,16 +363,16 @@ For each k, the number of interactions is just the power set of X excluding the 
 For each k, there is $\left( \begin{array}{c}
 n \\ 
 k \end{array}
-\right)$ combinations of the covariates following the interaction. To get the full set, we need to sum over these from k=1 to n.
-\[\left|Ma+HCI\right|=\sum^n_{k=1}{\left( \begin{array}{c}
+\right)$ combinations of the covariates following the interaction. To get the full set, we need to sum over these combinations from $k=1$ to $n$.
+\[\left|ME+HCI\right|=\sum^n_{k=1}{\left( \begin{array}{c}
 n \\ 
 k \end{array}
 \right)\left(2^k-1\right)}\] 
 \textbf{}
 
-\subsection{Ma + CCI}
+\subsection{ME + CCI}
 
-Here we can use the same line of thought as we did in the Ma + HCI set. Let us begin by looking at the n=3 case and then develop a more general notion from there. This example can be seen in Table S4. 
+Here we can use the same line of thought as we did in the ME + HCI set. Let us begin by looking at the n=3 case and then develop a more general notion from there. This example can be seen in Table S4. 
 \begin{table}
 \centering
 \caption{}
@@ -375,11 +380,11 @@ Here we can use the same line of thought as we did in the Ma + HCI set. Let us b
 \toprule
 Set & Models \\
 \midrule
-\multirow{9}{*}{Ma+CCI} & $y=h_1+x_1+x_2+x_1x_2$\\ & $y=h_1+x_1+x_3+x_1x_3$\\ & $y=h_1+x_2+x_3+x_2x_3$\\ & $y=h_1+x_1+x_2+x_3+x_1x_2$\\ & $y=h_1+x_1+x_3+x_2+x_1x_3$\\ & $y=h_1+x_2+x_3+x_1+x_2x_3$\\ & $y=h_1+x_1+x_2+x_3+x_1x_2+x_1x_3$\\ & $y=h_1+x_1+x_3+x_2+x_1x_3+x_2x_3$\\ & $y=h_1+x_2+x_3+x_1+x_1x_2+x_2x_3$ \\
+\multirow{9}{*}{ME+CCI} & $y=h_1+x_1+x_2+x_1x_2$\\ & $y=h_1+x_1+x_3+x_1x_3$\\ & $y=h_1+x_2+x_3+x_2x_3$\\ & $y=h_1+x_1+x_2+x_3+x_1x_2$\\ & $y=h_1+x_1+x_3+x_2+x_1x_3$\\ & $y=h_1+x_2+x_3+x_1+x_2x_3$\\ & $y=h_1+x_1+x_2+x_3+x_1x_2+x_1x_3$\\ & $y=h_1+x_1+x_3+x_2+x_1x_3+x_2x_3$\\ & $y=h_1+x_2+x_3+x_1+x_1x_2+x_2x_3$ \\
 \bottomrule
 \end{tabular}
 \end{table}
-We can divide this set as we did before for Ma + HCI set. This can be seen in Table S5.
+To make it easier to understand how to calculate the set size, we can split this set as we did before for ME + HCI set. This can be seen in Table S5.
 
 \begin{table}
 \centering
@@ -388,16 +393,16 @@ We can divide this set as we did before for Ma + HCI set. This can be seen in Ta
 \toprule
 Set & Models \\ 
 \midrule
-\multirow{3}{*}{Ma+CCI(2)} & $y=h_1+x_1+x_2+x_1x_2$\\ & $y=h_1+x_1+x_3+x_1x_3$\\ & $y=h_1+x_2+x_3+x_2x_3$\\ &  \\  
-\multirow{7}{*}{Ma+CCI(3)} & $y=h_1+x_1+x_2+x_3+x_1x_2$\\ & $y=h_1+x_1+x_3+x_2+x_1x_3$\\ & $y=h_1+x_2+x_3+x_1+x_2x_3$\\ & $y=h_1+x_1+x_2+x_3+x_1x_2+x_1x_3$\\ & $y=h_1+x_1+x_3+x_2+x_1x_3+x_2x_3$\\ & $y=h_1+x_2+x_3+x_1+x_1x_2+x_2x_3$\\ & $y=h_1+x_1+x_2+x_3+x_1x_2+x_2x_3+x_1x_3$\\ & \\ 
+\multirow{3}{*}{ME+CCI(2)} & $y=h_1+x_1+x_2+x_1x_2$\\ & $y=h_1+x_1+x_3+x_1x_3$\\ & $y=h_1+x_2+x_3+x_2x_3$\\ &  \\  
+\multirow{7}{*}{ME+CCI(3)} & $y=h_1+x_1+x_2+x_3+x_1x_2$\\ & $y=h_1+x_1+x_3+x_2+x_1x_3$\\ & $y=h_1+x_2+x_3+x_1+x_2x_3$\\ & $y=h_1+x_1+x_2+x_3+x_1x_2+x_1x_3$\\ & $y=h_1+x_1+x_3+x_2+x_1x_3+x_2x_3$\\ & $y=h_1+x_2+x_3+x_1+x_1x_2+x_2x_3$\\ & $y=h_1+x_1+x_2+x_3+x_1x_2+x_2x_3+x_1x_3$\\ & \\ 
 \bottomrule
 \end{tabular}
 \end{table}
 
-In this case, we always need to have at least two covariates for this set to fulfil the requirement that we have a set. Therefore we can only divide Ma+CCI into two parts; the first part has two covariates and the second part has three. The first set, Ma+CCI(2), is straightforward as this set is only the number of combinations of the three covariates that can be made multiplied with the combinations of two of these covariates that are included.
+In this case, we always need to have at least two covariates for this set to fulfil the requirement that the main effects most be present as soon as there is interactions. Therefore we can only divide ME+CCI into two parts; the first part has two covariates present as main effects and the second part has three covariates present as main effects. The first set, ME+CCI(2), is straightforward as this set is only the number of combinations of the three covariates that can be made when there has to ne two present, meaning $\binom{3}{2}$, multiplied with the combinations of two of these covariates that are included, meaning $\binom{2}{2}$.
 
 \noindent 
-\[\#\ of\ models\ in\ Ma+CCI\ \left(2\right)=\left( \begin{array}{c}
+\[\#\ of\ models\ in\ ME+CCI\ \left(2\right)=\left( \begin{array}{c}
 3 \\ 
 2 \end{array}
 \right)\left( \begin{array}{c}
@@ -405,14 +410,14 @@ In this case, we always need to have at least two covariates for this set to ful
 2 \end{array}
 \right)=3\] 
 
-For the second part, Ma+CCI(3), the first term is the number of combinations that can be made with three covariates so this is just $\left( \begin{array}{c}
+For the second part, ME+CCI(3), the first term is the number of combinations that can be made with three covariates so this is just $\left( \begin{array}{c}
 3 \\ 
 3 \end{array}
-\right)$. We then have to calculate the number of combinations that can be made with the number of covariate interaction terms. To do that, first we need to calculate the number of two-way interactions that can be made with three covariates and this is just $\left( \begin{array}{c}
+\right)$. We then have to calculate the number of interactions that can be made with the three included covariates. To do that, first we need to calculate the number of two-way interactions that can be made with three covariates and this is just $\left( \begin{array}{c}
 3 \\ 
 2 \end{array}
 \right)=3$. The total number of models in the set is then the sum of the number of combinations we include
-\[\#\ of\ models\ in\ Ma+CCI\ \left(3\right)=\left( \begin{array}{c}
+\[\#\ of\ models\ in\ ME+CCI(3)=\left( \begin{array}{c}
 3 \\ 
 3 \end{array}
 \right)\left(\left( \begin{array}{c}
@@ -432,11 +437,11 @@ For the second part, Ma+CCI(3), the first term is the number of combinations tha
 i \end{array}
 \right)}\] 
 
-However, it is only in this special case that we can just sum to n=3. In general, this will be the number of pairs that can be made in this subset. So here the number of pairs will be $\left( \begin{array}{c}
+However, it is only in out example that we can just sum to n=3. In general, this will be the number of pairs that can be made in this subset. So here the number of pairs will be $\left( \begin{array}{c}
 n \\ 
 2 \end{array}
 \right)=\frac{n\left(n-1\right)}{2}$. This then becomes
-\[\#of models in Ma+CCI\ \left(3\right)=\left( \begin{array}{c}
+\[\#of models in ME+CCI(3)=\left( \begin{array}{c}
 3 \\ 
 3 \end{array}
 \right)\sum^3_{i=1}{\left( \begin{array}{c}
@@ -453,7 +458,7 @@ i \end{array}
 3 \end{array}
 \right)\left(2^{\frac{3\left(3-1\right)}{2}}-1\right)\] 
 We can write the first subset in the same way
-\[\#\ of\ models\ in\ Ma+CCI\ \left(2\right)=\left( \begin{array}{c}
+\[\#\ of\ models\ in\ ME+CCI(2)=\left( \begin{array}{c}
 3 \\ 
 2 \end{array}
 \right)=\left( \begin{array}{c}
@@ -461,7 +466,7 @@ We can write the first subset in the same way
 2 \end{array}
 \right)\left(2^{\frac{2\left(2-1\right)}{2}}-1\right)\] 
 Now we just add these to subsets up
-\[\#\ of\ models\ in\ Ma+CCI=\left( \begin{array}{c}
+\[\#\ of\ models\ in\ ME+CCI=\left( \begin{array}{c}
 3 \\ 
 2 \end{array}
 \right)\left(2^{\frac{2\left(2-1\right)}{2}}-1\right)+\left( \begin{array}{c}
@@ -472,7 +477,7 @@ Now we just add these to subsets up
 j \end{array}
 \right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}\] 
 We can then generalize this case into n covariates
-\[\#\ of\ models\ in\ Ma+CCI=\sum^n_{j=2}{\left( \begin{array}{c}
+\[\#\ of\ models\ in\ ME+CCI=\sum^n_{j=2}{\left( \begin{array}{c}
 n \\ 
 j \end{array}
 \right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}\] 
@@ -480,7 +485,7 @@ j \end{array}
 \subsubsection{Formally written}
 
 
-Let k be an indicator of how many covariates are included. Since we are using interactions, k must start at two 
+Let k be an indicator of how many covariates are included. Since we are using interactions, k must start at two. Define T as a set of indicators of covariates starting from two
 \[T=\{\left.2,3,4,\dots ,n\right.\}\] 
 Let L be a subset of X of size k.
 \[L=\{\left.S:S\subset X,\left|S\right|=k,k\in T\right.\}\] 
@@ -499,25 +504,26 @@ We then need the combination of all the two-way interactions. For all k, we can 
 With n covariates, there exist $\left( \begin{array}{c}
 n \\ 
 k \end{array}
-\right)$ subsets of size k. To get the Ma + CCI set, we just need to sum these combinations
-\[\left|Ma+CCI\right|=\sum^n_{k=2}{\left( \begin{array}{c}
+\right)$ subsets of size k. To get the ME + CCI set, we just need to sum over the number of present covariates k starting from k=2
+\[\left|ME+CCI\right|=\sum^n_{k=2}{\left( \begin{array}{c}
 n \\ 
 k \end{array}
 \right)}\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)\ \] 
 
-\subsection{Ma + HCI + CCI}
-This set is the product of Ma + HCI and Ma + CCI, but without taking the combinations with the main effect twice. Hence, it consists of the combinations that can be made between the covariates and between the covariates and the variable of interest. We can therefore write 
-\[\#\ of\ models\ in\ Ma+HCI+\ CCI=\sum^n_{k=2}{\left( \begin{array}{c}
+\subsection{ME + HCI + CCI}
+This set is the product of ME + HCI and ME + CCI, but without taking the combinations with the main effect twice. Hence, it consists of the combinations that can be made between the covariates and between the covariates and the variable of interest. We can therefore write 
+\[\#\ of\ models\ in\ ME+HCI+\ CCI=\sum^n_{k=2}{\left( \begin{array}{c}
 n \\ 
 k \end{array}
 \right)\left(2^k-1\right)\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)}\] 
 \subsubsection{Formally written}
-
-Given the sets $P\left(I_k\left(X\right)\right)$ and $P\left(I_h\left(X\right)\right)$. To get the combinations of all these given a specific k we just take the product. For n covariates there exist $\left( \begin{array}{c}
+The design of the subsets are the same as earlier and we just need to take the product of
+$P\left(I_k\left(X\right)\right)$ and $P\left(I_h\left(X\right)\right)$ (as defined earlier)  and sum over k starting from two.
+For n covariates there exist $\left( \begin{array}{c}
 n \\ 
 k \end{array}
 \right)$ subsets of size k. We only need to sum the subsets as follows
-\[Ma+HCI+\ CCI=\sum^n_{k=2}{\left( \begin{array}{c}
+\[|ME+HCI+CCI|=\sum^n_{k=2}{\left( \begin{array}{c}
 n \\ 
 k \end{array}
 \right)\left(2^k-1\right)\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)}\] 
@@ -546,7 +552,7 @@ When researchers are not interested in one specific variable but rather the over
 As is the case with hypothesis testing, researchers can either demand that the main effects are always present when having interactions or they can ease this assumption and not require this. \\
 
 \subsection{When no restrictions are in place}
-In this case, there are three different sets; Ma, CCI, and Ma + CCI. In this case, however, there is no variable that needs to be present all the time as earlier ($h_1$). The calculations of the sets are nevertheless similar to the example with two covariates, and this can be seen in Table S8.  
+In this case, there are three different sets; ME, CCI, and ME + CCI. In this case, however, there is no variable that needs to be present all the time as earlier ($h_1$). The calculations of the sets are nevertheless similar to the example with two covariates, and this can be seen in Table S8.  
 
 \begin{table}
 \caption{}
@@ -555,18 +561,18 @@ In this case, there are three different sets; Ma, CCI, and Ma + CCI. In this cas
 \toprule
 Set & Models \\ 
 \midrule
-\multirow{4}{*}{Ma} & $y=c$\\ & $y=x_1$\\ & $y=x_2$\\ & $y=x_1+x_2$\\ &  \\  
+\multirow{4}{*}{ME} & $y=c$\\ & $y=x_1$\\ & $y=x_2$\\ & $y=x_1+x_2$\\ &  \\  
 \multirow{1}{*}{CCI} & $y=x_1x_2$\\  & \\ 
-\multirow{3}{*}{Ma + CCI}  & $y=x_1 + x_1x_2$\\ & $y=x_2 + x_1x_2$\\ & $y=x_1+x_2 + x_1x_2$\\ &  \\  
+\multirow{3}{*}{ME + CCI}  & $y=x_1 + x_1x_2$\\ & $y=x_2 + x_1x_2$\\ & $y=x_1+x_2 + x_1x_2$\\ &  \\  
 \bottomrule
 \end{tabular}
 \end{table}
 
 The calcultation for the set size follows along as it did earlier and is therefore
 \\
-\[\#models\ in\ Ma=\left(2^n\right)\] 
+\[\#models\ in\ ME=\left(2^n\right)\] 
 \[\#models\ in\ CCI=\left(2^k-1\right)\] 
-\[\#models\ in\ Ma+CCI=\left(2^n-1\right)\left(2^k-1\right)\] 
+\[\#models\ in\ ME+CCI=\left(2^n-1\right)\left(2^k-1\right)\] 
 where $k=\left( \begin{array}{c}
 n \\ 
 2 \end{array}
@@ -578,11 +584,11 @@ The total number of models given the different number of covariates can be seen 
 
 
 \subsection{When restrictions are in place}
-The calculations here are the same as previous. However, the only sets that are of interest here are Ma and Ma + CCI.\\
+The calculations here are the same as previous. However, the only sets that are of interest here are ME and ME + CCI.\\
 The number of models in this case is then \\
 
-\[\#models\ in\ Ma=\left(2^n\right)\] 
-\[\#models\ in\ Ma+CCI=\sum^n_{k=2}{\left( \begin{array}{c}
+\[\#models\ in\ ME=\left(2^n\right)\] 
+\[\#models\ in\ ME+CCI=\sum^n_{k=2}{\left( \begin{array}{c}
 n \\ 
 k \end{array}
 \right)}\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)\ \]  
@@ -633,6 +639,14 @@ The FPP and FPR for full model sets under different conditions. Here there is no
 \caption{Black is the FPP and red is FPR.  Here for all combinations of data distribution. The description of the figure is otherwise the same as for Figure 1}
 \label{fig:mainfigure}
 \end{figure}
+
+\begin{figure}[ht]
+\includegraphics{R/Analysis/Result/Figures/Figure3SI.jpeg}
+\centering
+\caption{Added effect of using multiple dependent variables. Black denotes the FPP and red denotes the FPR. Here are shown  all combinations of data distributions (binary and continuous). The description of the figure is otherwise the same as for Figure 1.}
+\label{fig:mainfigure}
+\end{figure}
+
 
 \begin{figure}[ht]
 \includegraphics{R/Analysis/Result/Figures/Figure1BSI.jpeg}
