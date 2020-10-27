@@ -66,7 +66,7 @@ Figure1A = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Probability")+
+  ylab("Probability of FPP and FPR")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -102,7 +102,7 @@ Figure1B = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Difference in probability")+
+  ylab("Difference in probability from base model")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -139,7 +139,7 @@ Figure1C = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Difference in probability")+
+  ylab("Difference in probability from base model")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -171,7 +171,7 @@ Figure1D<-ggplot(aes(x=SampleSize), data=figuredata)+
   geom_point(aes( y=FPR),color="red")+
   scale_color_manual(values = c("black","red"),labels = c("FPP", "FPR"))+
   facet_grid(Set~Main+Type)+
-  ylab("Probability")+
+  ylab("Probability of FPP and FPR")+
   xlab("Sample size")+
   theme_apa()+
   theme(axis.text.x = element_text(color = "grey20", size = 7, angle = 65, hjust = .5, vjust = .5, face = "plain"),
@@ -272,7 +272,7 @@ Figure2SI<-ggplot( data=meanDistCorrInc)+
   geom_bar(aes(x=Cor,y=IncFPR, fill = "FPR"), stat = "identity",position="dodge")+
   scale_fill_manual(values=c("black","red"))+
   facet_grid(Type~Main+Set)+
-  ylab("Difference in probability")+
+  ylab("Difference in probability from base model")+
   xlab("Correlation increase")+
   theme_apa()+
   geom_hline(yintercept=0)+
@@ -309,7 +309,7 @@ Figure3SI = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  # ylab("Difference between false-positive rate")+
+  ylab("Difference in probability from base model")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -336,7 +336,7 @@ Figure1ASI = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Probability")+
+  ylab("Probability of FPP and FPR")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -369,7 +369,7 @@ Figure1BSI = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Difference in probability")+
+  ylab("Difference in probability from base model")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -404,7 +404,7 @@ Figure1CSI = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Difference in probability")+
+  ylab("Difference in probability from base model")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -431,7 +431,7 @@ Figure1DSI<-ggplot(aes(x=SampleSize), data=figuredata)+
   geom_point(aes( y=FPR),color="red")+
   scale_color_manual(values = c("black","red"),labels = c("FPP", "FPR"))+
   facet_grid(Set~Main+Type)+
-  ylab("Probability")+
+  ylab("Probability of FPP and FPR")+
   xlab("Sample size")+
   theme_apa()+
   theme(axis.text.x = element_text(color = "grey20", size = 7, angle = 65, hjust = .5, vjust = .5, face = "plain"),
