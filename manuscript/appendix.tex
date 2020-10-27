@@ -548,11 +548,11 @@ k \end{array}
 
 
 \section{Model set for machine learning}
-When researchers are not interested in one specific variable but rather the overall prediction of a given model, such as in machine learning, the same type of sets can be used to calculate the size of the model sets. 
+When researchers are not interested in one specific variable but rather the overall prediction of a given model, such as in machine learning, the same terminology for the sets as used previously can be used to calculate the size of the model sets. 
 As is the case with hypothesis testing, researchers can either demand that the main effects are always present when having interactions or they can ease this assumption and not require this. \\
 
 \subsection{When no restrictions are in place}
-In this case, there are three different sets; ME, CCI, and ME + CCI. In this case, however, there is no variable that needs to be present all the time as earlier ($h_1$). The calculations of the sets are nevertheless similar to the example with two covariates, and this can be seen in Table S8.  
+In this case, there are three different sets; ME, CCI, and ME + CCI. In this case, however, there is no variable that needs to be present all the time as earlier ($h_1$). The calculations of the sets are nevertheless similar to the example with two covariates with no restrictions (see Supplmentary Material Case 1 - No Restrictions), and this can be seen in Table S8.  
 
 \begin{table}
 \caption{}
@@ -568,12 +568,12 @@ Set & Models \\
 \end{tabular}
 \end{table}
 
-The calcultation for the set size follows along as it did earlier and is therefore
+The calculation for the set size is done as in "Case 1 - No Restrictions"
 \\
 \[\#models\ in\ ME=\left(2^n\right)\] 
-\[\#models\ in\ CCI=\left(2^k-1\right)\] 
-\[\#models\ in\ ME+CCI=\left(2^n-1\right)\left(2^k-1\right)\] 
-where $k=\left( \begin{array}{c}
+\[\#models\ in\ CCI=\left(2^h-1\right)\] 
+\[\#models\ in\ ME+CCI=\left(2^n-1\right)\left(2^h-1\right)\] 
+where $h=\left( \begin{array}{c}
 n \\ 
 2 \end{array}
 \right)$. 
@@ -603,7 +603,7 @@ Correlation matrix for the simulated data when having only one dependent variabl
 \begin{table}[H]
 \caption{}
 \centering
-\caption*{\footnotesize Correlation matrix for the simulated data when having only one dependent variable, r = $\{$.2,.3,.4$\}$}
+\caption*{Correlation matrix for the simulated data when having only one dependent variable. r denotes the different of correlation set between the covariates and dependent variable in the simulation}
 \begin{tabular}{c|ccccccc} 
 \toprule
  & y & h${}_{1}$ & x${}_{1}$ & x${}_{2}$ & x${}_{3}$ & ... & x${}_{n}$ \\ 
@@ -619,8 +619,8 @@ x${}_{n}$ & r & 0 & 0 & 0 & 0 & 0 & 1 \\
 \end{tabular}
 \end{table}
 
-
-The FPP and FPR for full model sets under different conditions. Here there is no split between each model set.
+\subsection{Simulation Results}
+In Figure S12 can be foung the FPP and FPR for full model sets under different conditions. Here there is no split between each model set.
 
 
 \input{R/Analysis/CodeFinal/Figures and Tables/FullModelSet}
