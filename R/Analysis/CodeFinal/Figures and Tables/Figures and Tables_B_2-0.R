@@ -13,7 +13,7 @@ library(Rmisc)
 library(xtable)
 
 ##Load the data
-fileplace=paste0(output,"/Files/ResultsSim.csv")
+fileplace=paste0(output,"/Files/ResultsSimBon.csv")
 finalresults = fread(fileplace,sep=";")
 ## Figures for paper ##
 
@@ -46,6 +46,7 @@ falsepostive$OutlierExclusion[falsepostive$OutlierExclusion==1]<-"TRUE"
 
 
 falsepostive$Set <- factor(falsepostive$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
+levels(falsepostive$Set) <- c("ME", "HCI", "CCI", "ME + HCI","ME + CCI","HCI + CCI","ME + HCI + CCI")
 falsepostive$Pr<-as.numeric(falsepostive$mean)
 
 ## Figure 1A
@@ -65,7 +66,7 @@ Figure1A = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Probability")+
+  ylab("Probability of FPP and FPR")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -74,7 +75,7 @@ Figure1A = ggplot(figuredata,aes(x=Set))+
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
 
 ##Save data
-fwrite(figuredata,paste0(output,"/Files/figuredata1A.csv"),sep=";")
+fwrite(figuredata,paste0(output,"/Files/figuredata1ABon.csv"),sep=";")
 Figure1A
 
 ## Figure 1B
@@ -101,7 +102,7 @@ Figure1B = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Difference in probability")+
+  ylab("Difference in probability from base model")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -110,7 +111,7 @@ Figure1B = ggplot(figuredata,aes(x=Set))+
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
 
 ##Save data
-fwrite(figuredata,paste0(output,"/Files/figuredata1B.csv"),sep=";")
+fwrite(figuredata,paste0(output,"/Files/figuredata1BBon.csv"),sep=";")
 Figure1B
 
 ## Figure 1C
@@ -138,7 +139,7 @@ Figure1C = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Difference in probability")+
+  ylab("Difference in probability from base model")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -147,7 +148,7 @@ Figure1C = ggplot(figuredata,aes(x=Set))+
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
 
 ##Save data
-fwrite(figuredata,paste0(output,"/Files/figuredata1C.csv"),sep=";")
+fwrite(figuredata,paste0(output,"/Files/figuredata1CBon.csv"),sep=";")
 Figure1C
 
 ## Figure 1D
@@ -159,7 +160,7 @@ figuredata<-as.data.table(falsepostive[ falsepostive$OutlierExclusion=="FALSE" &
                                         & falsepostive$Type!="h1=Binary, Co=Binary Effect" & falsepostive$Type!="h1=Normal, Co=Binary Effect"
                                         ,]
 )
-figuredata$Set <- factor(figuredata$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
+figuredata$Set <- factor(figuredata$Set,levels = c("ME", "HCI", "CCI", "ME + HCI","ME + CCI","HCI + CCI","ME + HCI + CCI"))
 figuredata$Pr<-as.numeric(figuredata$mean)
 
 
@@ -170,18 +171,18 @@ Figure1D<-ggplot(aes(x=SampleSize), data=figuredata)+
   geom_point(aes( y=FPR),color="red")+
   scale_color_manual(values = c("black","red"),labels = c("FPP", "FPR"))+
   facet_grid(Set~Main+Type)+
-  ylab("Probability")+
+  ylab("Probability of FPP and FPR")+
   xlab("Sample size")+
   theme_apa()+
-  theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
+  theme(axis.text.x = element_text(color = "grey20", size = 7, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
-        axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
+        axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.x = element_text(color = "grey20", size = 5, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"))
 
 ##Save data
-fwrite(figuredata,paste0(output,"/Files/figuredata1D.csv"),sep=";")
+fwrite(figuredata,paste0(output,"/Files/figuredata1DBon.csv"),sep=";")
 
 Figure1D
 
@@ -192,16 +193,16 @@ Figure1 = ggarrange(Figure1A, Figure1D, Figure1B,Figure1C,
 Figure1
 
 
-ggsave(Figure1,filename = file.path(output,"Figures","Figure1.jpeg"),width = 15,height = 17)
-ggsave(Figure1A,filename = file.path(output,"Figures","Figure1A.jpeg"),width = 6,height = 7)
-ggsave(Figure1B,filename = file.path(output,"Figures","Figure1B.jpeg"),width = 6,height = 7)
-ggsave(Figure1C,filename = file.path(output,"Figures","Figure1C.jpeg"),width = 6,height = 7)
-ggsave(Figure1D,filename = file.path(output,"Figures","Figure1D.jpeg"),width = 6,height = 7)
+ggsave(Figure1,filename = file.path(output,"Figures","Figure1Bon.jpeg"),width = 15,height = 17)
+ggsave(Figure1A,filename = file.path(output,"Figures","Figure1ABon.jpeg"),width = 6,height = 7)
+ggsave(Figure1B,filename = file.path(output,"Figures","Figure1BBon.jpeg"),width = 6,height = 7)
+ggsave(Figure1C,filename = file.path(output,"Figures","Figure1CBon.jpeg"),width = 6,height = 7)
+ggsave(Figure1D,filename = file.path(output,"Figures","Figure1DBon.jpeg"),width = 6,height = 7)
 
 
 ### Using the full model set ###
 
-resultsFullset=fread(paste0(output,"/Files/resultsFullSet.csv"),sep=";")
+resultsFullset=fread(paste0(output,"/Files/resultsFullSetBon.csv"),sep=";")
 
 falsepositverateDataFull<-as.data.table(resultsFullset)
 
@@ -263,7 +264,7 @@ names(second)[5]="IncFPR"
 
 meanDistCorrInc=do.call("rbind",list(first,second))
 
-meanDistCorrInc$Set <- factor(meanDistCorrInc$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
+meanDistCorrInc$Set <- factor(meanDistCorrInc$Set,levels = c("ME", "HCI", "CCI", "ME + HCI","ME + CCI","HCI + CCI","ME + HCI + CCI"))
 
 
 Figure2SI<-ggplot( data=meanDistCorrInc)+
@@ -271,7 +272,7 @@ Figure2SI<-ggplot( data=meanDistCorrInc)+
   geom_bar(aes(x=Cor,y=IncFPR, fill = "FPR"), stat = "identity",position="dodge")+
   scale_fill_manual(values=c("black","red"))+
   facet_grid(Type~Main+Set)+
-  ylab("Difference in probability")+
+  ylab("Difference in probability from base model")+
   xlab("Correlation increase")+
   theme_apa()+
   geom_hline(yintercept=0)+
@@ -284,7 +285,7 @@ Figure2SI<-ggplot( data=meanDistCorrInc)+
 
 Figure2SI
 
-ggsave(Figure2SI,filename = file.path(output,"Figures","Figure2SI.jpeg"),width = 6,height = 7)
+ggsave(Figure2SI,filename = file.path(output,"Figures","Figure2SIBon.jpeg"),width = 6,height = 7)
 
 ## Using several dependent variables
 figuredata<-as.data.table(falsepostive[falsepostive$SampleSize==200  & falsepostive$OutlierExclusion=="FALSE" & falsepostive$Correlation==0.2 & falsepostive$IndependentVariables==1
@@ -308,7 +309,7 @@ Figure3SI = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  # ylab("Difference between false-positive rate")+
+  ylab("Difference in probability from base model")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -316,7 +317,7 @@ Figure3SI = ggplot(figuredata,aes(x=Set))+
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"))
 Figure3SI
-ggsave(Figure3SI,filename = file.path(output,"Figures","Figure3SI.jpeg"),width = 6,height = 7)
+ggsave(Figure3SI,filename = file.path(output,"Figures","Figure3SIBon.jpeg"),width = 6,height = 7)
 
 
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==2 & falsepostive$Correlation==0.2 & falsepostive$DV==1
@@ -335,7 +336,7 @@ Figure1ASI = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Probability")+
+  ylab("Probability of FPP and FPR")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -368,7 +369,7 @@ Figure1BSI = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Difference in probability")+
+  ylab("Difference in probability from base model")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -403,7 +404,7 @@ Figure1CSI = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Difference in probability")+
+  ylab("Difference in probability from base model")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -419,7 +420,7 @@ Figure1CSI
 figuredata<-as.data.table(falsepostive[ falsepostive$OutlierExclusion=="FALSE" & falsepostive$Correlation==0.2 & falsepostive$IndependentVariables==1 & falsepostive$DV==1
                                         ,]
 )
-figuredata$Set <- factor(figuredata$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
+figuredata$Set <- factor(figuredata$Set,levels = c("ME", "HCI", "CCI", "ME + HCI","ME + CCI","HCI + CCI","ME + HCI + CCI"))
 figuredata$Pr<-as.numeric(figuredata$mean)
 
 
@@ -430,7 +431,7 @@ Figure1DSI<-ggplot(aes(x=SampleSize), data=figuredata)+
   geom_point(aes( y=FPR),color="red")+
   scale_color_manual(values = c("black","red"),labels = c("FPP", "FPR"))+
   facet_grid(Set~Main+Type)+
-  ylab("Probability")+
+  ylab("Probability of FPP and FPR")+
   xlab("Sample size")+
   theme_apa()+
   theme(axis.text.x = element_text(color = "grey20", size = 7, angle = 65, hjust = .5, vjust = .5, face = "plain"),
@@ -442,9 +443,9 @@ Figure1DSI<-ggplot(aes(x=SampleSize), data=figuredata)+
         legend.text=element_text(color = "grey20",size=5))
 Figure1DSI
 ##Save data
-ggsave(Figure1ASI,filename = file.path(output,"Figures","Figure1ASI.jpeg"),width = 6,height = 7)
-ggsave(Figure1BSI,filename = file.path(output,"Figures","Figure1BSI.jpeg"),width = 6,height = 7)
-ggsave(Figure1CSI,filename = file.path(output,"Figures","Figure1CSI.jpeg"),width = 6,height = 7)
-ggsave(Figure1DSI,filename = file.path(output,"Figures","Figure1DSI.jpeg"),width = 6,height = 7)
+ggsave(Figure1ASI,filename = file.path(output,"Figures","Figure1ASIBon.jpeg"),width = 6,height = 7)
+ggsave(Figure1BSI,filename = file.path(output,"Figures","Figure1BSIBon.jpeg"),width = 6,height = 7)
+ggsave(Figure1CSI,filename = file.path(output,"Figures","Figure1CSIBon.jpeg"),width = 6,height = 7)
+ggsave(Figure1DSI,filename = file.path(output,"Figures","Figure1DSIBon.jpeg"),width = 6,height = 7)
 
 
