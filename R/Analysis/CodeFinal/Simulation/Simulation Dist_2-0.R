@@ -29,7 +29,7 @@ library(here)
 sample = 200
 
 ## Setting the number of repretetion
-repdist=10000
+repdist=100
 ## Setting the correlation between dependent and independent 
 corr=0.2
 
@@ -1245,5 +1245,5 @@ close(pb)
 stopCluster(cl)
 registerDoSEQ()
 
-write.csv(finalresults, file=gzfile(paste0(output,"/Files/Results.csv.gz")))
-write.csv(resultsFullset, file=gzfile(paste0(output,"/Files/resultsFullSet.csv.gz")))
+write.csv(finalresults, file=gzfile(paste0(output,"/File/Results.csv.gz")))
+write.csv(resultsFullset, file=gzfile(paste0(output,"/File/resultsFullSet.csv.gz")))
