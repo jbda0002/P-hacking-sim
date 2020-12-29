@@ -5,13 +5,10 @@
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
 set.seed(1230)
 
-## Set output directory
-output = dirname(dirname(getwd()))
-output=paste0(output,"/Result")
-
 ## Loading library
 library(ggplot2)
 library(jtools)
+library(ggpubr)
 library(data.table)
 library(plyr)
 library(reshape2)
@@ -29,15 +26,13 @@ library(here)
 ##### Things that can be changed in the simulation
 
 ## Selecting the sample sizes that should be used
-sample = c(200)
+sample = 200
 
 ## Setting the number of repretetion
 repdist=10000
 ## Setting the correlation between dependent and independent 
-corr=c(0.2)
+corr=0.2
 
-
-## Due to memory problems only run dataGen4 by itself! 
 
 ## Loading the P-Hacking function
 source(here::here("CodeFinal","phackingFunction_v2-0.R"))
@@ -77,7 +72,7 @@ DataGenListBinNormEffect <- list(dataGen2,dataGen3)
 ## The different condetions
 P2<-c("TRUE","FALSE")
 P3<-c("TRUE","FALSE")
-condSD<-c("TRUE","FALSE")
+condSD<-c("FALSE")
 condMain<-c("TRUE","FALSE")
 
 ### Since there is a difference between the sets when Main is False and True two different simulations are made
@@ -90,7 +85,7 @@ DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=Data
 #DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin)
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25)
+cl <- makeSOCKcluster(25, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -115,28 +110,28 @@ resultsMTDist<-
     f = function() {
       
       phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = T,Per = TRUE)
-    
+      
       
     }
-    d1=data.frame(f(),Power12=h,Power13=l,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
-
+    d1=data.frame(f(),Power12=h,Power13=l,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
+    
     if(h==2 & l==2){
       f = function() {
         
         phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = T,Per = TRUE)
-       
+        
         
       }
     }
     else{
       f = function() {
         nothing=NA
-      
+        
         nothing
       }
     }
     
-    d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
+    d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
     return(rbind(d1,d2))
     
     
@@ -149,7 +144,7 @@ stopCluster(cl)
 registerDoSEQ()
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25)
+cl <- makeSOCKcluster(25, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -174,18 +169,18 @@ resultsMFDist<-
   foreach(t=1:repdist,.combine=rbind,.packages=c("plyr","statip","data.table","BinNor"),.options.snow = opts, .inorder=FALSE) %dopar% {
     f = function() {
       
-   phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",HCI =P2[[h]],outlierexclusion=condSD[[k]],CCI = P3[[l]],Main = F,Per = TRUE)
-  
+      phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",HCI =P2[[h]],outlierexclusion=condSD[[k]],CCI = P3[[l]],Main = F,Per = TRUE)
+      
       
     }
-    data1=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+    data1=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
     if(h!=2 | l!=2){
-    f = function() {
-      
-      phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = F,Per = TRUE)
-  
-      
-    }
+      f = function() {
+        
+        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = F,Per = TRUE)
+        
+        
+      }
     }
     else{
       f = function() {
@@ -194,22 +189,22 @@ resultsMFDist<-
         nothing
       }
     }
-      data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      
+    data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+    
     if(h==2 & l==2){
       f = function() {
         
-       phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = F,Per = TRUE)
-     
+        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = F,Per = TRUE)
+        
         
       }
-      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
       f=function(){
         phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],HCI_CCI = T,Main = F,Per = TRUE)
-      
+        
       }
-      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
     }
     else{
@@ -218,13 +213,13 @@ resultsMFDist<-
         
         nothing
       }
- 
-      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      
+      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
     }
     
-   
+    
     
     return(rbind(data1,data2,data3,data4))
     
@@ -258,6 +253,7 @@ finalresults$Set<-ifelse(finalresults$Power2==1 & finalresults$Power3==2 & final
 ## Since the simulation produce the effect where two sets are true at the same time, we delete them for these figures
 finalresultsMain=finalresults[!finalresults$Set==0,]
 finalresultsMain$DV=1
+finalresultsMain$OutlierExclusion=2
 
 ##### Effect of using outlier criteria ####
 
@@ -317,7 +313,7 @@ DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=Data
 #DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin)
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25)
+cl <- makeSOCKcluster(25, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -345,7 +341,7 @@ resultsMTDistOut<-
       
       
     }
-    d1=data.frame(f(),Power12=h,Power13=l,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
+    d1=data.frame(f(),Power12=h,Power13=l,Power123=2,OutlierExclusion=1,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
     
     if(h==2 & l==2){
       f = function() {
@@ -363,7 +359,7 @@ resultsMTDistOut<-
       }
     }
     
-    d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
+    d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=1,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
     return(rbind(d1,d2))
     
     
@@ -376,7 +372,7 @@ stopCluster(cl)
 registerDoSEQ()
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25)
+cl <- makeSOCKcluster(25, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -405,7 +401,7 @@ resultsMFDistOut<-
       
       
     }
-    data1=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+    data1=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=2,OutlierExclusion=1,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
     if(h!=2 | l!=2){
       f = function() {
         
@@ -421,7 +417,7 @@ resultsMFDistOut<-
         nothing
       }
     }
-    data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+    data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=1,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
     
     if(h==2 & l==2){
       f = function() {
@@ -430,13 +426,13 @@ resultsMFDistOut<-
         
         
       }
-      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=1,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
       f=function(){
         phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],HCI_CCI = T,Main = F,Per = TRUE)
         
       }
-      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=1,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
     }
     else{
@@ -446,8 +442,8 @@ resultsMFDistOut<-
         nothing
       }
       
-      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=1,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=1,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
     }
     
@@ -473,12 +469,12 @@ finalresultsOut<-dplyr::bind_rows(resultsMFDistOut, resultsMTDistOut)
 finalresultsOut[is.na(finalresultsOut)] <- 2
 
 finalresultsOut$Set<-ifelse(finalresultsOut$Power2==1 & finalresultsOut$Power3==2 & finalresultsOut$Power12==2 & finalresultsOut$Power13==2 & finalresultsOut$Power123==2 & finalresultsOut$Power23==2, "HCI",
-                         ifelse(finalresultsOut$Power2==2 & finalresultsOut$Power3==2 & finalresultsOut$Power12==2 & finalresultsOut$Power13==2& finalresultsOut$Power123==2 & finalresultsOut$Power23==2,"Ma",
-                                ifelse(finalresultsOut$Power2==2 & finalresultsOut$Power3==1 & finalresultsOut$Power12==2 & finalresultsOut$Power13==2& finalresultsOut$Power123==2 & finalresultsOut$Power23==2, "CCI",
-                                       ifelse(finalresultsOut$Power2==2 & finalresultsOut$Power3==2 & finalresultsOut$Power12==1 & finalresultsOut$Power13==2& finalresultsOut$Power123==2 & finalresultsOut$Power23==2,"Ma + HCI",
-                                              ifelse(finalresultsOut$Power2==2 & finalresultsOut$Power3==2 & finalresultsOut$Power12==2 & finalresultsOut$Power13==1& finalresultsOut$Power123==2 & finalresultsOut$Power23==2,"Ma + CCI",
-                                                     ifelse(finalresultsOut$Power2==2 & finalresultsOut$Power3==2 & finalresultsOut$Power12==2 & finalresultsOut$Power13==2 & finalresultsOut$Power123==1 & finalresultsOut$Power23==2,"Ma + HCI + CCI",
-                                                            ifelse(finalresultsOut$Power2==2 & finalresultsOut$Power3==2 & finalresultsOut$Power12==2 & finalresultsOut$Power13==2 & finalresultsOut$Power23==1,"HCI + CCI",0)))))))
+                            ifelse(finalresultsOut$Power2==2 & finalresultsOut$Power3==2 & finalresultsOut$Power12==2 & finalresultsOut$Power13==2& finalresultsOut$Power123==2 & finalresultsOut$Power23==2,"Ma",
+                                   ifelse(finalresultsOut$Power2==2 & finalresultsOut$Power3==1 & finalresultsOut$Power12==2 & finalresultsOut$Power13==2& finalresultsOut$Power123==2 & finalresultsOut$Power23==2, "CCI",
+                                          ifelse(finalresultsOut$Power2==2 & finalresultsOut$Power3==2 & finalresultsOut$Power12==1 & finalresultsOut$Power13==2& finalresultsOut$Power123==2 & finalresultsOut$Power23==2,"Ma + HCI",
+                                                 ifelse(finalresultsOut$Power2==2 & finalresultsOut$Power3==2 & finalresultsOut$Power12==2 & finalresultsOut$Power13==1& finalresultsOut$Power123==2 & finalresultsOut$Power23==2,"Ma + CCI",
+                                                        ifelse(finalresultsOut$Power2==2 & finalresultsOut$Power3==2 & finalresultsOut$Power12==2 & finalresultsOut$Power13==2 & finalresultsOut$Power123==1 & finalresultsOut$Power23==2,"Ma + HCI + CCI",
+                                                               ifelse(finalresultsOut$Power2==2 & finalresultsOut$Power3==2 & finalresultsOut$Power12==2 & finalresultsOut$Power13==2 & finalresultsOut$Power23==1,"HCI + CCI",0)))))))
 
 
 
@@ -539,7 +535,7 @@ DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=Data
 #DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin)
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25)
+cl <- makeSOCKcluster(25, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -563,16 +559,16 @@ resultsMTDist<-
   foreach(t=1:repdist,.combine=rbind,.packages=c("plyr","statip","data.table","BinNor","dplyr"),.options.snow = opts, .inorder=FALSE) %dopar% {
     f = function() {
       
-      phackingFunction(DataGen[[i]][[j]](sample[[g]],cor=corr[[c]],corDV=corrDV[[1]]),c("y1","y2"),"h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = T,Per = TRUE)
+      phackingFunction(DataGen[[i]][[j]](sample[[g]],cor=corr[[c]],corDV=corrDV[[1]]),c("y1","y2","y3"),"h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = T,Per = TRUE)
       
       
     }
-    d1=data.frame(f(),Power12=h,Power13=l,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
+    d1=data.frame(f(),Power12=h,Power13=l,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
     
     if(h==2 & l==2){
       f = function() {
         
-        phackingFunction(DataGen[[i]][[j]](sample[[g]],cor=corr[[c]],corDV=corrDV[[1]]),c("y1","y2"),"h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = T,Per = TRUE)
+        phackingFunction(DataGen[[i]][[j]](sample[[g]],cor=corr[[c]],corDV=corrDV[[1]]),c("y1","y2","y3"),"h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = T,Per = TRUE)
         
         
       }
@@ -585,7 +581,7 @@ resultsMTDist<-
       }
     }
     
-    d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
+    d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
     return(rbind(d1,d2))
     
     
@@ -600,7 +596,7 @@ registerDoSEQ()
 #### Simulation for Main = F ####
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25)
+cl <- makeSOCKcluster(25, autoStop = TRUE)
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
 
@@ -622,15 +618,15 @@ resultsMFDist<-
   foreach(t=1:repdist,.combine=rbind,.packages=c("plyr","statip","data.table","BinNor"),.options.snow = opts, .inorder=FALSE) %dopar% {
     f = function() {
       
-      phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2"),"h1",HCI =P2[[h]],outlierexclusion=condSD[[k]],CCI = P3[[l]],Main = F,Per = TRUE)
+      phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2","y3"),"h1",HCI =P2[[h]],outlierexclusion=condSD[[k]],CCI = P3[[l]],Main = F,Per = TRUE)
       
       
     }
-    data1=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+    data1=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
     if(h!=2 | l!=2){
       f = function() {
         
-        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2"),"h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = F,Per = TRUE)
+        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2","y3"),"h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = F,Per = TRUE)
         
         
       }
@@ -642,22 +638,22 @@ resultsMFDist<-
         nothing
       }
     }
-    data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+    data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
     
     if(h==2 & l==2){
       f = function() {
         
-        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2"),"h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = F,Per = TRUE)
+        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2","y3"),"h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = F,Per = TRUE)
         
         
       }
-      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
       f=function(){
-        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2"),"h1",outlierexclusion=condSD[[k]],HCI_CCI = T,Main = F,Per = TRUE)
+        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2","y3"),"h1",outlierexclusion=condSD[[k]],HCI_CCI = T,Main = F,Per = TRUE)
         
       }
-      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
     }
     else{
@@ -667,8 +663,8 @@ resultsMFDist<-
         nothing
       }
       
-      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
     }
     
@@ -706,6 +702,7 @@ finalresults$Set<-ifelse(finalresults$Power2==1 & finalresults$Power3==2 & final
 ## Since the simulation produce the effect where two sets are true at the same time, we delete them for these figures
 finalresultsDV=finalresults[!finalresults$Set==0,]
 finalresultsDV$DV=2
+finalresultsDV$OutlierExclusion=2
 
 ##### Increasing the correlation ####
 
@@ -764,7 +761,7 @@ DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=Data
 #DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin)
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25)
+cl <- makeSOCKcluster(25, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -792,7 +789,7 @@ resultsMTDist<-
       
       
     }
-    d1=data.frame(f(),Power12=h,Power13=l,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
+    d1=data.frame(f(),Power12=h,Power13=l,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
     
     if(h==2 & l==2){
       f = function() {
@@ -810,7 +807,7 @@ resultsMTDist<-
       }
     }
     
-    d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
+    d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
     return(rbind(d1,d2))
     
     
@@ -823,7 +820,7 @@ stopCluster(cl)
 registerDoSEQ()
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25)
+cl <- makeSOCKcluster(25, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -852,7 +849,7 @@ resultsMFDist4<-
       
       
     }
-    data1=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+    data1=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
     if(h!=2 | l!=2){
       f = function() {
         
@@ -868,7 +865,7 @@ resultsMFDist4<-
         nothing
       }
     }
-    data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+    data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
     
     if(h==2 & l==2){
       f = function() {
@@ -877,13 +874,13 @@ resultsMFDist4<-
         
         
       }
-      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
       f=function(){
         phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],HCI_CCI = T,Main = F,Per = TRUE)
         
       }
-      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
     }
     else{
@@ -893,8 +890,8 @@ resultsMFDist4<-
         nothing
       }
       
-      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
     }
     
@@ -931,7 +928,7 @@ finalresults$Set<-ifelse(finalresults$Power2==1 & finalresults$Power3==2 & final
 ## Since the simulation produce the effect where two sets are true at the same time, we delete them for these figures
 finalresultsCorr=finalresults[!finalresults$Set==0,]
 finalresultsCorr$DV=1
-
+finalresultsCorr$OutlierExclusion=2
 
 ##### Sample size ####
 
@@ -990,7 +987,7 @@ DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=Data
 #DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin)
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25)
+cl <- makeSOCKcluster(25, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -1018,7 +1015,7 @@ resultsMTDist<-
       
       
     }
-    d1=data.frame(f(),Power12=h,Power13=l,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
+    d1=data.frame(f(),Power12=h,Power13=l,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
     
     if(h==2 & l==2){
       f = function() {
@@ -1036,7 +1033,7 @@ resultsMTDist<-
       }
     }
     
-    d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
+    d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
     return(rbind(d1,d2))
     
     
@@ -1049,7 +1046,7 @@ stopCluster(cl)
 registerDoSEQ()
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25)
+cl <- makeSOCKcluster(25, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -1078,7 +1075,7 @@ resultsMFDist<-
       
       
     }
-    data1=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+    data1=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
     if(h!=2 | l!=2){
       f = function() {
         
@@ -1094,7 +1091,7 @@ resultsMFDist<-
         nothing
       }
     }
-    data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+    data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
     
     if(h==2 & l==2){
       f = function() {
@@ -1103,13 +1100,13 @@ resultsMFDist<-
         
         
       }
-      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
       f=function(){
         phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],HCI_CCI = T,Main = F,Per = TRUE)
         
       }
-      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
     }
     else{
@@ -1119,8 +1116,8 @@ resultsMFDist<-
         nothing
       }
       
-      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
     }
     
@@ -1158,7 +1155,7 @@ finalresults$Set<-ifelse(finalresults$Power2==1 & finalresults$Power3==2 & final
 ## Since the simulation produce the effect where two sets are true at the same time, we delete them for these figures
 finalresultsSample=finalresults[!finalresults$Set==0,]
 finalresultsSample$DV=1
-
+finalresultsSample$OutlierExclusion=2
 
 finalresults=rbind(finalresultsMain,finalresultsSample,finalresultsCorr,finalresultsOut,finalresultsDV)
 
@@ -1177,22 +1174,23 @@ corr=c(0.2)
 ### Here it is added how many covariates there should be in the simulation
 ## Making the list for the Normal Data
 source(here::here("CodeFinal","Data","Data Generation Normal.R"))
-DataGenListNorm <- list(dataGen2,dataGen3)
+DataGenListNorm <- list(dataGen2)
 
 ## Making the list for the Bin Data
 source(here::here("CodeFinal","Data","Data Generation Bin_v2-0.R"))
-DataGenListBin <- list(dataGen2,dataGen3)
+DataGenListBin <- list(dataGen2)
 
 
 
 #### Run the simulation ####
 
+## General for all
 
 
 ## The different condetions
 P2<-c("TRUE")
 P3<-c("TRUE")
-condSD<-c("TRUE","FALSE")
+condSD<-c("FALSE")
 condMain<-c("TRUE","FALSE")
 
 ### Since there is a difference between the sets when Main is False and True two different simulations are made
@@ -1205,7 +1203,7 @@ condMain<-c("TRUE","FALSE")
 DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin)
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25)
+cl <- makeSOCKcluster(25, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -1234,7 +1232,7 @@ resultsFullset<-
       
       
     }
-    d1=data.frame(f(),Power12=h,Power13=l,Power123=2,OutlierExclusion=condSD[[k]],IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=n,Correlation=corr[[c]],it=t)
+    d1=data.frame(f(),Power12=h,Power13=l,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=n,Correlation=corr[[c]],it=t)
     
     d1
     
@@ -1247,8 +1245,5 @@ close(pb)
 stopCluster(cl)
 registerDoSEQ()
 
-
-## Save the data
-
-fwrite(finalresults,paste0(output,"/Files/Results.csv"),sep = ";")
-fwrite(resultsFullset,paste0(output,"/Files/resultsFullSet.csv"),sep=";")
+write.csv(finalresults, file=gzfile(paste0(output,"/Files/Results.csv.gz")))
+write.csv(resultsFullset, file=gzfile(paste0(output,"/Files/resultsFullSet.csv.gz")))
