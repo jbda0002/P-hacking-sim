@@ -29,7 +29,7 @@ library(here)
 sample = 200
 
 ## Setting the number of repretetion
-repdist=100
+repdist=10000
 ## Setting the correlation between dependent and independent 
 corr=0.2
 
@@ -85,7 +85,7 @@ DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=Data
 #DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin)
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25, autoStop = TRUE)
+cl <- makeSOCKcluster(40, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -144,7 +144,7 @@ stopCluster(cl)
 registerDoSEQ()
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25, autoStop = TRUE)
+cl <- makeSOCKcluster(40, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -313,7 +313,7 @@ DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=Data
 #DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin)
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25, autoStop = TRUE)
+cl <- makeSOCKcluster(40, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -372,7 +372,7 @@ stopCluster(cl)
 registerDoSEQ()
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25, autoStop = TRUE)
+cl <- makeSOCKcluster(40, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -535,7 +535,7 @@ DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=Data
 #DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin)
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25, autoStop = TRUE)
+cl <- makeSOCKcluster(40, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -596,7 +596,7 @@ registerDoSEQ()
 #### Simulation for Main = F ####
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25, autoStop = TRUE)
+cl <- makeSOCKcluster(40, autoStop = TRUE)
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
 
@@ -761,7 +761,7 @@ DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=Data
 #DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin)
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25, autoStop = TRUE)
+cl <- makeSOCKcluster(40, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -820,7 +820,7 @@ stopCluster(cl)
 registerDoSEQ()
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25, autoStop = TRUE)
+cl <- makeSOCKcluster(40, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -987,7 +987,7 @@ DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=Data
 #DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin)
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25, autoStop = TRUE)
+cl <- makeSOCKcluster(40, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -1046,7 +1046,7 @@ stopCluster(cl)
 registerDoSEQ()
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25, autoStop = TRUE)
+cl <- makeSOCKcluster(40, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
@@ -1203,7 +1203,7 @@ condMain<-c("TRUE","FALSE")
 DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin)
 
 ## Choosing how many workers there should be used
-cl <- makeSOCKcluster(25, autoStop = TRUE)
+cl <- makeSOCKcluster(40, autoStop = TRUE)
 
 ## Using the SNOW packed as this gives the ability to make a process bar
 registerDoSNOW(cl)
