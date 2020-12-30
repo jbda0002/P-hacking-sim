@@ -544,10 +544,10 @@ When researchers are not interested in one specific variable but rather the over
 As is the case with hypothesis testing, researchers can either demand that main effects are always present when having interactions or they can ease this assumption and not require this. \\
 
 \subsection{When no restrictions are in place}
-In this case, there are three possible sets; ME, CCI, and ME + CCI. In this case, however, there is no variable that needs to be present all the time as earlier ($h_1$). The calculations of the model set sizes are nevertheless similar to the example with two covariates with no restrictions (see Supplmentary Material Case 1 - No Restrictions), and this can be seen in Table S8.  
+In this case, there are three possible sets; ME, CCI, and ME + CCI. In this case, however, there is no variable that needs to be present all the time as earlier ($h_1$). The calculations of the model set sizes are nevertheless similar to the example with two covariates with no restrictions (see Supplmentary Material Case 1 - No Restrictions), and this can be seen in Table S8 and equation (2), (3) and (4) .  
 
 \begin{table}
-\caption{}
+\caption{Models for the set ME, CCI and ME + CCI that can be made with two covariates when there is no specific variable of interest.}
 \centering
 \begin{tabular}{lc} 
 \toprule
@@ -562,9 +562,16 @@ Set & Models \\
 
 The calculation for the set size is done as in "Case 1 - No Restrictions"
 \\
-\[\# of models\ in\ ME=\left(2^n\right)\] 
-\[\# of models\ in\ CCI=\left(2^h-1\right)\] 
-\[\# of models\ in\ ME+CCI=\left(2^n-1\right)\left(2^h-1\right)\] 
+\begin{equation}
+  \# of models\ in\ ME=\left(2^n\right)
+\end{equation}
+\begin{equation}
+  \# of models\ in\ CCI=\left(2^h-1\right)
+\end{equation}
+\begin{equation}
+  # of models\ in\ ME+CCI=\left(2^n-1\right)\left(2^h-1\right)
+\end{equation}
+
 where $h=\left( \begin{array}{c}
 n \\ 
 2 \end{array}
