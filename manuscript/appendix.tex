@@ -12,24 +12,24 @@ n \\
 k \end{array}
 \right)=\frac{n!}{k!\left(n-k\right)!}\] 
 
-where $n$ is the number of elements so in our case the number of covariates that we want to include, and $k$ is the number of elements taken out. $!$ is the factorial operator, so $n!=n\times \left(n-1\right)\times \left(n-2\right)\times \left(n-3\right)\times \dots \times 3\times 2\times 1$. The binomial coefficients therefore gives us the number of ways that $k$ elements can be picked from a set of the size $n$. One rule that has been repeatedly used is that we can rewrite the sum of binomial coefficients excluding the empty set (i.e., not including i=0) as 
+where $n$ is the number of elements so in our case the number of covariates that we want to include, and $k$ is the number of elements taken out. $!$ is the factorial operator, so $n!=n\times \left(n-1\right)\times \left(n-2\right)\times \left(n-3\right)\times \dots \times 3\times 2\times 1$. The binomial coefficient therefore gives us the number of ways that $k$ elements can be picked from a set of the size $n$. One rule that has been repeatedly used is that we can rewrite the sum of binomial coefficients excluding the empty set (i.e., not including i=0) as 
 \[\sum^n_{i=1}{\left( \begin{array}{c}
 n \\ 
 i \end{array}
 \right)}=2^n-1\] 
 \\
-If we include the empty set, as it would be the case in some sets, we include i=0 and this becomes
+If we include the empty set, as it is the case in some sets, we include i=0 and this becomes
 \[\sum^n_{i=0}{\left( \begin{array}{c}
 n \\ 
 i \end{array}
 \right)}=2^n\] 
 \\
-When calculating the size of each set, we considered two different cases; one where we allowed interactions without having main effects present, and the other one where main effects should always follow the interaction. \\
+When calculating the size of each set, we considered two different cases; one where we allowed interactions without having main effects present, and the other one where main effects should always follow interactions. \\
 
 \section{Case 1 – No Restriction}
 \subsection{ME}
 
-To calculate the size of the sets, we used the binomial coefficient since the size of the ME set will be all the combinations of the covariates including the model where it is only the variable of interest (in this terminology also called the empty set). Let us denote the number of covariates with n. If we have an example with three covariates (n=3), then the combination of these where we have all three covariates present can be written using the binomial coefficient as
+To calculate the size of the sets, we used the binomial coefficient. The set ME will be the all the different combinations that can be made by the covariates including the model where there is only the variable of interest (based on the previous terminology also called the empty set) and the binomial coefficients can therefore give us how many of these combinations that exists. Let us denote the number of covariates with n. If we have an example with three covariates (n=3), then the combination of these where we have all three covariates present can be written using the binomial coefficient as
 \[\left( \begin{array}{c}
 3 \\ 
 3 \end{array}
@@ -43,16 +43,16 @@ And the same if only one covariate is present
 \[\left( \begin{array}{c}
 3 \\ 
 1 \end{array}
-\right)=\frac{3!}{1!\left(3-1\right)!}=3\]. 
+\right)=\frac{3!}{1!\left(3-1\right)!}=3\] 
 Finally, where no covariates are present, the number of possible combinations is computed as follows
 \[\left( \begin{array}{c}
 3 \\ 
 0 \end{array}
-\right)=\frac{3!}{0!\left(3-0\right)!}=1\]. 
+\right)=\frac{3!}{0!\left(3-0\right)!}=1\] 
 The total number of models in this set will then be the sum of all these
 
 
-\[\#models\ in\ ME=\left( \begin{array}{c}
+\[\# of models\ in\ ME=\left( \begin{array}{c}
 3 \\ 
 3 \end{array}
 \right)+\left( \begin{array}{c}
@@ -69,30 +69,31 @@ The total number of models in this set will then be the sum of all these
 i \end{array}
 \right)}\] 
 Using the rule for adding binomial coefficients, we can rewrite this into
-\[\#models\ in\ ME=\sum^3_{i=0}{\left( \begin{array}{c}
+\[\# of models\ in\ ME=\sum^3_{i=0}{\left( \begin{array}{c}
 3 \\ 
 i \end{array}
 \right)}=\left(2^3\right)=8\] 
 We can further generalize this to the n covariates case as follows 
-\[\#models\ in\ ME=\sum^n_{i=0}{\left( \begin{array}{c}
+\[\# of models\ in\ ME=\sum^n_{i=0}{\left( \begin{array}{c}
 n \\ 
 i \end{array}
 \right)}=\left(2^n\right)\] 
 
 \subsubsection{Formally Written} \break 
-\noindent Let X be the set of covariates 
+\noindent Let \emph{X} be the set of covariates 
 \[X=\{\left.x_1,x_2,..,x_n\right.\}\] 
 \[\left|X\right|=n\] 
 
 
-\noindent The set ME is then the power set of X 
+\noindent The ME set is then the power set of \emph{X} 
 \[ME=\{\left.S:S\subseteq X\right.\}\] 
 
 Each element $S\in ME$ is a set of the covariates (e.g., $S=\left.x_3,x_7\right.$) or any combination of the covariates, including the empty set. This is just the power set of X and the size of the set can be written as
 \[\left|ME\right|=|\mathcal{P}\left(X\right)|=2^n\] 
+
 \subsection{HCI}
 
-The same line of reasoning goes for the set HCI as for set ME and we therefore only write it formally. Here, we just need to calculate the number of possible interactions between the variable of interest and the covariates. This set will therefore have the same size as ME, as there are just as many covariates as there are two-way combinations between the variable of interest and the covariates excluding the empty set.
+The same line of reasoning goes for the HCI set as for ME set and we therefore only write it formally. Here, we just need to calculate the number of possible interactions between the variable of interest and the covariates. This set will therefore have the same size as the ME set, as there are just as many covariates as there are two-way combinations between the variable of interest and the covariates excluding the empty set.
 
 \[I_h(X)=\left.\left\{\{x_i,h\}\right.:x_i\in X\right.\}\] 
 \[HCI=\left.\{T:T\subseteq I_h\left(X\right),T\neq \textrm{\O}\right.\}\] 
@@ -106,10 +107,10 @@ For the CCI set, we need the combinations of all the two-way interactions betwee
 3 \\ 
 2 \end{array}
 \right)=\frac{3!}{2!\left(3-2\right)!}=3\] 
-We can now make the combinations of these interaction effects. Meaning our $n$ is not the number of covariates in this case but the number of two-way interactions that can be made with three covariates.  
+We can now make the combinations of these interaction effects. In this case $n$ does not denote the number of covariates, but the number of two-way interactions that can be made with three covariates.  
 
 \noindent 
-\[\#models\ in\ CCI=\left( \begin{array}{c}
+\[\# of models\ in\ CCI=\left( \begin{array}{c}
 3 \\ 
 3 \end{array}
 \right)+\left( \begin{array}{c}
@@ -128,21 +129,21 @@ n \\
 2 \end{array}
 \right)=n(n-1)/2\] 
 So the general term for the total number of models in CCI is then
-\[\#models\ in\ CCI=\sum^{n(n-1)/2}_{i=1}{\left( \begin{array}{c}
+\[\# of models\ in\ CCI=\sum^{n(n-1)/2}_{i=1}{\left( \begin{array}{c}
 n(n-1)/2 \\ 
 i \end{array}
 \right)}=(2^{n(n-1)/2}-1)=2^h-1\] 
 
 
 \subsubsection{Formally written}
-Let X be a set of covariates 
+Let \emph{X} be a set of covariates 
 $X=\{x_1,x_2,..,x_n\}$
 \[I_k\left(X\right)=\{\left.\left.x_i,x_j\right.:x_i\in X,x_j\in X,x_i\neq x_j\right.\}\] 
 \[\left|I_k\left(X\right)\right|=\left( \begin{array}{c}
 n \\ 
 2 \end{array}
 \right)=\frac{n\left(n-1\right)\left(n-2\right)!}{\left(n-2\right)!}\frac{1}{2}=n(n-1)/2\] 
-The set of all combinations is then all the subsets of $I_k\left(X\right)$ excluding the empty set
+The set of all combinations of the different interactions between the covariates is then all the subsets of $I_k\left(X\right)$ excluding the empty set
 \[P\left(I_k\left(X\right)\right)=\{\left.J:J\subseteq I_k\left(X\right),J\neq \textrm{\O}\right.\}\] 
 \[\left|CCI\right|=\left|P\left(I_k\left(X\right)\right)\right|=2^{\left|I_k\left(X\right)\right|}-1=2^{n(n-1)/2}-1\] 
 defining 
@@ -154,30 +155,30 @@ so we can write the number of models in CCI as
 \[\left|CCI\right|=2^h-1\] \\
 
 \subsection{Full model set}
-For the sets, meaning the sets ME + HCI , ME + CCI and ME + HCI + CCI, the math follows directly from the previous equations as these sets are the product of the previously calculated sets. 
+For the following sets: ME + HCI , ME + CCI, and ME + HCI + CCI, the math follows directly from the previous equations as these sets are the product of the previously calculated sets. 
 
-\[\#models\ in\ ME=\left(2^n\right)\] 
-\[\#models\ in\ HCI=\left(2^n-1\right)\] 
-\[\#models\ in\ CCI=\left(2^h-1\right)\] 
-\[\#models\ in\ ME+HCI={\left(2^n-1\right)}^2\] 
-\[\#models\ in\ ME+CCI=\left(2^n-1\right)\left(2^h-1\right)\] 
-\[\#models\ in\ ME+HCI+CCI={\left(2^n-1\right)}^2\left(2^h-1\right)\] 
+\[\# of models\ in\ ME=\left(2^n\right)\] 
+\[\# of models\ in\ HCI=\left(2^n-1\right)\] 
+\[\# of models\ in\ CCI=\left(2^h-1\right)\] 
+\[\# of models\ in\ ME+HCI={\left(2^n-1\right)}^2\] 
+\[\# of models\ in\ ME+CCI=\left(2^n-1\right)\left(2^h-1\right)\] 
+\[\# of models\ in\ ME+HCI+CCI={\left(2^n-1\right)}^2\left(2^h-1\right)\] 
 So the total number of models including all sets then becomes
 \begin{equation*}
 \begin{aligned}
-\#model=\\
+$total \# of models=\\
 & \underbrace{\left(2^n\right)}_{ME}+\underbrace{\left(2^n-1\right)}_{HCI}+\underbrace{\left(2^h-1\right)}_{CCI}+\\
 &\underbrace{{\left(2^n-1\right)}^2}_{ME+HCI}+\underbrace{\left(2^n-1\right)\left(2^h-1\right)}_{HCI+CCI}+\underbrace{\left(2^n-1\right)\left(2^h-1\right)}_{ME+CCI}+\\
-&\underbrace{{\left(2^n-1\right)}^2\left(2^h-1\right)}_{ME+HCI+CCI} 
+&\underbrace{{\left(2^n-1\right)}^2\left(2^h-1\right)}_{ME+HCI+CCI}$ 
 \end{aligned}
 \end{equation*}
 
-For the case where n=2, (as in the Table S1), this gives us
+For the case where n=2, (as in Table S1), this gives us
 \[h=\left( \begin{array}{c}
 2 \\ 
 2 \end{array}
 \right)=1\] 
-\[\#model=\left(2^2\right)+\left(2^2-1\right)+\left(2^1-1\right)+{\left(2^2-1\right)}^2+2\left(2^2-1\right)\left(2^1-1\right)+{\left(2^2-1\right)}^2\left(2^1-1\right)=32\] 
+\[\total # of models=\left(2^2\right)+\left(2^2-1\right)+\left(2^1-1\right)+{\left(2^2-1\right)}^2+2\left(2^2-1\right)\left(2^1-1\right)+{\left(2^2-1\right)}^2\left(2^1-1\right)=32\] 
 
 \begin{table}[hbt!]
 \caption{}
@@ -200,45 +201,45 @@ CCI & $y=h_1+x_1x_2$ & \\
 \newpage
 \section{Case 2 – With Restriction}
 
-In this case, we need to ensure that any time there is an interaction, the main effects follow. This means that if the variable of interest interacts with a covariate, both the variable of interest and the covariate will be present as main effects, e.g.,
+In this case, we need to ensure that every time there is an interaction, the main effects follow. This means that if the variable of interest interacts with a covariate, both the variable of interest and the covariate will be present as the main effects, e.g.,
 \[y=h_1+x_1+h_1x_1\] 
 
-In the previous equation, we have an interaction between our variable of interest $h_1$ and a covariate $x_1$. Therefore, the main effects also enter the model by themselves. This restriction does not change how we calculate the set size of ME as there are no interactions in ME set. The way to calculate the size of ME set is therefore the same in the two cases (i.e., with and without restriction); we will therefore focus on calculating the other set sizes. However, having a restriction that main effects should always follow when having interactions means that we need to exclude the models from the HCI and CCI sets as these do not have the main effect following the interactions. The first set we then need to calculate is the ME + HCI set.
+In the previous equation, we have an interaction between our variable of interest $h_1$ and a covariate $x_1$. Therefore, the two corresponding main effects also enter the model. This restriction does not change how we calculate the set size of the ME set as there are no interactions in it. The way to calculate the size of the ME set is therefore the same in the two cases (i.e., with and without restriction); we will therefore focus on calculating the other set sizes. However, having a restriction that main effects should always follow interactions means that we need to exclude the models from the HCI and CCI sets as these do not have main effect following interactions. The first set we then need to calculate is the ME + HCI set.
 
 \subsection{ME + HCI}
-For the sake of simplicity, we start with a case where n=3. The models that are within this set can be seen in Table S2 in the case where n=3 \\
+For the sake of simplicity, we start with a case where n=3. The models that are within this set can be seen in Table S2. \\
 
 \begin{table}[hbt!]
 \caption{}
-\caption*{Overview of models for the set ME + HCI when there are three covariates and one dependent variable}
+\caption*{Overview of the models in the ME + HCI set when there are three covariates and one dependent variable}
 \centering
 \begin{tabular}{cc}
 \toprule
 Model set & Models \\ 
 \midrule
-\multirow{19}{*}{ME+HCI} & $y=h_1+x_1+h_1x_1$\\ &  $y=h_1+x_2+h_1x_2$\\ &  $y=h_1+x_3+h_1x_3$\\ & $y=h_1+x_1+x_2+h_1x_1$\\ & $y=h_1+x_1+x_3+h_1x_1$\\ & $y=h_1+x_3+x_1+h_1x_3$\\ & $y=h_1+x_3+x_2+h_1x_3$\\ & $y=h_1+x_2+x_1+h_1x_2$\\ & $y=h_1+x_2+x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1$\\ & $y=h_1+x_1+x_2+x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_3$\\ & $y=h_1+x_1+x_2+h_1x_1+h_1x_2$\\ & $y=h_1+x_1+x_3+h_1x_1+h_1x_3$\\ & $y=h_1+x_1+x_2+h_1x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_3$\\ & $y=h_1+x_1+x_2+x_3+h_1x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_2+h_1x_3$\\  
+\multirow{19}{*}{ME + HCI} & $y=h_1+x_1+h_1x_1$\\ &  $y=h_1+x_2+h_1x_2$\\ &  $y=h_1+x_3+h_1x_3$\\ & $y=h_1+x_1+x_2+h_1x_1$\\ & $y=h_1+x_1+x_3+h_1x_1$\\ & $y=h_1+x_3+x_1+h_1x_3$\\ & $y=h_1+x_3+x_2+h_1x_3$\\ & $y=h_1+x_2+x_1+h_1x_2$\\ & $y=h_1+x_2+x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1$\\ & $y=h_1+x_1+x_2+x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_3$\\ & $y=h_1+x_1+x_2+h_1x_1+h_1x_2$\\ & $y=h_1+x_1+x_3+h_1x_1+h_1x_3$\\ & $y=h_1+x_1+x_2+h_1x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_3$\\ & $y=h_1+x_1+x_2+x_3+h_1x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_2+h_1x_3$\\  
 \bottomrule
 \end{tabular}
 \end{table}
 
-In Table S3, we divided the ME+HCI into three parts - ME+HCI(1), ME+HCI(2), and ME+HCI(3) ME+HCI(1)- which contain all the models where there are one, two, or three covariates, respectively. \\
+In Table S3, we divided the ME + HCI set into three parts - ME + HCI(1), ME + HCI(2), and ME + HCI(3) - which contain all the models where there are one, two, or three covariates, respectively. \\
 
 \begin{table}[hbt!]
-\caption{Split for the set ME + HCI into three subsets when there is three covariates and one dependent variable}
+\caption{Split of the ME + HCI set into three subsets when there are three covariates and one dependent variable. ME + HCI(1) is all the models with one covariate as main effect, ME + HCI(2) is all the models with two covariates as main effects, and ME + HCI(3) is all the models with three covariates as main effects}
 \centering
 \begin{tabular}{lc}  
 \toprule
 Set & Models \\
 \midrule
-\multirow{3}{*}{ME+HCI(1)} & $y=h_1+x_1+h_1x_1$\\ & $y=h_1+x_2+h_1x_2$\\ & $y=h_1+x_3+h_1x_3$\\ & \\ 
-\multirow{9}{*}{ME+HCI(2)} & $y=h_1+x_1$$+x_2+h_1x_1$\\ & $y=h_1+x_1+x_3+h_1x_1$\\ & $y=h_1+x_3+x_1+h_1x_3$\\ & $y=h_1+x_3+x_2+h_1x_3$\\ & $y=h_1+x_2+x_1+h_1x_2$\\ & $y=h_1+x_2+x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+h_1x_1+h_1x_2$\\ & $y=h_1+x_1+x_3+h_1x_1+h_1x_3$\\ & $y=h_1+x_1+x_2+h_1x_3+h_1x_2$\\  & \\  
-\multirow{7}{*}{ME+HCI(3)} & $y=h_1+x_1+x_2+x_3+h_1x_1$\\ & $y=h_1+x_1+x_2+x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_3$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_3$\\ & $y=h_1+x_1+x_2+x_3+h_1x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_2+h_1x_3$\\  
+\multirow{3}{*}{ME + HCI(1)} & $y=h_1+x_1+h_1x_1$\\ & $y=h_1+x_2+h_1x_2$\\ & $y=h_1+x_3+h_1x_3$\\ & \\ 
+\multirow{9}{*}{ME + HCI(2)} & $y=h_1+x_1$$+x_2+h_1x_1$\\ & $y=h_1+x_1+x_3+h_1x_1$\\ & $y=h_1+x_3+x_1+h_1x_3$\\ & $y=h_1+x_3+x_2+h_1x_3$\\ & $y=h_1+x_2+x_1+h_1x_2$\\ & $y=h_1+x_2+x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+h_1x_1+h_1x_2$\\ & $y=h_1+x_1+x_3+h_1x_1+h_1x_3$\\ & $y=h_1+x_1+x_2+h_1x_3+h_1x_2$\\  & \\  
+\multirow{7}{*}{ME + HCI(3)} & $y=h_1+x_1+x_2+x_3+h_1x_1$\\ & $y=h_1+x_1+x_2+x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_3$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_3$\\ & $y=h_1+x_1+x_2+x_3+h_1x_3+h_1x_2$\\ & $y=h_1+x_1+x_2+x_3+h_1x_1+h_1x_2+h_1x_3$\\  
 \bottomrule
 \end{tabular}
 \end{table}
 
-To calculate the size of each of these sets separately, we only need to focus on the number of covariates that enters the model as per assumption the variable of interest $h_1$ is always present. Let us start with ME+HCI(1). In this set there can only be one covariate present at the time, here is therefore three combinations, this can be written as $\binom{3}{1}$. In this set, since there only is one covariate, the interaction term that has the same covariate will always be there, and there can be made no other combinations, or this is the same as $\binom{1}{1}$. Using the same shorthand notation with the binomial coefficient as so far, we can write this one as
-\[\#\ of\ models\ in\ ME+HCI\ \left(1\right)=\left( \begin{array}{c}
+To calculate the size of each of these sets separately, we only need to focus on the number of covariates that enters the model, as per assumption the variable of interest $h_1$ is always present. Let us start with the ME + HCI(1) set. In this set, there can only be one covariate present at the same time; there are therefore three combinations, which can be written as $\binom{3}{1}$. In this set, since there is only one covariate, there is only one interaction term containing that same covariate. As there can be made no other combinations, this corresponds to $\binom{1}{1}$. Using the same shorthand notation with the binomial coefficient as so far, we can write the number of models in the ME + HCI(1) set as
+\[\#\ of\ models\ in\ ME + HCI\textit{(1)}\ =\left( \begin{array}{c}
 1 \\ 
 1 \end{array}
 \right)\left( \begin{array}{c}
@@ -255,19 +256,12 @@ i \end{array}
 1 \end{array}
 \right)=3\] 
 
-Using this notation for the formulation makes sense when we have to combine the three sets of ME + CCI into one to calculate all the models in ME + CCI.
+Using this notation for the formulation makes sense when we have to combine the three sets of ME + HCI into one to calculate all the models in ME + HCI.
 
-For the ME+HCI(2) set, first we need to calculate the number of combinations for the main effect that can be made when there are two covariates present at all time and that is $\left( \begin{array}{c}
-3 \\ 2 \end{array}\right)$. Next we need to calculate the number of combinations of interactions that can be present. As we have two covariates present all the time, these are the ones that can be used in the interaction effects. Since the covariates interact with $h_1$, there can either be one or two interaction effects present. Hence, we have $\left( \begin{array}{c}
-2 \\ 
-1 \end{array}
-\right)\ $and $\left( \begin{array}{c}
-2 \\ 
-2 \end{array}
-\right)$ combinations of the interaction effects possible. Combining the number of covariates with the number of possible interactions we get
+For the ME + HCI(2) set, we first need to calculate the number of combinations for the main effect that can be made when there are two covariates present at all times and that is $\binom{3}{2}$. Next we need to calculate the number of combinations of interactions that can be present. As we have two covariates present all the time, these are the ones that can be used in the interaction effects. Since the covariates interact with $h_1$, there can either be one or two interaction effects present. Hence, we have $\binom{2}{1}$ and $\binom{2}{2}$ combinations of the interaction effects possible. Combining the number of covariates with the number of possible interactions we get
 \begin{equation*}
 \begin{aligned}
-\#\ of\ models\ in\ ME+HCI(2)=\\
+\#\ of\ models\ in\ ME+HCI\textit{(2)}=\\
 & \left( \begin{array}{c}
 2 \\ 
 1 \end{array}
@@ -294,10 +288,10 @@ i \end{array}
 
 \end{aligned}
 \end{equation*}
-The same reasoning goes for ME + HCI(3); the only difference here is that we have one more covariate. So if we write the combinations that are possible with three covariates is in same way as before we get
+The same reasoning goes for the ME + HCI(3) set; the only difference here is that we have one more covariate. So if we write the combinations that are possible with three covariates in the same way as before, we get
 \begin{equation*}
 \begin{aligned}
-\#\ of\ models\ in\ ME+HCI(3)=\\
+\#\ of\ models\ in\ ME+HCI\textit{(3)}=\\
 &\left( \begin{array}{c}
 3 \\ 
 1 \end{array}
@@ -332,11 +326,11 @@ i \end{array}
 \end{equation*}
 
 
-We can then sum all the three sets ME + HCI(1), ME + HCI(2) and ME + HCI(3) together to get the size of the set ME + HCI
+We can then sum all three sets that is, ME + HCI(1), ME + HCI(2) and ME + HCI(3), to get the size of the ME + HCI set
 \[\#\ of\ models\ in\ ME+HCI=\sum^3_{k=1}{(2^k-1)\left( \begin{array}{c}
 3 \\ 
 k \end{array}
-\right)}\] 
+\right)}\] where k is the number of covariates that goes in as main effects, meaning it is an indicator for ME + HCI(1), ME + HCI(2) and ME + HCI(3).
 For the case with n covariates, this becomes
 \[\#\ of\ models\ in\ ME+HCI=\sum^n_{k=1}{(2^k-1)\left( \begin{array}{c}
 n \\ 
@@ -344,17 +338,17 @@ k \end{array}
 \right)}\] 
 
 \subsubsection{Formally written}
-Let X be a set of covariates 
+Let $X$ be a set of covariates 
 \[X=\{\left.x_1,x_2,\dots ,x_n\right.\}\] 
 \[|X|=n\] 
 
-Let J be the set of indicators of how many interactions there are between the covariates and the variable of interest 
+Let J be a set of indicators of how many covariates goes into the model set as main effects
 \[J=\{\left.1,2,3,4,\dots ,n\right.\}\] 
 Let L be a subset of X of size k.
 \[L=\{\left.S:S\subset X,\left|S\right|=k,k\in J\right.\}\] 
 
 The number of interactions that can be made between a covariate and the variable of interest for a given k is then
-\[I_h\left(X\right)=\{\left.\left.x_i,h\right.:x_i\in L\right.\}\] 
+\[I_h\left(X\right)=\{\left.\left.x_i,h_1\right.:x_i\in L\right.\}\] 
 \[\left|I_h\left(X\right)\right|=k\] 
 
 For each k, the number of interactions is just the power set of X excluding the empty set
@@ -363,7 +357,7 @@ For each k, the number of interactions is just the power set of X excluding the 
 For each k, there is $\left( \begin{array}{c}
 n \\ 
 k \end{array}
-\right)$ combinations of the covariates following the interaction. To get the full set, we need to sum over these combinations from $k=1$ to $n$.
+\right)$ combinations of interactions that can be present with the number of covariates k. To get the full set, we need to sum over these combinations from $k=1$ (with $k=0$ it would not be possible to make any interactions so this one is excluded) to $n$.
 \[\left|ME+HCI\right|=\sum^n_{k=1}{\left( \begin{array}{c}
 n \\ 
 k \end{array}
@@ -372,11 +366,11 @@ k \end{array}
 
 \subsection{ME + CCI}
 
-Here we can use the same line of thought as we did in the ME + HCI set. Let us begin by looking at the n=3 case and then develop a more general notion from there. This example can be seen in Table S4. 
-\begin{table}
+Here we can use the same line of reasoning as we did for the ME + HCI set. Let us begin by looking at the $n=3$ case and then develop a more general notion from there. This example can be seen in Table S4. 
+\begin{table}{}
 \centering
-\caption{}
-\begin{tabular}{lc} \hline 
+\caption{Models for the set ME + CCI that can be made with three covariates.}
+\begin{tabular}{lc} \hline
 \toprule
 Set & Models \\
 \midrule
@@ -384,25 +378,25 @@ Set & Models \\
 \bottomrule
 \end{tabular}
 \end{table}
-To make it easier to understand how to calculate the set size, we can split this set as we did before for ME + HCI set. This can be seen in Table S5.
+To make it easier to understand how to calculate the set size, we can split this set into subsets as we did before for the ME + HCI set. This can be seen in Table S5.
 
 \begin{table}
 \centering
-\caption{}
+\caption{Split of the ME + CCI set into two subsets when there are three covariates and one dependent variable. ME + CCI(2) is all the models with two covariates as main effects, and ME + CCI(3) is all the models with three covariates as main effects. ME + CCI(1) is not possible as you need at least two covariates to make an interaction.}
 \begin{tabular}{lc} 
 \toprule
 Set & Models \\ 
 \midrule
-\multirow{3}{*}{ME+CCI(2)} & $y=h_1+x_1+x_2+x_1x_2$\\ & $y=h_1+x_1+x_3+x_1x_3$\\ & $y=h_1+x_2+x_3+x_2x_3$\\ &  \\  
-\multirow{7}{*}{ME+CCI(3)} & $y=h_1+x_1+x_2+x_3+x_1x_2$\\ & $y=h_1+x_1+x_3+x_2+x_1x_3$\\ & $y=h_1+x_2+x_3+x_1+x_2x_3$\\ & $y=h_1+x_1+x_2+x_3+x_1x_2+x_1x_3$\\ & $y=h_1+x_1+x_3+x_2+x_1x_3+x_2x_3$\\ & $y=h_1+x_2+x_3+x_1+x_1x_2+x_2x_3$\\ & $y=h_1+x_1+x_2+x_3+x_1x_2+x_2x_3+x_1x_3$\\ & \\ 
+\multirow{3}{*}{ME + CCI(2)} & $y=h_1+x_1+x_2+x_1x_2$\\ & $y=h_1+x_1+x_3+x_1x_3$\\ & $y=h_1+x_2+x_3+x_2x_3$\\ &  \\  
+\multirow{7}{*}{ME + CCI(3)} & $y=h_1+x_1+x_2+x_3+x_1x_2$\\ & $y=h_1+x_1+x_3+x_2+x_1x_3$\\ & $y=h_1+x_2+x_3+x_1+x_2x_3$\\ & $y=h_1+x_1+x_2+x_3+x_1x_2+x_1x_3$\\ & $y=h_1+x_1+x_3+x_2+x_1x_3+x_2x_3$\\ & $y=h_1+x_2+x_3+x_1+x_1x_2+x_2x_3$\\ & $y=h_1+x_1+x_2+x_3+x_1x_2+x_2x_3+x_1x_3$\\ & \\ 
 \bottomrule
 \end{tabular}
 \end{table}
 
-In this case, we always need to have at least two covariates for this set to fulfil the requirement that the main effects most be present as soon as there is interactions. Therefore we can only divide ME+CCI into two parts; the first part has two covariates present as main effects and the second part has three covariates present as main effects. The first set, ME+CCI(2), is straightforward as this set is only the number of combinations of the three covariates that can be made when there has to ne two present, meaning $\binom{3}{2}$, multiplied with the combinations of two of these covariates that are included, meaning $\binom{2}{2}$.
+In this case, we always need to have at least two covariates present for this set to fulfil the restriction that main effects must be present as soon as there are interactions. Therefore, we can only divide the ME + CCI set into two subsets; the first subset has two covariates present as main effects and the second subset has three covariates present as main effects. The first set, ME + CCI(2), is straightforward as this set is only the number of combinations of the three covariates that can be made when there has to be two present, meaning $\binom{3}{2}$, multiplied with the combinations of two of these covariates that are included, meaning $\binom{2}{2}$.
 
 \noindent 
-\[\#\ of\ models\ in\ ME+CCI\ \left(2\right)=\left( \begin{array}{c}
+\[\#\ of\ models\ in\ ME + CCI\textit{(2)} =\left( \begin{array}{c}
 3 \\ 
 2 \end{array}
 \right)\left( \begin{array}{c}
@@ -410,14 +404,8 @@ In this case, we always need to have at least two covariates for this set to ful
 2 \end{array}
 \right)=3\] 
 
-For the second part, ME+CCI(3), the first term is the number of combinations that can be made with three covariates so this is just $\left( \begin{array}{c}
-3 \\ 
-3 \end{array}
-\right)$. We then have to calculate the number of interactions that can be made with the three included covariates. To do that, first we need to calculate the number of two-way interactions that can be made with three covariates and this is just $\left( \begin{array}{c}
-3 \\ 
-2 \end{array}
-\right)=3$. The total number of models in the set is then the sum of the number of combinations we include
-\[\#\ of\ models\ in\ ME+CCI(3)=\left( \begin{array}{c}
+For the second subset, ME + CCI(3), the first term is the number of combinations that can be made with three covariates so this is just $\binom{3}{3}$. We then have to calculate the number of interactions that can be made with the three included covariates. To do that, first we need to calculate the number of two-way interactions that can be made with three covariates and this is just $\binom{3}{2}=3$. The total number of models in the set is then the sum of the number of combinations
+\[\#\ of\ models\ in\ ME + CCI\textit{(3)}=\left( \begin{array}{c}
 3 \\ 
 3 \end{array}
 \right)\left(\left( \begin{array}{c}
@@ -437,11 +425,11 @@ For the second part, ME+CCI(3), the first term is the number of combinations tha
 i \end{array}
 \right)}\] 
 
-However, it is only in out example that we can just sum to n=3. In general, this will be the number of pairs that can be made in this subset. So here the number of pairs will be $\left( \begin{array}{c}
+However, it is only in our example that we sum to $n=3$. In general, this will be the number of pairs that can be made in this subset. The number of pairs can be written as $\left( \begin{array}{c}
 n \\ 
 2 \end{array}
 \right)=\frac{n\left(n-1\right)}{2}$. This then becomes
-\[\#of models in ME+CCI(3)=\left( \begin{array}{c}
+\[\#\ of\ models\ in\ ME + CCI\textit{(3)}=\left( \begin{array}{c}
 3 \\ 
 3 \end{array}
 \right)\sum^3_{i=1}{\left( \begin{array}{c}
@@ -458,15 +446,15 @@ i \end{array}
 3 \end{array}
 \right)\left(2^{\frac{3\left(3-1\right)}{2}}-1\right)\] 
 We can write the first subset in the same way
-\[\#\ of\ models\ in\ ME+CCI(2)=\left( \begin{array}{c}
+\[\#\ of\ models\ in\ ME + CCI(2)=\left( \begin{array}{c}
 3 \\ 
 2 \end{array}
 \right)=\left( \begin{array}{c}
 3 \\ 
 2 \end{array}
 \right)\left(2^{\frac{2\left(2-1\right)}{2}}-1\right)\] 
-Now we just add these to subsets up
-\[\#\ of\ models\ in\ ME+CCI=\left( \begin{array}{c}
+Now we just add these two subsets up
+\[\#\ of\ models\ in\ ME + CCI=\left( \begin{array}{c}
 3 \\ 
 2 \end{array}
 \right)\left(2^{\frac{2\left(2-1\right)}{2}}-1\right)+\left( \begin{array}{c}
@@ -476,16 +464,18 @@ Now we just add these to subsets up
 3 \\ 
 j \end{array}
 \right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}\] 
-We can then generalize this case into n covariates
+We can then generalize this case for \textit{n} covariates
 \[\#\ of\ models\ in\ ME+CCI=\sum^n_{j=2}{\left( \begin{array}{c}
 n \\ 
 j \end{array}
 \right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}\] 
 
 \subsubsection{Formally written}
+Let $X$ be a set of covariates 
+\[X=\{\left.x_1,x_2,\dots ,x_n\right.\}\] 
+\[|X|=n\] 
 
-
-Let k be an indicator of how many covariates are included. Since we are using interactions, k must start at two. Define T as a set of indicators of covariates starting from two
+Let k be an indicator of how many covariates are included. Since we are using interactions, k must start at two. Let T be a set of indicators of the number of covariates starting from two
 \[T=\{\left.2,3,4,\dots ,n\right.\}\] 
 Let L be a subset of X of size k.
 \[L=\{\left.S:S\subset X,\left|S\right|=k,k\in T\right.\}\] 
@@ -498,28 +488,28 @@ k \\
 2 \end{array}
 \right)=\frac{k!}{2!\left(k-2\right)!}=\frac{k\left(k-1\right)\left(k-2\right)!}{\left(k-2\right)!}\frac{1}{2}=\frac{k\left(k-1\right)}{2}\] 
 
-We then need the combination of all the two-way interactions. For all k, we can take the power set of $I_k\left(H\right)$ excluding the empty set
+We then need the combinations of all the two-way interactions. For all k, we can take the power set of $I_k\left(H\right)$ excluding the empty set
 \[P\left(I_k\left(X\right)\right)=\{\left.T:T\subset I_k\left(X\right),T\neq \textrm{\O}\right.\}\] 
 \[\left|P\left(I_k\left(X\right)\right)\right|=2^{\left|I_k\left(X\right)\right|}-1=2^{\frac{k\left(k-1\right)}{2}}-1\] 
 With n covariates, there exist $\left( \begin{array}{c}
 n \\ 
 k \end{array}
-\right)$ subsets of size k. To get the ME + CCI set, we just need to sum over the number of present covariates k starting from k=2
+\right)$ subsets of size k. To get the ME + CCI set, we just need to sum over the number of present covariates \textit{k} starting from \textit{k}=2
 \[\left|ME+CCI\right|=\sum^n_{k=2}{\left( \begin{array}{c}
 n \\ 
 k \end{array}
 \right)}\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)\ \] 
 
 \subsection{ME + HCI + CCI}
-This set is the product of ME + HCI and ME + CCI, but without taking the combinations with the main effect twice. Hence, it consists of the combinations that can be made between the covariates and between the covariates and the variable of interest. We can therefore write 
+This set is the product of the ME + HCI and ME + CCI sets, but without taking the combinations including the main effect twice. Hence, this set consists of the combinations that can be made between the variable of interest and covariates and between the covariates alone. We can therefore write 
 \[\#\ of\ models\ in\ ME+HCI+\ CCI=\sum^n_{k=2}{\left( \begin{array}{c}
 n \\ 
 k \end{array}
 \right)\left(2^k-1\right)\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)}\] 
 \subsubsection{Formally written}
-The design of the subsets are the same as earlier and we just need to take the product of
+The design of the subsets is the same as earlier and we just need to take the product of
 $P\left(I_k\left(X\right)\right)$ and $P\left(I_h\left(X\right)\right)$ (as defined earlier)  and sum over k starting from two.
-For n covariates there exist $\left( \begin{array}{c}
+For n covariates, there exists $\left( \begin{array}{c}
 n \\ 
 k \end{array}
 \right)$ subsets of size k. We only need to sum the subsets as follows
@@ -527,7 +517,9 @@ k \end{array}
 n \\ 
 k \end{array}
 \right)\left(2^k-1\right)\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)}\] 
-We now have the full set of models in the n covariates case written as
+
+\subsection{Full model set with restrictions}
+We now have the full set of models in the n covariate case written as
 \[\#\ of\ models=\left(2^n\right)+\sum^n_{k=1}{\left(2^k-1\right)\left( \begin{array}{c}
 n \\ 
 k \end{array}
@@ -540,7 +532,7 @@ k \end{array}
 \right)\left(2^k-1\right)\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)}\] 
 \subsection{Number of Models}
 
-\noindent In the case where we allow interactions without including the main effect (case 1), the total number of models per each set given the number of covariates can be seen in Table S6. For case 2 (i.e., main effects should always follow interactions), the total number of models can be found in either Table 2 in the main part of the manuscript or Table S7. 
+\noindent In the case where we allow interactions without including main effects (case 1), the total number of models per each set given the number of covariates can be seen in Table S6. For case 2 (i.e., main effects should always follow interactions), the total number of models can be found in either Table 2 in the main part of the manuscript or Table S7. 
 
 \input{R/Analysis/CodeFinal/ModelSize/ModelNumberFalse}
 
@@ -549,10 +541,10 @@ k \end{array}
 
 \section{Model set for machine learning}
 When researchers are not interested in one specific variable but rather the overall prediction of a given model, such as in machine learning, the same terminology for the sets as used previously can be used to calculate the size of the model sets. 
-As is the case with hypothesis testing, researchers can either demand that the main effects are always present when having interactions or they can ease this assumption and not require this. \\
+As is the case with hypothesis testing, researchers can either demand that main effects are always present when having interactions or they can ease this assumption and not require this. \\
 
 \subsection{When no restrictions are in place}
-In this case, there are three different sets; ME, CCI, and ME + CCI. In this case, however, there is no variable that needs to be present all the time as earlier ($h_1$). The calculations of the sets are nevertheless similar to the example with two covariates with no restrictions (see Supplmentary Material Case 1 - No Restrictions), and this can be seen in Table S8.  
+In this case, there are three possible sets; ME, CCI, and ME + CCI. In this case, however, there is no variable that needs to be present all the time as earlier ($h_1$). The calculations of the model set sizes are nevertheless similar to the example with two covariates with no restrictions (see Supplmentary Material Case 1 - No Restrictions), and this can be seen in Table S8.  
 
 \begin{table}
 \caption{}
@@ -570,30 +562,30 @@ Set & Models \\
 
 The calculation for the set size is done as in "Case 1 - No Restrictions"
 \\
-\[\#models\ in\ ME=\left(2^n\right)\] 
-\[\#models\ in\ CCI=\left(2^h-1\right)\] 
-\[\#models\ in\ ME+CCI=\left(2^n-1\right)\left(2^h-1\right)\] 
+\[\# of models\ in\ ME=\left(2^n\right)\] 
+\[\# of models\ in\ CCI=\left(2^h-1\right)\] 
+\[\# of models\ in\ ME+CCI=\left(2^n-1\right)\left(2^h-1\right)\] 
 where $h=\left( \begin{array}{c}
 n \\ 
 2 \end{array}
 \right)$. 
 
-The total number of models given the different number of covariates can be seen in Table S9. These calculations apply when only allowing for two-way interactions, but this framework can easliy be expanded to include higher order interactions. \\
+The total number of models given the different number of covariates can be seen in Table S9. These calculations apply only when allowing for two-way interactions, but this framework can easily be expanded to include higher order interactions. \\
 
 \input{R/Analysis/CodeFinal/ModelSize/ModelNumberFalseML}
 
 
 \subsection{When restrictions are in place}
-The calculations here are the same as previous. However, the only sets that are of interest here are ME and ME + CCI.\\
+The calculations here are the same as previously described. However, the only sets that are of interest here are the ME and ME + CCI sets.\\
 The number of models in this case is then \\
 
-\[\#models\ in\ ME=\left(2^n\right)\] 
-\[\#models\ in\ ME+CCI=\sum^n_{k=2}{\left( \begin{array}{c}
+\[\# of models\ in\ ME=\left(2^n\right)\] 
+\[\# of models\ in\ ME+CCI=\sum^n_{k=2}{\left( \begin{array}{c}
 n \\ 
 k \end{array}
 \right)}\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)\ \]  
 
-The total number of models per each set given the different number of covariates can be seen in Table S10.
+The total number of models per each model set given the different number of covariates can be seen in Table S10.
 
 \input{R/Analysis/CodeFinal/ModelSize/ModelNumberTrueML}
 
@@ -620,102 +612,102 @@ x${}_{n}$ & r & 0 & 0 & 0 & 0 & 0 & 1 \\
 \end{table}
 
 \subsection{Simulation Results}
-In Figure S12 can be found the FPP and FPR for full model sets under different conditions. Here there is no split between each model set.
+Figure S12 shows the FPP and FPR for the full model sets under different conditions. Here there is no split between each model set.
 
 
 \input{R/Analysis/CodeFinal/Figures and Tables/FullModelSet}
 
-
-\begin{figure}[ht]
+\begin{figure}[hbt!]
 \includegraphics{R/Analysis/Result/Figures/Figure1ASI.jpeg}
 \centering
-\caption{The probability of the FPP and FPR given different model sets, the presence of main effects when having interactions and different distributions of the variable of interest and covariates. Sample size was set to 200, a correlation between the dependent variable and covariates was \textit{r}=0.2 and we used two covariates. The FPP is shown in black and the FPR in red. Here binary variables are both dummy coded but also Effect coded.}
+\caption{The probability of the FPP and FPR given different model sets, the presence of main effects when having interactions (i.e., MAIN = TRUE or MAIN = FALSE) and different distributions of the variable of interest and covariates. Sample size was set to 200, a correlation between the dependent variable and covariates was \textit{r}=0.2 and we used two covariates. The FPP is shown in black and the FPR in red. Here binary variables are both dummy coded but also effects coded.}
 \label{fig:mainfigure}
 \end{figure}
 
 
-\begin{figure}[ht]
+\begin{figure}[hbt!]
 \includegraphics{R/Analysis/Result/Figures/Figure2SI.jpeg}
 \centering
-\caption{Difference in FPP and FPR from the base model in Figure S1 when step-wise increasing the correlation between the covariates and the dependent variable from r=0.2 to r=0.4. Black denotes the added effect to the FPP and red denotes the added effect to the FPR.  The description of the figure is otherwise the same as for Figure S1.}
+\caption{Difference in FPP and FPR compared to the base model in Figure S1 when step-wise increasing the correlation between the dependent variable and covariates from covariates and=0.2 to covariates and=0.4. Black denotes the added effect to the FPP and red denotes the added effect to the FPR.  The description of the figure is otherwise the same as for Figure S1.}
 \label{fig:mainfigure}
 \end{figure}
 
 
-\begin{figure}[ht]
+\begin{figure}[hbt!]
 \includegraphics{R/Analysis/Result/Figures/Figure3SI.jpeg}
 \centering
-\caption{Difference in FPP and FPR from the base model in Figure S1 when using two dependent variables and the average of the two (meaning three dependent variables are used). The correlation between the dependent variables is set at r=0.5. Black denotes the added effect to the FPP and red denotes the added effect to the FPR.  The description of the figure is otherwise the same as for Figure S1.}
+\caption{Difference in FPP and FPR compared to the base model in Figure S1 when using two dependent variables and the average of the two (meaning three dependent variables in total). The correlation between the dependent variables is set to r=0.5. Black denotes the added effect to the FPP and red denotes the added effect to the FPR.  The description of the figure is otherwise the same as for Figure S1.}
 \label{fig:mainfigure}
 \end{figure}
 
 
-\begin{figure}[ht]
+\begin{figure}[hbt!]
 \includegraphics{R/Analysis/Result/Figures/Figure1BSI.jpeg}
 \centering
-\caption{Difference in FPP and FPR from the base model in Figure S1 of using multiple outlier criteria. Black denotes the added effect to the FPP and red denotes the added effect to the FPR.  The description of the figure is otherwise the same as for Figure S1.}
+\caption{Difference in FPP and FPR compared to the base model in Figure S1 when using multiple outlier criteria. Black denotes the added effect to the FPP and red denotes the added effect to the FPR.  The description of the figure is otherwise the same as for Figure S1.}
 \label{fig:mainfigure}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[hbt!]
 \includegraphics{R/Analysis/Result/Figures/Figure1CSI.jpeg}
 \centering
-\caption{Difference in FPP and FPR from the base model in Figure S1 of using one more covariate (three in total). Black bars are the added effect to the FPP and red denotes the added effect to the FPR. The description of the figure is otherwise the same as for Figure S1.}
+\caption{Difference in the FPP and FPR compared to the base model in Figure S1 when using one more covariate (three in total). Black bars denote the added effect to the FPP and red bars denote the added effect to the FPR. The description of the figure is otherwise the same as for Figure S1.}
 \label{fig:mainfigure}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[hbt!]
 \includegraphics{R/Analysis/Result/Figures/Figure1DSI.jpeg}
 \centering
-\caption{Effect of increasing sample size. Black is the FPP and red is FPR.  Here for all combinations of data distribution. The description of the figure is otherwise the same as for Figure S1}
+\caption{Effect of increasing sample size for each model set and all combinations of data distributions (i.e., binary and normal). Black denotes the FPP and red denotes the FPR. The description of the figure is otherwise the same as for Figure S1.}
 \label{fig:mainfigure}
 \end{figure}
 
-\subsection{Result when using Bonferroni correction}
-In this section is the same results but using Bonferroni corrections. 
+\clearpage
+\subsection{Results when using Bonferroni correction}
+In this section, we present the same analyses but with Bonferroni correction applied. 
 
 
-\begin{figure}[ht]
-\includegraphics{R/Analysis/Result/Figures/Figure1ASI.jpeg}
+\begin{figure}[hbt!]
+\includegraphics{R/Analysis/Result/Figures/Figure1ASIBon.jpeg}
 \centering
-\caption{The probability of the FPP and FPR given different model sets, the presence of main effects when having interactions and different distributions of the variable of interest and covariates. Sample size was set to 200, a correlation between the dependent variable and covariates was \textit{r}=0.2 and we used two covariates. The FPP is shown in black and the FPR in red. Here binary variables are both dummy coded but also Effect coded.}
-\label{fig:mainfigure}
-\end{figure}
-
-
-\begin{figure}[ht]
-\includegraphics{R/Analysis/Result/Figures/Figure2SI.jpeg}
-\centering
-\caption{Difference in FPP and FPR from the base model in Figure S1 when step-wise increasing the correlation between the covariates and the dependent variable from r=0.2 to r=0.4. Black denotes the added effect to the FPP and red denotes the added effect to the FPR.  The description of the figure is otherwise the same as for Figure S1.}
+\caption{The description of this figure is the same as for Figure S1 with the only difference being that we applied Bonferroni correction. This figure therefore shows the probability of the FPP and FPR given different model sets, the presence of main effects when having interactions (i.e., MAIN = TRUE or MAIN = FALSE) and different distributions of the variable of interest and covariates. Sample size was set to 200, a correlation between the dependent variable and covariates was \textit{r}=0.2 and we used two covariates. The FPP is shown in black and the FPR in red. Here binary variables are both dummy coded but also effects coded.}
 \label{fig:mainfigure}
 \end{figure}
 
 
-\begin{figure}[ht]
-\includegraphics{R/Analysis/Result/Figures/Figure3SI.jpeg}
+\begin{figure}[hbt!]
+\includegraphics{R/Analysis/Result/Figures/Figure2SIBon.jpeg}
 \centering
-\caption{Difference in FPP and FPR from the base model in Figure S1 when using two dependent variables and the average of the two (meaning three dependent variables are used). The correlation between the dependent variables is set at r=0.5. Black denotes the added effect to the FPP and red denotes the added effect to the FPR.  The description of the figure is otherwise the same as for Figure S1.}
+\caption{Difference in the FPP and FPR compared to the base model in Figure S7 when step-wise increasing the correlation between the dependent variable and covariates from \textit{r}=0.2 to \textit{r}=0.4. Black denotes the added effect to the FPP and red denotes the added effect to the FPR.  The description of the figure is otherwise the same as for Figure S7.}
 \label{fig:mainfigure}
 \end{figure}
 
 
-\begin{figure}[ht]
-\includegraphics{R/Analysis/Result/Figures/Figure1BSI.jpeg}
+\begin{figure}[hbt!]
+\includegraphics{R/Analysis/Result/Figures/Figure3SIBon.jpeg}
 \centering
-\caption{Difference in FPP and FPR from the base model in Figure S1 of using multiple outlier criteria. Black denotes the added effect to the FPP and red denotes the added effect to the FPR.  The description of the figure is otherwise the same as for Figure S1.}
+\caption{Difference in the FPP and FPR compared to the base model in Figure S7 when using two dependent variables and the average of the two (meaning three dependent variables in total). The correlation between the dependent variables is set to \textit{r}=0.5. Black denotes the added effect to the FPP and red denotes the added effect to the FPR.  The description of the figure is otherwise the same as for Figure S7.}
 \label{fig:mainfigure}
 \end{figure}
 
-\begin{figure}[ht]
-\includegraphics{R/Analysis/Result/Figures/Figure1CSI.jpeg}
+
+\begin{figure}[hbt!]
+\includegraphics{R/Analysis/Result/Figures/Figure1BSIBon.jpeg}
 \centering
-\caption{Difference in FPP and FPR from the base model in Figure S1 of using one more covariate (three in total). Black bars are the added effect to the FPP and red denotes the added effect to the FPR. The description of the figure is otherwise the same as for Figure S1.}
+\caption{Difference in the FPP and FPR compared to the base model in Figure S7 when using multiple outlier criteria. Black denotes the added effect to the FPP and red denotes the added effect to the FPR.  The description of the figure is otherwise the same as for Figure S7.}
 \label{fig:mainfigure}
 \end{figure}
 
-\begin{figure}[ht]
-\includegraphics{R/Analysis/Result/Figures/Figure1DSI.jpeg}
+\begin{figure}[hbt!]
+\includegraphics{R/Analysis/Result/Figures/Figure1CSIBon.jpeg}
 \centering
-\caption{Effect of increasing sample size. Black is the FPP and red is FPR.  Here for all combinations of data distribution. The description of the figure is otherwise the same as for Figure S1}
+\caption{Difference in the FPP and FPR comapred to the base model in Figure S7 when using one more covariate (three in total). Black bars denote the added effect to the FPP and red bars denote the added effect to the FPR. The description of the figure is otherwise the same as for Figure S7.}
+\label{fig:mainfigure}
+\end{figure}
+
+\begin{figure}[hbt!]
+\includegraphics{R/Analysis/Result/Figures/Figure1DSIBon.jpeg}
+\centering
+\caption{Effect of increasing sample size for each model set and all combinations of data distributions (i.e., binary and normal). Black denotes the FPP and red denotes the FPR. The description of the figure is otherwise the same as for Figure S7.}
 \label{fig:mainfigure}
 \end{figure}
