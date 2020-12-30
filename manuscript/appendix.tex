@@ -602,7 +602,7 @@ Correlation matrix for the simulated data when having only one dependent variabl
 \begin{table}[H]
 \caption{}
 \centering
-\caption*{Correlation matrix for the simulated data when having only one dependent variable. r denotes the different of correlation set between the covariates and dependent variable in the simulation}
+\caption*{Correlation matrix for the simulated data when having only one dependent variable. r denotes the different correlations set between the covariates and dependent variable in the simulation}
 \begin{tabular}{c|ccccccc} 
 \toprule
  & y & h${}_{1}$ & x${}_{1}$ & x${}_{2}$ & x${}_{3}$ & ... & x${}_{n}$ \\ 
@@ -619,7 +619,7 @@ x${}_{n}$ & r & 0 & 0 & 0 & 0 & 0 & 1 \\
 \end{table}
 
 \subsection{Simulation Results}
-Figure S12 shows the FPP and FPR for the full model sets under different conditions. Here there is no split between each model set.
+Table S12 shows the FPP and FPR for the full model sets under different conditions. Here there is no split between each model set.
 
 
 \input{R/Analysis/CodeFinal/Figures and Tables/FullModelSet}
@@ -627,7 +627,7 @@ Figure S12 shows the FPP and FPR for the full model sets under different conditi
 \begin{figure}[hbt!]
 \includegraphics{R/Analysis/Result/Figures/Figure1ASI.jpeg}
 \centering
-\caption{The probability of the FPP and FPR given different model sets, the presence of main effects when having interactions (i.e., MAIN = TRUE or MAIN = FALSE) and different distributions of the variable of interest and covariates. Sample size was set to 200, a correlation between the dependent variable and covariates was \textit{r}=0.2 and we used two covariates. The FPP is shown in black and the FPR in red. Here binary variables are both dummy coded but also effects coded.}
+\caption{The probability of the false positive probability and false positive ratio given different model sets, the presence of main effects when having interactions (i.e., MAIN = TRUE or MAIN = FALSE) and different distributions of the variable of interest and covariates. Sample size was set to 200, a correlation between the dependent variable and covariates was \textit{r}=0.2 and we used two covariates. The FPP is shown in black and the FPR in red. Here binary variables are both dummy coded but also effects coded.}
 \label{fig:mainfigure}
 \end{figure}
 
