@@ -101,7 +101,7 @@ Figure1B = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Difference in probability from base model")+
+  ylab("Difference in probability compared to the base model")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -138,7 +138,7 @@ Figure1C = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Difference in probability from base model")+
+  ylab("Difference in probability compared to the base model")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -271,7 +271,7 @@ Figure2SI<-ggplot( data=meanDistCorrInc)+
   geom_bar(aes(x=Cor,y=IncFPR, fill = "FPR"), stat = "identity",position="dodge")+
   scale_fill_manual(values=c("black","red"))+
   facet_grid(Type~Main+Set)+
-  ylab("Difference in probability from base model")+
+  ylab("Difference in probability compared to the base model")+
   xlab("Correlation increase")+
   theme_apa()+
   geom_hline(yintercept=0)+
@@ -308,11 +308,10 @@ Figure3SI = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Difference in probability from base model")+
+  ylab("Difference in probability compared to the base model")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
-        axis.title.y = element_blank(),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"))
 Figure3SI
@@ -368,7 +367,7 @@ Figure1BSI = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Difference in probability from base model")+
+  ylab("Difference in probability compared to the base model")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -403,7 +402,7 @@ Figure1CSI = ggplot(figuredata,aes(x=Set))+
   facet_grid(Type~Main)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Difference in probability from base model")+
+  ylab("Difference in probability compared to the base model")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
