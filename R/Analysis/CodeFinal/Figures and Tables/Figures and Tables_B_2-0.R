@@ -9,12 +9,11 @@ library(data.table)
 library(ggplot2)
 library(jtools)
 library(ggpubr)
-library(Rmisc)
 library(xtable)
 
 ##Load the data
-fileplace=paste0(output,"/Files/ResultsSimBon.csv")
-finalresults = fread(fileplace,sep=";")
+fileplace=paste0(output,"/File/ResultsBC.csv.gz")
+finalresults = read.table(gzfile(fileplace),sep=",",header = T)
 ## Figures for paper ##
 
 ## Make the false positve data

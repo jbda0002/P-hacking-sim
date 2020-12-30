@@ -1,18 +1,17 @@
-### P-hacking function ###
+### P-hacking function with Bonferroni correction  ###
 ## This function has the ability to p-hack data with the help of the research degrees of freedom described in 
 ## Christensen, J. D., Orquin, J. L., Perkovic, S., Lagerkvist, C. J.,
 
 ## The different options:
 ## Inserting multiple dependent variables the function wil test of all them including the average of them
 ## Setting Main = False: This will allow models where there are interaction terms without the corresponding main effect
-## Ma_HCI = TRUE: This gives you the combination of Power(1)+Power(1+2) 
-## HCI = TRUE: This can only be used if Main = FALSE, this gives the models in Power(2). If TRUE and Main = TRUE it will give you the same as Ma_HCI=TRUE
-## Ma_CCI = TRUE: This gives the combinations in Power(1+3)
-## CCI = TRUE: This gives Power(3) if Main=FALSE otherwise it will give the same as Ma_CCI=TRUE
-## HCI_CCI = TRUE: This gives you Power(2+3). This is however only possible if Main = FALSE
-## Ma_HCI_CCI = TRUE: Gives you the models in Power(1+2+3). Using this will explode the model set. 
-## outlierexclusion = TRUE: Uses four different outlier criteria
-
+## Ma_HCI = TRUE: This gives you the set MA + HCI
+## HCI = TRUE: This can only be used if Main = FALSE, this gives the models in HCI. If TRUE and Main = TRUE it will give you the same as Ma_HCI=TRUE
+## Ma_CCI = TRUE: This gives the set MA + HCI
+## CCI = TRUE: This gives the set CCI if Main=FALSE otherwise it will give the same as Ma_CCI=TRUE
+## HCI_CCI = TRUE: This gives youthe set HCI + CCI. This is however only possible if Main = FALSE. If Main = FALSE then HCI_CCI = TRUE will be ignored
+## Ma_HCI_CCI = TRUE: Gives you the models in the set MA + HCI + CCI. Using this will greatly increase the model set, so only use this with very few covariates. 
+## outlierexclusion = TRUE: Uses four different outlier criteria.
 
 ### Function that are being used in the function. 
  source(here::here("CodeFinal","HelpFunctions","remove_outliers_sd.R")) 
@@ -456,7 +455,7 @@ phackingFunction<-function(data,y,H_1,HCI = FALSE,CCI=FALSE,Ma_HCI=FALSE, Ma_CCI
   names(TheModels)<-names
   }
   
-correction=apply(TheModels, 1, function(x) (length(which(!is.na(x)))-2) )
+  correction=apply(TheModels, 1, function(x) (length(which(!is.na(x)))-2) )
   
   Models<-TheModels[apply(TheModels[, 2:(ncol(TheModels)-1)] <= pvalue/correction, 1, any, na.rm=TRUE), ]
  
