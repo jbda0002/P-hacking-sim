@@ -201,8 +201,9 @@ ggsave(Figure1D,filename = file.path(output,"Figures","Figure1D.jpeg"),width = 6
 
 ### Using the full model set ###
 
-resultsFullset=fread(paste0(output,"/Files/resultsFullSet.csv"),sep=";")
 
+fileplace=paste0(output,"/File/resultsFullSet.csv.gz")
+resultsFullset = read.table(gzfile(fileplace),sep=",",header = T)
 falsepositverateDataFull<-as.data.table(resultsFullset)
 
 falsepositverateDataFull$rate=ifelse(falsepositverateDataFull$f..>0,1,0)
@@ -213,7 +214,11 @@ falsepostiveFULL$Type=ifelse(falsepostiveFULL$Type==1,"Normal","Binomial")
 falsepostiveFULL$IndependentVariables=falsepostiveFULL$IndependentVariables+1
 names(falsepostiveFULL)=c("Main","Type","Sample","Outlier","Correlation","Number of Variables","FPP","FPR")
 falsepostiveFULL=falsepostiveFULL[order(falsepostiveFULL$Main),]
-print(xtable(falsepostiveFULL,digits = 2, type = "latex",caption =""), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable", file = "FullModelSet.tex")
+falsepostiveFULL$Sample = NULL 
+falsepostiveFULL$Outlier = NULL 
+falsepostiveFULL$Correlation = NULL 
+falsepostiveFULL[,3] = NULL 
+print(xtable(falsepostiveFULL,digits = 2, type = "latex",caption ="False positive probability (FPP) and false positive ratio (FPR) when looking at all the models possible when the sample size is 200, no outlier criteria is being used and having two covariates. When MAIN = TRUE main effects should always be present when there is interactions, this is not the case when MAIN = FALSE. "), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable", file = "FullModelSet.tex")
 
 falsepostiveFULL
 
