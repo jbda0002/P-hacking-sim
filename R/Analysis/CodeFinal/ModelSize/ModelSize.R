@@ -132,9 +132,9 @@ names(TableModelsTrueML)=c("Number of covariates", "ME", "ME+CCI", "Number of mo
 ## Save tables 
 comment          <- list()
 comment$pos      <- list()
-comment$pos[[1]] <- c(nrow(variables))
+comment$pos[[1]] <- c(nrow(TableModelsTrue))
 comment$command  <- c(paste("\\hline \n", 
-                            "{\\textbf{Note: }ME = models with the main effects only; ME + HCI = models with the main effects and interactions between the variable of interest and covariates; ME + CCI = models with the main effects and interactions between covariates; ME + HCI + CCI = models with the main effects and the interactions between the variable of interest and covariates and the interactions between covariates. \n",
+                            "{\\textbf{Note: }ME = models with main effects only; ME + HCI = models with main effects and interactions between the variable of interest and covariates; ME + CCI = models with main effects and interactions between covariates; ME + HCI + CCI = models with main effects and interactions between the variable of interest and covariates and the interactions between covariates. \n",
                             sep = ""))
 caption_True = "The total number of models for any given set considering the different number of covariates with the restriction that the main effects should always be present when there are the interaction effects."
 
@@ -143,5 +143,15 @@ print(xtable(TableModelsTrue,digits = 0, type = "latex",
              caption =caption_True,align = c("l","l","c","c","c","c","c"),auto = T ), caption.placement = "top",include.rownames=FALSE, file = "ModelNumberTrue.tex", table.placement = "!h",add.to.row =comment)
 print(xtable(TableModelsTrueML,digits = 0, type = "latex",
              caption ="" ,auto = T), caption.placement = "top",include.rownames=FALSE, file = "ModelNumberTrueML.tex", table.placement = "!h")
-print(xtable(TableModelsFalse,digits = 0, type = "latex",caption ="",auto = T), caption.placement = "top", include.rownames=FALSE, file = "ModelNumberFalse.tex", table.placement = "!h",scalebox='0.8')
+
+## When MAIN = F
+comment          <- list()
+comment$pos      <- list()
+comment$pos[[1]] <- c(nrow(TableModelsFalse))
+comment$command  <- c(paste("\\hline \n", 
+                            "{\\textbf{Note: }ME = models with main effects only; HCI = models with interactions between the variable of interest and covariates; CCI = models with interactions between covariates;  ME + HCI = models with main effects and interactions between the variable of interest and covariates; ME + CCI = models with main effects and interactions between covariates; HCI + CCI = models with interactions between covariates and variable of interest and interactions between covariates; ME + HCI + CCI = models with main effects and interactions between the variable of interest and covariates and the interactions between covariates. \n",
+                            sep = ""))
+caption_False = "The total number of models for any given set considering the different number of covariates and with no restriction that main effects should be present when having interaction effects."
+
+print(xtable(TableModelsFalse,digits = 0, type = "latex",caption =caption_False,auto = T), caption.placement = "top", include.rownames=FALSE, file = "ModelNumberFalse.tex", table.placement = "!h",scalebox='0.8',add.to.row =comment)
 print(xtable(TableModelsFalseML,digits = 0, type = "latex",caption ="",auto = T), caption.placement = "top", include.rownames=FALSE, file = "ModelNumberFalseML.tex", table.placement = "!h")
