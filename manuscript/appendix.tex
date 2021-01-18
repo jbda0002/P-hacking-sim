@@ -6,25 +6,25 @@
 \renewcommand{\thefigure}{S\arabic{figure}}
 
 \subsection{Formula for Set Size}
-To calculate the size of the different sets, we used the binomial coefficients to calculate the number of possible combinations. The general form of the binominal coefficient is written as
+To calculate the size of the different model sets, we use the binomial coefficients to calculate the number of possible combinations. The general form of the binomial coefficient is written as
 \[\left( \begin{array}{c}
 n \\ 
 k \end{array}
 \right)=\frac{n!}{k!\left(n-k\right)!}\] 
 
-where $n$ is the number of elements so in our case the number of covariates that we want to include, and $k$ is the number of elements taken out. $!$ is the factorial operator, so $n!=n\times \left(n-1\right)\times \left(n-2\right)\times \left(n-3\right)\times \dots \times 3\times 2\times 1$. The binomial coefficient therefore gives us the number of ways that $k$ elements can be picked from a set of the size $n$. One rule that has been repeatedly used is that we can rewrite the sum of binomial coefficients excluding the empty set (i.e., not including i=0) as 
+where $n$ is the number of elements which in our case is the number of covariates that we want to include, and $k$ is the number of elements taken out. $!$ is the factorial operator, so $n!=n\times \left(n-1\right)\times \left(n-2\right)\times \left(n-3\right)\times \dots \times 3\times 2\times 1$. The binomial coefficient therefore gives us the number of ways that $k$ elements can be chosen from a set of size $n$. One rule that has been repeatedly used is that we can rewrite the sum of binomial coefficients excluding the empty set i.e., not including i=0, as 
 \[\sum^n_{i=1}{\left( \begin{array}{c}
 n \\ 
 i \end{array}
 \right)}=2^n-1\] 
 \\
-If we include the empty set, as it is the case in some sets, we include i=0 and this becomes
+If we include the empty set, as it is the case in some sets, this becomes
 \[\sum^n_{i=0}{\left( \begin{array}{c}
 n \\ 
 i \end{array}
 \right)}=2^n\] 
 \\
-When calculating the size of each set, we considered two different cases; one where we allowed interactions without having main effects present, and the other one where main effects should always follow interactions. \\
+When calculating the size of each set, we consider two different cases; one where we allow interactions without the corresponding main effects, and one where main effects always follow interactions. \\
 
 \section{Case 1 – No Restriction}
 \subsection{ME}
@@ -547,15 +547,15 @@ As is the case with hypothesis testing, researchers can either demand that main 
 In this case, there are three possible sets; ME, CCI, and ME + CCI. In this case, however, there is no variable that needs to be present all the time as earlier ($h_1$). The calculations of the model set sizes are nevertheless similar to the example with two covariates with no restrictions (see Supplmentary Material Case 1 - No Restrictions), and this can be seen in Table S8 and equation (2), (3) and (4) .  
 
 \begin{table}
-\caption{Models for the set ME, CCI and ME + CCI that can be made with two covariates when there is no specific variable of interest.}
+\caption{Models for the set ME, CCI and ME + CCI that can be made with two covariates when there is no specific variable of interest. c is a constant, whereas $x_1$ and $x_2$ are covariates}
 \centering
 \begin{tabular}{lc} 
 \toprule
 Set & Models \\ 
 \midrule
-\multirow{4}{*}{ME} & $y=c$\\ & $y=x_1$\\ & $y=x_2$\\ & $y=x_1+x_2$\\ &  \\  
-\multirow{1}{*}{CCI} & $y=x_1x_2$\\  & \\ 
-\multirow{3}{*}{ME + CCI}  & $y=x_1 + x_1x_2$\\ & $y=x_2 + x_1x_2$\\ & $y=x_1+x_2 + x_1x_2$\\ &  \\  
+\multirow{4}{*}{ME} & $y=c$\\ & $y=c + x_1$\\ & $y=c + x_2$\\ & $y=c + x_1 + x_2$\\ &  \\  
+\multirow{1}{*}{CCI} & $y=c + x_1x_2$\\  & \\ 
+\multirow{3}{*}{ME + CCI}  & $y=c + x_1 + x_1x_2$\\ & $y=c + x_2 + x_1x_2$\\ & $y=c + x_1 + x_2 + x_1x_2$\\ &  \\  
 \bottomrule
 \end{tabular}
 \end{table}
@@ -673,6 +673,10 @@ Table S12 shows the FPP and FPR for the full model sets under different conditio
 \subsection{Results when using Bonferroni correction}
 In this section, we present the same analyses but with Bonferroni correction applied. 
 
+Table S13 shows the FPP and FPR for the full model sets under different conditions when there is used Bonferroni correction. Here there is no split between each model set.This lowers the FPR to the expected 5\% but there is still an issue when not including main effects and having binomial variables. 
+
+
+\input{R/Analysis/CodeFinal/Figures and Tables/FullModelSetBC}
 
 \begin{figure}[hbt!]
 \includegraphics{R/Analysis/Result/Figures/Figure1ASIBon.jpeg}

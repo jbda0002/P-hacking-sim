@@ -1,0 +1,24 @@
+\begin{table}[hbt!]
+\centering
+\caption{}
+\caption*{\footnotesize An overview of all of the model sets when there are two covariates and one dependent variable with the restriction that main effects should be present when having interactions between variables. The ME set contains all of the main effects; the ME + HCI set includes the main effects and interactions between the variable of interest and the covariates; the ME + CCI set contains the main effects and  interactions between the covariates; the ME + HCI + CCI set contains the main effects, the interactions between the variable of interest and covariates, and the interactions between the covariates; the HCI, CCI and HCI + CCI sets are empty sets since they contain the interactions but not the required main effects.}
+\label{modelsets2}
+\begin{threeparttable}
+\begin{tabular}{ccc}
+\toprule
+Model set & Models with restrictions & Models with restrictions  \\ 
+\midrule
+\multirow{4}{*}{ME} & $y=h_1$ \\ & $y=h_1+x_1$ \\ & $y=h_1+x_2$ \\ & $y=h_1+x_1+x_2$  \\ & \\ 
+\multirow{1}{*}{HCI} & Empty set  \\& \\
+CCI & Empty set  \\ & \\
+\multirow{5}{*}{ME + HCI} & $y=h_1+x_1+h_1x_1$  \\ & $y=h_1+x_2+h_1x_2$  \\& $y=h_1+x_1+x_2+h_1x_1$  \\& $y=h_1+x_1+x_2+h_1x_2$  \\& $y=h_1+x_1+x_2+h_1x_1+h_1x_2$ \\ & \\
+ME + CCI & $y=h_1+x_1+x_2+x_1x_2$ \\ & \\
+HCI + CCI & Empty set \\ & \\
+\multirow{3}{*}{ME + HCI + CCI} & $y=h_1+x_1+x_2+h_1x_1+x_1x_2$ \\ & $y=h_1+x_1+x_2+h_1x_2+x_1x_2$ \\ & $y=h_1+x_1+x_2+h_1x_1+h_1x_2+x_1x_2$ \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}
+\textit{Note}: If we require that main effects have to follow all interactions, the combination of the HCI and CCI sets will always be empty. This is because there are no main effects related to the covariates in either of these sets and therefore their combination would not fulfill the restriction that main effects need to be present when using interactions. This would not be the case if we did not have this constraint (see Case 1 in the Supplementary Material).
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
