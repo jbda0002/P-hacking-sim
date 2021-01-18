@@ -29,8 +29,8 @@ falsepositverateData$rate=ifelse(falsepositverateData$f..>0,1,0)
 
 falsepostive=falsepositverateData[,list(mean=mean(rate),FPR=mean(f..)),by=c("Main","Set","Type","SampleSize","OutlierExclusion","Correlation","IndependentVariables","DV")]
 
-falsepostive$Main[falsepostive$Main==1]<-"Main = TRUE"
-falsepostive$Main[falsepostive$Main==2]<-"Main = FALSE"
+falsepostive$Main[falsepostive$Main==1]<-"With restrictions for interactions"
+falsepostive$Main[falsepostive$Main==2]<-"No restrictions for interactions"
 falsepostive$Type[falsepostive$Type==1]<-"h1=Normal, Co=Normal"
 falsepostive$Type[falsepostive$Type==2]<-"h1=Binary, Co=Binary"
 falsepostive$Type[falsepostive$Type==1]<-"h1=Normal, Co=Normal"
@@ -45,7 +45,7 @@ falsepostive$OutlierExclusion[falsepostive$OutlierExclusion==1]<-"TRUE"
 
 
 falsepostive$Set <- factor(falsepostive$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
-levels(falsepostive$Set) <- c("ME", "HCI", "CCI", "ME + HCI","ME + CCI","HCI + CCI","ME + HCI + CCI")
+levels(falsepostive$Set) <- c("ME", "X * Cov", "Cov * Cov", "ME + X * Cov","ME + Cov * Cov","X * Cov + Cov * Cov","ME + X * Cov + Cov * Cov")
 falsepostive$Pr<-as.numeric(falsepostive$mean)
 
 ## Figure 1A
@@ -146,7 +146,7 @@ figuredata<-as.data.table(falsepostive[ falsepostive$OutlierExclusion=="FALSE" &
                                         & falsepostive$Type!="h1=Binary, Co=Binary Effect" & falsepostive$Type!="h1=Normal, Co=Binary Effect"
                                         ,]
 )
-figuredata$Set <- factor(figuredata$Set,levels = c("ME", "HCI", "CCI", "ME + HCI","ME + CCI","HCI + CCI","ME + HCI + CCI"))
+figuredata$Set <- factor(figuredata$Set,levels = c("ME", "X * Cov", "Cov * Cov", "ME + X * Cov","ME + Cov * Cov","X * Cov + Cov * Cov","ME + X * Cov + Cov * Cov"))
 figuredata$Pr<-as.numeric(figuredata$mean)
 
 
@@ -156,7 +156,7 @@ Figure1D<-ggplot(aes(x=SampleSize), data=figuredata)+
   geom_line(aes( y=FPR,color="red")) +
   geom_point(aes( y=FPR),color="red")+
   scale_color_manual(values = c("black","red"),labels = c("FPP", "FPR"))+
-  facet_grid(Set~Main+Type)+
+  facet_grid(Set~Main+Type,drop = TRUE)+
   ylab("Probability of FPP and FPR")+
   xlab("Sample size")+
   theme_apa()+
@@ -359,7 +359,7 @@ Figure1CSI
 figuredata<-as.data.table(falsepostive[ falsepostive$OutlierExclusion=="FALSE" & falsepostive$Correlation==0.2 & falsepostive$IndependentVariables==1 & falsepostive$DV==1
                                        ,]
 )
-figuredata$Set <- factor(figuredata$Set,levels = c("ME", "HCI", "CCI", "ME + HCI","ME + CCI","HCI + CCI","ME + HCI + CCI"))
+figuredata$Set <- factor(figuredata$Set,levels = c("ME", "X * Cov", "Cov * Cov", "ME + X * Cov","ME + Cov * Cov","X * Cov + Cov * Cov","ME + X * Cov + Cov * Cov"))
 figuredata$Pr<-as.numeric(figuredata$mean)
 
 
