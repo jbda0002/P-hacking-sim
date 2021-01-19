@@ -31,14 +31,14 @@ falsepostive=falsepositverateData[,list(mean=mean(rate),FPR=mean(f..)),by=c("Mai
 
 falsepostive$Main[falsepostive$Main==1]<-"With restrictions for interactions"
 falsepostive$Main[falsepostive$Main==2]<-"No restrictions for interactions"
-falsepostive$Type[falsepostive$Type==1]<-"h1=Normal, Co=Normal"
-falsepostive$Type[falsepostive$Type==2]<-"h1=Binary, Co=Binary"
-falsepostive$Type[falsepostive$Type==1]<-"h1=Normal, Co=Normal"
-falsepostive$Type[falsepostive$Type==2]<-"h1=Binary, Co=Binary"
-falsepostive$Type[falsepostive$Type==3]<-"h1=Normal, Co=Binary"
-falsepostive$Type[falsepostive$Type==4]<-"h1=Binary, Co=Normal"
-falsepostive$Type[falsepostive$Type==5]<-"h1=Binary, Co=Binary Effect"
-falsepostive$Type[falsepostive$Type==6]<-"h1=Normal, Co=Binary Effect"
+falsepostive$Type[falsepostive$Type==1]<-"x1=Normal, Cov=Normal"
+falsepostive$Type[falsepostive$Type==2]<-"x1=Binary, Cov=Binary"
+falsepostive$Type[falsepostive$Type==1]<-"x1=Normal, Cov=Normal"
+falsepostive$Type[falsepostive$Type==2]<-"x1=Binary, Cov=Binary"
+falsepostive$Type[falsepostive$Type==3]<-"x1=Normal, Cov=Binary"
+falsepostive$Type[falsepostive$Type==4]<-"x1=Binary, Cov=Normal"
+falsepostive$Type[falsepostive$Type==5]<-"x1=Binary, Cov=Binary Effect"
+falsepostive$Type[falsepostive$Type==6]<-"x1=Normal, Cov=Binary Effect"
 falsepostive$OutlierExclusion[falsepostive$OutlierExclusion==2]<-"FALSE"
 falsepostive$OutlierExclusion[falsepostive$OutlierExclusion==1]<-"TRUE"
 
@@ -53,8 +53,8 @@ falsepostive$Pr<-as.numeric(falsepostive$mean)
 
 
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==1 & falsepostive$Correlation==0.2 & falsepostive$DV==1
-                         & falsepostive$Type!="h1=Normal, Co=Binary" & falsepostive$Type!="h1=Binary, Co=Normal"
-                         & falsepostive$Type!="h1=Binary, Co=Binary Effect" & falsepostive$Type!="h1=Normal, Co=Binary Effect",]
+                         & falsepostive$Type!="x1=Normal, Cov=Binary" & falsepostive$Type!="x1=Binary, Cov=Normal"
+                         & falsepostive$Type!="x1=Binary, Cov=Binary Effect" & falsepostive$Type!="x1=Normal, Cov=Binary Effect",]
 
 Figure1A = ggplot(figuredata,aes(x=Set))+
   geom_bar(aes(x=Set,y=Pr, fill = "FPP"), stat = "identity",position="dodge")+
@@ -62,7 +62,7 @@ Figure1A = ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main)+
+  facet_grid(Type~Main, scales = "free", space = "free")+
   theme_apa()+
   xlab("Model set")+
   ylab("Probability of FPP and FPR")+
@@ -81,8 +81,8 @@ Figure1A
 ## Figure 1B
 # Effect of using outlier citeria, with two covariates and sample size at 200
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="TRUE" & falsepostive$IndependentVariables==1 & falsepostive$Correlation==0.2 & falsepostive$DV==1
-                         & falsepostive$Type!="h1=Normal, Co=Binary" & falsepostive$Type!="h1=Binary, Co=Normal"
-                         & falsepostive$Type!="h1=Binary, Co=Binary Effect" & falsepostive$Type!="h1=Normal, Co=Binary Effect",]
+                         & falsepostive$Type!="x1=Normal, Cov=Binary" & falsepostive$Type!="x1=Binary, Cov=Normal"
+                         & falsepostive$Type!="x1=Binary, Cov=Binary Effect" & falsepostive$Type!="x1=Normal, Cov=Binary Effect",]
 
 
 
@@ -92,7 +92,7 @@ Figure1B = ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main)+
+  facet_grid(Type~Main, scales = "free", space = "free")+
   theme_apa()+
   xlab("Model set")+
   ylab("Probability of FPP and FPR")+
@@ -111,8 +111,8 @@ Figure1B
 # Adding an extra covariate
 
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==2 & falsepostive$Correlation==0.2 & falsepostive$DV==1
-                         & falsepostive$Type!="h1=Normal, Co=Binary" & falsepostive$Type!="h1=Binary, Co=Normal"
-                         & falsepostive$Type!="h1=Binary, Co=Binary Effect" & falsepostive$Type!="h1=Normal, Co=Binary Effect",]
+                         & falsepostive$Type!="x1=Normal, Cov=Binary" & falsepostive$Type!="x1=Binary, Cov=Normal"
+                         & falsepostive$Type!="x1=Binary, Cov=Binary Effect" & falsepostive$Type!="x1=Normal, Cov=Binary Effect",]
 
 
 
@@ -122,7 +122,7 @@ Figure1C =ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main)+
+  facet_grid(Type~Main, scales = "free", space = "free")+
   theme_apa()+
   xlab("Model set")+
   ylab("Probability of FPP and FPR")+
@@ -142,8 +142,8 @@ Figure1C
 
 
 figuredata<-as.data.table(falsepostive[ falsepostive$OutlierExclusion=="FALSE" & falsepostive$Correlation==0.2 & falsepostive$IndependentVariables==1 & falsepostive$DV==1
-                                        & falsepostive$Type!="h1=Normal, Co=Binary" & falsepostive$Type!="h1=Binary, Co=Normal"
-                                        & falsepostive$Type!="h1=Binary, Co=Binary Effect" & falsepostive$Type!="h1=Normal, Co=Binary Effect"
+                                        & falsepostive$Type!="x1=Normal, Cov=Binary" & falsepostive$Type!="x1=Binary, Cov=Normal"
+                                        & falsepostive$Type!="x1=Binary, Cov=Binary Effect" & falsepostive$Type!="x1=Normal, Cov=Binary Effect"
                                         ,]
 )
 figuredata$Set <- factor(figuredata$Set,levels = c("ME", "X * Cov", "Cov * Cov", "ME + X * Cov","ME + Cov * Cov","X * Cov + Cov * Cov","ME + X * Cov + Cov * Cov"))
@@ -156,7 +156,7 @@ Figure1D<-ggplot(aes(x=SampleSize), data=figuredata)+
   geom_line(aes( y=FPR,color="red")) +
   geom_point(aes( y=FPR),color="red")+
   scale_color_manual(values = c("black","red"),labels = c("FPP", "FPR"))+
-  facet_grid(Set~Main+Type,drop = TRUE)+
+  facet_grid(Set~Main+Type, scales = "free", space = "free")+
   ylab("Probability of FPP and FPR")+
   xlab("Sample size")+
   theme_apa()+
@@ -165,7 +165,7 @@ Figure1D<-ggplot(aes(x=SampleSize), data=figuredata)+
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
         axis.title.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.x = element_text(color = "grey20", size = 5, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.x = element_text(color = "grey20", size = 5, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"))
 
 ##Save data
@@ -216,8 +216,8 @@ falsepostiveFULL
 ## The effect of higher correlations ##
 
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==1 & falsepostive$DV==1
-                         & falsepostive$Type!="h1=Normal, Co=Binary" & falsepostive$Type!="h1=Binary, Co=Normal"
-                         & falsepostive$Type!="h1=Binary, Co=Binary Effect" & falsepostive$Type!="h1=Normal, Co=Binary Effect",]
+                         & falsepostive$Type!="x1=Normal, Cov=Binary" & falsepostive$Type!="x1=Binary, Cov=Normal"
+                         & falsepostive$Type!="x1=Binary, Cov=Binary Effect" & falsepostive$Type!="x1=Normal, Cov=Binary Effect",]
 
 
 
@@ -245,8 +245,8 @@ ggsave(Figure2SI,filename = file.path(output,"Figures","Figure2SI.jpeg"),width =
 
 ## Using several dependent variables
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==1 & falsepostive$Correlation==0.2 & falsepostive$DV==2
-                         & falsepostive$Type!="h1=Normal, Co=Binary" & falsepostive$Type!="h1=Binary, Co=Normal"
-                         & falsepostive$Type!="h1=Binary, Co=Binary Effect" & falsepostive$Type!="h1=Normal, Co=Binary Effect",]
+                         & falsepostive$Type!="x1=Normal, Cov=Binary" & falsepostive$Type!="x1=Binary, Cov=Normal"
+                         & falsepostive$Type!="x1=Binary, Cov=Binary Effect" & falsepostive$Type!="x1=Normal, Cov=Binary Effect",]
 
 
 
@@ -256,7 +256,7 @@ Figure3SI = ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main)+
+  facet_grid(Type~Main, scales = "free", space = "free")+
   theme_apa()+
   xlab("Model set")+
   ylab("Probability of FPP and FPR")+
@@ -284,8 +284,9 @@ Figure1ASI = ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main)+
+  facet_grid(Type~Main, scales = "free", space = "free")+
   theme_apa()+
+  ylim(0,1) +
   xlab("Model set")+
   ylab("Probability of FPP and FPR")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
@@ -309,7 +310,7 @@ Figure1BSI = ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main)+
+  facet_grid(Type~Main, scales = "free", space = "free")+
   theme_apa()+
   xlab("Model set")+
   ylab("Probability of FPP and FPR")+
@@ -338,7 +339,7 @@ Figure1CSI =ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main)+
+  facet_grid(Type~Main, scales = "free", space = "free")+
   theme_apa()+
   xlab("Model set")+
   ylab("Probability of FPP and FPR")+
@@ -369,15 +370,16 @@ Figure1DSI<-ggplot(aes(x=SampleSize), data=figuredata)+
   geom_line(aes( y=FPR,color="red")) +
   geom_point(aes( y=FPR),color="red")+
   scale_color_manual(values = c("black","red"),labels = c("FPP", "FPR"))+
-  facet_grid(Set~Main+Type)+
+  facet_grid(Set~Main+Type, scales = "free", space = "free")+
   ylab("Probability of FPP and FPR")+
   xlab("Sample size")+
   theme_apa()+
+  ylim(0,1) +
   theme(axis.text.x = element_text(color = "grey20", size = 7, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
         axis.title.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.x = element_text(color = "grey20", size = 5, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.x = element_text(color = "grey20", size = 5, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"),
         legend.text=element_text(color = "grey20",size=5))
 Figure1DSI
