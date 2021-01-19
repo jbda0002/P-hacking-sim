@@ -49,7 +49,7 @@ for (i in covarites) {
   TableModelsFalse=rbind(TableModelsFalse,set)
 }
 TableModelsFalse=as.data.frame(TableModelsFalse)
-names(TableModelsFalse)=c("Number of covariates" , "ME" ,"HCI","CCI", "ME+HCI" , "ME+CCI","HCI+CCI", "ME+HCI+CCI", "Number of models")
+names(TableModelsFalse)=c("Number of covariates" , "ME" ,"X * Cov","Cov * Cov", "ME + X * Cov" , "ME + Cov * Cov","X * Cov + Cov * Cov", "ME + X * Cov + Cov * Cov", "Number of models")
 
 ## Model set size when there is no specefic variable of intrest
 TableModelsFalseML = NULL
@@ -61,7 +61,7 @@ for (i in covarites) {
   TableModelsFalseML=rbind(TableModelsFalseML,set)
 }
 TableModelsFalseML=as.data.frame(TableModelsFalseML)
-names(TableModelsFalseML)=c("Number of covariates" , "ME" ,"CCI" , "ME+CCI", "Number of models")
+names(TableModelsFalseML)=c("Number of covariates" , "ME" ,"Cov * Cov" , "ME + Cov * Cov", "Number of models")
 
 
 ## Main = T 
@@ -113,7 +113,7 @@ for (i in covarites) {
 }
 TableModelsTrue=as.data.frame(TableModelsTrue)
 rownames(TableModelsTrue)=NULL
-names(TableModelsTrue)=c("Number of covariates", "ME","ME+HCI", "ME+CCI", "ME+HCI+CCI", "Number of models")
+names(TableModelsTrue)=c("Number of covariates", "ME","ME + X * Cov", "ME + Cov * Cov", "ME+ X * Cov + Cov * Cov", "Number of models")
 
 ## When there is no specefic variable of interest
 TableModelsTrueML = NULL
@@ -126,7 +126,7 @@ for (i in covarites) {
 }
 TableModelsTrueML=as.data.frame(TableModelsTrueML)
 rownames(TableModelsTrueML)=NULL
-names(TableModelsTrueML)=c("Number of covariates", "ME", "ME+CCI", "Number of models")
+names(TableModelsTrueML)=c("Number of covariates", "ME", "ME + Cov * Cov", "Number of models")
 
 
 ## Save tables 
@@ -134,7 +134,7 @@ comment          <- list()
 comment$pos      <- list()
 comment$pos[[1]] <- c(nrow(TableModelsTrue))
 comment$command  <- c(paste("\\hline \n", 
-                            "\\multicolumn{6}{p{16cm}}{\\footnotesize{Note: ME = models with main effects only; ME + HCI = models with main effects and interactions between the variable of interest and covariates; ME + CCI = models with main effects and interactions between covariates; ME + HCI + CCI = models with main effects and interactions between the variable of interest and covariates and the interactions between covariates.}} \n",
+                            "\\multicolumn{6}{p{16cm}}{\\footnotesize{Note: ME = models with main effects only; ME + X * Cov = models with main effects and interactions between the variable of interest and covariates; ME + Cov * Cov = models with main effects and interactions between covariates; ME + X * Cov + Cov * Cov = models with main effects and interactions between the variable of interest and covariates and the interactions between covariates.}} \n",
                             sep = ""))
 caption_True = "The total number of models for any given set considering the different number of covariates with the restriction that the main effects should always be present when there are interaction effects."
 caption_TrueML = "The total number of models when there is no variable of interest for any given set considering the different number of covariates with the restriction that the main effects should always be present when there are interaction effects"
@@ -149,7 +149,7 @@ comment          <- list()
 comment$pos      <- list()
 comment$pos[[1]] <- c(nrow(TableModelsFalse))
 comment$command  <- c(paste("\\hline \n", 
-                            "\\multicolumn{9}{p{20cm}}{\\footnotesize{Note: ME = models with main effects only; HCI = models with interactions between the variable of interest and covariates; CCI = models with interactions between covariates;  ME + HCI = models with main effects and interactions between the variable of interest and covariates; ME + CCI = models with main effects and interactions between covariates; HCI + CCI = models with interactions between covariates and variable of interest and interactions between covariates; ME + HCI + CCI = models with main effects and interactions between the variable of interest and covariates and the interactions between covariates.}} \n",
+                            "\\multicolumn{9}{p{20cm}}{\\footnotesize{Note: ME = models with main effects only; X * Cov = models with interactions between the variable of interest and covariates; Cov * Cov = models with interactions between covariates;  ME + X * Cov = models with main effects and interactions between the variable of interest and covariates; ME + CCI = models with main effects and interactions between covariates; X * Cov + Cov * Cov = models with interactions between covariates and variable of interest and interactions between covariates; ME + X * Cov + Cov * Cov = models with main effects and interactions between the variable of interest and covariates and the interactions between covariates.}} \n",
                             sep = ""))
 caption_False = "The total number of models for any given set considering the different number of covariates and with no restriction that main effects should be present when having interaction effects."
 caption_FalseML = "The total number of models when there is no variable of interest for any given set considering the different number of covariates and with no restriction that main effects should be present when having interaction effects."
