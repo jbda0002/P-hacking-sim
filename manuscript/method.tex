@@ -4,8 +4,8 @@ Focusing on different flexibilities in data analysis, we investigated the false-
 \subsection{Model Set}
 When a researcher has to select which model(s) to use for testing a hypothesis, there are a lot of possibilities regarding what variables to collect and how they should enter the model. In a completely randomized experiment, it would only be necessary to focus on the key variable of interest, which we define as $x_1$, and the dependent variable, $y$ \citep{angrist2008mostly}. However, in many cases a researcher is either interested in how the variable of interest interacts with other variables or there is a need to control for other variables, which we call covariates and denote as $Z=(z_1,z_2,..,z_n)$. For instance, this could be the case in a quasi-experimental setting where no complete randomization could be obtained or for observational data where it is necessary to control for different variables to avoid bias \citep{angrist2008mostly}. \\ 
 To better understand the construction of model sets, we divided the models into seven sets based on different interaction structures. The first three sets contained the key variable of interest and simple interactions, whereas the last four sets were the combinations of the first three sets. An example of the first three model sets is shown in Table \ref{modelsets1}. For clarity, the model equations exclude the constant and the coefficient in front of each variable. The first set only includes models of the main effects of the variable of interest and the covariates (ME). The second set includes models with a main effect of the variable of interest and interactions between the variable of interest and the covariates ($X \times Cov$). The third set includes models with a main effect of the variable of interest and covariate-covariate interactions ($Cov \times Cov$).
-To obtain the last four model sets, we combined the first three model sets. There are two ways of combining the three first sets: a) restricting the combined sets so that the corresponding main effects have to be included when there is an interaction or b) allowing interaction effects without the corresponding main effect terms. In Table \ref{modelsets2}, we show the combination of all sets when the main effects are included provided there is an interaction term. The other case, where the main effects are not required to follow, can be seen in the Supplementary Material in Table S1. \\
-
+To obtain the last four model sets, we combined the first three model sets. There are two ways of combining the three first sets: a) restricting the combined sets so that the corresponding main effects have to be included when there is an interaction or b) allowing interaction effects without the corresponding main effect terms. In Table \ref{modelsets2.1}, we show the combination of all sets when the main effects are included provided there is an interaction term and also where the main effects are not required to follow. \\
+ 
 \input{manuscript/tables/modelsets1}
 \input{manuscript/tables/modelsets2.1}
 
@@ -13,14 +13,14 @@ Equation (1) shows how to calculate the total number of models given one key var
 
 \begin{equation} 
 \begin{aligned}
-\#models={} & \underbrace{\left(2^n\right)}_{ME}+\underbrace{\sum^n_{j=1}{\left(2^j-1\right)\binom{n}{j}}}_{ME + HCI} + \\ 
-& \underbrace{\sum^n_{j=2}{\binom{n}{j}\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}}_{ME + CCI} + \\
-& \underbrace{\sum^n_{j=2}{\binom{n}{j}\left(2^j-1\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}}_{ME + HCI + CCI}\ \  
+\#models={} & \underbrace{\left(2^n\right)}_{ME}+\underbrace{\sum^n_{j=1}{\left(2^j-1\right)\binom{n}{j}}}_{ME + X \times Cov} + \\ 
+& \underbrace{\sum^n_{j=2}{\binom{n}{j}\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}}_{ME + Cov \times Cov} + \\
+& \underbrace{\sum^n_{j=2}{\binom{n}{j}\left(2^j-1\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}}_{ME + X \times Cov + Cov \times Cov}\ \  
 \end{aligned}
 \end{equation} 
 
 where $n$ denotes the number of covariates collected and $\binom{n}{j}$ is a binomial coefficient, the calculation of which is explained in the Supplementary Material under the Formula for Set Size section.
-Equation (1) does not include the HCI, CCI, and HCI + CCI sets as these include interaction terms without the corresponding main effect terms, and these are therefore empty sets. For the case with two covariates, the total number of models is calculated as follows
+Equation (1) does not include the ($X \times Cov$), ($Cov \times Cov$), and ($X \times Cov + Cov \times Cov$) sets as these include interaction terms without the corresponding main effect terms, and these are therefore empty sets. For the case with two covariates, the total number of models is calculated as follows
 
 \begin{equation*}
 \centering
@@ -30,9 +30,10 @@ Equation (1) does not include the HCI, CCI, and HCI + CCI sets as these include 
 \sum^2_{j=2}{\binom{2}{j}\left(2^j-1\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}
 \end{equation*}
 
-which is equal to $4+5+1+3*1=13$. The number of models in each model set for the different number of covariates given condition a) that main effects must always follow interaction effects can be seen in Table 3. The number of models in condition b) without the main effects restriction can be seen in Table S6 in the Supplementary Material. \\
+which is equal to $4+5+1+3*1=13$. The number of models in each model set for the different number of covariates given condition a) that main effects must always follow interaction effects can be seen in Table 3. The number of models in condition b) without the main effects restriction can be seen in Table 4. \\
 
 \input{R/Analysis/CodeFinal/ModelSize/ModelNumberTrue}
+\input{R/Analysis/CodeFinal/ModelSize/ModelNumberFalse}
 
 In the simulation, we focused on two to four covariates as this was enough to give an idea of how the increase in the size of the model set affected the FPP and FPR. 
 
