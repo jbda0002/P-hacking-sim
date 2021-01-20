@@ -62,7 +62,7 @@ Figure1A = ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main, scales = "free", space = "free")+
+  facet_grid(Type~Main, scales = "free")+
   theme_apa()+
   xlab("Model set")+
   ylab("Probability of FPP and FPR")+
@@ -92,7 +92,7 @@ Figure1B = ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main, scales = "free", space = "free")+
+  facet_grid(Type~Main, scales = "free")+
   theme_apa()+
   xlab("Model set")+
   ylab("Probability of FPP and FPR")+
@@ -122,7 +122,7 @@ Figure1C =ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main, scales = "free", space = "free")+
+  facet_grid(Type~Main, scales = "free")+
   theme_apa()+
   xlab("Model set")+
   ylab("Probability of FPP and FPR")+
@@ -156,7 +156,7 @@ Figure1D<-ggplot(aes(x=SampleSize), data=figuredata)+
   geom_line(aes( y=FPR,color="red")) +
   geom_point(aes( y=FPR),color="red")+
   scale_color_manual(values = c("black","red"),labels = c("FPP", "FPR"))+
-  facet_grid(Set~Main+Type, scales = "free", space = "free")+
+  facet_grid(Set~Main+Type, scales = "free")+
   ylab("Probability of FPP and FPR")+
   xlab("Sample size")+
   theme_apa()+
@@ -256,7 +256,7 @@ Figure3SI = ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main, scales = "free", space = "free")+
+  facet_grid(Type~Main, scales = "free")+
   theme_apa()+
   xlab("Model set")+
   ylab("Probability of FPP and FPR")+
@@ -284,7 +284,7 @@ Figure1ASI = ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main, scales = "free", space = "free")+
+  facet_grid(Type~Main, scales = "free")+
   theme_apa()+
   ylim(0,1) +
   xlab("Model set")+
@@ -310,7 +310,7 @@ Figure1BSI = ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main, scales = "free", space = "free")+
+  facet_grid(Type~Main, scales = "free")+
   theme_apa()+
   xlab("Model set")+
   ylab("Probability of FPP and FPR")+
@@ -339,7 +339,7 @@ Figure1CSI =ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main, scales = "free", space = "free")+
+  facet_grid(Type~Main, scales = "free")+
   theme_apa()+
   xlab("Model set")+
   ylab("Probability of FPP and FPR")+
@@ -370,7 +370,7 @@ Figure1DSI<-ggplot(aes(x=SampleSize), data=figuredata)+
   geom_line(aes( y=FPR,color="red")) +
   geom_point(aes( y=FPR),color="red")+
   scale_color_manual(values = c("black","red"),labels = c("FPP", "FPR"))+
-  facet_grid(Set~Main+Type, scales = "free", space = "free")+
+  facet_grid(Set~Main+Type, scales = "free")+
   ylab("Probability of FPP and FPR")+
   xlab("Sample size")+
   theme_apa()+
