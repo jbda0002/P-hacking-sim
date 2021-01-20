@@ -74,6 +74,7 @@ Figure1A = ggplot(figuredata,aes(x=Set))+
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
 
+
 ##Save data
 fwrite(figuredata,paste0(output,"/Files/figuredata1A.csv"),sep=";")
 Figure1A
@@ -165,8 +166,9 @@ Figure1D<-ggplot(aes(x=SampleSize), data=figuredata)+
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
         axis.title.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.x = element_text(color = "grey20", size = 5, angle = 0, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"))
+        strip.text.x = element_text(color = "grey20", size = 8, angle = 0, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"),
+        legend.text = element_text( size = 7))
 
 ##Save data
 fwrite(figuredata,paste0(output,"/Files/figuredata1D.csv"),sep=";")
@@ -184,7 +186,7 @@ ggsave(Figure1,filename = file.path(output,"Figures","Figure1.jpeg"),width = 15,
 ggsave(Figure1A,filename = file.path(output,"Figures","Figure1A.jpeg"),width = 6,height = 7)
 ggsave(Figure1B,filename = file.path(output,"Figures","Figure1B.jpeg"),width = 6,height = 7)
 ggsave(Figure1C,filename = file.path(output,"Figures","Figure1C.jpeg"),width = 6,height = 7)
-ggsave(Figure1D,filename = file.path(output,"Figures","Figure1D.jpeg"),width = 6,height = 7)
+ggsave(Figure1D,filename = file.path(output,"Figures","Figure1D.jpeg"),width = 9,height = 7)
 
 
 ### Using the full model set ###
@@ -227,7 +229,7 @@ Figure2SI<-ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type+Correlation~Main)+
+  facet_grid(Type+Correlation~Main, scales = "free")+
   theme_apa()+
   xlab("Model set")+
   ylab("Probability of FPP and FPR")+
@@ -237,11 +239,12 @@ Figure2SI<-ggplot(figuredata,aes(x=Set))+
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.y = element_text(color = "grey20", size = 10, angle = 330, hjust = .5, vjust = .5, face = "plain"))
+        strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        legend.text = element_text( size = 7))
 
 Figure2SI
 
-ggsave(Figure2SI,filename = file.path(output,"Figures","Figure2SI.jpeg"),width = 6,height = 7)
+ggsave(Figure2SI,filename = file.path(output,"Figures","Figure2SI.jpeg"),width = 7,height = 12)
 
 ## Using several dependent variables
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==1 & falsepostive$Correlation==0.2 & falsepostive$DV==2
@@ -266,13 +269,12 @@ Figure3SI = ggplot(figuredata,aes(x=Set))+
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.y = element_text(color = "grey20", size = 10, angle = 330, hjust = .5, vjust = .5, face = "plain"))
+        strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"),
+        legend.text = element_text( size = 7))
 Figure3SI
 ggsave(Figure3SI,filename = file.path(output,"Figures","Figure3SI.jpeg"),width = 6,height = 7)
 
 
-figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==2 & falsepostive$Correlation==0.2 & falsepostive$DV==1
-                         ,]
 ## For all sets of variables
 
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==1 & falsepostive$Correlation==0.2 & falsepostive$DV==1
@@ -294,7 +296,8 @@ Figure1ASI = ggplot(figuredata,aes(x=Set))+
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"))
+        strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"),
+        legend.text = element_text( size = 7))
 
 Figure1ASI
 
@@ -320,7 +323,8 @@ Figure1BSI = ggplot(figuredata,aes(x=Set))+
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"))
+        strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"),
+        legend.text = element_text( size = 7))
 
 
 ##Save data
@@ -349,7 +353,8 @@ Figure1CSI =ggplot(figuredata,aes(x=Set))+
         axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"))
+        strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"),
+        legend.text = element_text( size = 7))
 
 
 ##Save data
@@ -381,12 +386,13 @@ Figure1DSI<-ggplot(aes(x=SampleSize), data=figuredata)+
         axis.title.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 5, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"),
-        legend.text=element_text(color = "grey20",size=5))
+        legend.text=element_text(color = "grey20",size=5),
+        legend.position = "none")
 Figure1DSI
 ##Save data
-ggsave(Figure1ASI,filename = file.path(output,"Figures","Figure1ASI.jpeg"),width = 6,height = 7)
-ggsave(Figure1BSI,filename = file.path(output,"Figures","Figure1BSI.jpeg"),width = 6,height = 7)
-ggsave(Figure1CSI,filename = file.path(output,"Figures","Figure1CSI.jpeg"),width = 6,height = 7)
-ggsave(Figure1DSI,filename = file.path(output,"Figures","Figure1DSI.jpeg"),width = 6,height = 7)
+ggsave(Figure1ASI,filename = file.path(output,"Figures","Figure1ASI.jpeg"),width = 8,height = 7)
+ggsave(Figure1BSI,filename = file.path(output,"Figures","Figure1BSI.jpeg"),width = 8,height = 7)
+ggsave(Figure1CSI,filename = file.path(output,"Figures","Figure1CSI.jpeg"),width = 8,height = 7)
+ggsave(Figure1DSI,filename = file.path(output,"Figures","Figure1DSI.jpeg"),width = 12,height = 7)
 
 
