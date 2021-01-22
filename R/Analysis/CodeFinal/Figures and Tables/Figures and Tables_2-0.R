@@ -45,7 +45,7 @@ falsepostive$OutlierExclusion[falsepostive$OutlierExclusion==1]<-"TRUE"
 
 
 falsepostive$Set <- factor(falsepostive$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
-levels(falsepostive$Set) <- c("ME", "X * Cov", "Cov * Cov", "ME + X * Cov","ME + Cov * Cov","X * Cov + Cov * Cov","ME + X * Cov + Cov * Cov")
+levels(falsepostive$Set) <- c("x + z", "x*z", "z*z", "x + z+ x*z","x + z+ z*z","x*z + z*z","x + z+ x*z + z*z")
 falsepostive$Pr<-as.numeric(falsepostive$mean)
 
 ## Figure 1A
@@ -147,7 +147,7 @@ figuredata<-as.data.table(falsepostive[ falsepostive$OutlierExclusion=="FALSE" &
                                         & falsepostive$Type!="x1=Binary, Cov=Binary Effect" & falsepostive$Type!="x1=Normal, Cov=Binary Effect"
                                         ,]
 )
-figuredata$Set <- factor(figuredata$Set,levels = c("ME", "X * Cov", "Cov * Cov", "ME + X * Cov","ME + Cov * Cov","X * Cov + Cov * Cov","ME + X * Cov + Cov * Cov"))
+figuredata$Set <- factor(figuredata$Set,levels = c("ME", "x*z", "z*z", "x + z+ x*z","x + z+ z*z","x*z + z*z","x + z+ x*z + z*z"))
 figuredata$Pr<-as.numeric(figuredata$mean)
 
 
@@ -365,7 +365,7 @@ Figure1CSI
 figuredata<-as.data.table(falsepostive[ falsepostive$OutlierExclusion=="FALSE" & falsepostive$Correlation==0.2 & falsepostive$IndependentVariables==1 & falsepostive$DV==1
                                        ,]
 )
-figuredata$Set <- factor(figuredata$Set,levels = c("ME", "X * Cov", "Cov * Cov", "ME + X * Cov","ME + Cov * Cov","X * Cov + Cov * Cov","ME + X * Cov + Cov * Cov"))
+figuredata$Set <- factor(figuredata$Set,levels = c("ME", "x*z", "z*z", "x + z+ x*z","x + z+ z*z","x*z + z*z","x + z+ x*z + z*z"))
 figuredata$Pr<-as.numeric(figuredata$mean)
 
 
