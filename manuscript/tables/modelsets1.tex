@@ -1,15 +1,15 @@
 \begin{table}[]
 \caption{}
-\caption*{\footnotesize An overview of the first three model sets when there are two covariates and one dependent variable. Here $x_1$ is the variable of interest and $z_1$ and $z_2$ are covariates. The ME set contains all the main effects, the $X \times Cov$ set consists of the interactions between the variable of interest and the covariates, and the $Cov \times Cov$ set includes the interactions between the covariates.}
+\caption*{\footnotesize An overview of the first three model sets when there are two covariates and one dependent variable. Here $x_1$ is the variable of interest and $z_1$ and $z_2$ are covariates. The x + z set contains all the main effects, the $x \times z$ set consists of the interactions between the variable of interest and the covariates, and the $z \times z$ set includes the interactions between the covariates.}
 \label{modelsets1}
 \centering
 \begin{tabular}{cc}
 \toprule
 Model set & Models \\ 
 \midrule
-\multirow{4}{*}{ME} & $y=x_1$ \\ & $y=x_1+z_1$ \\ & $y=x_1+z_2$ \\ & $y=x_1+z_1+z_2$  \\ & \\
-\multirow{3}{*}{$X \times Cov$} & $y=x_1+x_1z_1$ \\ & $y=x_1+x_1z_2$ \\ & $y=x_1+x_1z_1+x_1z_2$  \\& \\
-$Cov \times Cov$ & $y=x_1+z_1z_2$ \\ 
+\multirow{4}{*}{x + z} & $y=x_1$ \\ & $y=x_1+z_1$ \\ & $y=x_1+z_2$ \\ & $y=x_1+z_1+z_2$  \\ & \\
+\multirow{3}{*}{$x \times z$} & $y=x_1+x_1z_1$ \\ & $y=x_1+x_1z_2$ \\ & $y=x_1+x_1z_1+x_1z_2$  \\& \\
+$z \times z$ & $y=x_1+z_1z_2$ \\ 
 \bottomrule
 \end{tabular}
 \end{table}
