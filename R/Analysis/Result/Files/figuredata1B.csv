@@ -1,23 +1,23 @@
 Main;Set;Type;SampleSize;OutlierExclusion;Correlation;IndependentVariables;DV;mean;FPR;Pr
-No restrictions for interactions;x*z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.24595;0.0510366666666677;0.24595
-No restrictions for interactions;x + z+ x*z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.2888;0.0500359999999989;0.2888
-No restrictions for interactions;x*z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.7691;0.256259999999998;0.7691
-No restrictions for interactions;x + z+ x*z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.81635;0.218356000000001;0.81635
-No restrictions for interactions;z*z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.1392;0.050105;0.1392
-No restrictions for interactions;x + z+ z*z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.1435;0.0508100000000004;0.1435
-No restrictions for interactions;z*z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.11045;0.0493799999999999;0.11045
-No restrictions for interactions;x + z+ z*z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.11595;0.0511071428571432;0.11595
-No restrictions for interactions;x + z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.1337;0.0496700000000007;0.1337
-No restrictions for interactions;x + z+ x*z + z*z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.28285;0.050805833333333;0.28285
-No restrictions for interactions;x*z + z*z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.25235;0.0527116666666676;0.25235
-No restrictions for interactions;x + z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.11325;0.052236666666667;0.11325
-No restrictions for interactions;x + z+ x*z + z*z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.46985;0.0815691666666657;0.46985
-No restrictions for interactions;x*z + z*z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.3278;0.0810633333333324;0.3278
-With restrictions for interactions;x + z+ x*z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.2341;0.0487533333333342;0.2341
-With restrictions for interactions;x + z+ x*z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.20875;0.0451466666666673;0.20875
-With restrictions for interactions;x + z+ z*z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.13455;0.0499174999999999;0.13455
-With restrictions for interactions;x + z+ z*z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.10545;0.0486099999999998;0.10545
-With restrictions for interactions;x + z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.1342;0.0500100000000007;0.1342
-With restrictions for interactions;x + z+ x*z + z*z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.22995;0.0488100000000009;0.22995
-With restrictions for interactions;x + z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.10625;0.0486666666666668;0.10625
-With restrictions for interactions;x + z+ x*z + z*z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.20715;0.0464916666666673;0.20715
+No restrictions for interactions;x*z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.3545;0.0848416666666665;0.3545
+No restrictions for interactions;x + z+ x*z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.4208;0.101108666666663;0.4208
+No restrictions for interactions;x*z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.8734;0.32586166666664;0.8734
+No restrictions for interactions;x + z+ x*z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.91835;0.304277333333288;0.91835
+No restrictions for interactions;z*z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.13915;0.0497225000000001;0.13915
+No restrictions for interactions;x + z+ z*z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.1426;0.0489157142857148;0.1426
+No restrictions for interactions;z*z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.1106;0.048065;0.1106
+No restrictions for interactions;x + z+ z*z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.11425;0.0493928571428573;0.11425
+No restrictions for interactions;x + z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.1306;0.0488700000000005;0.1306
+No restrictions for interactions;x + z+ x*z + z*z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.41165;0.0982424999999978;0.41165
+No restrictions for interactions;x*z + z*z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.36435;0.0859033333333334;0.36435
+No restrictions for interactions;x + z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.10725;0.0494266666666669;0.10725
+No restrictions for interactions;x + z+ x*z + z*z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.62775;0.137159999999997;0.62775
+No restrictions for interactions;x*z + z*z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.4738;0.124266666666665;0.4738
+With restrictions for interactions;x + z+ x*z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.3487;0.0801199999999999;0.3487
+With restrictions for interactions;x + z+ x*z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.31405;0.0744099999999996;0.31405
+With restrictions for interactions;x + z+ z*z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.1397;0.052295;0.1397
+With restrictions for interactions;x + z+ z*z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.1073;0.0481224999999999;0.1073
+With restrictions for interactions;x + z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.13265;0.0506100000000006;0.13265
+With restrictions for interactions;x + z+ x*z + z*z;x1=Normal, Cov=Normal;200;TRUE;0.2;1;1;0.33025;0.080671666666667;0.33025
+With restrictions for interactions;x + z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.10495;0.048246666666667;0.10495
+With restrictions for interactions;x + z+ x*z + z*z;x1=Binary, Cov=Binary;200;TRUE;0.2;1;1;0.2971;0.0724149999999999;0.2971

@@ -1,111 +1,111 @@
 Main;Set;Type;SampleSize;OutlierExclusion;Correlation;IndependentVariables;DV;mean;FPR;Pr
-With restrictions for interactions;;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.11575;0.0499666666666667;0.11575
-With restrictions for interactions;;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.12965;0.0456916666666666;0.12965
-With restrictions for interactions;;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.0674;0.0492375;0.0674
-With restrictions for interactions;;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.06925;0.049925;0.06925
-With restrictions for interactions;;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.0656;0.0480666666666667;0.0656
-With restrictions for interactions;;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.1093;0.0480416666666667;0.1093
-With restrictions for interactions;;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.0659;0.0485833333333334;0.0659
-With restrictions for interactions;;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.123;0.0444;0.123
-No restrictions for interactions;;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.12135;0.0505666666666669;0.12135
-No restrictions for interactions;;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.15315;0.0516200000000006;0.15315
-No restrictions for interactions;;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.7056;0.277308333333322;0.7056
-No restrictions for interactions;;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.7462;0.233676666666677;0.7462
-No restrictions for interactions;;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.0738;0.052;0.0738
-No restrictions for interactions;;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.07395;0.0501642857142858;0.07395
-No restrictions for interactions;;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.06805;0.0481375;0.06805
-No restrictions for interactions;;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.0717;0.0499500000000001;0.0717
-No restrictions for interactions;;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.06795;0.0515666666666667;0.06795
-No restrictions for interactions;;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.14545;0.0517541666666669;0.14545
-No restrictions for interactions;;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.1227;0.0499333333333335;0.1227
-No restrictions for interactions;;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.06515;0.0487333333333334;0.06515
-No restrictions for interactions;;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.3594;0.085237500000001;0.3594
-No restrictions for interactions;;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.23725;0.0839666666666655;0.23725
-With restrictions for interactions;;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.1191;0.0510166666666666;0.1191
-With restrictions for interactions;;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.137;0.0483833333333332;0.137
-With restrictions for interactions;;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.116;0.0484999999999999;0.116
-With restrictions for interactions;;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.1332;0.0474083333333333;0.1332
-With restrictions for interactions;;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.1206;0.0520833333333333;0.1206
-With restrictions for interactions;;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.13445;0.0477916666666665;0.13445
-With restrictions for interactions;;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.11545;0.0493749999999999;0.11545
-With restrictions for interactions;;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.13375;0.0472499999999999;0.13375
-With restrictions for interactions;;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.07185;0.0514375;0.07185
-With restrictions for interactions;;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.0716;0.0513125;0.0716
-With restrictions for interactions;;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.07205;0.0524375;0.07205
-With restrictions for interactions;;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.06985;0.05055;0.06985
-With restrictions for interactions;;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.0683;0.050275;0.0683
-With restrictions for interactions;;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.06835;0.050625;0.06835
-With restrictions for interactions;;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.067;0.0496125;0.067
-With restrictions for interactions;;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.06775;0.0503125;0.06775
-With restrictions for interactions;;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.06375;0.0479;0.06375
-With restrictions for interactions;;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.11305;0.0468166666666667;0.11305
-With restrictions for interactions;;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.06495;0.0483833333333335;0.06495
-With restrictions for interactions;;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.1288;0.0466416666666667;0.1288
-With restrictions for interactions;;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.06525;0.0481000000000001;0.06525
-With restrictions for interactions;;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.1175;0.0506750000000001;0.1175
-With restrictions for interactions;;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.07;0.0520833333333334;0.07
-With restrictions for interactions;;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.1287;0.0472416666666666;0.1287
-With restrictions for interactions;;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.0658;0.0497833333333334;0.0658
-With restrictions for interactions;;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.11225;0.0487166666666668;0.11225
-With restrictions for interactions;;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.06705;0.0503;0.06705
-With restrictions for interactions;;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.12685;0.0458749999999999;0.12685
-With restrictions for interactions;;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.0698;0.0523166666666667;0.0698
-With restrictions for interactions;;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.11325;0.0495250000000001;0.11325
-With restrictions for interactions;;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.0683;0.0502333333333334;0.0683
-With restrictions for interactions;;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.1212;0.0446166666666667;0.1212
-No restrictions for interactions;;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.12435;0.0524750000000001;0.12435
-No restrictions for interactions;;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.15275;0.0520266666666673;0.15275
-No restrictions for interactions;;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.43225;0.156125000000005;0.43225
-No restrictions for interactions;;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.4881;0.132536666666674;0.4881
-No restrictions for interactions;;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.1216;0.0497583333333335;0.1216
-No restrictions for interactions;;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.1474;0.049813333333334;0.1474
-No restrictions for interactions;;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.58;0.21712500000001;0.58
-No restrictions for interactions;;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.63195;0.187033333333357;0.63195
-No restrictions for interactions;;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.1258;0.0536333333333335;0.1258
-No restrictions for interactions;;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.14485;0.0509700000000006;0.14485
-No restrictions for interactions;;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.7912;0.320666666666642;0.7912
-No restrictions for interactions;;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.83315;0.28034333333331;0.83315
-No restrictions for interactions;;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.12485;0.0519083333333335;0.12485
-No restrictions for interactions;;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.15025;0.0521866666666673;0.15025
-No restrictions for interactions;;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.86305;0.365566666666631;0.86305
-No restrictions for interactions;;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.8915;0.318753333333281;0.8915
-No restrictions for interactions;;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.07;0.04865;0.07
-No restrictions for interactions;;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.07495;0.0496928571428572;0.07495
-No restrictions for interactions;;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.0678;0.0487375;0.0678
-No restrictions for interactions;;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.0735;0.0504857142857143;0.0735
-No restrictions for interactions;;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.07385;0.0517625;0.07385
-No restrictions for interactions;;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.07315;0.0493571428571429;0.07315
-No restrictions for interactions;;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.06975;0.0513375;0.06975
-No restrictions for interactions;;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.07205;0.0513642857142857;0.07205
-No restrictions for interactions;;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.0693;0.0491625;0.0693
-No restrictions for interactions;;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.0722;0.0489071428571429;0.0722
-No restrictions for interactions;;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.07325;0.0541375;0.07325
-No restrictions for interactions;;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.07375;0.0527642857142857;0.07375
-No restrictions for interactions;;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.0699;0.049925;0.0699
-No restrictions for interactions;;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.07265;0.0506428571428572;0.07265
-No restrictions for interactions;;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.06955;0.050325;0.06955
-No restrictions for interactions;;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.0681;0.0486928571428571;0.0681
-No restrictions for interactions;;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.0673;0.0496;0.0673
-No restrictions for interactions;;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.14425;0.0508416666666668;0.14425
-No restrictions for interactions;;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.12635;0.0527833333333337;0.12635
-No restrictions for interactions;;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.067;0.0499833333333335;0.067
-No restrictions for interactions;;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.2596;0.0631541666666666;0.2596
-No restrictions for interactions;;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.17985;0.0649416666666666;0.17985
-No restrictions for interactions;;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.06735;0.0506500000000001;0.06735
-No restrictions for interactions;;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.14815;0.0520583333333335;0.14815
-No restrictions for interactions;;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.123;0.0524833333333335;0.123
-No restrictions for interactions;;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.06715;0.0502666666666667;0.06715
-No restrictions for interactions;;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.30915;0.0729958333333335;0.30915
-No restrictions for interactions;;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.20785;0.0734416666666663;0.20785
-No restrictions for interactions;;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.06745;0.0496166666666668;0.06745
-No restrictions for interactions;;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.1451;0.0506833333333336;0.1451
-No restrictions for interactions;;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.126;0.0533750000000003;0.126
-No restrictions for interactions;;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.06635;0.05005;0.06635
-No restrictions for interactions;;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.40725;0.094512500000002;0.40725
-No restrictions for interactions;;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.25845;0.0907249999999983;0.25845
-No restrictions for interactions;;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.06805;0.0505666666666668;0.06805
-No restrictions for interactions;;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.13885;0.0497208333333334;0.13885
-No restrictions for interactions;;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.12125;0.0519250000000003;0.12125
-No restrictions for interactions;;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.0686;0.0505166666666667;0.0686
-No restrictions for interactions;;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.459;0.107304166666669;0.459
-No restrictions for interactions;;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.29025;0.102966666666664;0.29025
+With restrictions for interactions;x + z+ x*z;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.1817;0.0804333333333327;0.1817
+With restrictions for interactions;x + z+ x*z;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.2106;0.0738166666666664;0.2106
+With restrictions for interactions;x + z+ z*z;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.0684;0.05025;0.0684
+With restrictions for interactions;x + z+ z*z;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.067;0.048675;0.067
+With restrictions for interactions;;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.0665;0.0496666666666668;0.0665
+With restrictions for interactions;x + z+ x*z + z*z;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.17015;0.0810333333333321;0.17015
+With restrictions for interactions;;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.0669;0.0500333333333333;0.0669
+With restrictions for interactions;x + z+ x*z + z*z;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.1946;0.0736583333333326;0.1946
+No restrictions for interactions;x*z;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.18885;0.0868916666666648;0.18885
+No restrictions for interactions;x + z+ x*z;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.2399;0.104163333333334;0.2399
+No restrictions for interactions;x*z;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.82825;0.343533333333298;0.82825
+No restrictions for interactions;x + z+ x*z;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.8704;0.320026666666623;0.8704
+No restrictions for interactions;z*z;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.0721;0.0514125;0.0721
+No restrictions for interactions;x + z+ z*z;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.07205;0.0477928571428572;0.07205
+No restrictions for interactions;z*z;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.07225;0.0512375;0.07225
+No restrictions for interactions;x + z+ z*z;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.07175;0.0503428571428572;0.07175
+No restrictions for interactions;;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.0662;0.0495666666666667;0.0662
+No restrictions for interactions;x + z+ x*z + z*z;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.23115;0.101816666666667;0.23115
+No restrictions for interactions;x*z + z*z;x1=Normal, Cov=Normal;200;FALSE;0.2;1;1;0.18675;0.0869083333333316;0.18675
+No restrictions for interactions;;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.06555;0.0485666666666667;0.06555
+No restrictions for interactions;x + z+ x*z + z*z;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.50455;0.142441666666665;0.50455
+No restrictions for interactions;x*z + z*z;x1=Binary, Cov=Binary;200;FALSE;0.2;1;1;0.3573;0.1257;0.3573
+With restrictions for interactions;x + z+ x*z;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.18545;0.0784416666666663;0.18545
+With restrictions for interactions;x + z+ x*z;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.20965;0.0735666666666662;0.20965
+With restrictions for interactions;x + z+ x*z;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.18115;0.0810833333333327;0.18115
+With restrictions for interactions;x + z+ x*z;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.21145;0.0750083333333333;0.21145
+With restrictions for interactions;x + z+ x*z;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.17685;0.0796083333333329;0.17685
+With restrictions for interactions;x + z+ x*z;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.2078;0.0729333333333333;0.2078
+With restrictions for interactions;x + z+ x*z;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.1778;0.0797083333333326;0.1778
+With restrictions for interactions;x + z+ x*z;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.20655;0.0733166666666662;0.20655
+With restrictions for interactions;x + z+ z*z;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.0687;0.0501;0.0687
+With restrictions for interactions;x + z+ z*z;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.06955;0.0502;0.06955
+With restrictions for interactions;x + z+ z*z;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.0684;0.0498875;0.0684
+With restrictions for interactions;x + z+ z*z;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.0688;0.0501125;0.0688
+With restrictions for interactions;x + z+ z*z;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.06705;0.049125;0.06705
+With restrictions for interactions;x + z+ z*z;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.0695;0.0512625;0.0695
+With restrictions for interactions;x + z+ z*z;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.0693;0.0519625;0.0693
+With restrictions for interactions;x + z+ z*z;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.06955;0.051875;0.06955
+With restrictions for interactions;;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.07045;0.0519833333333334;0.07045
+With restrictions for interactions;x + z+ x*z + z*z;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.17635;0.0807916666666657;0.17635
+With restrictions for interactions;;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.0687;0.0505;0.0687
+With restrictions for interactions;x + z+ x*z + z*z;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.19725;0.0733916666666663;0.19725
+With restrictions for interactions;;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.0689;0.0516166666666667;0.0689
+With restrictions for interactions;x + z+ x*z + z*z;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.1726;0.0819999999999986;0.1726
+With restrictions for interactions;;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.06665;0.0498166666666667;0.06665
+With restrictions for interactions;x + z+ x*z + z*z;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.1948;0.0734749999999994;0.1948
+With restrictions for interactions;;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.066;0.0501333333333334;0.066
+With restrictions for interactions;x + z+ x*z + z*z;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.166;0.0802749999999988;0.166
+With restrictions for interactions;;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.06835;0.0506500000000001;0.06835
+With restrictions for interactions;x + z+ x*z + z*z;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.1921;0.0722499999999993;0.1921
+With restrictions for interactions;;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.06575;0.0485833333333334;0.06575
+With restrictions for interactions;x + z+ x*z + z*z;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.16355;0.0784666666666657;0.16355
+With restrictions for interactions;;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.06245;0.0455500000000001;0.06245
+With restrictions for interactions;x + z+ x*z + z*z;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.1959;0.0725166666666661;0.1959
+No restrictions for interactions;x*z;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.194;0.087266666666665;0.194
+No restrictions for interactions;x + z+ x*z;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.2429;0.104576666666667;0.2429
+No restrictions for interactions;x*z;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.59455;0.228766666666675;0.59455
+No restrictions for interactions;x + z+ x*z;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.65615;0.213846666666687;0.65615
+No restrictions for interactions;x*z;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.1876;0.0860499999999985;0.1876
+No restrictions for interactions;x + z+ x*z;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.2422;0.106250000000001;0.2422
+No restrictions for interactions;x*z;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.7269;0.289933333333316;0.7269
+No restrictions for interactions;x + z+ x*z;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.7809;0.270749999999987;0.7809
+No restrictions for interactions;x*z;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.1861;0.0874249999999983;0.1861
+No restrictions for interactions;x + z+ x*z;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.2327;0.103333333333334;0.2327
+No restrictions for interactions;x*z;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.8913;0.385016666666624;0.8913
+No restrictions for interactions;x + z+ x*z;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.92195;0.36069999999993;0.92195
+No restrictions for interactions;x*z;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.1835;0.085016666666665;0.1835
+No restrictions for interactions;x + z+ x*z;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.2362;0.104343333333334;0.2362
+No restrictions for interactions;x*z;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.9351;0.420916666666631;0.9351
+No restrictions for interactions;x + z+ x*z;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.9569;0.394523333333237;0.9569
+No restrictions for interactions;z*z;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.06945;0.0494875;0.06945
+No restrictions for interactions;x + z+ z*z;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.0729;0.0487357142857143;0.0729
+No restrictions for interactions;z*z;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.07015;0.0504875;0.07015
+No restrictions for interactions;x + z+ z*z;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.07335;0.0505785714285715;0.07335
+No restrictions for interactions;z*z;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.07105;0.051025;0.07105
+No restrictions for interactions;x + z+ z*z;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.0745;0.0497071428571429;0.0745
+No restrictions for interactions;z*z;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.06985;0.0499625;0.06985
+No restrictions for interactions;x + z+ z*z;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.0712;0.0507428571428571;0.0712
+No restrictions for interactions;z*z;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.0699;0.0500625;0.0699
+No restrictions for interactions;x + z+ z*z;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.0719;0.0486500000000001;0.0719
+No restrictions for interactions;z*z;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.0683;0.0487875;0.0683
+No restrictions for interactions;x + z+ z*z;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.06805;0.0474928571428572;0.06805
+No restrictions for interactions;z*z;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.07025;0.0497375;0.07025
+No restrictions for interactions;x + z+ z*z;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.0703;0.0481142857142858;0.0703
+No restrictions for interactions;z*z;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.0701;0.0514625;0.0701
+No restrictions for interactions;x + z+ z*z;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.0689;0.0479857142857143;0.0689
+No restrictions for interactions;;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.06745;0.04905;0.06745
+No restrictions for interactions;x + z+ x*z + z*z;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.2305;0.097625;0.2305
+No restrictions for interactions;x*z + z*z;x1=Normal, Cov=Normal;100;FALSE;0.2;1;1;0.1892;0.0851249999999985;0.1892
+No restrictions for interactions;;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.06835;0.0501833333333334;0.06835
+No restrictions for interactions;x + z+ x*z + z*z;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.38715;0.110641666666667;0.38715
+No restrictions for interactions;x*z + z*z;x1=Binary, Cov=Binary;100;FALSE;0.2;1;1;0.28445;0.101174999999998;0.28445
+No restrictions for interactions;;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.0678;0.0506000000000001;0.0678
+No restrictions for interactions;x + z+ x*z + z*z;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.2316;0.102795833333334;0.2316
+No restrictions for interactions;x*z + z*z;x1=Normal, Cov=Normal;150;FALSE;0.2;1;1;0.18915;0.0864583333333318;0.18915
+No restrictions for interactions;;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.06565;0.0485666666666667;0.06565
+No restrictions for interactions;x + z+ x*z + z*z;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.4509;0.127329166666666;0.4509
+No restrictions for interactions;x*z + z*z;x1=Binary, Cov=Binary;150;FALSE;0.2;1;1;0.3243;0.113749999999999;0.3243
+No restrictions for interactions;;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.06545;0.0476500000000001;0.06545
+No restrictions for interactions;x + z+ x*z + z*z;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.22595;0.0985083333333336;0.22595
+No restrictions for interactions;x*z + z*z;x1=Normal, Cov=Normal;250;FALSE;0.2;1;1;0.1899;0.0873083333333315;0.1899
+No restrictions for interactions;;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.0678;0.0503166666666668;0.0678
+No restrictions for interactions;x + z+ x*z + z*z;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.55775;0.153791666666662;0.55775
+No restrictions for interactions;x*z + z*z;x1=Binary, Cov=Binary;250;FALSE;0.2;1;1;0.4015;0.140875000000003;0.4015
+No restrictions for interactions;;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.06745;0.0505000000000001;0.06745
+No restrictions for interactions;x + z+ x*z + z*z;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.21935;0.0980000000000003;0.21935
+No restrictions for interactions;x*z + z*z;x1=Normal, Cov=Normal;300;FALSE;0.2;1;1;0.18425;0.085716666666665;0.18425
+No restrictions for interactions;;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.06775;0.05055;0.06775
+No restrictions for interactions;x + z+ x*z + z*z;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.61455;0.169583333333327;0.61455
+No restrictions for interactions;x*z + z*z;x1=Binary, Cov=Binary;300;FALSE;0.2;1;1;0.43255;0.150891666666671;0.43255
