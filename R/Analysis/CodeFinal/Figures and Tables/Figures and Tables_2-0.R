@@ -208,7 +208,11 @@ falsepostiveFULL$Sample = NULL
 falsepostiveFULL$Outlier = NULL 
 falsepostiveFULL$Correlation = NULL 
 falsepostiveFULL[,3] = NULL 
-print(xtable(falsepostiveFULL,digits = 2, type = "latex",caption ="False positive probability (FPP) and false positive ratio (FPR) when looking at all the models possible when the sample size is 200, no outlier criteria is being used and having two covariates. When MAIN = TRUE main effects should always be present when there is interactions, this is not the case when MAIN = FALSE. "), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable", file = "FullModelSet.tex")
+falsepostiveFULL$Main[falsepostiveFULL$Main=="FALSE"] = "Off"
+falsepostiveFULL$Main[falsepostiveFULL$Main=="TRUE"] = "On"
+names(falsepostiveFULL) = c("Restrictions on interactions" , "Type" , "FPP" , "FPR")
+
+print(xtable(falsepostiveFULL,digits = 2, type = "latex",caption ="False positive probability (FPP) and false positive ratio (FPR) when looking at all the models possible when the sample size is 200, no outlier criteria is being used and having two covariates. When restrictions on interactions are on main effects should always be present when there is interactions, this is not the case when restrictions on interactions is off."), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable", file = "FullModelSet.tex")
 
 falsepostiveFULL
 
