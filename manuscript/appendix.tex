@@ -24,7 +24,7 @@ n \\
 i \end{array}
 \right)}=2^n\] 
 \\
-When calculating the size of each set, we consider two different cases; one where we allow interactions without the corresponding main effects, and one where main effects always follow interactions. \\
+When calculating the size of each set, we consider two different cases; one where we allow interactions without the corresponding main effects, and one where main effects always follow interactions. This means that the second case will be a subset of the first case. \\
 
 \section{Case 1 – No Restriction}
 \subsection{Set $x + z$}
@@ -94,7 +94,7 @@ Each element $S\in x + z$ is a set of the covariates (e.g., $S=\left.z_3,z_7\rig
 
 The same line of reasoning goes for the $x \times z$ set as for $x + z$ set and we therefore only write it formally. Here, we just need to calculate the number of possible interactions between the variable of interest and the covariates. This set will therefore have the same size as the $x + z$ set, as there are just as many covariates as there are two-way combinations between the variable of interest and the covariates excluding the empty set.
 
-\[I_h(Z)=\left.\left\{\{x_i,h\}\right.:x_i\in Z\right.\}\] 
+\[I_h(Z)=\left.\left\{\{x,z_i\}\right.:z_i\in Z\right.\}\] 
 \[x \times z=\left.\{T:T\subseteq I_h\left(Z\right),T\neq \textrm{\O}\right.\}\] 
 The total number of models in this set is only the power set excluding the empty set
 \[\left|x \times z\right|\boldsymbol{=}2^n-1\] 
@@ -106,7 +106,7 @@ For the $z \times z$ set, we need the combinations of all the two-way interactio
 3 \\ 
 2 \end{array}
 \right)=\frac{3!}{2!\left(3-2\right)!}=3\] 
-We can now make the combinations of these interaction effects. In this case $n$ does not denote the number of covariates, but the number of two-way interactions that can be made with three covariates.  
+We can now make the combinations of these interaction effects. 
 
 \noindent 
 \[\# of models\ in\ z \times z=\left( \begin{array}{c}
@@ -122,7 +122,7 @@ We can now make the combinations of these interaction effects. In this case $n$ 
 3 \\ 
 i \end{array}
 \right)}=7\] 
-In the general case, let us define the number of two-way interactions with h; this gives us
+In the general case, let us define the number of two-way interactions with $h$ where $h$  denote the number of two-way interactions that can be made with n covariates; this gives us
 \[h=\left( \begin{array}{c}
 n \\ 
 2 \end{array}
@@ -137,7 +137,7 @@ i \end{array}
 \subsubsection{Formally written}
 Let \emph{Z} be a set of covariates 
 $Z=\{z_1,z_2,..,z_n\}$
-\[I_k\left(Z\right)=\{\left.\left.x_i,x_j\right.:x_i\in Z,x_j\in Z,x_i\neq x_j\right.\}\] 
+\[I_k\left(Z\right)=\{\left.\left.z_i,z_j\right.:z_i\in Z,z_j\in Z,z_i\neq z_j\right.\}\] 
 \[\left|I_k\left(Z\right)\right|=\left( \begin{array}{c}
 n \\ 
 2 \end{array}
@@ -200,12 +200,12 @@ $z \times z$ & $y=x_1+z_1z_2$ & \\
 \newpage
 \section{Case 2 – With Restriction}
 
-In this case, we need to ensure that every time there is an interaction, the main effects follow. This means that if the variable of interest interacts with a covariate, both the variable of interest and the covariate will be present as the main effects, e.g.,
+In this case, we need to ensure that every time there is an interaction, the main effects follow. This means that if the variable of interest interacts with a covariate, both the variable of interest and the covariate must be present as the main effects, e.g.,
 \[y=x_1+z_1+x_1z_1\] 
 
 In the previous equation, we have an interaction between our variable of interest $x_1$ and a covariate $z_1$. Therefore, the two corresponding main effects also enter the model. This restriction does not change how we calculate the set size of the $x + z$ set as there are no interactions in it. The way to calculate the size of the $x + z$ set is therefore the same in the two cases (i.e., with and without restriction); we will therefore focus on calculating the other set sizes. However, having a restriction that main effects should always follow interactions means that we need to exclude the models from the $x \times z$ and $z \times z$ sets as these do not have main effect following interactions. The first set we then need to calculate is the $x + z + x \times z$ set.
 
-\subsection{$x + z + x \times z$}
+\subsection{Set $x + z + x \times z$}
 For the sake of simplicity, we start with a case where n=3. The models that are within this set can be seen in Table S2. \\
 
 \begin{table}[hbt!]
@@ -324,7 +324,6 @@ i \end{array}
 \end{aligned}
 \end{equation*}
 
-
 We can then sum all three sets that is, $x + z + x \times z$(1), $x + z + x \times z$(2) and $x + z + x \times z$(3), to get the size of the $x + z + x \times z$ set
 \[\#\ of\ models\ in\ $x + z + x \times z$=\sum^3_{k=1}{(2^k-1)\left( \begin{array}{c}
 3 \\ 
@@ -347,7 +346,7 @@ Let L be a subset of Z of size k.
 \[L=\{\left.S:S\subset Z,\left|S\right|=k,k\in J\right.\}\] 
 
 The number of interactions that can be made between a covariate and the variable of interest for a given k is then
-\[I_h\left(Z\right)=\{\left.\left.x_i,x_1\right.:x_i\in L\right.\}\] 
+\[I_h\left(Z\right)=\{\left.\left.z_i,x_1\right.:z_i\in L\right.\}\] 
 \[\left|I_h\left(Z\right)\right|=k\] 
 
 For each k, the number of interactions is just the power set of Z excluding the empty set
@@ -363,7 +362,7 @@ k \end{array}
 \right)\left(2^k-1\right)}\] 
 \textbf{}
 
-\subsection{$x + z + z \times z$}
+\subsection{Set $x + z + z \times z$}
 
 Here we can use the same line of reasoning as we did for the $x + z + x \times z$ set. Let us begin by looking at the $n=3$ case and then develop a more general notion from there. This example can be seen in Table S4. 
 \begin{table}{}
@@ -373,7 +372,7 @@ Here we can use the same line of reasoning as we did for the $x + z + x \times z
 \toprule
 Set & Models \\
 \midrule
-\multirow{9}{*}{$x + z + z \times z$} & $y=x_1+z_1+z_2+z_1z_2$\\ & $y=x_1+z_1+z_3+z_1z_3$\\ & $y=x_1+z_2+z_3+z_2z_3$\\ & $y=x_1+z_1+z_2+z_3+z_1z_2$\\ & $y=x_1+z_1+z_3+z_2+z_1z_3$\\ & $y=x_1+z_2+z_3+z_1+z_2z_3$\\ & $y=x_1+z_1+z_2+z_3+z_1z_2+z_1z_3$\\ & $y=x_1+z_1+z_3+z_2+z_1z_3+z_2z_3$\\ & $y=x_1+z_2+z_3+z_1+z_1z_2+z_2z_3$ \\
+\multirow{10}{*}{$x + z + z \times z$} & $y=x_1+z_1+z_2+z_1z_2$\\ & $y=x_1+z_1+z_3+z_1z_3$\\ & $y=x_1+z_2+z_3+z_2z_3$\\ & $y=x_1+z_1+z_2+z_3+z_1z_2$\\ & $y=x_1+z_1+z_3+z_2+z_1z_3$\\ & $y=x_1+z_2+z_3+z_1+z_2z_3$\\ & $y=x_1+z_1+z_2+z_3+z_1z_2+z_1z_3$\\ & $y=x_1+z_1+z_3+z_2+z_1z_3+z_2z_3$\\ & $y=x_1+z_2+z_3+z_1+z_1z_2+z_2z_3$\\ & $y=x_1+z_1+z_2+z_3+z_1z_2+z_2z_3+z_1z_3$ \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -387,7 +386,7 @@ To make it easier to understand how to calculate the set size, we can split this
 Set & Models \\ 
 \midrule
 \multirow{3}{*}{$x + z + z \times z$(2)} & $y=x_1+z_1+z_2+z_1z_2$\\ & $y=x_1+z_1+z_3+z_1z_3$\\ & $y=x_1+z_2+z_3+z_2z_3$\\ &  \\  
-\multirow{7}{*}{$x + z + z \times z$(3)} & $y=x_1+z_1+z_2+z_3+z_1z_2$\\ & $y=x_1+z_1+z_3+z_2+z_1z_3$\\ & $y=x_1+z_2+z_3+z_1+z_2z_3$\\ & $y=x_1+z_1+z_2+z_3+z_1z_2+z_1z_3$\\ & $y=x_1+z_1+z_3+z_2+z_1z_3+z_2z_3$\\ & $y=x_1+z_2+z_3+z_1+z_1z_2+z_2z_3$\\ & $y=x_1+z_1+z_2+z_3+z_1z_2+z_2z_3+z_1z_3$\\ & \\ 
+\multirow{7}{*}{$x + z + z \times z$(3)} & $y=x_1+z_1+z_2+z_3+z_1z_2$\\ & $y=x_1+z_1+z_3+z_2+z_1z_3$\\ & $y=x_1+z_2+z_3+z_1+z_2z_3$\\ & $y=x_1+z_1+z_2+z_3+z_1z_2+z_1z_3$\\ & $y=x_1+z_1+z_3+z_2+z_1z_3+z_2z_3$\\ & $y=x_1+z_2+z_3+z_1+z_1z_2+z_2z_3$\\ & $y=x_1+z_1+z_2+z_3+z_1z_2+z_2z_3+z_1z_3$\\ 
 \bottomrule
 \end{tabular}
 \end{table}
@@ -480,7 +479,7 @@ Let L be a subset of Z of size k.
 \[L=\{\left.S:S\subset Z,\left|S\right|=k,k\in T\right.\}\] 
 
 \noindent The number of interactions that can be made for a given k is then
-\[I_k\left(Z\right)=\{\left.\left.x_i,x_j\right.:x_i\in L,x_j\in L,x_i\neq x_j\right.\}\] 
+\[I_k\left(Z\right)=\{\left.\left.z_i,z_j\right.:z_i\in L,z_j\in L,z_i\neq z_j\right.\}\] 
 For a given k, the number of two-way interactions that can be made is then
 \[\left|I_k\left(Z\right)\right|=\left( \begin{array}{c}
 k \\ 
@@ -499,7 +498,7 @@ n \\
 k \end{array}
 \right)}\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)\ \] 
 
-\subsection{$x + z + x \times z$ + $z \times z$}
+\subsection{Set $x + z + x \times z$ + $z \times z$}
 This set is the product of the $x + z + x \times z$ and $x + z + z \times z$ sets, but without taking the combinations including the main effect twice. Hence, this set consists of the combinations that can be made between the variable of interest and covariates and between the covariates alone. We can therefore write 
 \[\#\ of\ models\ in\ x + z + x \times z+\ z \times z=\sum^n_{k=2}{\left( \begin{array}{c}
 n \\ 
@@ -543,16 +542,16 @@ When researchers are not interested in one specific variable but rather the over
 As is the case with hypothesis testing, researchers can either demand that main effects are always present when having interactions or they can ease this assumption and not require this. \\
 
 \subsection{When no restrictions are in place}
-In this case, there are three possible sets; x + z, $z \times z$, and $x + z + z \times z$. In this case, however, there is no variable that needs to be present all the time as earlier ($x_1$). The calculations of the model set sizes are nevertheless similar to the example with two covariates with no restrictions (see Supplmentary Material Case 1 - No Restrictions), and this can be seen in Table S8 and equation (2), (3) and (4) .  
+In this case, there are three possible sets; z, $z \times z$, and $ z + z \times z$. In this case there is no variable that needs to be present all the time as earlier ($x_1$). The calculations of the model set sizes are nevertheless similar to the example with two covariates with no restrictions (see Supplmentary Material Case 1 - No Restrictions), and this can be seen in Table S8 and equation (2), (3) and (4) .  
 
 \begin{table}
-\caption{Models for the set x + z, $z \times z$ and $x + z + z \times z$ that can be made with two covariates when there is no specific variable of interest. c is a constant, whereas $z_1$ and $z_2$ are covariates}
+\caption{Models for the set z, $z \times z$ and $ z + z \times z$ that can be made with two covariates when there is no specific variable of interest. c is a constant, whereas $z_1$ and $z_2$ are covariates}
 \centering
 \begin{tabular}{lc} 
 \toprule
 Set & Models \\ 
 \midrule
-\multirow{4}{*}{x + z} & $y=c$\\ & $y=c + z_1$\\ & $y=c + z_2$\\ & $y=c + z_1 + z_2$\\ &  \\  
+\multirow{4}{*}{z} & $y=c$\\ & $y=c + z_1$\\ & $y=c + z_2$\\ & $y=c + z_1 + z_2$\\ &  \\  
 \multirow{1}{*}{$z \times z$} & $y=c + z_1z_2$\\  & \\ 
 \multirow{3}{*}{$x + z + z \times z$}  & $y=c + z_1 + z_1z_2$\\ & $y=c + z_2 + z_1z_2$\\ & $y=c + z_1 + z_2 + z_1z_2$\\ &  \\  
 \bottomrule
@@ -562,13 +561,13 @@ Set & Models \\
 The calculation for the set size is done as in "Case 1 - No Restrictions"
 \\
 \begin{equation}
-  \# of models\ in\ x + z\left(2^n\right)
+  \# of models\ in\  z\left(2^n\right)
 \end{equation}
 \begin{equation}
   \# of models\ in\ z \times z=\left(2^h-1\right)
 \end{equation}
 \begin{equation}
-  # of models\ in\ x + z+z \times z=\left(2^n-1\right)\left(2^h-1\right)
+  # of models\ in\ z+z \times z=\left(2^n-1\right)\left(2^h-1\right)
 \end{equation}
 
 where $h=\left( \begin{array}{c}
@@ -582,11 +581,11 @@ The total number of models given the different number of covariates can be seen 
 
 
 \subsection{When restrictions are in place}
-The calculations here are the same as previously described. However, the only sets that are of interest here are the x + z and $x + z + z \times z$ sets.\\
+The calculations here are the same as previously described. However, the only sets that are of interest here are the z and $ z + z \times z$ sets.\\
 The number of models in this case is then \\
 
-\[\# of models\ in\ x + z\left(2^n\right)\] 
-\[\# of models\ in\ x + z+z \times z=\sum^n_{k=2}{\left( \begin{array}{c}
+\[\# of models\ in\  z\left(2^n\right)\] 
+\[\# of models\ in\  z+z \times z=\sum^n_{k=2}{\left( \begin{array}{c}
 n \\ 
 k \end{array}
 \right)}\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)\ \]  
