@@ -5,12 +5,12 @@
 \caption{The total number of models when there is no variable of interest for any given set considering the different number of covariates and with no restriction that main effects should be present when having interaction effects.} 
 \begin{tabular}{lrrrrr}
   \hline
- & set & set.1 & set.2 & set.3 & set.4 \\ 
+Number of covariates & 2 & 3 & 4 & 5 & 6 \\ 
   \hline
-Model sets & 2 & 3 & 4 & 5 & 6 \\ 
-  ME & 4 & 8 & 16 & 32 & 64 \\ 
-  Cov * Cov & 1 & 4 & 32 & 512 & 16384 \\ 
-  ME + Cov * Cov & 3 & 49 & 945 & 31713 & 2064321 \\ 
+  $x + z$ & 4 & 8 & 16 & 32 & 64 \\ 
+  $z \times z$ & 1 & 4 & 32 & 512 & 16384 \\ 
+  $x + z + z \times z$ & 3 & 49 & 945 & 31713 & 2064321 \\ 
+  \hline
   Number of total models & 8 & 61 & 993 & 32257 & 2080769 \\ 
    \hline
 \end{tabular}

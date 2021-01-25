@@ -5,14 +5,15 @@
 \caption{The total number of models for any given set considering the different number of covariates with the restriction that the main effects should always be present when there are interaction effects.} 
 \begin{tabular}{lccccc}
   \hline
- & 2 & 3 & 4 & 5 & 6 \\ 
+Number of covariates & 2 & 3 & 4 & 5 & 6 \\
   \hline
-ME & 4 & 8 & 16 & 32 & 64 \\ 
-  ME + X * Cov & 5 & 19 & 65 & 211 & 665 \\ 
-  ME + Cov * Cov & 1 & 10 & 97 & 1418 & 40005 \\ 
-  ME+ X * Cov + Cov * Cov & 3 & 58 & 1159 & 36958 & 2269799 \\ 
+$x + z$ & 4 & 8 & 16 & 32 & 64 \\ 
+  $x + z + x \times z$ & 5 & 19 & 65 & 211 & 665 \\ 
+  $x + z + z \times z$ & 1 & 10 & 97 & 1418 & 40005 \\ 
+  $x + z+ x \times z + z \times z$ & 3 & 58 & 1159 & 36958 & 2269799 \\ 
+  \hline
   Number of total models & 13 & 95 & 1337 & 38619 & 2310533 \\ 
    \hline 
-\multicolumn{6}{p{12cm}}{\footnotesize{Note: ME = models with main effects only; ME + X * Cov = models with main effects and interactions between the variable of interest and covariates; ME + Cov * Cov = models with main effects and interactions between covariates; ME + X * Cov + Cov * Cov = models with main effects and interactions between the variable of interest and covariates and the interactions between covariates.}} 
+\multicolumn{6}{p{12cm}}{\footnotesize{Note: $x + z$ = models with main effects only; $x + z + x \times z$ = models with main effects and interactions between the variable of interest and covariates; $x + z + z \times z$ = models with main effects and interactions between covariates; $x + z + x \times z + z \times z$ = models with main effects and interactions between the variable of interest and covariates and the interactions between covariates.}} 
 \end{tabular}
 \end{table}
