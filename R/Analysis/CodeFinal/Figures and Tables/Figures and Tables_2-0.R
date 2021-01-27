@@ -94,7 +94,7 @@ Figure1A = ggplot(figuredata,aes(x=Set))+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
   scale_x_discrete(labels = labs)+
-  geom_hline(yintercept = 0.05)+
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x=element_blank(),
@@ -132,7 +132,7 @@ Figure1B = ggplot(figuredata,aes(x=Set))+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
   scale_x_discrete(labels = labs)+
-  geom_hline(yintercept = 0.05)+
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x=element_blank(),
@@ -170,7 +170,7 @@ Figure1C =ggplot(figuredata,aes(x=Set))+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
   scale_x_discrete(labels = labs)+
-  geom_hline(yintercept = 0.05)+
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x=element_blank(),
@@ -212,7 +212,7 @@ Figure1D<-ggplot(aes(x=SampleSize), data=figuredata)+
   xlab("Sample size")+
   theme_apa()+
   ylim(0,1) +
-  geom_hline(yintercept = 0.05)+
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 7, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -296,7 +296,7 @@ Figure2SI<-ggplot(figuredata,aes(x=Set))+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
   scale_x_discrete(labels = labs)+
-  geom_hline(yintercept = 0.05)+
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x=element_blank(),
@@ -332,7 +332,7 @@ Figure3SI = ggplot(figuredata,aes(x=Set))+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
   scale_x_discrete(labels = labs)+
-  geom_hline(yintercept = 0.05)+
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x=element_blank(),
@@ -367,13 +367,13 @@ Figure1ASI = ggplot(figuredata,aes(x=Set))+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
   scale_x_discrete(labels = labs)+
-  geom_hline(yintercept = 0.05)+
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x=element_blank(),
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.y = element_text(color = "grey20", size = 8, angle = 330, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"),
         legend.text = element_text( size = 7))
 
 Figure1ASI
@@ -400,13 +400,13 @@ Figure1BSI = ggplot(figuredata,aes(x=Set))+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
   scale_x_discrete(labels = labs)+
-  geom_hline(yintercept = 0.05)+
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x=element_blank(),
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.y = element_text(color = "grey20", size = 8, angle = 330, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"),
         legend.text = element_text( size = 7))
 
 
@@ -437,13 +437,13 @@ Figure1CSI =ggplot(figuredata,aes(x=Set))+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
   scale_x_discrete(labels = labs)+
-  geom_hline(yintercept = 0.05)+
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x=element_blank(),
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.y = element_text(color = "grey20", size = 8, angle = 330, hjust = .5, vjust = .5, face = "plain"),
+        strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"),
         legend.text = element_text( size = 7))
 
 
@@ -476,6 +476,7 @@ Figure1DSI<-ggplot(aes(x=SampleSize), data=figuredata)+
   xlab("Sample size")+
   theme_apa()+
   ylim(0,1) +
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 7, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
