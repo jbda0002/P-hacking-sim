@@ -11,6 +11,7 @@ library(jtools)
 library(ggpubr)
 library(xtable)
 library(latex2exp)
+library(grid)
 
 ##Load the data
 fileplace=paste0(output,"/File/Results.csv.gz")
@@ -221,23 +222,34 @@ Figure1D<-ggplot(aes(x=SampleSize), data=figuredata)+
         strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"),
         legend.text = element_text( size = 7))
 
+## Remove the empty facets
+
+g = ggplotGrob(Figure1D)
+g$layout
+pos <- g$layout$name %in% c("panel-4-4","panel-4-5","panel-4-6","panel-3-6","panel-1-5","panel-3-7")
+g$grobs[pos] <- list(nullGrob())
+
+grid.newpage()
+grid.draw(g)
+
+
 ##Save data
 fwrite(figuredata,paste0(output,"/Files/figuredata1D.csv"),sep=";")
 
 Figure1D
 
 
-Figure1 = ggarrange(Figure1A, Figure1D, Figure1B,Figure1C, 
+Figure1 = ggarrange(Figure1A, grid.draw(g), Figure1B,Figure1C, 
                     labels = c("A", "B", "C","D"),
                     ncol = 2, nrow = 2)
 Figure1
 
 
 ggsave(Figure1,filename = file.path(output,"Figures","Figure1.jpeg"),width = 15,height = 17)
-ggsave(Figure1A,filename = file.path(output,"Figures","Figure1A.jpeg"),width = 6,height = 7)
-ggsave(Figure1B,filename = file.path(output,"Figures","Figure1B.jpeg"),width = 6,height = 7)
-ggsave(Figure1C,filename = file.path(output,"Figures","Figure1C.jpeg"),width = 6,height = 7)
-ggsave(Figure1D,filename = file.path(output,"Figures","Figure1D.jpeg"),width = 9,height = 7)
+ggsave(Figure1A,filename = file.path(output,"Figures","Figure1A.jpeg"),width = 6,height = 6)
+ggsave(Figure1B,filename = file.path(output,"Figures","Figure1B.jpeg"),width = 6,height = 6)
+ggsave(Figure1C,filename = file.path(output,"Figures","Figure1C.jpeg"),width = 6,height = 6)
+ggsave(grid.draw(g),filename = file.path(output,"Figures","Figure1D.jpeg"),width = 9,height = 6)
 
 
 ### Using the full model set ###
