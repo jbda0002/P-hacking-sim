@@ -58,15 +58,23 @@ labs <- expression(italic("x") + italic("z"), italic("x") %*% italic("z"), itali
 ,italic("x") + italic("z") + italic("z") %*% italic("z"),
 italic("x") %*% italic("z") + italic("z") %*% italic("z"),italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))
 
+
+
+labs <- c("$\\textit{x} + \\textit{z}", "$\\textit{x} \\times \\textit{z}$", "$\\textit{z} \\times \\textit{z}$", "$\\textit{x} + \\textit{z} + \\textit{x} \\times \\textit{z}$", "$\\textit{x} + \\textit{z} + \\textit{z} \\times \\textit{z}$", 
+          "$\\textit{x} \\times \\textit{z} + \\textit{z} \\times \\textit{z}$", "$\\textit{x} + \\textit{z} + \\textit{x} \\times \\textit{z} + \\textit{z} \\times \\textit{z}$")
+              
+              
 ## Make two labels of dist when there is only the two from the main paper that will be shown
 labels_2=c('italic("x")%~%Binary~italic("z")%~%Binary','italic("x")%~%Normal~italic("z")%~%Normal')
+labels_2latex=c('$\\textit{x} \\sim Binary, \\textit{z} \\sim Binary','$\\textit{x} \\sim Normal, \\textit{z} \\sim Normal')
 
 labels_re = c('Without~restrictions', 'With~restrictions')
+labels_relatex = c('$Without$', '$With$')
 ## Make labels for the appendix
 labels_all=c('italic("x")%~%Binary~italic("z")%~%Binary','italic("x")%~%Normal~italic("z")%~%Normal','italic("x")%~%Normal~italic("z")%~%Binary'
              ,'italic("x")%~%Binary~italic("z")%~%Normal','italic("x")%~%Binary~italic("z")%~%Binary~(effect~coded)','italic("x")%~%Normal~italic("z")%~%Binary~(effect~coded)')
 
-
+print(expression(italic("x")%~%Binary~italic("z")%~%Binary))
 ## Figure 1A
 # False-positive rate for each set with just two covariates and a sample size of 200
 
@@ -108,6 +116,29 @@ Figure1A = ggplot(figuredata,aes(x=Set))+
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
 
+
+
+## Make into a table
+figuredata[,11]=NULL
+figuredata$IndependentVariables = figuredata$IndependentVariables+1
+figuredata$DV[figuredata$DV == 2 ] = 3
+
+figuredata$Set <- factor(figuredata$Set,
+                         labels=labs)
+
+figuredata$Type <- factor(figuredata$Type,
+                          labels=labels_2latex)
+
+
+figuredata$Main <- factor(figuredata$Main,levels = c('Without~restrictions', 'With~restrictions'),
+                          labels=labels_relatex)
+figuredata=figuredata[
+  with(figuredata, order(Main, Set)),
+  ]
+names(figuredata) = c("Restrictions" ,"Set", "Type" , "Sample Size" , "Outlier exclusion", "Correlation","Covariates","Dependent variables","FPP","FPR")
+
+
+print(xtable(figuredata,digits = 2, type = "latex"), caption.placement = "top", include.rownames=FALSE,sanitize.text.function = identity, file = "Table1A.tex",scalebox = 0.8)
 
 ##Save data
 fwrite(figuredata,paste0(output,"/Files/figuredata1A.csv"),sep=";")
@@ -510,3 +541,14 @@ ggsave(Figure1CSI,filename = file.path(output,"Figures","Figure1CSI.jpeg"),width
 ggsave(Figure1DSI,filename = file.path(output,"Figures","Figure1DSI.jpeg"),width = 12,height = 7)
 
 
+## Make table with all the results
+
+
+falsepostive=falsepostive[order(falsepostive$Main),]
+
+falsepostive[,11]=NULL
+falsepostive$IndependentVariables = falsepostive$IndependentVariables+1
+falsepostive$DV[falsepostive$DV == 2 ] = 3
+names(falsepostive) = c("Restrictions on interactions" ,"Set", "Type" , "Sample Size" , "Outlier exclusion", "Correlation","Number of covariates","Number of dependent variables","FPP","FPR")
+
+print(xtable(falsepostive,digits = 2, type = "latex",caption ="False positive probability (FPP) and false positive ratio (FPR) when looking at all the different sets under the different condetions. When restrictions on interactions are on main effects should always be present when there is interactions, this is not the case when restrictions on interactions is off."), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable", file = "Allsets.tex")
