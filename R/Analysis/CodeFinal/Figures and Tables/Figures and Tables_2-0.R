@@ -79,6 +79,7 @@ figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExcl
 figuredata$Type <- factor(figuredata$Type,
                           labels=labels_2)
 
+
 figuredata$Main <- factor(figuredata$Main,
                           labels=labels_re)
 
@@ -87,14 +88,18 @@ Figure1A = ggplot(figuredata,aes(x=Set))+
   geom_bar(aes(x=Set,y=Pr, fill = "FPP"), stat = "identity",position="dodge")+
   geom_bar(aes(x=Set,y=FPR, fill = "FPR"), stat = "identity",position="dodge")+
   scale_fill_manual(values=c("black","red"))+
-  #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
-  #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main, scales = "free", labeller=label_parsed)+
+  facet_grid(Type~Main, scales = "free_x", labeller=label_parsed)+
   theme_apa()+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = labs)+
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")), 
+                              "x * z"= expression(italic("x") %*% italic("z")), 
+                              "z * z"= expression(italic("z") %*% italic("z")), 
+                              "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),
+                              "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),
+                              "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),
+                              "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
@@ -132,7 +137,7 @@ Figure1B = ggplot(figuredata,aes(x=Set))+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = labs)+
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
@@ -170,7 +175,7 @@ Figure1C =ggplot(figuredata,aes(x=Set))+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = labs)+
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
@@ -307,7 +312,7 @@ Figure2SI<-ggplot(figuredata,aes(x=Set))+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = labs)+
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
@@ -343,7 +348,7 @@ Figure3SI = ggplot(figuredata,aes(x=Set))+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = labs)+
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
@@ -378,7 +383,7 @@ Figure1ASI = ggplot(figuredata,aes(x=Set))+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = labs)+
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
@@ -411,7 +416,7 @@ Figure1BSI = ggplot(figuredata,aes(x=Set))+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = labs)+
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
@@ -448,7 +453,7 @@ Figure1CSI =ggplot(figuredata,aes(x=Set))+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = labs)+
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
