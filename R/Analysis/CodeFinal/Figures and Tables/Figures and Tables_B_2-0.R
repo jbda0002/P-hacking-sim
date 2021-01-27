@@ -29,32 +29,57 @@ falsepositverateData$rate=ifelse(falsepositverateData$f..>0,1,0)
 
 falsepostive=falsepositverateData[,list(mean=mean(rate),FPR=mean(f..)),by=c("Main","Set","Type","SampleSize","OutlierExclusion","Correlation","IndependentVariables","DV")]
 
-falsepostive$Main[falsepostive$Main==1]<-"With restrictions for interactions"
-falsepostive$Main[falsepostive$Main==2]<-"No restrictions for interactions"
-falsepostive$Type[falsepostive$Type==1]<-"x1=Normal, Cov=Normal"
-falsepostive$Type[falsepostive$Type==2]<-"x1=Binary, Cov=Binary"
-falsepostive$Type[falsepostive$Type==1]<-"x1=Normal, Cov=Normal"
-falsepostive$Type[falsepostive$Type==2]<-"x1=Binary, Cov=Binary"
-falsepostive$Type[falsepostive$Type==3]<-"x1=Normal, Cov=Binary"
-falsepostive$Type[falsepostive$Type==4]<-"x1=Binary, Cov=Normal"
-falsepostive$Type[falsepostive$Type==5]<-"x1=Binary, Cov=Binary Effect"
-falsepostive$Type[falsepostive$Type==6]<-"x1=Normal, Cov=Binary Effect"
+falsepostive$Main[falsepostive$Main==1]<-"With restrictions"
+falsepostive$Main[falsepostive$Main==2]<-"Without restrictions"
+falsepostive$Type[falsepostive$Type==1]<-"x1~Normal, z~Normal"
+falsepostive$Type[falsepostive$Type==2]<-"x1~Binary, z~Binary"
+falsepostive$Type[falsepostive$Type==3]<-"x1~Normal, z~Binary"
+falsepostive$Type[falsepostive$Type==4]<-"x1~Binary, z~Normal"
+falsepostive$Type[falsepostive$Type==5]<-"x1~Binary, z~Binary Effect"
+falsepostive$Type[falsepostive$Type==6]<-"x1~Normal, z~Binary Effect"
 falsepostive$OutlierExclusion[falsepostive$OutlierExclusion==2]<-"FALSE"
 falsepostive$OutlierExclusion[falsepostive$OutlierExclusion==1]<-"TRUE"
 
 
 
 falsepostive$Set <- factor(falsepostive$Set,levels = c("Ma", "HCI", "CCI", "Ma + HCI","Ma + CCI","HCI + CCI","Ma + HCI + CCI"))
-levels(falsepostive$Set) <- c("ME", "X * Cov", "Cov * Cov", "ME + X * Cov","ME + Cov * Cov","X * Cov + Cov * Cov","ME + X * Cov + Cov * Cov")
+levels(falsepostive$Set) <- c("x + z", "x * z", "z * z", "x + z + x * z","x + z + z * z","x * z + z * z","x + z + x * z + z * z")
+falsepostive$Main = factor(falsepostive$Main,levels = c("Without restrictions","With restrictions"))
+levels(falsepostive$Main ) <- c("Without restrictions","With restrictions")
 falsepostive$Pr<-as.numeric(falsepostive$mean)
+
+falsepostive$Type = factor(falsepostive$Type,levels = c("x1~Binary, z~Binary","x1~Normal, z~Normal","x1~Normal, z~Binary",
+                                                        "x1~Binary, z~Normal","x1~Binary, z~Binary Effect","x1~Normal, z~Binary Effect"))
+
+## Make labels
+labs <- expression(italic("x") + italic("z"), italic("x") %*% italic("z"), italic("z") %*% italic("z"), italic("x") + italic("z") + italic("x") %*% italic("z")
+                   ,italic("x") + italic("z") + italic("z") %*% italic("z"),
+                   italic("x") %*% italic("z") + italic("z") %*% italic("z"),italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))
+
+## Make two labels of dist when there is only the two from the main paper that will be shown
+labels_2=c('italic("x")%~%Binary~italic("z")%~%Binary','italic("x")%~%Normal~italic("z")%~%Normal')
+
+labels_re = c('Without~restrictions', 'With~restrictions')
+## Make labels for the appendix
+labels_all=c('italic("x")%~%Binary~italic("z")%~%Binary','italic("x")%~%Normal~italic("z")%~%Normal','italic("x")%~%Normal~italic("z")%~%Binary'
+             ,'italic("x")%~%Binary~italic("z")%~%Normal','italic("x")%~%Binary~italic("z")%~%Binary~(effect~coded)','italic("x")%~%Normal~italic("z")%~%Binary~(effect~coded)')
+
 
 ## Figure 1A
 # False-positive rate for each set with just two covariates and a sample size of 200
 
 
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==1 & falsepostive$Correlation==0.2 & falsepostive$DV==1
-                         & falsepostive$Type!="x1=Normal, Cov=Binary" & falsepostive$Type!="x1=Binary, Cov=Normal"
-                         & falsepostive$Type!="x1=Binary, Cov=Binary Effect" & falsepostive$Type!="x1=Normal, Cov=Binary Effect",]
+                         & falsepostive$Type!="x1~Normal, z~Binary" & falsepostive$Type!="x1~Binary, z~Normal"
+                         & falsepostive$Type!="x1~Binary, z~Binary Effect" & falsepostive$Type!="x1~Normal, z~Binary Effect",]
+
+#Rename labels
+figuredata$Type <- factor(figuredata$Type,
+                          labels=labels_2)
+
+figuredata$Main <- factor(figuredata$Main,
+                          labels=labels_re)
+
 
 Figure1A = ggplot(figuredata,aes(x=Set))+
   geom_bar(aes(x=Set,y=Pr, fill = "FPP"), stat = "identity",position="dodge")+
@@ -62,14 +87,16 @@ Figure1A = ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main, scales = "free")+
+  facet_grid(Type~Main, scales = "free", labeller=label_parsed)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Probability of FPP and FPR")+
+  ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.x=element_blank(),
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
@@ -82,10 +109,15 @@ Figure1A
 ## Figure 1B
 # Effect of using outlier citeria, with two covariates and sample size at 200
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="TRUE" & falsepostive$IndependentVariables==1 & falsepostive$Correlation==0.2 & falsepostive$DV==1
-                         & falsepostive$Type!="x1=Normal, Cov=Binary" & falsepostive$Type!="x1=Binary, Cov=Normal"
-                         & falsepostive$Type!="x1=Binary, Cov=Binary Effect" & falsepostive$Type!="x1=Normal, Cov=Binary Effect",]
+                         & falsepostive$Type!="x1~Normal, z~Binary" & falsepostive$Type!="x1~Binary, z~Normal"
+                         & falsepostive$Type!="x1~Binary, z~Binary Effect" & falsepostive$Type!="x1~Normal, z~Binary Effect",]
 
+#Rename labels
+figuredata$Type <- factor(figuredata$Type,
+                          labels=labels_2)
 
+figuredata$Main <- factor(figuredata$Main,
+                          labels=labels_re)
 
 Figure1B = ggplot(figuredata,aes(x=Set))+
   geom_bar(aes(x=Set,y=Pr, fill = "FPP"), stat = "identity",position="dodge")+
@@ -93,17 +125,20 @@ Figure1B = ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main, scales = "free")+
+  facet_grid(Type~Main, scales = "free", labeller=label_parsed)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Probability of FPP and FPR")+
+  ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.x=element_blank(),
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
+
 ##Save data
 fwrite(figuredata,paste0(output,"/Files/figuredata1B.csv"),sep=";")
 Figure1B
@@ -112,10 +147,15 @@ Figure1B
 # Adding an extra covariate
 
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==2 & falsepostive$Correlation==0.2 & falsepostive$DV==1
-                         & falsepostive$Type!="x1=Normal, Cov=Binary" & falsepostive$Type!="x1=Binary, Cov=Normal"
-                         & falsepostive$Type!="x1=Binary, Cov=Binary Effect" & falsepostive$Type!="x1=Normal, Cov=Binary Effect",]
+                         & falsepostive$Type!="x1~Normal, z~Binary" & falsepostive$Type!="x1~Binary, z~Normal"
+                         & falsepostive$Type!="x1~Binary, z~Binary Effect" & falsepostive$Type!="x1~Normal, z~Binary Effect",]
 
+#Rename labels
+figuredata$Type <- factor(figuredata$Type,
+                          labels=labels_2)
 
+figuredata$Main <- factor(figuredata$Main,
+                          labels=labels_re)
 
 Figure1C =ggplot(figuredata,aes(x=Set))+
   geom_bar(aes(x=Set,y=Pr, fill = "FPP"), stat = "identity",position="dodge")+
@@ -123,14 +163,16 @@ Figure1C =ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main, scales = "free")+
+  facet_grid(Type~Main, scales = "free", labeller=label_parsed)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Probability of FPP and FPR")+
+  ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.x=element_blank(),
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
@@ -141,14 +183,21 @@ Figure1C
 ## Figure 1D
 # The effect of bigger sample
 
-
 figuredata<-as.data.table(falsepostive[ falsepostive$OutlierExclusion=="FALSE" & falsepostive$Correlation==0.2 & falsepostive$IndependentVariables==1 & falsepostive$DV==1
-                                        & falsepostive$Type!="x1=Normal, Cov=Binary" & falsepostive$Type!="x1=Binary, Cov=Normal"
-                                        & falsepostive$Type!="x1=Binary, Cov=Binary Effect" & falsepostive$Type!="x1=Normal, Cov=Binary Effect"
+                                        & falsepostive$Type!="x1~Normal, z~Binary" & falsepostive$Type!="x1~Binary, z~Normal"
+                                        & falsepostive$Type!="x1~Binary, z~Binary Effect" & falsepostive$Type!="x1~Normal, z~Binary Effect"
                                         ,]
 )
-figuredata$Set <- factor(figuredata$Set,levels = c("ME", "X * Cov", "Cov * Cov", "ME + X * Cov","ME + Cov * Cov","X * Cov + Cov * Cov","ME + X * Cov + Cov * Cov"))
-figuredata$Pr<-as.numeric(figuredata$mean)
+
+#Rename labels
+figuredata$Type <- factor(figuredata$Type,
+                          labels=labels_2)
+
+figuredata$Main <- factor(figuredata$Main,
+                          labels=labels_re)
+
+figuredata$Set <- factor(figuredata$Set,
+                         labels=labs)
 
 
 Figure1D<-ggplot(aes(x=SampleSize), data=figuredata)+
@@ -157,11 +206,12 @@ Figure1D<-ggplot(aes(x=SampleSize), data=figuredata)+
   geom_line(aes( y=FPR,color="red")) +
   geom_point(aes( y=FPR),color="red")+
   scale_color_manual(values = c("black","red"),labels = c("FPP", "FPR"))+
-  facet_grid(Set~Main+Type, scales = "free")+
-  ylab("Probability of FPP and FPR")+
+  facet_grid(Set~Main+Type, scales = "free", labeller=label_parsed)+
+  ylab("Probability (FPP) / Ratio (FPR)")+
   xlab("Sample size")+
   theme_apa()+
   ylim(0,1) +
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 7, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -170,29 +220,40 @@ Figure1D<-ggplot(aes(x=SampleSize), data=figuredata)+
         strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"),
         legend.text = element_text( size = 7))
 
+## Remove the empty facets
+
+g = ggplotGrob(Figure1D)
+g$layout
+pos <- g$layout$name %in% c("panel-4-4","panel-4-5","panel-4-6","panel-3-6","panel-1-5","panel-3-7")
+g$grobs[pos] <- list(nullGrob())
+
+grid.newpage()
+grid.draw(g)
+
+
 ##Save data
 fwrite(figuredata,paste0(output,"/Files/figuredata1D.csv"),sep=";")
 
 Figure1D
 
 
-Figure1 = ggarrange(Figure1A, Figure1D, Figure1B,Figure1C, 
+Figure1 = ggarrange(Figure1A, grid.draw(g), Figure1B,Figure1C, 
                     labels = c("A", "B", "C","D"),
                     ncol = 2, nrow = 2)
 Figure1
 
 
 ggsave(Figure1,filename = file.path(output,"Figures","Figure1Bon.jpeg"),width = 15,height = 17)
-ggsave(Figure1A,filename = file.path(output,"Figures","Figure1ABon.jpeg"),width = 6,height = 7)
-ggsave(Figure1B,filename = file.path(output,"Figures","Figure1BBon.jpeg"),width = 6,height = 7)
-ggsave(Figure1C,filename = file.path(output,"Figures","Figure1CBon.jpeg"),width = 6,height = 7)
-ggsave(Figure1D,filename = file.path(output,"Figures","Figure1DBon.jpeg"),width = 9,height = 7)
+ggsave(Figure1A,filename = file.path(output,"Figures","Figure1ABon.jpeg"),width = 6,height = 6)
+ggsave(Figure1B,filename = file.path(output,"Figures","Figure1BBon.jpeg"),width = 6,height = 6)
+ggsave(Figure1C,filename = file.path(output,"Figures","Figure1CBon.jpeg"),width = 6,height = 6)
+ggsave(grid.draw(g),filename = file.path(output,"Figures","Figure1DBon.jpeg"),width = 9,height = 6)
 
 
 ### Using the full model set ###
 
 
-fileplace=paste0(output,"/File/resultsFullSet.csv.gz")
+fileplace=paste0(output,"/File/resultsFullSetBC.csv.gz")
 resultsFullset = read.table(gzfile(fileplace),sep=",",header = T)
 falsepositverateDataFull<-as.data.table(resultsFullset)
 
@@ -208,7 +269,11 @@ falsepostiveFULL$Sample = NULL
 falsepostiveFULL$Outlier = NULL 
 falsepostiveFULL$Correlation = NULL 
 falsepostiveFULL[,3] = NULL 
-print(xtable(falsepostiveFULL,digits = 2, type = "latex",caption ="False positive probability (FPP) and false positive ratio (FPR) when looking at all the models possible when the sample size is 200, no outlier criteria is being used and having two covariates. When MAIN = TRUE main effects should always be present when there is interactions, this is not the case when MAIN = FALSE. "), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable", file = "FullModelSet.tex")
+falsepostiveFULL$Main[falsepostiveFULL$Main=="FALSE"] = "Without"
+falsepostiveFULL$Main[falsepostiveFULL$Main=="TRUE"] = "With"
+names(falsepostiveFULL) = c("Restrictions on interactions" , "Type" , "FPP" , "FPR")
+
+print(xtable(falsepostiveFULL,digits = 2, type = "latex",caption ="False positive probability (FPP) and false positive ratio (FPR) when looking at all the models possible when the sample size is 200, no outlier criteria is being used and having two covariates. When restrictions on interactions are on main effects should always be present when there is interactions, this is not the case when restrictions on interactions is off."), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable", file = "FullModelSetBC.tex")
 
 falsepostiveFULL
 
@@ -218,9 +283,15 @@ falsepostiveFULL
 ## The effect of higher correlations ##
 
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==1 & falsepostive$DV==1
-                         & falsepostive$Type!="x1=Normal, Cov=Binary" & falsepostive$Type!="x1=Binary, Cov=Normal"
-                         & falsepostive$Type!="x1=Binary, Cov=Binary Effect" & falsepostive$Type!="x1=Normal, Cov=Binary Effect",]
+                         & falsepostive$Type!="x1~Normal, z~Binary" & falsepostive$Type!="x1~Binary, z~Normal"
+                         & falsepostive$Type!="x1~Binary, z~Binary Effect" & falsepostive$Type!="x1~Normal, z~Binary Effect",]
 
+
+figuredata$Type <- factor(figuredata$Type,
+                          labels=labels_2)
+
+figuredata$Main <- factor(figuredata$Main,
+                          labels=labels_re)
 
 
 Figure2SI<-ggplot(figuredata,aes(x=Set))+
@@ -229,18 +300,19 @@ Figure2SI<-ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type+Correlation~Main, scales = "free")+
+  facet_grid(Type+Correlation~Main, scales = "free", labeller=label_parsed)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Probability of FPP and FPR")+
+  ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.x=element_blank(),
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
-        strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"),
-        legend.text = element_text( size = 7))
+        strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
 
 Figure2SI
 
@@ -248,10 +320,15 @@ ggsave(Figure2SI,filename = file.path(output,"Figures","Figure2SIBon.jpeg"),widt
 
 ## Using several dependent variables
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==1 & falsepostive$Correlation==0.2 & falsepostive$DV==2
-                         & falsepostive$Type!="x1=Normal, Cov=Binary" & falsepostive$Type!="x1=Binary, Cov=Normal"
-                         & falsepostive$Type!="x1=Binary, Cov=Binary Effect" & falsepostive$Type!="x1=Normal, Cov=Binary Effect",]
+                         & falsepostive$Type!="x1~Normal, z~Binary" & falsepostive$Type!="x1~Binary, z~Normal"
+                         & falsepostive$Type!="x1~Binary, z~Binary Effect" & falsepostive$Type!="x1~Normal, z~Binary Effect",]
 
 
+figuredata$Type <- factor(figuredata$Type,
+                          labels=labels_2)
+
+figuredata$Main <- factor(figuredata$Main,
+                          labels=labels_re)
 
 Figure3SI = ggplot(figuredata,aes(x=Set))+
   geom_bar(aes(x=Set,y=Pr, fill = "FPP"), stat = "identity",position="dodge")+
@@ -259,14 +336,16 @@ Figure3SI = ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main, scales = "free")+
+  facet_grid(Type~Main, scales = "free", labeller=label_parsed)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Probability of FPP and FPR")+
+  ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.x=element_blank(),
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"),
@@ -280,20 +359,28 @@ ggsave(Figure3SI,filename = file.path(output,"Figures","Figure3SIBon.jpeg"),widt
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==1 & falsepostive$Correlation==0.2 & falsepostive$DV==1
                          ,]
 
+figuredata$Type <- factor(figuredata$Type,
+                          labels=labels_all)
+
+figuredata$Main <- factor(figuredata$Main,
+                          labels=labels_re)
+
 Figure1ASI = ggplot(figuredata,aes(x=Set))+
   geom_bar(aes(x=Set,y=Pr, fill = "FPP"), stat = "identity",position="dodge")+
   geom_bar(aes(x=Set,y=FPR, fill = "FPR"), stat = "identity",position="dodge")+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main, scales = "free")+
+  facet_grid(Type~Main, scales = "free", labeller=label_parsed)+
   theme_apa()+
-  ylim(0,1) +
   xlab("Model set")+
-  ylab("Probability of FPP and FPR")+
+  ylab("Probability (FPP) / Ratio (FPR)")+
+  ylim(0,1) +
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.title.x=element_blank(),
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"),
@@ -305,7 +392,11 @@ Figure1ASI
 # Effect of using outlier citeria, with two covariates and sample size at 200
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="TRUE" & falsepostive$IndependentVariables==1 & falsepostive$Correlation==0.2 & falsepostive$DV==1,]
 
+figuredata$Type <- factor(figuredata$Type,
+                          labels=labels_all)
 
+figuredata$Main <- factor(figuredata$Main,
+                          labels=labels_re)
 
 Figure1BSI = ggplot(figuredata,aes(x=Set))+
   geom_bar(aes(x=Set,y=Pr, fill = "FPP"), stat = "identity",position="dodge")+
@@ -313,14 +404,16 @@ Figure1BSI = ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main, scales = "free")+
+  facet_grid(Type~Main, scales = "free", labeller=label_parsed)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Probability of FPP and FPR")+
+  ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
-        axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
+        axis.title.x=element_blank(),
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"),
@@ -336,6 +429,11 @@ Figure1BSI
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==2 & falsepostive$Correlation==0.2 & falsepostive$DV==1,]
 
 
+figuredata$Type <- factor(figuredata$Type,
+                          labels=labels_all)
+
+figuredata$Main <- factor(figuredata$Main,
+                          labels=labels_re)
 
 Figure1CSI =ggplot(figuredata,aes(x=Set))+
   geom_bar(aes(x=Set,y=Pr, fill = "FPP"), stat = "identity",position="dodge")+
@@ -343,14 +441,16 @@ Figure1CSI =ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main, scales = "free")+
+  facet_grid(Type~Main, scales = "free", labeller=label_parsed)+
   theme_apa()+
   xlab("Model set")+
-  ylab("Probability of FPP and FPR")+
+  ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
-        axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
-        axis.title.x = element_text(color = "grey20", size = 14, angle = 0, hjust = .5, vjust = 0, face = "plain"),
+        axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
+        axis.title.x=element_blank(),
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 7, angle = 330, hjust = .5, vjust = .5, face = "plain"),
@@ -365,9 +465,15 @@ Figure1CSI
 figuredata<-as.data.table(falsepostive[ falsepostive$OutlierExclusion=="FALSE" & falsepostive$Correlation==0.2 & falsepostive$IndependentVariables==1 & falsepostive$DV==1
                                         ,]
 )
-figuredata$Set <- factor(figuredata$Set,levels = c("ME", "X * Cov", "Cov * Cov", "ME + X * Cov","ME + Cov * Cov","X * Cov + Cov * Cov","ME + X * Cov + Cov * Cov"))
-figuredata$Pr<-as.numeric(figuredata$mean)
 
+figuredata$Type <- factor(figuredata$Type,
+                          labels=labels_all)
+
+figuredata$Main <- factor(figuredata$Main,
+                          labels=labels_re)
+
+figuredata$Set <- factor(figuredata$Set,
+                         labels=labs)
 
 Figure1DSI<-ggplot(aes(x=SampleSize), data=figuredata)+
   geom_line(aes( y=Pr,color="black")) +
@@ -375,11 +481,12 @@ Figure1DSI<-ggplot(aes(x=SampleSize), data=figuredata)+
   geom_line(aes( y=FPR,color="red")) +
   geom_point(aes( y=FPR),color="red")+
   scale_color_manual(values = c("black","red"),labels = c("FPP", "FPR"))+
-  facet_grid(Set~Main+Type, scales = "free")+
-  ylab("Probability of FPP and FPR")+
+  facet_grid(Set~Main+Type, scales = "free", labeller=label_parsed)+
+  ylab("Probability (FPP) / Ratio (FPR)")+
   xlab("Sample size")+
   theme_apa()+
   ylim(0,1) +
+  geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 7, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 10, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
         axis.title.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = 0, face = "plain"),
@@ -394,6 +501,4 @@ ggsave(Figure1ASI,filename = file.path(output,"Figures","Figure1ASIBon.jpeg"),wi
 ggsave(Figure1BSI,filename = file.path(output,"Figures","Figure1BSIBon.jpeg"),width = 8,height = 7)
 ggsave(Figure1CSI,filename = file.path(output,"Figures","Figure1CSIBon.jpeg"),width = 8,height = 7)
 ggsave(Figure1DSI,filename = file.path(output,"Figures","Figure1DSIBon.jpeg"),width = 12,height = 7)
-
-
 
