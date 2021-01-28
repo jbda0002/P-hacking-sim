@@ -10,9 +10,11 @@ library(ggplot2)
 library(jtools)
 library(ggpubr)
 library(xtable)
+library(latex2exp)
+library(grid)
 
 ##Load the data
-fileplace=paste0(output,"/File/ResultsBC.csv.gz")
+fileplace=paste0(output,"/File/Results.csv.gz")
 finalresults = read.table(gzfile(fileplace),sep=",",header = T)
 ## Figures for paper ##
 
@@ -56,10 +58,18 @@ labs <- expression(italic("x") + italic("z"), italic("x") %*% italic("z"), itali
                    ,italic("x") + italic("z") + italic("z") %*% italic("z"),
                    italic("x") %*% italic("z") + italic("z") %*% italic("z"),italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))
 
+
+
+labs <- c("$\\textit{x} + \\textit{z}$", "$\\textit{x} \\times \\textit{z}$", "$\\textit{z} \\times \\textit{z}$", "$\\textit{x} + \\textit{z} + \\textit{x} \\times \\textit{z}$", "$\\textit{x} + \\textit{z} + \\textit{z} \\times \\textit{z}$", 
+          "$\\textit{x} \\times \\textit{z} + \\textit{z} \\times \\textit{z}$", "$\\textit{x} + \\textit{z} + \\textit{x} \\times \\textit{z} + \\textit{z} \\times \\textit{z}$")
+
+
 ## Make two labels of dist when there is only the two from the main paper that will be shown
 labels_2=c('italic("x")%~%Binary~italic("z")%~%Binary','italic("x")%~%Normal~italic("z")%~%Normal')
+labels_2latex=c("$\\textit{x} \\sim Binary, \\textit{z} \\sim Binary$","$\\textit{x} \\sim Normal , \\textit{z} \\sim Normal$")
 
 labels_re = c('Without~restrictions', 'With~restrictions')
+labels_relatex = c('$Without$', '$With$')
 ## Make labels for the appendix
 labels_all=c('italic("x")%~%Binary~italic("z")%~%Binary','italic("x")%~%Normal~italic("z")%~%Normal','italic("x")%~%Normal~italic("z")%~%Binary'
              ,'italic("x")%~%Binary~italic("z")%~%Normal','italic("x")%~%Binary~italic("z")%~%Binary~(effect~coded)','italic("x")%~%Normal~italic("z")%~%Binary~(effect~coded)')
@@ -77,6 +87,7 @@ figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExcl
 figuredata$Type <- factor(figuredata$Type,
                           labels=labels_2)
 
+
 figuredata$Main <- factor(figuredata$Main,
                           labels=labels_re)
 
@@ -85,14 +96,18 @@ Figure1A = ggplot(figuredata,aes(x=Set))+
   geom_bar(aes(x=Set,y=Pr, fill = "FPP"), stat = "identity",position="dodge")+
   geom_bar(aes(x=Set,y=FPR, fill = "FPR"), stat = "identity",position="dodge")+
   scale_fill_manual(values=c("black","red"))+
-  #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
-  #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type~Main, scales = "free", labeller=label_parsed)+
+  facet_grid(Type~Main, scales = "free_x", labeller=label_parsed)+
   theme_apa()+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")), 
+                              "x * z"= expression(italic("x") %*% italic("z")), 
+                              "z * z"= expression(italic("z") %*% italic("z")), 
+                              "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),
+                              "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),
+                              "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),
+                              "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
@@ -101,6 +116,29 @@ Figure1A = ggplot(figuredata,aes(x=Set))+
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
 
+
+
+## Make into a table
+figuredata[,11]=NULL
+figuredata$IndependentVariables = figuredata$IndependentVariables+1
+figuredata$DV[figuredata$DV == 2 ] = 3
+
+figuredata$Set <- factor(figuredata$Set,
+                         labels=labs)
+
+figuredata$Type <- factor(figuredata$Type,
+                          labels=labels_2latex)
+
+
+figuredata$Main <- factor(figuredata$Main,levels = c('Without~restrictions', 'With~restrictions'),
+                          labels=labels_relatex)
+figuredata=figuredata[
+  with(figuredata, order(Main, Set)),
+  ]
+names(figuredata) = c("Restrictions" ,"Set", "Type" , "Sample Size" , "Outlier exclusion", "Correlation","Covariates","Dependent variables","FPP","FPR")
+
+
+print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different model sets,  the presence of main effects when having interactions (i.e., With restrictions or No restrictions) and different distributions of the variable of interest and covariates. Sample size is set to 200, a correlation between the dependent variable and covariates is \\textit{r}=0.2 and using two covariates.",label = "tab:apptab1"), caption.placement = "top", include.rownames=FALSE,sanitize.text.function = identity, file = "Table1ABon.tex",scalebox = 0.8)
 
 ##Save data
 fwrite(figuredata,paste0(output,"/Files/figuredata1A.csv"),sep=";")
@@ -130,7 +168,13 @@ Figure1B = ggplot(figuredata,aes(x=Set))+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),        
+                              "x * z"= expression(italic("x") %*% italic("z")),                                
+                              "z * z"= expression(italic("z") %*% italic("z")),                               
+                              "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                              
+                              "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               
+                              "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                              
+                              "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
@@ -138,6 +182,29 @@ Figure1B = ggplot(figuredata,aes(x=Set))+
         axis.title.y = element_text(color = "grey20", size = 14, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         strip.text.x = element_text(color = "grey20", size = 10, angle = 0, hjust = .5, vjust = .5, face = "plain"),
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"))
+
+
+## Make into a table
+figuredata[,11]=NULL
+figuredata$IndependentVariables = figuredata$IndependentVariables+1
+figuredata$DV[figuredata$DV == 2 ] = 3
+
+figuredata$Set <- factor(figuredata$Set,
+                         labels=labs)
+
+figuredata$Type <- factor(figuredata$Type,
+                          labels=labels_2latex)
+
+
+figuredata$Main <- factor(figuredata$Main,levels = c('Without~restrictions', 'With~restrictions'),
+                          labels=labels_relatex)
+figuredata=figuredata[
+  with(figuredata, order(Main, Set)),
+  ]
+names(figuredata) = c("Restrictions" ,"Set", "Type" , "Sample Size" , "Outlier exclusion", "Correlation","Covariates","Dependent variables","FPP","FPR")
+
+
+print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different model sets when using multiple outlier criteria.",label = "tab:apptab2"), caption.placement = "top", include.rownames=FALSE,sanitize.text.function = identity, file = "Table1BBon.tex",scalebox = 0.8)
 
 ##Save data
 fwrite(figuredata,paste0(output,"/Files/figuredata1B.csv"),sep=";")
@@ -168,7 +235,13 @@ Figure1C =ggplot(figuredata,aes(x=Set))+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                
+                              "x * z"= expression(italic("x") %*% italic("z")),                                
+                              "z * z"= expression(italic("z") %*% italic("z")),                                
+                              "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                              
+                              "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                              
+                              "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                              
+                              "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
@@ -179,6 +252,30 @@ Figure1C =ggplot(figuredata,aes(x=Set))+
 ##Save data
 fwrite(figuredata,paste0(output,"/Files/figuredata1C.csv"),sep=";")
 Figure1C
+
+
+## Make into a table
+figuredata[,11]=NULL
+figuredata$IndependentVariables = figuredata$IndependentVariables+1
+figuredata$DV[figuredata$DV == 2 ] = 3
+
+figuredata$Set <- factor(figuredata$Set,
+                         labels=labs)
+
+figuredata$Type <- factor(figuredata$Type,
+                          labels=labels_2latex)
+
+
+figuredata$Main <- factor(figuredata$Main,levels = c('Without~restrictions', 'With~restrictions'),
+                          labels=labels_relatex)
+figuredata=figuredata[
+  with(figuredata, order(Main, Set)),
+  ]
+names(figuredata) = c("Restrictions" ,"Set", "Type" , "Sample Size" , "Outlier exclusion", "Correlation","Covariates","Dependent variables","FPP","FPR")
+
+
+print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different model sets when adding a extra covariate compared to the baseline case.",label = "tab:apptab3"), caption.placement = "top", include.rownames=FALSE,sanitize.text.function = identity, file = "Table1CBon.tex",scalebox = 0.8)
+
 
 ## Figure 1D
 # The effect of bigger sample
@@ -237,6 +334,27 @@ fwrite(figuredata,paste0(output,"/Files/figuredata1D.csv"),sep=";")
 Figure1D
 
 
+## Make into a table
+figuredata[,11]=NULL
+figuredata$IndependentVariables = figuredata$IndependentVariables+1
+figuredata$DV[figuredata$DV == 2 ] = 3
+
+
+figuredata$Type <- factor(figuredata$Type,
+                          labels=labels_2latex)
+
+
+figuredata$Main <- factor(figuredata$Main,levels = c('Without~restrictions', 'With~restrictions'),
+                          labels=labels_relatex)
+figuredata=figuredata[
+  with(figuredata, order(Main, Set,SampleSize)),
+  ]
+names(figuredata) = c("Restrictions" ,"Set", "Type" , "Sample Size" , "Outlier exclusion", "Correlation","Covariates","Dependent variables","FPP","FPR")
+
+
+print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different sample sizes"), caption.placement = "top", include.rownames=FALSE,sanitize.text.function = identity, file = "Table1DBon.tex",tabular.environment="longtable",floating = F)
+
+
 Figure1 = ggarrange(Figure1A, grid.draw(g), Figure1B,Figure1C, 
                     labels = c("A", "B", "C","D"),
                     ncol = 2, nrow = 2)
@@ -253,7 +371,7 @@ ggsave(grid.draw(g),filename = file.path(output,"Figures","Figure1DBon.jpeg"),wi
 ### Using the full model set ###
 
 
-fileplace=paste0(output,"/File/resultsFullSetBC.csv.gz")
+fileplace=paste0(output,"/File/resultsFullSet.csv.gz")
 resultsFullset = read.table(gzfile(fileplace),sep=",",header = T)
 falsepositverateDataFull<-as.data.table(resultsFullset)
 
@@ -273,7 +391,7 @@ falsepostiveFULL$Main[falsepostiveFULL$Main=="FALSE"] = "Without"
 falsepostiveFULL$Main[falsepostiveFULL$Main=="TRUE"] = "With"
 names(falsepostiveFULL) = c("Restrictions on interactions" , "Type" , "FPP" , "FPR")
 
-print(xtable(falsepostiveFULL,digits = 2, type = "latex",caption ="False positive probability (FPP) and false positive ratio (FPR) when looking at all the models possible when the sample size is 200, no outlier criteria is being used and having two covariates. When restrictions on interactions are on main effects should always be present when there is interactions, this is not the case when restrictions on interactions is off."), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable", file = "FullModelSetBC.tex")
+print(xtable(falsepostiveFULL,digits = 2, type = "latex",caption ="False positive probability (FPP) and false positive ratio (FPR) when looking at all the models possible when the sample size is 200, no outlier criteria is being used and having two covariates. When restrictions on interactions are on main effects should always be present when there is interactions, this is not the case when restrictions on interactions is off."), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable", file = "FullModelSetBon.tex")
 
 falsepostiveFULL
 
@@ -318,6 +436,29 @@ Figure2SI
 
 ggsave(Figure2SI,filename = file.path(output,"Figures","Figure2SIBon.jpeg"),width = 7,height = 12)
 
+## Make into a table
+figuredata[,11]=NULL
+figuredata$IndependentVariables = figuredata$IndependentVariables+1
+figuredata$DV[figuredata$DV == 2 ] = 3
+
+figuredata$Set <- factor(figuredata$Set,
+                         labels=labs)
+
+figuredata$Type <- factor(figuredata$Type,
+                          labels=labels_2latex)
+
+
+figuredata$Main <- factor(figuredata$Main,levels = c('Without~restrictions', 'With~restrictions'),
+                          labels=labels_relatex)
+figuredata=figuredata[
+  with(figuredata, order(Main, Set,Correlation)),
+  ]
+names(figuredata) = c("Restrictions" ,"Set", "Type" , "Sample Size" , "Outlier exclusion", "Correlation","Covariates","Dependent variables","FPP","FPR")
+
+
+print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different model sets with different levels of correlations between the dependent variable and the covariates.",label = "tab:apptab5"), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable",sanitize.text.function = identity, file = "Table2SIBon.tex",floating = F)
+
+
 ## Using several dependent variables
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==1 & falsepostive$Correlation==0.2 & falsepostive$DV==2
                          & falsepostive$Type!="x1~Normal, z~Binary" & falsepostive$Type!="x1~Binary, z~Normal"
@@ -353,6 +494,28 @@ Figure3SI = ggplot(figuredata,aes(x=Set))+
 Figure3SI
 ggsave(Figure3SI,filename = file.path(output,"Figures","Figure3SIBon.jpeg"),width = 6,height = 7)
 
+
+## Make into a table
+figuredata[,11]=NULL
+figuredata$IndependentVariables = figuredata$IndependentVariables+1
+figuredata$DV[figuredata$DV == 2 ] = 3
+
+figuredata$Set <- factor(figuredata$Set,
+                         labels=labs)
+
+figuredata$Type <- factor(figuredata$Type,
+                          labels=labels_2latex)
+
+
+figuredata$Main <- factor(figuredata$Main,levels = c('Without~restrictions', 'With~restrictions'),
+                          labels=labels_relatex)
+figuredata=figuredata[
+  with(figuredata, order(Main, Set)),
+  ]
+names(figuredata) = c("Restrictions" ,"Set", "Type" , "Sample Size" , "Outlier exclusion", "Correlation","Covariates","Dependent variables","FPP","FPR")
+
+
+print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different model sets when using two dependent variables and the average of the two (meaning three dependent variables in total).",label = "tab:apptab6"), caption.placement = "top", include.rownames=FALSE,sanitize.text.function = identity, file = "TableSI3Bon.tex",scalebox = 0.8)
 
 ## For all sets of variables
 
@@ -502,3 +665,15 @@ ggsave(Figure1BSI,filename = file.path(output,"Figures","Figure1BSIBon.jpeg"),wi
 ggsave(Figure1CSI,filename = file.path(output,"Figures","Figure1CSIBon.jpeg"),width = 8,height = 7)
 ggsave(Figure1DSI,filename = file.path(output,"Figures","Figure1DSIBon.jpeg"),width = 12,height = 7)
 
+
+## Make table with all the results
+
+
+falsepostive=falsepostive[order(falsepostive$Main),]
+
+falsepostive[,11]=NULL
+falsepostive$IndependentVariables = falsepostive$IndependentVariables+1
+falsepostive$DV[falsepostive$DV == 2 ] = 3
+names(falsepostive) = c("Restrictions on interactions" ,"Set", "Type" , "Sample Size" , "Outlier exclusion", "Correlation","Number of covariates","Number of dependent variables","FPP","FPR")
+
+print(xtable(falsepostive,digits = 2, type = "latex",caption ="False positive probability (FPP) and false positive ratio (FPR) when looking at all the different sets under the different condetions. When restrictions on interactions are on main effects should always be present when there is interactions, this is not the case when restrictions on interactions is off."), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable", file = "AllsetsBon.tex")
