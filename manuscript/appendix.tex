@@ -164,10 +164,10 @@ For the following sets: $x + z + x \times z$ , $x + z + z \times z$, and $x + z 
 So the total number of models including all sets then becomes
 \begin{equation*}
 \begin{aligned}
-$total \# of models=\\
+total\ \# \ of\ models=\\
 & \underbrace{\left(2^n\right)}_{x + z}+\underbrace{\left(2^n-1\right)}_{x \times z}+\underbrace{\left(2^h-1\right)}_{z \times z}+\\
 &\underbrace{{\left(2^n-1\right)}^2}_{x + z + x \times z}+\underbrace{\left(2^n-1\right)\left(2^h-1\right)}_{x \times z+z \times z}+\underbrace{\left(2^n-1\right)\left(2^h-1\right)}_{x + z+z \times z}+\\
-&\underbrace{{\left(2^n-1\right)}^2\left(2^h-1\right)}_{x + z + x \times z+z \times z}$ 
+&\underbrace{{\left(2^n-1\right)}^2\left(2^h-1\right)}_{x + z + x \times z+z \times z} 
 \end{aligned}
 \end{equation*}
 
@@ -719,6 +719,11 @@ Table S13 shows the FPP and FPR for the full model sets under different conditio
 \label{fig:appfigure7}
 \end{figure}
 
+\begin{landscape}
+\input{R/Analysis/CodeFinal/Figures and Tables/Table1ABon}
+\end{landscape}
+
+
 
 \begin{figure}[hbt!]
 \includegraphics[scale=0.7]{R/Analysis/Result/Figures/Figure2SIBon.jpeg}
@@ -726,6 +731,12 @@ Table S13 shows the FPP and FPR for the full model sets under different conditio
 \caption{False positive probability and false positive for different levels of correlation between the dependent variable and the covariates ranging from r=0.2 to r=0.4. Black denotes the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.}
 \label{fig:appfigure8}
 \end{figure}
+
+\begin{landscape}
+\scriptsize
+\input{R/Analysis/CodeFinal/Figures and Tables/Table2SIBon}
+\end{landscape}
+
 
 
 \begin{figure}[hbt!]
@@ -735,6 +746,10 @@ Table S13 shows the FPP and FPR for the full model sets under different conditio
 \label{fig:appfigure9}
 \end{figure}
 
+\begin{landscape}
+\scriptsize
+\input{R/Analysis/CodeFinal/Figures and Tables/TableSI3Bon}
+\end{landscape}
 
 \begin{figure}[hbt!]
 \includegraphics[scale=0.95]{R/Analysis/Result/Figures/Figure1BSIBon.jpeg}
@@ -743,6 +758,11 @@ Table S13 shows the FPP and FPR for the full model sets under different conditio
 }
 \label{fig:appfigure10}
 \end{figure}
+
+\begin{landscape}
+\input{R/Analysis/CodeFinal/Figures and Tables/Table1BBon}
+\end{landscape}
+
 
 \begin{figure}[hbt!]
 \includegraphics[scale=0.95]{R/Analysis/Result/Figures/Figure1CSIBon.jpeg}
@@ -753,10 +773,19 @@ Table S13 shows the FPP and FPR for the full model sets under different conditio
 \end{figure}
 
 \begin{landscape}
+\input{R/Analysis/CodeFinal/Figures and Tables/Table1CBon}
+\end{landscape}
+
+\begin{landscape}
 \begin{figure}[hbt!]
 \includegraphics[scale=0.75]{R/Analysis/Result/Figures/Figure1DSIBon.jpeg}
 \centering
 \caption{Effect of increasing sample size for each model set and all combinations of data distributions (i.e., binary and normal) when using Bonferroni correction. Black denotes the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure1}.}
 \label{fig:appfigure12}
 \end{figure}
+\end{landscape}
+
+\begin{landscape}
+\scriptsize
+\input{R/Analysis/CodeFinal/Figures and Tables/Table1DBon}
 \end{landscape}
