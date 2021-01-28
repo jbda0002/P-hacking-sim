@@ -601,6 +601,7 @@ Correlation matrix for the simulated data when having only one dependent variabl
 \caption{}
 \centering
 \caption*{Correlation matrix for the simulated data when having only one dependent variable. r denotes the different correlations set between the covariates and dependent variable in the simulation}
+\label{correlation}
 \begin{tabular}{c|ccccccc} 
 \toprule
  & y & $x_1$ & $z_1$ & $z_2$ & $z_3$ & ... & $z_n$ \\ 
@@ -627,7 +628,7 @@ Table S12 shows the FPP and FPR for the full model sets under different conditio
 \begin{figure}[hbt!]
 \includegraphics[scale=0.95]{R/Analysis/Result/Figures/Figure1ASI.jpeg}
 \centering
-\caption{The probability of the false positive probability and false positive ratio given different model sets, the presence of main effects when having interactions (i.e., With restrictions for interactions or No restrictions for interactions) and different distributions of the variable of interest and covariates. Sample size was set to 200, a correlation between the dependent variable and covariates was \textit{r}=0.2 and we used two covariates. The false positive probability is shown in black and the false positive ratio in red. Dashed blacked line indicates 0.05. Here binary variables are both shown when it is dummy coded but also effects coded.}
+\caption{The probability of the false positive probability and false positive ratio given different model sets, the presence of main effects when having interactions (i.e., With restrictions or No restrictions) and different distributions of the variable of interest and covariates. Sample size is set to 200, a correlation between the dependent variable and covariates is \textit{r}=0.2 and using two covariates. The false positive probability is shown in black and the false positive ratio in red. Dashed blacked line indicates 0.05. Here binary variables are both shown when it is dummy coded but also effects coded.}
 \label{fig:appfigure1}
 \end{figure}
 
@@ -643,6 +644,9 @@ Table S12 shows the FPP and FPR for the full model sets under different conditio
 \label{fig:appfigure2}
 \end{figure}
 
+\begin{landscape}
+\input{R/Analysis/CodeFinal/Figures and Tables/TableSI2}
+\end{landscape}
 
 \begin{figure}[hbt!]
 \includegraphics{R/Analysis/Result/Figures/Figure3SI.jpeg}
@@ -652,7 +656,7 @@ Table S12 shows the FPP and FPR for the full model sets under different conditio
 \end{figure}
 
 \begin{landscape}
-\input{R/Analysis/CodeFinal/Figures and Tables/Table3SI}
+\input{R/Analysis/CodeFinal/Figures and Tables/TableSI3}
 \end{landscape}
 
 \begin{figure}[hbt!]
