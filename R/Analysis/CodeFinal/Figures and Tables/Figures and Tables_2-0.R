@@ -364,7 +364,7 @@ figuredata=figuredata[
 names(figuredata) = c("Restrictions" ,"Set", "Type" , "Sample Size" , "Outlier exclusion", "Correlation","Covariates","Dependent variables","FPP","FPR")
 
 
-print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different sample sizes"), caption.placement = "top", include.rownames=FALSE,sanitize.text.function = identity, file = "Table1D.tex",tabular.environment="longtable",floating = F)
+print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different sample sizes",label = "tab:apptab4"), caption.placement = "top", include.rownames=FALSE,sanitize.text.function = identity, file = "Table1D.tex",tabular.environment="longtable",floating = F)
 
 
 Figure1 = ggarrange(Figure1A, grid.draw(g), Figure1B,Figure1C, 
@@ -403,7 +403,7 @@ falsepostiveFULL$Main[falsepostiveFULL$Main=="FALSE"] = "Without"
 falsepostiveFULL$Main[falsepostiveFULL$Main=="TRUE"] = "With"
 names(falsepostiveFULL) = c("Restrictions on interactions" , "Type" , "FPP" , "FPR")
 
-print(xtable(falsepostiveFULL,digits = 2, type = "latex",caption ="False positive probability (FPP) and false positive ratio (FPR) when looking at all the models possible when the sample size is 200, no outlier criteria is being used and having two covariates. When restrictions on interactions are on main effects should always be present when there is interactions, this is not the case when restrictions on interactions is off."), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable", file = "FullModelSet.tex")
+print(xtable(falsepostiveFULL,digits = 2, type = "latex",caption ="False positive probability (FPP) and false positive ratio (FPR) when looking at all the models possible when the sample size is 200, no outlier criteria is being used and having two covariates. When restrictions on interactions are on main effects should always be present when there is interactions, this is not the case when restrictions on interactions is off.",label = "tab:resultFull"), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable", file = "FullModelSet.tex")
 
 falsepostiveFULL
 
