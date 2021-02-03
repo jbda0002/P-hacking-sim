@@ -14,7 +14,7 @@ library(latex2exp)
 library(grid)
 
 ##Load the data
-fileplace=paste0(output,"/File/Results.csv.gz")
+fileplace=paste0(output,"/File/ResultsBC.csv.gz")
 finalresults = read.table(gzfile(fileplace),sep=",",header = T)
 ## Figures for paper ##
 
@@ -67,6 +67,9 @@ labs <- c("$\\textit{x} + \\textit{z}$", "$\\textit{x} \\times \\textit{z}$", "$
 ## Make two labels of dist when there is only the two from the main paper that will be shown
 labels_2=c('italic("x")%~%Binary~italic("z")%~%Binary','italic("x")%~%Normal~italic("z")%~%Normal')
 labels_2latex=c("$\\textit{x} \\sim Binary, \\textit{z} \\sim Binary$","$\\textit{x} \\sim Normal , \\textit{z} \\sim Normal$")
+
+labels_4latex=c("$\\textit{x} \\sim Binary, \\textit{z} \\sim Binary$","$\\textit{x} \\sim Normal , \\textit{z} \\sim Normal$",
+                "$\\textit{x} \\sim Normal, \\textit{z} \\sim Binary$","$\\textit{x} \\sim Binary, \\textit{z} \\sim Normal$")
 
 labels_re = c('Without~restrictions', 'With~restrictions')
 labels_relatex = c('$Without$', '$With$')
@@ -299,7 +302,7 @@ figuredata$Main <- factor(figuredata$Main,
                           labels=labels_re)
 
 figuredata$Set <- factor(figuredata$Set,
-                         labels=labs)
+                         labels=labs_full)
 
 
 Figure1D<-ggplot(aes(x=SampleSize), data=figuredata)+
@@ -347,6 +350,10 @@ figuredata$DV[figuredata$DV == 2 ] = 3
 
 figuredata$Type <- factor(figuredata$Type,
                           labels=labels_2latex)
+
+
+figuredata$Set <- factor(figuredata$Set,
+                         labels=labs)
 
 
 figuredata$Main <- factor(figuredata$Main,levels = c('Without~restrictions', 'With~restrictions'),
@@ -439,7 +446,7 @@ Figure2SI<-ggplot(figuredata,aes(x=Set))+
 
 Figure2SI
 
-ggsave(Figure2SI,filename = file.path(output,"Figures","Figure2SIBon.jpeg"),width = 14,height = 12)
+ggsave(Figure2SI,filename = file.path(output,"Figures","Figure2SIBon.jpeg"),width = 14,height = 8)
 
 ## Make into a table
 figuredata[,11]=NULL
@@ -450,7 +457,7 @@ figuredata$Set <- factor(figuredata$Set,
                          labels=labs)
 
 figuredata$Type <- factor(figuredata$Type,
-                          labels=labels_2latex)
+                          labels=labels_4latex)
 
 
 figuredata$Main <- factor(figuredata$Main,levels = c('Without~restrictions', 'With~restrictions'),
@@ -461,7 +468,7 @@ figuredata=figuredata[
 names(figuredata) = c("Restrictions" ,"Set", "Type" , "Sample Size" , "Outlier exclusion", "Correlation","Covariates","Dependent variables","FPP","FPR")
 
 
-print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different model sets with different levels of correlations between the dependent variable and the covariates.",label = "tab:apptab5"), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable",sanitize.text.function = identity, file = "Table2SI.tex",floating = F)
+print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different model sets with different levels of correlations between the dependent variable and the covariates.",label = "tab:apptab5"), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable",sanitize.text.function = identity, file = "Table2SIBon.tex",floating = F)
 
 
 ## Using several dependent variables
@@ -509,7 +516,7 @@ figuredata$Set <- factor(figuredata$Set,
                          labels=labs)
 
 figuredata$Type <- factor(figuredata$Type,
-                          labels=labels_2latex)
+                          labels=labels_4latex)
 
 
 figuredata$Main <- factor(figuredata$Main,levels = c('Without~restrictions', 'With~restrictions'),
@@ -520,7 +527,7 @@ figuredata=figuredata[
 names(figuredata) = c("Restrictions" ,"Set", "Type" , "Sample Size" , "Outlier exclusion", "Correlation","Covariates","Dependent variables","FPP","FPR")
 
 
-print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different model sets when using two dependent variables and the average of the two (meaning three dependent variables in total).",label = "tab:apptab6"), caption.placement = "top", include.rownames=FALSE,sanitize.text.function = identity, file = "TableSI3.tex",scalebox = 0.8)
+print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different model sets when using two dependent variables and the average of the two (meaning three dependent variables in total).",label = "tab:apptab6"), caption.placement = "top", include.rownames=FALSE,sanitize.text.function = identity, file = "TableSI3Bon.tex",scalebox = 0.8)
 
 ## For all sets of variables
 

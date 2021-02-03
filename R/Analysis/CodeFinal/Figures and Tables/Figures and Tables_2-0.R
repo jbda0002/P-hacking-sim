@@ -68,6 +68,9 @@ labs <- c("$\\textit{x} + \\textit{z}$", "$\\textit{x} \\times \\textit{z}$", "$
 labels_2=c('italic("x")%~%Binary~italic("z")%~%Binary','italic("x")%~%Normal~italic("z")%~%Normal')
 labels_2latex=c("$\\textit{x} \\sim Binary, \\textit{z} \\sim Binary$","$\\textit{x} \\sim Normal , \\textit{z} \\sim Normal$")
 
+labels_4latex=c("$\\textit{x} \\sim Binary, \\textit{z} \\sim Binary$","$\\textit{x} \\sim Normal , \\textit{z} \\sim Normal$",
+                "$\\textit{x} \\sim Normal, \\textit{z} \\sim Binary$","$\\textit{x} \\sim Binary, \\textit{z} \\sim Normal$")
+
 labels_re = c('Without~restrictions', 'With~restrictions')
 labels_relatex = c('$Without$', '$With$')
 ## Make labels for the appendix
@@ -349,6 +352,10 @@ figuredata$Type <- factor(figuredata$Type,
                           labels=labels_2latex)
 
 
+figuredata$Set <- factor(figuredata$Set,
+                         labels=labs)
+
+
 figuredata$Main <- factor(figuredata$Main,levels = c('Without~restrictions', 'With~restrictions'),
                           labels=labels_relatex)
 figuredata=figuredata[
@@ -450,7 +457,7 @@ figuredata$Set <- factor(figuredata$Set,
                          labels=labs)
 
 figuredata$Type <- factor(figuredata$Type,
-                          labels=labels_2latex)
+                          labels=labels_4latex)
 
 
 figuredata$Main <- factor(figuredata$Main,levels = c('Without~restrictions', 'With~restrictions'),
@@ -509,7 +516,7 @@ figuredata$Set <- factor(figuredata$Set,
                          labels=labs)
 
 figuredata$Type <- factor(figuredata$Type,
-                          labels=labels_2latex)
+                          labels=labels_4latex)
 
 
 figuredata$Main <- factor(figuredata$Main,levels = c('Without~restrictions', 'With~restrictions'),
