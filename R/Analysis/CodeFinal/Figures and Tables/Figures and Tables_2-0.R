@@ -299,7 +299,7 @@ figuredata$Main <- factor(figuredata$Main,
                           labels=labels_re)
 
 figuredata$Set <- factor(figuredata$Set,
-                          labels=labs)
+                          labels=labs_full)
 
 
 Figure1D<-ggplot(aes(x=SampleSize), data=figuredata)+
@@ -439,7 +439,7 @@ Figure2SI<-ggplot(figuredata,aes(x=Set))+
 
 Figure2SI
 
-ggsave(Figure2SI,filename = file.path(output,"Figures","Figure2SI.jpeg"),width = 14,height = 12)
+ggsave(Figure2SI,filename = file.path(output,"Figures","Figure2SI.jpeg"),width = 14,height = 8)
 
 ## Make into a table
 figuredata[,11]=NULL
