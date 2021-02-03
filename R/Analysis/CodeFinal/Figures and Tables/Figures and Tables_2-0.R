@@ -527,7 +527,7 @@ figuredata=figuredata[
 names(figuredata) = c("Restrictions" ,"Set", "Type" , "Sample Size" , "Outlier exclusion", "Correlation","Covariates","Dependent variables","FPP","FPR")
 
 
-print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different model sets when using two dependent variables and the average of the two (meaning three dependent variables in total).",label = "tab:apptab6"), caption.placement = "top", include.rownames=FALSE,sanitize.text.function = identity, file = "TableSI3.tex",scalebox = 0.8)
+print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different model sets when using two dependent variables and the average of the two (meaning three dependent variables in total).",label = "tab:apptab6"), caption.placement = "top", include.rownames=FALSE,sanitize.text.function = identity, file = "TableSI3.tex",tabular.environment="longtable",floating = F)
 
 ## For all sets of variables
 
