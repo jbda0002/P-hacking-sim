@@ -673,17 +673,12 @@ Table \ref{tab:resultFull} shows the FPP and FPR for the full model sets under d
 
 
 
-
-
-
-
 \clearpage
 \subsection{Results when using Bonferroni correction}
 
-In this section, we present the same analyses but with Bonferroni correction applied. 
+In this section, we present the same analyses but with Bonferroni correction applied. This means that the critical value ($\alpha$) now has a correction such that $\alpha = 0.05 / #Number~of~test~in~each~set$. So the critical value will only be 0.05 in the case where there is no interactions between the variable of interest and the covariates. The critical value is corrected for each test such that it can differ within each model set depending on how many interactions there are per model. 
 
-Table S13 shows the FPP and FPR for the full model sets under different conditions when there is used Bonferroni correction. Here there is no split between each model set.This lowers the FPR to the expected 5\% but there is still an issue when not including main effects and having binomial variables. 
-
+Table \ref{tab:fullBC} shows the FPP and FPR for the full model sets under different conditions when there is used Bonferroni correction. Here there is no split between each model set.This lowers the FPR to the expected 5\% but there is still an issue when not including main effects and having binomial variables. 
 
 \input{R/Analysis/CodeFinal/Figures and Tables/FullModelSetBC}
 
@@ -713,13 +708,15 @@ Table S13 shows the FPP and FPR for the full model sets under different conditio
 \end{landscape}
 
 
-
+\begin{landscape}
 \begin{figure}[hbt!]
 \includegraphics{R/Analysis/Result/Figures/Figure3SIBon.jpeg}
 \centering
 \caption{False positive probability and false positive ratio when using two dependent variables and the average of the two (meaning three dependent variables in total). The correlation between the dependent variables is set to r=0.5 with the correlation between the dependent variables and covariates still at r=0.2. Black denotes the the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.}
 \label{fig:appfigure9}
 \end{figure}
+\end{landscape}
+
 
 \begin{landscape}
 \scriptsize
