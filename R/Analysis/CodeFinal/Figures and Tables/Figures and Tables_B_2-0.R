@@ -383,7 +383,7 @@ ggsave(grid.draw(g),filename = file.path(output,"Figures","Figure1DBon.jpeg"),wi
 ### Using the full model set ###
 
 
-fileplace=paste0(output,"/File/resultsFullSet.csv.gz")
+fileplace=paste0(output,"/File/resultsFullSetBC.csv.gz")
 resultsFullset = read.table(gzfile(fileplace),sep=",",header = T)
 falsepositverateDataFull<-as.data.table(resultsFullset)
 
