@@ -54,9 +54,9 @@ falsepostive$Type = factor(falsepostive$Type,levels = c("x1~Binary, z~Binary","x
                                                         "x1~Binary, z~Normal","x1~Binary, z~Binary Effect","x1~Normal, z~Binary Effect"))
 
 ## Make labels
-labs <- expression(italic("x") + italic("z"), italic("x") %*% italic("z"), italic("z") %*% italic("z"), italic("x") + italic("z") + italic("x") %*% italic("z")
-                   ,italic("x") + italic("z") + italic("z") %*% italic("z"),
-                   italic("x") %*% italic("z") + italic("z") %*% italic("z"),italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))
+labs_full <- expression(italic("x") + italic("z"), italic("x") %*% italic("z"), italic("z") %*% italic("z"), italic("x") + italic("z") + italic("x") %*% italic("z")
+                        ,italic("x") + italic("z") + italic("z") %*% italic("z"),
+                        italic("x") %*% italic("z") + italic("z") %*% italic("z"),italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))
 
 
 
@@ -71,8 +71,13 @@ labels_2latex=c("$\\textit{x} \\sim Binary, \\textit{z} \\sim Binary$","$\\texti
 labels_re = c('Without~restrictions', 'With~restrictions')
 labels_relatex = c('$Without$', '$With$')
 ## Make labels for the appendix
+
+## Without effect coding
 labels_all=c('italic("x")%~%Binary~italic("z")%~%Binary','italic("x")%~%Normal~italic("z")%~%Normal','italic("x")%~%Normal~italic("z")%~%Binary'
-             ,'italic("x")%~%Binary~italic("z")%~%Normal','italic("x")%~%Binary~italic("z")%~%Binary~(effect~coded)','italic("x")%~%Normal~italic("z")%~%Binary~(effect~coded)')
+             ,'italic("x")%~%Binary~italic("z")%~%Normal')
+#With effect coding
+#labels_all=c('italic("x")%~%Binary~italic("z")%~%Binary','italic("x")%~%Normal~italic("z")%~%Normal','italic("x")%~%Normal~italic("z")%~%Binary'
+#             ,'italic("x")%~%Binary~italic("z")%~%Normal','italic("x")%~%Binary~italic("z")%~%Binary~(effect~coded)','italic("x")%~%Normal~italic("z")%~%Binary~(effect~coded)')
 
 
 ## Figure 1A
@@ -401,12 +406,12 @@ falsepostiveFULL
 ## The effect of higher correlations ##
 
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==1 & falsepostive$DV==1
-                         & falsepostive$Type!="x1~Normal, z~Binary" & falsepostive$Type!="x1~Binary, z~Normal"
+                         
                          & falsepostive$Type!="x1~Binary, z~Binary Effect" & falsepostive$Type!="x1~Normal, z~Binary Effect",]
 
 
 figuredata$Type <- factor(figuredata$Type,
-                          labels=labels_2)
+                          labels=labels_all)
 
 figuredata$Main <- factor(figuredata$Main,
                           labels=labels_re)
@@ -418,7 +423,7 @@ Figure2SI<-ggplot(figuredata,aes(x=Set))+
   scale_fill_manual(values=c("black","red"))+
   #geom_text( aes(y=round(FPR,3),label=round(FPR,3)), vjust=-2)+
   #geom_text( aes(y=round(Pr,3),label=round(Pr,3)), vjust=-1)+
-  facet_grid(Type+Correlation~Main, scales = "free", labeller=label_parsed)+
+  facet_grid(Correlation~Main+Type, scales = "free", labeller=label_parsed)+
   theme_apa()+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
@@ -434,7 +439,7 @@ Figure2SI<-ggplot(figuredata,aes(x=Set))+
 
 Figure2SI
 
-ggsave(Figure2SI,filename = file.path(output,"Figures","Figure2SIBon.jpeg"),width = 7,height = 12)
+ggsave(Figure2SI,filename = file.path(output,"Figures","Figure2SIBon.jpeg"),width = 14,height = 12)
 
 ## Make into a table
 figuredata[,11]=NULL
@@ -456,17 +461,17 @@ figuredata=figuredata[
 names(figuredata) = c("Restrictions" ,"Set", "Type" , "Sample Size" , "Outlier exclusion", "Correlation","Covariates","Dependent variables","FPP","FPR")
 
 
-print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different model sets with different levels of correlations between the dependent variable and the covariates.",label = "tab:apptab5"), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable",sanitize.text.function = identity, file = "Table2SIBon.tex",floating = F)
+print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different model sets with different levels of correlations between the dependent variable and the covariates.",label = "tab:apptab5"), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable",sanitize.text.function = identity, file = "Table2SI.tex",floating = F)
 
 
 ## Using several dependent variables
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==1 & falsepostive$Correlation==0.2 & falsepostive$DV==2
-                         & falsepostive$Type!="x1~Normal, z~Binary" & falsepostive$Type!="x1~Binary, z~Normal"
+                         
                          & falsepostive$Type!="x1~Binary, z~Binary Effect" & falsepostive$Type!="x1~Normal, z~Binary Effect",]
 
 
 figuredata$Type <- factor(figuredata$Type,
-                          labels=labels_2)
+                          labels=labels_all)
 
 figuredata$Main <- factor(figuredata$Main,
                           labels=labels_re)
@@ -492,7 +497,7 @@ Figure3SI = ggplot(figuredata,aes(x=Set))+
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         legend.text = element_text( size = 7))
 Figure3SI
-ggsave(Figure3SI,filename = file.path(output,"Figures","Figure3SIBon.jpeg"),width = 6,height = 7)
+ggsave(Figure3SI,filename = file.path(output,"Figures","Figure3SIBon.jpeg"),width = 6,height = 9)
 
 
 ## Make into a table
@@ -515,12 +520,12 @@ figuredata=figuredata[
 names(figuredata) = c("Restrictions" ,"Set", "Type" , "Sample Size" , "Outlier exclusion", "Correlation","Covariates","Dependent variables","FPP","FPR")
 
 
-print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different model sets when using two dependent variables and the average of the two (meaning three dependent variables in total).",label = "tab:apptab6"), caption.placement = "top", include.rownames=FALSE,sanitize.text.function = identity, file = "TableSI3Bon.tex",scalebox = 0.8)
+print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different model sets when using two dependent variables and the average of the two (meaning three dependent variables in total).",label = "tab:apptab6"), caption.placement = "top", include.rownames=FALSE,sanitize.text.function = identity, file = "TableSI3.tex",scalebox = 0.8)
 
 ## For all sets of variables
 
 figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==1 & falsepostive$Correlation==0.2 & falsepostive$DV==1
-                         ,]
+                         & falsepostive$Type!="x1~Binary, z~Binary Effect" & falsepostive$Type!="x1~Normal, z~Binary Effect",]
 
 figuredata$Type <- factor(figuredata$Type,
                           labels=labels_all)
@@ -553,7 +558,8 @@ Figure1ASI
 
 ## Figure 1B
 # Effect of using outlier citeria, with two covariates and sample size at 200
-figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="TRUE" & falsepostive$IndependentVariables==1 & falsepostive$Correlation==0.2 & falsepostive$DV==1,]
+figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="TRUE" & falsepostive$IndependentVariables==1 & falsepostive$Correlation==0.2 & falsepostive$DV==1                   
+                         & falsepostive$Type!="x1~Binary, z~Binary Effect" & falsepostive$Type!="x1~Normal, z~Binary Effect",]
 
 figuredata$Type <- factor(figuredata$Type,
                           labels=labels_all)
@@ -589,7 +595,8 @@ Figure1BSI
 ## Figure 1C
 # Adding an extra covariate
 
-figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==2 & falsepostive$Correlation==0.2 & falsepostive$DV==1,]
+figuredata<-falsepostive[falsepostive$SampleSize==200 & falsepostive$OutlierExclusion=="FALSE" & falsepostive$IndependentVariables==2 & falsepostive$Correlation==0.2 & falsepostive$DV==1
+                         & falsepostive$Type!="x1~Binary, z~Binary Effect" & falsepostive$Type!="x1~Normal, z~Binary Effect",]
 
 
 figuredata$Type <- factor(figuredata$Type,
@@ -626,7 +633,7 @@ Figure1CSI
 ## Figure 1D
 # The effect of bigger sample
 figuredata<-as.data.table(falsepostive[ falsepostive$OutlierExclusion=="FALSE" & falsepostive$Correlation==0.2 & falsepostive$IndependentVariables==1 & falsepostive$DV==1
-                                        ,]
+                                        & falsepostive$Type!="x1~Binary, z~Binary Effect" & falsepostive$Type!="x1~Normal, z~Binary Effect",]
 )
 
 figuredata$Type <- factor(figuredata$Type,
@@ -636,7 +643,7 @@ figuredata$Main <- factor(figuredata$Main,
                           labels=labels_re)
 
 figuredata$Set <- factor(figuredata$Set,
-                         labels=labs)
+                         labels=labs_full)
 
 Figure1DSI<-ggplot(aes(x=SampleSize), data=figuredata)+
   geom_line(aes( y=Pr,color="black")) +
