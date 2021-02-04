@@ -507,6 +507,8 @@ ggsave(Figure3SI,filename = file.path(output,"Figures","Figure3SIBon.jpeg"),widt
 
 
 ## Make into a table
+
+## Make into a table
 figuredata[,11]=NULL
 figuredata$IndependentVariables = figuredata$IndependentVariables+1
 figuredata$DV[figuredata$DV == 2 ] = 3
@@ -518,7 +520,7 @@ figuredata$Type <- factor(figuredata$Type,
                           labels=labels_4latex)
 
 
-figuredata$Main <- factor(figuredata$Main,levels = c('Without~restrictions', 'With~restrictions'),
+figuredata$Main <- factor(figuredata$Main,levels = c('Without restrictions', 'With restrictions'),
                           labels=labels_relatex)
 figuredata=figuredata[
   with(figuredata, order(Main, Set)),
@@ -526,7 +528,7 @@ figuredata=figuredata[
 names(figuredata) = c("Restrictions" ,"Set", "Type" , "Sample Size" , "Outlier exclusion", "Correlation","Covariates","Dependent variables","FPP","FPR")
 
 
-print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) with Bonferroni correction for the different model sets when using two dependent variables and the average of the two (meaning three dependent variables in total).",label = "tab:apptabBC6"), caption.placement = "top", include.rownames=FALSE,sanitize.text.function = identity, file = "TableSI3Bon.tex",tabular.environment="longtable",floating = F)
+print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c","c","c","c","c","c","c"),caption = "False positive probability (FPP) and false positive ratio (FPR) for the different model sets when using Bonferroni correction",label = "tab:apptabFull"), caption.placement = "top", include.rownames=FALSE,sanitize.text.function = identity, file = "TableSIFullBC.tex",tabular.environment="longtable",floating = F)
 
 ## For all sets of variables
 
@@ -690,3 +692,4 @@ falsepostive$DV[falsepostive$DV == 2 ] = 3
 names(falsepostive) = c("Restrictions on interactions" ,"Set", "Type" , "Sample Size" , "Outlier exclusion", "Correlation","Number of covariates","Number of dependent variables","FPP","FPR")
 
 print(xtable(falsepostive,digits = 2, type = "latex",caption ="False positive probability (FPP) and false positive ratio (FPR) with Bonferroni correction when looking at all the different sets under the different condetions. When restrictions on interactions are on main effects should always be present when there is interactions, this is not the case when restrictions on interactions is off."), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable", file = "AllsetsBon.tex")
+
