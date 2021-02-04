@@ -186,23 +186,22 @@ In the case with restrictions, we enforce that every time there is an interactio
 In the previous equation, we have an interaction between our variable of interest $x_1$ and a covariate $z_1$. Therefore, the two corresponding main effects also enter the model. This restriction does not change how we calculate the set size of the $x + z$ set as there are no interactions in it. On the other hand,  the restriction implies that the sets $x \times z$ and $z \times z$ are empty sets as the models in these sets never have main effects following interactions. The first set we then need to recalculate is then the set $x + z + x \times z$.
 
 \subsection{Set $x + z + x \times z$}
-For the sake of simplicity, we begin with the case where $n=3$. The models that are within this set can be seen in Table \ref{tab:appmodel1}. \\
+For the sake of simplicity, we begin with the case where $n=3$. The models that are within this set can be seen in Table \ref{tab:appmodel2}. Here the table has just been split into three different parts. These are split such that $x + z + x \times z$(1), $x + z + x \times z$(2), and $x + z + x \times z$(3) contains all the models where there are one, two, or three covariates, respectively.\\
 
-\begin{table}[hbt!]
-\caption{}
-\caption*{Overview of the models in the $x + z + x \times z$ set when there are three covariates and one dependent variable}
-\label{tab:appmodel1}
-\centering
-\begin{tabular}{cc}
-\toprule
-Model set & Models \\ 
-\midrule
-\multirow{19}{*}{$x + z + x \times z$} & $y=x_1+z_1+x_1z_1$\\ &  $y=x_1+z_2+x_1z_2$\\ &  $y=x_1+z_3+x_1z_3$\\ & $y=x_1+z_1+z_2+x_1z_1$\\ & $y=x_1+z_1+z_3+x_1z_1$\\ & $y=x_1+z_3+z_1+x_1z_3$\\ & $y=x_1+z_3+z_2+x_1z_3$\\ & $y=x_1+z_2+z_1+x_1z_2$\\ & $y=x_1+z_2+z_3+x_1z_2$\\ & $y=x_1+z_1+z_2+z_3+x_1z_1$\\ & $y=x_1+z_1+z_2+z_3+x_1z_2$\\ & $y=x_1+z_1+z_2+z_3+x_1z_3$\\ & $y=x_1+z_1+z_2+x_1z_1+x_1z_2$\\ & $y=x_1+z_1+z_3+x_1z_1+x_1z_3$\\ & $y=x_1+z_1+z_2+x_1z_3+x_1z_2$\\ & $y=x_1+z_1+z_2+z_3+x_1z_1+x_1z_2$\\ & $y=x_1+z_1+z_2+z_3+x_1z_1+x_1z_3$\\ & $y=x_1+z_1+z_2+z_3+x_1z_3+x_1z_2$\\ & $y=x_1+z_1+z_2+z_3+x_1z_1+x_1z_2+x_1z_3$\\  
-\bottomrule
-\end{tabular}
-\end{table}
+%\begin{table}[hbt!]
+%\caption{}
+%\caption*{Overview of the models in the $x + z + x \times z$ set when there are three %covariates and one dependent variable}
+%\label{tab:appmodel1}
+%\centering
+%\begin{tabular}{cc}
+%\toprule
+%Model set & Models \\ 
+%\midrule
+%\multirow{19}{*}{$x + z + x \times z$} & $y=x_1+z_1+x_1z_1$\\ &  $y=x_1+z_2+x_1z_2$\\ &  $y=x_1+z_3+x_1z_3$\\ & $y=x_1+z_1+z_2+x_1z_1$\\ & $y=x_1+z_1+z_3+x_1z_1$\\ & $y=x_1+z_3+z_1+x_1z_3$\\ & $y=x_1+z_3+z_2+x_1z_3$\\ & $y=x_1+z_2+z_1+x_1z_2$\\ & $y=x_1+z_2+z_3+x_1z_2$\\ & $y=x_1+z_1+z_2+z_3+x_1z_1$\\ & $y=x_1+z_1+z_2+z_3+x_1z_2$\\ & $y=x_1+z_1+z_2+z_3+x_1z_3$\\ & $y=x_1+z_1+z_2+x_1z_1+x_1z_2$\\ & $y=x_1+z_1+z_3+x_1z_1+x_1z_3$\\ & $y=x_1+z_1+z_2+x_1z_3+x_1z_2$\\ & $y=x_1+z_1+z_2+z_3+x_1z_1+x_1z_2$\\ & $y=x_1+z_1+z_2+z_3+x_1z_1+x_1z_3$\\ & $y=x_1+z_1+z_2+z_3+x_1z_3+x_1z_2$\\ & $y=x_1+z_1+z_2+z_3+x_1z_1+x_1z_2+x_1z_3$\\  
+%\bottomrule
+%\end{tabular}
+%\end{table}
 
-In Table \ref{tab:appmodel2}, we divide the $x + z + x \times z$ set into three parts, $x + z + x \times z$(1), $x + z + x \times z$(2), and $x + z + x \times z$(3), which contain all the models where there are one, two, or three covariates, respectively. \\
 
 \begin{table}[hbt!]
 \caption{Split of the $x + z + x \times z$ set into three subsets when there are three covariates and one dependent variable. $x + z + x \times z$(1) is all the models with one covariate as main effect, $x + z + x \times z$(2) is all the models with two covariates as main effects, and $x + z + x \times z$(3) is all the models with three covariates as main effects}
@@ -339,22 +338,21 @@ k \end{array}
 \right)\left(2^k-1\right)}\] 
 \subsection{Set $x + z + z \times z$}
 
-Here we can use the same line of reasoning as for the $x + z + x \times z$ set. Let us begin by examining the case where $n=3$ and then develop a more general notion from there. This example can be seen in Table \ref{tab:appmodel3}. 
+Here we can use the same line of reasoning as for the $x + z + x \times z$ set. Let us begin by examining the case where $n=3$ and then develop a more general notion from there. To make it easier to understand how to calculate the set size, we can split this set into subsets as we did before for the $x + z + x \times z$ set This example can be seen in Table \ref{tab:appmodel4}. 
 
-\begin{table}{}
-\centering
-\caption{Models for the set $x + z + z \times z$ that can be made with three covariates.}
-\label{tab:appmodel3}
-\begin{tabular}{lc} \hline
-\toprule
-Set & Models \\
-\midrule
-\multirow{10}{*}{$x + z + z \times z$} & $y=x_1+z_1+z_2+z_1z_2$\\ & $y=x_1+z_1+z_3+z_1z_3$\\ & $y=x_1+z_2+z_3+z_2z_3$\\ & $y=x_1+z_1+z_2+z_3+z_1z_2$\\ & $y=x_1+z_1+z_3+z_2+z_1z_3$\\ & $y=x_1+z_2+z_3+z_1+z_2z_3$\\ & $y=x_1+z_1+z_2+z_3+z_1z_2+z_1z_3$\\ & $y=x_1+z_1+z_3+z_2+z_1z_3+z_2z_3$\\ & $y=x_1+z_2+z_3+z_1+z_1z_2+z_2z_3$\\ & $y=x_1+z_1+z_2+z_3+z_1z_2+z_2z_3+z_1z_3$ \\
-\bottomrule
-\end{tabular}
-\end{table}
+%\begin{table}{}
+%\centering
+%\caption{Models for the set $x + z + z \times z$ that can be made with three covariates.}
+%\label{tab:appmodel3}
+%\begin{tabular}{lc} \hline
+%\toprule
+%Set & Models \\
+%\midrule
+%\multirow{10}{*}{$x + z + z \times z$} & $y=x_1+z_1+z_2+z_1z_2$\\ & $y=x_1+z_1+z_3+z_1z_3$\\ & $y=x_1+z_2+z_3+z_2z_3$\\ & $y=x_1+z_1+z_2+z_3+z_1z_2$\\ & $y=x_1+z_1+z_3+z_2+z_1z_3$\\ & $y=x_1+z_2+z_3+z_1+z_2z_3$\\ & $y=x_1+z_1+z_2+z_3+z_1z_2+z_1z_3$\\ & $y=x_1+z_1+z_3+z_2+z_1z_3+z_2z_3$\\ & $y=x_1+z_2+z_3+z_1+z_1z_2+z_2z_3$\\ & $y=x_1+z_1+z_2+z_3+z_1z_2+z_2z_3+z_1z_3$ \\
+%\bottomrule
+%\end{tabular}
+%\end{table}
 
-To make it easier to understand how to calculate the set size, we can split this set into subsets as we did before for the $x + z + x \times z$ set. This can be seen in Table \ref{tab:appmodel4}.
 
 \begin{table}
 \centering
@@ -571,37 +569,18 @@ In the case without restrictions where we allow interactions without including t
 \section{Further figures and tables}
 Correlation matrix for the simulated data when having only one dependent variable. 
 
-\begin{table}[H]
-\centering
-\caption*{Correlation matrix for the simulated data when having only one dependent variable. r denotes the different correlations set between the covariates and dependent variable in the simulation}
-\label{tab:correlation}
-\begin{tabular}{c|ccccccc} 
-\toprule
- & y & $x_1$ & $z_1$ & $z_2$ & $z_3$ & ... & $z_n$ \\ 
- \midrule
-y & 1 &  &  &  &  &  &  \\ 
-$x_1$ & 0 & 1 &  &  &  &  &  \\ 
-$z_1$ & r & 0 & 1 &  &  &  &  \\  
-$z_2$ & r & 0 & 0 & 1 &  &  &  \\  
-$z_3$ & r & 0 & 0 & 0 & 1 &  &  \\  
-... & r & 0 & 0 & 0 & 0 & 1 &  \\ 
-$z_n$ & r & 0 & 0 & 0 & 0 & 0 & 1 \\ 
-\bottomrule
-\end{tabular}
-\end{table}
+\input{manuscript/tables/correlation}
 
 \subsection{Simulation Results}
+
 Table \ref{tab:resultFull} shows the FPP and FPR for the full model sets under different conditions. Here there is no split between each model set.
 
-
 \input{R/Analysis/CodeFinal/Figures and Tables/FullModelSet}
-
-
 
 \begin{figure}[hbt!]
 \includegraphics[scale=0.95]{R/Analysis/Result/Figures/Figure1ASI.jpeg}
 \centering
-\caption{The probability of the false positive probability and false positive ratio given different model sets, the presence of main effects when having interactions (i.e., With restrictions or No restrictions) and different distributions of the variable of interest and covariates. Sample size is set to 200, a correlation between the dependent variable and covariates is \textit{r}=0.2 and using two covariates. The false positive probability is shown in black and the false positive ratio in red. Dashed blacked line indicates 0.05.}
+\caption{The probability of the false positive probability and false positive ratio given different model sets, the presence of main effects when having interactions (i.e., With restrictions or No restrictions) and different distributions of the variable of interest and covariates. Sample size is set to 200, a correlation between the dependent variable and covariates is $\textit{r}=0.2$ and using two covariates. The false positive probability is shown in black and the false positive ratio in red. Dashed blacked line indicates 0.05. This figure adds the two other cases not shown in Figure \ref{fig:mainfigure1}}
 \label{fig:appfigure1}
 \end{figure}
 
@@ -613,7 +592,7 @@ Table \ref{tab:resultFull} shows the FPP and FPR for the full model sets under d
 \begin{figure}[hbt!]
 \includegraphics[scale=0.7]{R/Analysis/Result/Figures/Figure2SI.jpeg}
 \centering
-\caption{False positive probability and false positive for different levels of correlation between the dependent variable and the covariates ranging from r=0.2 to r=0.4. Black denotes the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure1}.}
+\caption{False positive probability and false positive for different levels of correlation between the dependent variable and the covariates ranging from  $\textit{r}=0.2$ to  $\textit{r}=0.4$. Black denotes the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure1}.}
 \label{fig:appfigure2}
 \end{figure}
 \end{landscape}
@@ -626,7 +605,7 @@ Table \ref{tab:resultFull} shows the FPP and FPR for the full model sets under d
 \begin{figure}[hbt!]
 \includegraphics{R/Analysis/Result/Figures/Figure3SI.jpeg}
 \centering
-\caption{False positive probability and false positive ratio when using two dependent variables and the average of the two (meaning three dependent variables in total). The correlation between the dependent variables is set to r=0.5 with the correlation between the dependent variables and covariates still at r=0.2. Black denotes the the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure1}.}
+\caption{False positive probability and false positive ratio when using two dependent variables and the average of the two (meaning three dependent variables in total). The correlation between the dependent variables is set to  $\textit{r}=0.5$ with the correlation between the dependent variables and covariates still at  $\textit{r}=0.2$. Black denotes the the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure1}.}
 \label{fig:appfigure3}
 \end{figure}
 
@@ -681,12 +660,12 @@ In this section, we present the same analyses but with Bonferroni correction app
 
 Table \ref{tab:resultFullBC} shows the FPP and FPR for the full model sets under different conditions when there is used Bonferroni correction. Here there is no split between each model set.This lowers the FPR to the expected 5\% but there is still an issue when not including main effects and having binomial variables. 
 
-\input{R/Analysis/CodeFinal/Figures and Tables/FullModelSetBC}
+\input{R/Analysis/CodeFinal/Figures and Tables/FullModelSetBon}
 
 \begin{figure}[hbt!]
 \includegraphics[scale=0.95]{R/Analysis/Result/Figures/Figure1ASIBon.jpeg}
 \centering
-\caption{The description of this figure is the same as for Figure \ref{fig:appfigure1} with the only difference being that we applied Bonferroni correction. This figure therefore shows the probability of the false positive probability and false positive ratio given different model sets, the presence of main effects when having interactions (i.e., With restrictions for interactions or No restrictions for interactions) and different distributions of the variable of interest and covariates. Sample size was set to 200, a correlation between the dependent variable and covariates was \textit{r}=0.2 and we used two covariates. The false positive probability is shown in black and the false positive ratio in red. Dashed blacked line indicates 0.05. }
+\caption{The description of this figure is the same as for Figure \ref{fig:appfigure1} with the only difference being that we applied Bonferroni correction. This figure therefore shows the probability of the false positive probability and false positive ratio given different model sets, the presence of main effects when having interactions (i.e., With restrictions for interactions or No restrictions for interactions) and different distributions of the variable of interest and covariates. Sample size was set to 200, a correlation between the dependent variable and covariates was $\textit{r}=0.2$ and we used two covariates. The false positive probability is shown in black and the false positive ratio in red. Dashed blacked line indicates 0.05. }
 \label{fig:appfigure7}
 \end{figure}
 
@@ -699,7 +678,7 @@ Table \ref{tab:resultFullBC} shows the FPP and FPR for the full model sets under
 \begin{figure}[hbt!]
 \includegraphics[scale=0.7]{R/Analysis/Result/Figures/Figure2SIBon.jpeg}
 \centering
-\caption{False positive probability and false positive for different levels of correlation between the dependent variable and the covariates ranging from r=0.2 to r=0.4. Black denotes the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.}
+\caption{False positive probability and false positive for different levels of correlation between the dependent variable and the covariates ranging from  $\textit{r}=0.2$ to  $\textit{r}=0.4$. Black denotes the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.}
 \label{fig:appfigure8}
 \end{figure}
 \end{landscape}
@@ -715,7 +694,7 @@ Table \ref{tab:resultFullBC} shows the FPP and FPR for the full model sets under
 \begin{figure}[hbt!]
 \includegraphics{R/Analysis/Result/Figures/Figure3SIBon.jpeg}
 \centering
-\caption{False positive probability and false positive ratio when using two dependent variables and the average of the two (meaning three dependent variables in total). The correlation between the dependent variables is set to r=0.5 with the correlation between the dependent variables and covariates still at r=0.2. Black denotes the the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.}
+\caption{False positive probability and false positive ratio when using two dependent variables and the average of the two (meaning three dependent variables in total). The correlation between the dependent variables is set to  $\textit{r}=0.5$ with the correlation between the dependent variables and covariates still at  $\textit{r}=0.2$. Black denotes the the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.}
 \label{fig:appfigure9}
 \end{figure}
 
