@@ -403,7 +403,7 @@ falsepostiveFULL$Main[falsepostiveFULL$Main=="FALSE"] = "Without"
 falsepostiveFULL$Main[falsepostiveFULL$Main=="TRUE"] = "With"
 names(falsepostiveFULL) = c("Restrictions on interactions" , "Type" , "FPP" , "FPR")
 
-print(xtable(falsepostiveFULL,digits = 2, type = "latex",caption ="False positive probability (FPP) and false positive ratio (FPR) with Bonferroni correction when looking at all the models possible when the sample size is 200, no outlier criteria is being used and having two covariates. When restrictions on interactions are on main effects should always be present when there is interactions, this is not the case when restrictions on interactions is off."), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable", file = "FullModelSetBon.tex")
+print(xtable(falsepostiveFULL,digits = 2, type = "latex",caption ="False positive probability (FPP) and false positive ratio (FPR) with Bonferroni correction when looking at all the models possible when the sample size is 200, no outlier criteria is being used and having two covariates. When restrictions on interactions are on main effects should always be present when there is interactions, this is not the case when restrictions on interactions is off.",label = "tab:resultFullBC"), caption.placement = "top", include.rownames=FALSE, tabular.environment="longtable", file = "FullModelSetBon.tex")
 
 falsepostiveFULL
 
@@ -503,7 +503,7 @@ Figure3SI = ggplot(figuredata,aes(x=Set))+
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         legend.text = element_text( size = 7))
 Figure3SI
-ggsave(Figure3SI,filename = file.path(output,"Figures","Figure3SIBon.jpeg"),width = 6,height = 9)
+ggsave(Figure3SI,filename = file.path(output,"Figures","Figure3SIBon.jpeg"),width = 6,height = 8.5)
 
 
 ## Make into a table

@@ -504,7 +504,7 @@ Figure3SI = ggplot(figuredata,aes(x=Set))+
         strip.text.y = element_text(color = "grey20", size = 10, angle = 90, hjust = .5, vjust = .5, face = "plain"),
         legend.text = element_text( size = 7))
 Figure3SI
-ggsave(Figure3SI,filename = file.path(output,"Figures","Figure3SI.jpeg"),width = 6,height = 9)
+ggsave(Figure3SI,filename = file.path(output,"Figures","Figure3SI.jpeg"),width = 6,height = 8.5)
 
 
 ## Make into a table
