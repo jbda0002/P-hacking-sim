@@ -1,22 +1,12 @@
-\section{Supplementary Information}
 
-
-\subsection{Simulation Results}
-
-Table \ref{tab:resultFull} shows the FPP and FPR for the full model sets under different conditions. Here there is no split between each model set.
-
-\input{R/Analysis/CodeFinal/Figures and Tables/FullModelSet}
+\part*{Supplementary Information} 
 
 \begin{figure}[hbt!]
 \includegraphics[scale=0.95]{R/Analysis/Result/Figures/Figure1ASI.jpeg}
 \centering
-\caption{The probability of the false positive probability and false positive ratio given different model sets, the presence of main effects when having interactions (i.e., With restrictions or No restrictions) and different distributions of the variable of interest and covariates. Sample size is set to 200, a correlation between the dependent variable and covariates is $\textit{r}=0.2$ and using two covariates. The false positive probability is shown in black and the false positive ratio in red. Dashed blacked line indicates 0.05. This figure adds the two other cases not shown in Figure \ref{fig:mainfigure1}}
+\caption{The false positive probability and false positive ratio given different model sets, the presence of main effects when having interactions (i.e., With restrictions or No restrictions) and different distributions of the variable of interest and covariates. Sample size is set to 200, a correlation between the dependent variable and covariates is $\textit{r}=0.2$ and using two covariates. The false positive probability is shown in black and the false positive ratio in red. Dashed blacked line indicates 0.05. This figure adds the two other cases not shown in Figure \ref{fig:mainfigure1}}
 \label{fig:appfigure1}
 \end{figure}
-
-\begin{landscape}
-\input{R/Analysis/CodeFinal/Figures and Tables/Table1A}
-\end{landscape}
 
 \begin{landscape}
 \begin{figure}[hbt!]
@@ -27,10 +17,6 @@ Table \ref{tab:resultFull} shows the FPP and FPR for the full model sets under d
 \end{figure}
 \end{landscape}
 
-\begin{landscape}
-\scriptsize
-\input{R/Analysis/CodeFinal/Figures and Tables/Table2SI}
-\end{landscape}
 
 \begin{figure}[hbt!]
 \includegraphics{R/Analysis/Result/Figures/Figure3SI.jpeg}
@@ -39,10 +25,6 @@ Table \ref{tab:resultFull} shows the FPP and FPR for the full model sets under d
 \label{fig:appfigure3}
 \end{figure}
 
-\begin{landscape}
-\scriptsize
-\input{R/Analysis/CodeFinal/Figures and Tables/TableSI3}
-\end{landscape}
 
 \begin{figure}[hbt!]
 \includegraphics[scale=0.95]{R/Analysis/Result/Figures/Figure1BSI.jpeg}
@@ -51,9 +33,7 @@ Table \ref{tab:resultFull} shows the FPP and FPR for the full model sets under d
 }
 \label{fig:appfigure4}
 \end{figure}
-\begin{landscape}
-\input{R/Analysis/CodeFinal/Figures and Tables/Table1B}
-\end{landscape}
+
 \begin{figure}[hbt!]
 \includegraphics[scale=0.95]{R/Analysis/Result/Figures/Figure1CSI.jpeg}
 \centering
@@ -63,10 +43,6 @@ Table \ref{tab:resultFull} shows the FPP and FPR for the full model sets under d
 \end{figure}
 
 \begin{landscape}
-\input{R/Analysis/CodeFinal/Figures and Tables/Table1C}
-\end{landscape}
-
-\begin{landscape}
 \begin{figure}[hbt!]
 \includegraphics[scale=0.75]{R/Analysis/Result/Figures/Figure1DSI.jpeg}
 \centering
@@ -74,14 +50,6 @@ Table \ref{tab:resultFull} shows the FPP and FPR for the full model sets under d
 \label{fig:appfigure6}
 \end{figure}
 \end{landscape}
-
-
-\begin{landscape}
-\scriptsize
-\input{R/Analysis/CodeFinal/Figures and Tables/Table1D}
-\end{landscape}
-
-
 
 \clearpage
 \subsection{Results when using Bonferroni correction}
@@ -100,23 +68,12 @@ Table \ref{tab:resultFullBC} shows the FPP and FPR for the full model sets under
 \end{figure}
 
 \begin{landscape}
-\input{R/Analysis/CodeFinal/Figures and Tables/Table1ABon}
-\end{landscape}
-
-
-\begin{landscape}
 \begin{figure}[hbt!]
 \includegraphics[scale=0.7]{R/Analysis/Result/Figures/Figure2SIBon.jpeg}
 \centering
-\caption{False positive probability and false positive for different levels of correlation between the dependent variable and the covariates ranging from  $\textit{r}=0.2$ to  $\textit{r}=0.4$. Black denotes the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.}
+\caption{False positive probability and false positive for different levels of correlation between the dependent variable and the covariates ranging from  $\textit{r}=0.2$ to  $\textit{r}=0.4$ when using Bonferroni correction. Black denotes the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.}
 \label{fig:appfigure8}
 \end{figure}
-\end{landscape}
-
-
-\begin{landscape}
-\scriptsize
-\input{R/Analysis/CodeFinal/Figures and Tables/Table2SIBon}
 \end{landscape}
 
 
@@ -124,41 +81,28 @@ Table \ref{tab:resultFullBC} shows the FPP and FPR for the full model sets under
 \begin{figure}[hbt!]
 \includegraphics{R/Analysis/Result/Figures/Figure3SIBon.jpeg}
 \centering
-\caption{False positive probability and false positive ratio when using two dependent variables and the average of the two (meaning three dependent variables in total). The correlation between the dependent variables is set to  $\textit{r}=0.5$ with the correlation between the dependent variables and covariates still at  $\textit{r}=0.2$. Black denotes the the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.}
+\caption{False positive probability and false positive ratio when using two dependent variables and the average of the two (meaning three dependent variables in total) when using Bonferroni correction. The correlation between the dependent variables is set to  $\textit{r}=0.5$ with the correlation between the dependent variables and covariates still at  $\textit{r}=0.2$. Black denotes the the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.}
 \label{fig:appfigure9}
 \end{figure}
 
 
-
-\begin{landscape}
-\scriptsize
-\input{R/Analysis/CodeFinal/Figures and Tables/TableSI3Bon}
-\end{landscape}
-
 \begin{figure}[hbt!]
 \includegraphics[scale=0.95]{R/Analysis/Result/Figures/Figure1BSIBon.jpeg}
 \centering
-\caption{False positive probability and false positive ratio when using multiple outlier criteria. Black denotes the the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.
+\caption{False positive probability and false positive ratio when using multiple outlier criteria when using Bonferroni correction. Black denotes the the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.
 }
 \label{fig:appfigure10}
 \end{figure}
-
-\begin{landscape}
-\input{R/Analysis/CodeFinal/Figures and Tables/Table1BBon}
-\end{landscape}
 
 
 \begin{figure}[hbt!]
 \includegraphics[scale=0.95]{R/Analysis/Result/Figures/Figure1CSIBon.jpeg}
 \centering
-\caption{False positive probability and false positive ratio when using three covariates instead of two as in the base line model. Black denotes the the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.
+\caption{False positive probability and false positive ratio when using three covariates instead of two as in the base line model and using Bonferroni correction. Black denotes the the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.
 }
 \label{fig:appfigure11}
 \end{figure}
 
-\begin{landscape}
-\input{R/Analysis/CodeFinal/Figures and Tables/Table1CBon}
-\end{landscape}
 
 \begin{landscape}
 \begin{figure}[hbt!]
@@ -167,9 +111,4 @@ Table \ref{tab:resultFullBC} shows the FPP and FPR for the full model sets under
 \caption{Effect of increasing sample size for each model set and all combinations of data distributions (i.e., binary and normal) when using Bonferroni correction. Black denotes the false positive probability and red denotes the false positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure1}.}
 \label{fig:appfigure12}
 \end{figure}
-\end{landscape}
-
-\begin{landscape}
-\scriptsize
-\input{R/Analysis/CodeFinal/Figures and Tables/Table1DBon}
 \end{landscape}
