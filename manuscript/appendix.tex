@@ -476,17 +476,14 @@ k \end{array}
 
 % section
 \subsection{Full model set with restrictions}
-We now have the full set of models in the $n$ covariate case written as \textbf{NOTER HVILKEN DEL DER GIVER HVILKET SET LIGESOM I MAIN TEXT}
-\[\#\ of\ models=\left(2^n\right)+\sum^n_{k=1}{\left(2^k-1\right)\left( \begin{array}{c}
-n \\ 
-k \end{array}
-\right)}+\sum^n_{k=2}{\left( \begin{array}{c}
-n \\ 
-k \end{array}
-\right)\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)}+\sum^n_{k=2}{\left( \begin{array}{c}
-n \\ 
-k \end{array}
-\right)\left(2^k-1\right)\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)}\] 
+We now have the full set of models in the $n$ covariate case written as \textbf{HAR TILFØJET SÅ DET STÅR HVAD SET ER HVAD}
+\begin{equation} 
+\begin{aligned}
+\#\ models={} & \underbrace{\left(2^n\right)}_{x + z}+\underbrace{\sum^n_{k=1}{\left(2^k-1\right)\binom{n}{k}}}_{x + z + x \times z} + \\ 
+& \underbrace{\sum^n_{k=2}{\binom{n}{j}\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)}}_{x + z + z \times z} + \\
+& \underbrace{\sum^n_{k=2}{\binom{n}{k}\left(2^k-1\right)\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)}}_{x + z + x \times z + z \times z}\ \  
+\end{aligned}
+\end{equation} 
 
 \clearpage
 % section
