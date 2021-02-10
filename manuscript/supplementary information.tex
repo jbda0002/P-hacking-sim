@@ -76,7 +76,7 @@ The following supporting figures ($S1 - S6$) show additional conditions that inf
 \subsection{Results when using Bonferroni correction of p-values}
 \label{resultBC}
 
-In this section, we present the same analyses, but with Bonferroni correction of p-values. This means that the critical value ($\alpha$) now has a correction such that $\alpha = 0.05 / #Number~of~test~in~each~set$. So the critical value will only be 0.05 in the case where there are no interactions between the variable of interest and the covariates. The critical value is corrected for each test such that it can differ within each model set depending on how many interactions there are per model. 
+In this section, we present the same analyses, but with Bonferroni correction of p-values. This means that the critical value ($\alpha$) now has a correction such that $\alpha = 0.05 / #Number~of~test~in~each~model$. So the critical value will only be 0.05 in the case where there are no interactions between the variable of interest and the covariates. The critical value is corrected for each test such that it can differ within each model set depending on how many interactions there are per model. 
 
 Table \ref{tab:resultFullBC} shows the FPP and FPR for the full model sets under different conditions with Bonferroni correction. Here there is no split between each model set. The correction lowers the FPR to the expected 5\%, but there is still an issue when not including main effects and having binomial variables. 
 
