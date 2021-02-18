@@ -6,9 +6,9 @@
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\thefigure}{S\arabic{figure}}
 
-In the paper "Preregistration is important, but not enough" we examine the consequences of two different cases of the data structure; where both the variable of interest $x$ and the covariates $z$ have the same distribution i.e. both binary or both normally distributed. However, there are also the cases where one is binary and the other is normally distributed. The result for these cases can be found in this \textit{Supplementary Information} in the section "\nameref{result}". The first figure, \ref{fig:appfigure1}, contains the baseline model. This is the figure that all the other figures are compared to to see the increase of the false-positive probability (FPP) or false-positive ratio (FPR) for any of the flexibilities investigated. For this figure the sample size is set to 200, the correlation between the dependent variable and the covariates is $\textit{r}=0.2$, two covariates are used and no outlier criteria are used. For each of the figures in this section one of these flexibilities are changed. Figure \ref{fig:appfigure2} illustrates the consequences of a increase in the correlation between the dependent variable and the covariates, Figure \ref{fig:appfigure3} illustrates what happens when using one more dependent variable and the average between these two, Figure \ref{fig:appfigure4} illustrates the consequences of using several outlier criteria, Figure \ref{fig:appfigure5} illustrates the increase in FPP and FPR when using three instead of two covariates and finally in Figure \ref{fig:appfigure6} shows what happens to the FPP and FPR when increasing the sample size.  \\
+In the article "Preregistration is important, but not enough", we examine the consequences of two different cases of the data structure; where both the variable of interest $x$ and covariates $z$ have the same distribution i.e., both binary or both normally distributed. However, there are also the cases where one is binary and the other is normally distributed. The result for these cases can be found in this \textit{Supplementary Information} in the section "\nameref{result}". The first figure, \ref{fig:appfigure1}, contains the baseline model. This is the figure that all the other figures are compared to to see the increase of the false-positive probability (FPP) or false-positive ratio (FPR) for any of the flexibilities investigated. For this figure, the sample size is set to 200, the correlation between the dependent variable and covariates is $\textit{r}=0.2$, two covariates are used, and no outlier criteria are used. For each of the figures in this section, one of these flexibilities is changed. Figure \ref{fig:appfigure2} illustrates the consequences of an increase in the correlation between the dependent variable and covariates, Figure \ref{fig:appfigure3} illustrates what happens when using an additional dependent variable and the average between these two, Figure \ref{fig:appfigure4} illustrates the consequences of using several outlier criteria, Figure \ref{fig:appfigure5} illustrates the increase in the FPP and FPR when using three instead of two covariates and finally Figure \ref{fig:appfigure6} shows what happens to the FPP and FPR when increasing the sample size.  \\
 
-In the second part of this \textit{Supplementary Information}, in the section "\nameref{resultBC}", is the same set of figures, but in this case the critical value has been corrected using Bonferroni correction. The figures follow the same order as the first section, first a baseline model with Bonferroni correction in Figure \ref{fig:appfigure7} and afterwards the effect of changing one of the flexibilities in Figure \ref{fig:appfigure8} to Figure \ref{fig:appfigure12}. \\
+In the second part of this \textit{Supplementary Information}, in the section "\nameref{resultBC}", is the same set of figures, but in this case the critical value has been corrected using Bonferroni correction. The figures follow the same order as the first section; presented first is a baseline model with Bonferroni correction in Figure \ref{fig:appfigure7} and afterwards the effect of changing one of the flexibilities in Figure \ref{fig:appfigure8} to Figure \ref{fig:appfigure12}. \\
 In the final part of the \textit{Supplementary Information}, in the section "\nameref{overviewtable}", full tables of all the results from the simulation can be found. Here are  results both with and without Bonferroni correction.\\
 \newpage
 
@@ -20,7 +20,7 @@ The following supporting figures ($S1 - S6$) show additional conditions that inf
 %\figuretitle{Baseline model with all the different data structures}
 \includegraphics[width=1\textwidth]{R/Analysis/Result/Figures/Figure1ASI.jpeg}
 \centering
-\caption{The false-positive probability and false-positive ratio given different model sets, the presence of main effects when having interactions (i.e., Without restrictions or With restrictions) and different distributions of the variable of interest and covariates. This includes the two other cases compared to the main paper i.e., when the variable of interest is binary and the covariates are continuous and the other way around. Sample size is set to 200, a correlation between the dependent variable and covariates is $\textit{r}=0.2$ and there are two covariates. The false-positive probability is shown in black and the false-positive ratio in red. Dashed blacked line indicates 0.05. This figure adds the two other cases not shown in Figure \ref{fig:mainfigure1}.}
+\caption{The false-positive probability and false-positive ratio given different model sets, the presence of main effects when having interactions (i.e., Without restrictions or With restrictions) and different distributions of the variable of interest and covariates. The figure includes the two other cases compared to the main article i.e., when the variable of interest is binary and the covariates are continuous and the other way around. Sample size is set to 200, a correlation between the dependent variable and covariates is $\textit{r}=0.2$, no outlier criteria is used, and there are two covariates. The false-positive probability is shown in black and the false-positive ratio in red. Dashed blacked line shows the critical value, here set at 0.05. This figure adds the two other cases not shown in Figure \ref{fig:mainfigure1}.}
 \label{fig:appfigure1}
 \end{figure}
 
@@ -29,7 +29,7 @@ The following supporting figures ($S1 - S6$) show additional conditions that inf
 %\figuretitle{Effect of increasing the correlation between the dependent variable and the covariates}
 \includegraphics[scale=0.65]{R/Analysis/Result/Figures/Figure2SI.jpeg}
 \centering
-\caption{False-positive probability and false-positive for different levels of correlation between the dependent variable and the covariates ranging from  $\textit{r}=0.2$ to  $\textit{r}=0.4$. Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure1}.}
+\caption{False-positive probability and false-positive ratio for different levels of correlation between the dependent variable and covariates ranging from  $\textit{r}=0.2$ to  $\textit{r}=0.4$. Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line shows the critical value, here set at 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure1}.}
 \label{fig:appfigure2}
 \end{figure}
 \end{landscape}
@@ -39,7 +39,7 @@ The following supporting figures ($S1 - S6$) show additional conditions that inf
 %\figuretitle{Effect of using several dependent variables}
 \includegraphics[width=0.8\textwidth]{R/Analysis/Result/Figures/Figure3SI.jpeg}
 \centering
-\caption{False-positive probability and false-positive ratio when using two dependent variables and the average of the two (three dependent variables in total). The correlation between the dependent variables is set to  $\textit{r}=0.5$ with the correlation between the dependent variables and covariates still at  $\textit{r}=0.2$. Black denotes the the false-positive probability and red denotes the false-positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure1}.}
+\caption{False-positive probability and false-positive ratio when using two dependent variables and the average of the two (three dependent variables in total). The correlation between the dependent variables is set to  $\textit{r}=0.5$ with the correlation between the dependent variables and covariates still at  $\textit{r}=0.2$. Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line shows the critical value, here set at 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure1}.}
 \label{fig:appfigure3}
 \end{figure}
 
@@ -48,7 +48,7 @@ The following supporting figures ($S1 - S6$) show additional conditions that inf
 %\figuretitle{Effect of using multiple outlier criteria}
 \includegraphics[width=1\textwidth]{R/Analysis/Result/Figures/Figure1BSI.jpeg}
 \centering
-\caption{False-positive probability and false-positive ratio when using multiple outlier criteria. Black denotes the the false-positive probability and red denotes the false-positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure1}. This figure adds the two other cases not shown in Figure \ref{fig:mainfigure3}.
+\caption{False-positive probability and false-positive ratio when using multiple outlier criteria. Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line shows the critical value, here set at 0.05. This figure adds the two other cases not shown in Figure \ref{fig:mainfigure3}. Otherwise, the description of the figure is the same as for Figure \ref{fig:appfigure1}.
 }
 \label{fig:appfigure4}
 \end{figure}
@@ -57,7 +57,7 @@ The following supporting figures ($S1 - S6$) show additional conditions that inf
 %\figuretitle{Effect of using three covariates}
 \includegraphics[width=1\textwidth]{R/Analysis/Result/Figures/Figure1CSI.jpeg}
 \centering
-\caption{False-positive probability and false-positive ratio when using three covariates instead of two as in the base line model. Black denotes the the false-positive probability and red denotes the false-positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure1}. This figure adds the two other cases not shown in Figure \ref{fig:mainfigure2}.
+\caption{False-positive probability and false-positive ratio when using three covariates instead of two as in the base line model. Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line shows the critical value, here set at 0.05. This figure adds the two other cases not shown in Figure \ref{fig:mainfigure2}. Otherwise, the description of the figure is the same as for Figure \ref{fig:appfigure1}.
 }
 \label{fig:appfigure5}
 \end{figure}
@@ -67,7 +67,8 @@ The following supporting figures ($S1 - S6$) show additional conditions that inf
 %\figuretitle{Effect of increasing the sample size}
 \includegraphics[scale=0.75]{R/Analysis/Result/Figures/Figure1DSI.jpeg}
 \centering
-\caption{Effect of increasing sample size for each model set and all combinations of data distributions (i.e., binary and normal). Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure1}. This figure adds the two other cases not shown in Figure \ref{fig:mainfigure4}}
+\caption{Effect of increasing sample size for each model set and all combinations of data distributions (i.e., binary and normal). Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line shows the critical value, here set at 0.05. This figure adds the two other cases not shown in Figure \ref{fig:mainfigure4}. Otherwise, the description of the figure is the same as for Figure \ref{fig:appfigure1}. 
+}
 \label{fig:appfigure6}
 \end{figure}
 \end{landscape}
@@ -76,17 +77,13 @@ The following supporting figures ($S1 - S6$) show additional conditions that inf
 \subsection{Results when using Bonferroni correction of p-values}
 \label{resultBC}
 
-In this section, we present the same analyses, but with Bonferroni correction of p-values. This means that the critical value ($\alpha$) now has a correction such that $\alpha = 0.05 / #Number~of~test~in~each~model$. So the critical value will only be 0.05 in the case where there are no interactions between the variable of interest and the covariates. The critical value is corrected for each test such that it can differ within each model set depending on how many interactions there are per model. 
-
-Table \ref{tab:resultFullBC} shows the FPP and FPR for the full model sets under different conditions with Bonferroni correction. Here there is no split between each model set. The correction lowers the FPR to the expected 5\%, but there is still an issue when not including main effects and having binomial variables. 
-
-\input{R/Analysis/CodeFinal/Figures and Tables/FullModelSetBon}
+In this section, we present the same analyses, but with Bonferroni correction of p-values. This means that the critical value ($\alpha$) now has a correction such that $\alpha = 0.05 / #Number~of~tests~in~each~model$. So the critical value will only be 0.05 in the case where there are no interactions between the variable of interest and covariates. The critical value is corrected for each test such that it can differ within each model set depending on how many interactions there are per model. 
 
 \begin{figure}[ht!]
 %\figuretitle{Baseline model with all the different data structures when using Bonferroni correction}
 \includegraphics[width=1\textwidth]{R/Analysis/Result/Figures/Figure1ASIBon.jpeg}
 \centering
-\caption{The description of this figure is the same as for Figure \ref{fig:appfigure1} with the only difference being that we applied Bonferroni correction. This figure therefore shows the false-positive probability and false-positive ratio given different model sets, the presence of main effects when having interactions (i.e., Without restrictions or With restrictions) and different distributions of the variable of interest and covariates. Sample size was set to 200, a correlation between the dependent variable and covariates was $\textit{r}=0.2$ and there are two covariates. The false-positive probability is shown in black and the false-positive ratio in red. Dashed blacked line indicates 0.05. }
+\caption{The description of this figure is the same as for Figure \ref{fig:appfigure1} with the only difference being that we applied Bonferroni correction. This figure therefore shows the false-positive probability and false-positive ratio given different model sets, the presence of main effects when having interactions (i.e., Without restrictions or With restrictions), and different distributions of the variable of interest and covariates. Sample size is set to 200, a correlation between the dependent variable and covariates is $\textit{r}=0.2$, no outlier criteria is used, and there are two covariates. The false-positive probability is shown in black and false-positive ratio in red. Dashed blacked line shows the critical value, here set at 0.05. }
 \label{fig:appfigure7}
 \end{figure}
 
@@ -95,7 +92,7 @@ Table \ref{tab:resultFullBC} shows the FPP and FPR for the full model sets under
 %\figuretitle{Effect of increasing the correlation between the dependent variable and the covariates when using Bonferroni correction}
 \includegraphics[scale=0.65]{R/Analysis/Result/Figures/Figure2SIBon.jpeg}
 \centering
-\caption{False-positive probability and false-positive ratio for different levels of correlation between the dependent variable and the covariates ranging from  $\textit{r}=0.2$ to  $\textit{r}=0.4$ when using Bonferroni correction. Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.}
+\caption{False-positive probability and false-positive ratio for different levels of correlation between the dependent variable and covariates ranging from  $\textit{r}=0.2$ to  $\textit{r}=0.4$ when using Bonferroni correction. Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line shows the critical value, here set at 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.}
 \label{fig:appfigure8}
 \end{figure}
 \end{landscape}
@@ -106,7 +103,7 @@ Table \ref{tab:resultFullBC} shows the FPP and FPR for the full model sets under
 %\figuretitle{Effect of using several dependent variables when using Bonferroni correction}
 \includegraphics[width=0.8\textwidth]{R/Analysis/Result/Figures/Figure3SIBon.jpeg}
 \centering
-\caption{False-positive probability and false-positive ratio when using two dependent variables and the average of the two (three dependent variables in total) when using Bonferroni correction. The correlation between the dependent variables is set to  $\textit{r}=0.5$ with the correlation between the dependent variables and covariates still at  $\textit{r}=0.2$. Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.}
+\caption{False-positive probability and false-positive ratio when using two dependent variables and the average of the two (three dependent variables in total) when using Bonferroni correction. The correlation between the dependent variables is set to  $\textit{r}=0.5$ with the correlation between the dependent variables and covariates still at  $\textit{r}=0.2$. Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line shows the critical value, here set at 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.}
 \label{fig:appfigure9}
 \end{figure}
 
@@ -115,7 +112,7 @@ Table \ref{tab:resultFullBC} shows the FPP and FPR for the full model sets under
 %\figuretitle{Effect of using multiple outlier criteria when using Bonferroni correction}
 \includegraphics[width=1\textwidth]{R/Analysis/Result/Figures/Figure1BSIBon.jpeg}
 \centering
-\caption{False-positive probability and false-positive ratio when using multiple outlier criteria when using Bonferroni correction. Black denotes the the false-positive probability and red denotes the false-positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.
+\caption{False-positive probability and false-positive ratio when using multiple outlier criteria and Bonferroni correction. Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line shows the critical value, here set at 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.
 }
 \label{fig:appfigure10}
 \end{figure}
@@ -125,7 +122,7 @@ Table \ref{tab:resultFullBC} shows the FPP and FPR for the full model sets under
 %\figuretitle{Effect of using three covariates when using Bonferroni correction}
 \includegraphics[width=1\textwidth]{R/Analysis/Result/Figures/Figure1CSIBon.jpeg}
 \centering
-\caption{False-positive probability and false-positive ratio when using three covariates instead of two as in the base line model and using Bonferroni correction. Black denotes the the false-positive probability and red denotes the false-positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.
+\caption{False-positive probability and false-positive ratio when using three covariates instead of two as in the baseline model and when using Bonferroni correction. Black denotes the the false-positive probability and red denotes the false-positive ratio. Dashed blacked line shows the critical value, here set at 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure7}.
 }
 \label{fig:appfigure11}
 \end{figure}
@@ -136,14 +133,14 @@ Table \ref{tab:resultFullBC} shows the FPP and FPR for the full model sets under
 %\figuretitle{Effect of increasing the sample size when using Bonferroni correction}
 \includegraphics[scale=0.75]{R/Analysis/Result/Figures/Figure1DSIBon.jpeg}
 \centering
-\caption{Effect of increasing sample size for each model set and all combinations of data distributions (i.e., binary and normal) when using Bonferroni correction. Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure1}.}
+\caption{Effect of increasing sample size for each model set and all combinations of data distributions (i.e., binary and normal) when using Bonferroni correction. Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line shows the critical value, here set at 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:appfigure1}.}
 \label{fig:appfigure12}
 \end{figure}
 \end{landscape}
 
 \subsection{Overview tables}
 \label{overviewtable}
-Readers interested in examining specific results from the simulation can consult the following overview tables. Table \ref{tab:apptabFull} and Table \ref{tab:apptabFullBC} contain the results for the full simulation of the different sets. Table \ref{tab:apptabFull} contains all the results when there is no correction of the p-value and \ref{tab:apptabFullBC} contains the results when Bonferroni correction is used. For each set the result of the false-positive probability (FPP) and false-positive ratio (FPR) is shown with and without the restriction that main effects should always follow an interaction and for the different other flexibilities used in the paper i.e. increasing the number of covariates, increasing the number of dependent variables, using several outlier criteria. This is shown with different data structures for the variable of interest and covariates. 
+Readers interested in examining specific results from the simulation can consult the following overview tables. Table \ref{tab:apptabFull} and Table \ref{tab:apptabFullBC} contain the results for the full simulation of the different sets. Table \ref{tab:apptabFull} contains all the results when there is no correction of the p-value and \ref{tab:apptabFullBC} contains the results when Bonferroni correction is used. For each set, the result of the false-positive probability (FPP) and false-positive ratio (FPR) is shown with and without the restriction that main effects should always follow an interaction and for the different flexibilities used in the article i.e., increasing the number of covariates, increasing the number of dependent variables, and using several outlier criteria. This is shown using different data structures for the variable of interest and covariates. 
 \begin{landscape}
 \scriptsize
 \input{R/Analysis/CodeFinal/Figures and Tables/TableSIFull}

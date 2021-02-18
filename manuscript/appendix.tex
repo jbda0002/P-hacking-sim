@@ -5,7 +5,9 @@
 \renewcommand{\thetable}{A\arabic{table}}
 \renewcommand{\thefigure}{A\arabic{figure}}
 
-In the following sections we present the equations and methods used for calculating the model set sizes for different model sets under different conditions. To calculate the size of the different model sets, we use the binomial coefficients to calculate the number of possible combinations. The general form of the binomial coefficient is written as
+\subsection{Binomial coefficient}
+\label{binomial}
+In the following sections we present the equations and methods used for calculating the model set sizes for different model sets under different conditions. To calculate the size of the different model sets, we use binomial coefficients to calculate the number of possible combinations. The general form of the binomial coefficient is written as
 \[\left( \begin{array}{c}
 n \\ 
 k \end{array}
@@ -26,6 +28,7 @@ When calculating the size of each model set, we consider two different cases; a 
 
 % section
 \subsection{Model sets without restrictions}
+\label{witout_res}
 \subsubsection{Set $x + z$}
 To calculate the size of the sets, we use the binomial coefficient. The set $x + z$ contains all the combinations that can be made by the covariates $z$ including the model where there is only the variable of interest $x$. Based on the previous terminology the model containing only the variable of interest is therefore the empty set and the binomial coefficient therefore computes how many combinations there are. Let us denote the number of covariates $n$. If we, for example, have three covariates ($n=3$), then the number of combinations where all three covariates are present can be written using the binomial coefficient as
 \[\left( \begin{array}{c}
@@ -89,7 +92,7 @@ Each element $S\in x + z$ is a set of the covariates e.g., $S=\left.z_3,z_7\righ
 \[\left|x + z\right|=|\mathcal{P}\left(Z\right)|=2^n\] 
 % section
 \subsubsection{Set $x \times z$}
-The same line of reasoning goes for the $x \times z$ set as for $x + z$ set and we therefore only write it formally. Here, we need to calculate the number of possible interactions between the variable of interest and the covariates. This set will therefore have the same size as the $x + z$ set, as there are as many covariates as there are two-way combinations between the variable of interest and the covariates excluding the empty set.
+The same line of reasoning goes for the $x \times z$ set as for $x + z$ set and we therefore only write it formally. Here, we need to calculate the number of possible interactions between the variable of interest and covariates. This set will therefore have the same size as the $x + z$ set, as there are as many covariates as there are two-way combinations between the variable of interest and covariates excluding the empty set.
 
 \[I_h(Z)=\left.\left\{\{x,z_i\}\right.:z_i\in Z\right.\}\] 
 \[x \times z=\left.\{T:T\subseteq I_h\left(Z\right),T\neq \textrm{\O}\right.\}\] 
@@ -179,7 +182,8 @@ total\ \# \ of\ models=\\
 
 % section
 \subsection{Model sets with restrictions}
-In the case with restrictions, we enforce that every time there is an interaction term, the corresponding main effect terms are included in the model as in the model below:
+\label{with_res}
+In the case with restrictions, we enforce that every time there is an interaction effect, the corresponding main effects are included in the model as in the model below:
 \[y=x_1+z_1+x_1z_1\] 
 
 In the previous equation, we have an interaction between our variable of interest $x_1$ and a covariate $z_1$. Therefore, the two corresponding main effects also enter the model. This restriction does not change how we calculate the set size of the $x + z$ set as there are no interactions in it. On the other hand,  the restriction implies that the sets $x \times z$ and $z \times z$ are empty sets as the models in these sets never have main effects following interactions. The first set we then need to calculate is then the set $x + z + x \times z$.
@@ -216,7 +220,7 @@ Set & Models \\
 \end{tabular}
 \end{table}
 
-To calculate the size of each of these sets separately, we only need to focus on the number of covariates that enter the model, as per assumption the variable of interest $x_1$ is always present. Let us start with the $x + z + x \times z$(1) set. In this set, there can only be one covariate present at the time; there are therefore three combinations, which can be written as $\binom{3}{1}$. In this set, since there is only one covariate, there is only one interaction term containing that same covariate. As no other combinations can be made, this corresponds to $\binom{1}{1}$. Using the same shorthand notation with the binomial coefficient as above, we can write the number of models in the $x + z + x \times z$(1) set as
+To calculate the size of each of these sets separately, we only need to focus on the number of covariates that enter the model, as per assumption the variable of interest $x_1$ is always present. Let us start with the $x + z + x \times z$(1) set. In this set, there can only be one covariate present at the time; there are therefore three combinations, which can be written as $\binom{3}{1}$. In this set, since there is only one covariate, there is only one interaction effect containing that same covariate. As no other combinations can be made, this corresponds to $\binom{1}{1}$. Using the same shorthand notation with the binomial coefficient as above, we can write the number of models in the $x + z + x \times z$(1) set as
 \[\#\ of\ models\ in\ x + z + x \times z\textit{(1)}\ =\left( \begin{array}{c}
 1 \\ 
 1 \end{array}
@@ -558,23 +562,16 @@ The following correlation matrix is used for the simulating data with one depend
 
 \clearpage
 
-\subsection{FPP and FPR across model sets}
-Table \ref{tab:resultFull} shows the FPP and FPR for the full model sets under different conditions. This is the average effect when using all models at the same time.
-
-\input{R/Analysis/CodeFinal/Figures and Tables/FullModelSet}
-
-\clearpage
-
 % section
 \subsection{Supporting figures}
-In this section are two additional figures illustrating the consequences using several dependent variables and what happens if the correlation between the dependent variable and the covariates increases. Figure \ref{fig:appfigure2app} shows the effect of using two dependent variables and the average of the two (a total of three dependent variables). Everything else is similar to the baseline model in meaning that the sample size is 200, there are two covariates, no outlier deletion and the correlation between the dependent variable and the covariates is $\textit{r}=0.2$.\\
-Figure \ref{fig:appfigure1app} shows the effect of increasing the correlation between the dependent variable and the covariates. Here the increase goes from $\textit{r}=0.2$ til $\textit{r}=0.3$ and $\textit{r}=0.4$. Everything else is similar to the baseline model. \\
+In this section, there are two additional figures illustrating the consequences of using several dependent variables and what happens if the correlation between the dependent variable and covariates increases. Figure \ref{fig:appfigure2app} shows the effect of using two dependent variables and the average of the two (a total of three dependent variables). Everything else is similar to the baseline model meaning that the sample size is 200, there are two covariates, no outlier deletion, and the correlation between the dependent variable and covariates is $\textit{r}=0.2$.\\
+Figure \ref{fig:appfigure1app} shows the effect of increasing the correlation between the dependent variable and covariates. Here the increase goes from $\textit{r}=0.2$ to $\textit{r}=0.3$ and $\textit{r}=0.4$. Everything else is similar to the baseline model. \\
 
 \begin{figure}[ht!]
 %\figuretitle{Effect of using several dependent variables}
 \includegraphics[width=0.7\textwidth]{R/Analysis/Result/Figures/Figure2App.jpeg}
 \centering
-\caption{false-positive probability and false-positive ratio when using two dependent variables and the average of the two (three dependent variables in total). The correlation between the dependent variables is set to  $\textit{r}=0.5$ with the correlation between the dependent variables and covariates still at  $\textit{r}=0.2$. Black denotes the the false-positive probability and red denotes the false-positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:mainfigure1}.}
+\caption{False-positive probability and false-positive ratio when using two dependent variables and the average of the two (three dependent variables in total). The correlation between the dependent variables is set to  $\textit{r}=0.5$ with the correlation between the dependent variables and covariates still at  $\textit{r}=0.2$. Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line shows the critical value, here set at 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:mainfigure1}.}
 \label{fig:appfigure2app}
 \end{figure}
 
@@ -582,7 +579,7 @@ Figure \ref{fig:appfigure1app} shows the effect of increasing the correlation be
 %\figuretitle{Effect of increasing the correlation between the dependent variable and the covariates}
 \includegraphics[width=1\textwidth]{R/Analysis/Result/Figures/Figure1App.jpeg}
 \centering
-\caption{false-positive probability and false-positive for different levels of correlation between the dependent variable and the covariates ranging from  $\textit{r}=0.2$ to  $\textit{r}=0.4$. Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line indicates 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:mainfigure1}.}
+\caption{False-positive probability and false-positive ratio for different levels of correlation between the dependent variable and the covariates ranging from  $\textit{r}=0.2$ to  $\textit{r}=0.4$. Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line shows the critical value, here set at 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:mainfigure1}.}
 \label{fig:appfigure1app}
 \end{figure}
 

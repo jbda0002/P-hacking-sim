@@ -1,0 +1,98 @@
+library(tidyverse)
+
+data = read.csv("C:/Users/Jacob Dalgaard/Downloads/export.csv")
+
+sources <- data %>%
+  distinct(State) %>%
+  rename(label = State)
+
+destinations <- data %>%
+  distinct(Recommending.state..UPR.) %>%
+  rename(label = Recommending.state..UPR.)
+
+nodes <- full_join(sources, destinations, by = "label")
+
+nodes <- nodes %>% rowid_to_column("id")
+
+per_route <- data %>%  
+  group_by(State, Recommending.state..UPR.) %>%
+  summarise(weight = n()) %>% 
+  ungroup()
+
+##Remove the empty one
+per_route=per_route[!(per_route$State=="" | per_route$Recommending.state..UPR.==""), ]
+
+## Try only to use one country as it is to much information 
+
+edges <- per_route %>% 
+  left_join(nodes, by = c("State" = "label")) %>% 
+  rename(from = id)
+
+edges <- edges %>% 
+  left_join(nodes, by = c("Recommending.state..UPR." = "label")) %>% 
+  rename(to = id)
+
+edges <- select(edges, from, to, weight)
+##Remove the empty one
+
+library(network)
+##Remove the empty one
+
+routes_network <- network(edges, vertex.attr = nodes, matrix.type = "edgelist", ignore.eval = FALSE)
+class(routes_network)
+routes_network
+
+
+plot(routes_network, vertex.cex = 3)
+
+
+detach(package:network)
+rm(routes_network)
+library(igraph)
+routes_igraph <- graph_from_data_frame(d = edges, vertices = nodes, directed = TRUE)
+
+plot(routes_igraph, edge.arrow.size = 0.02)
+plot(routes_igraph, layout = layout_with_graphopt, edge.arrow.size = 0.2)
+
+
+library(tidygraph)
+library(ggraph)
+
+routes_tidy <- tbl_graph(nodes = nodes, edges = edges, directed = TRUE)
+routes_igraph_tidy <- as_tbl_graph(routes_igraph)
+
+routes_tidy %>% 
+  activate(edges) %>% 
+  arrange(desc(weight))
+
+
+
+ggraph(routes_tidy, layout = "graphopt") + 
+  geom_node_point() +
+  geom_edge_link(aes(width = weight), alpha = 0.8) + 
+  scale_edge_width(range = c(0.2, 2)) +
+  geom_node_text(aes(label = label), repel = TRUE) +
+  labs(edge_width = "Reccomendations") +
+  theme_graph()
+
+ggraph(routes_igraph, layout = "linear") + 
+  geom_edge_arc(aes(width = weight), alpha = 0.8) + 
+  scale_edge_width(range = c(0.2, 2)) +
+  geom_node_text(aes(label = label)) +
+ labs(edge_width = "Reccomendations") +
+  theme_graph()
+
+
+
+plot(routes_igraph, vertex.shape="none", vertex.label=V(routes_igraph)$label, 
+     
+     vertex.label.font=2, vertex.label.color="gray40",
+     
+     vertex.label.cex=.3, edge.color="gray85")
+
+
+deg.dist <- degree_distribution(routes_igraph, cumulative=T, mode="all")
+deg <- degree(routes_igraph, mode="all")
+plot( x=0:max(deg), y=1-deg.dist, pch=19, cex=1.2, col="orange", 
+      
+      xlab="Degree", ylab="Cumulative Frequency")
