@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1612966774241.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "207135810",
+    "id" : "74FB0D77",
+    "lastKnownWriteTime" : 1612970494,
+    "last_content_update" : 1612970494672,
+    "path" : "C:/Users/Jacob Dalgaard/Dropbox/Uppsala/Projects/UN/Different network test.R",
+    "project_path" : null,
+    "properties" : {
+        "cursorPosition" : "83,0",
+        "scrollLine" : "65",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

@@ -1,0 +1,33 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1612967837413.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "36898E0D",
+    "lastKnownWriteTime" : 1612949653,
+    "last_content_update" : 1612967837413,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "F66A962B",
+        "caption" : "destinations",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=destinations&cache_key=F66A962B",
+        "displayedObservations" : 176,
+        "environment" : "",
+        "expression" : "destinations",
+        "object" : "destinations",
+        "preview" : 0,
+        "totalObservations" : 176,
+        "variables" : 1
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 7,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_dataframe"
+}
