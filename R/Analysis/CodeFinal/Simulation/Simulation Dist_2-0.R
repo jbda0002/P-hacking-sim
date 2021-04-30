@@ -3,7 +3,7 @@
 #### Setting up the simulation ####
 ## Setting working directory
 setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
-set.seed(1230)
+set.seed(1234)
 
 ## Loading library
 library(ggplot2)
@@ -29,38 +29,38 @@ library(here)
 sample = 200
 
 ## Setting the number of repretetion
-repdist=10000
+repdist=500
 ## Setting the correlation between dependent and independent 
 corr=0.2
 
 
 ## Loading the P-Hacking function
-source(here::here("CodeFinal","phackingFunction_v2-0.R"))
+source(here::here("R","Analysis","CodeFinal","phackingFunction_v2-0.R"))
 
 
 ### Here it is added how many covariates there should be in the simulation
 ## Making the list for the Normal Data
-source(here::here("CodeFinal","Data","Data Generation Normal.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation Normal.R"))
 DataGenListNorm <- list(dataGen2,dataGen3)
 
 ## Making the list for the Bin Data
-source(here::here("CodeFinal","Data","Data Generation Bin_v2-0.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation Bin_v2-0.R"))
 DataGenListBin <- list(dataGen2,dataGen3)
 
 ## Making the list for the Bin Normal Data
-source(here::here("CodeFinal","Data","Data Generation BinNormal_v2-0.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation BinNormal_v2-0.R"))
 DataGenListBinNorm <- list(dataGen2,dataGen3)
 
 ## Making the list for the Normal Bin Data
-source(here::here("CodeFinal","Data","Data Generation NormalBin.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation NormalBin.R"))
 DataGenListNormBin <- list(dataGen2,dataGen3)
 
 ## Making the list for the Bin Data with effect coding
-source(here::here("CodeFinal","Data","Data Generation Bin effect coding_v2-0.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation Bin effect coding_v2-0.R"))
 DataGenListBinEffect <- list(dataGen2,dataGen3)
 
 ## Making the list for the Bin Data with effect coding
-source(here::here("CodeFinal","Data","Data Generation BinNormal effect coding_v2-0.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation BinNormal effect coding_v2-0.R"))
 DataGenListBinNormEffect <- list(dataGen2,dataGen3)
 
 
@@ -97,15 +97,16 @@ opts <- list(progress=progress)
 
 
 
+
 resultsMTDist<-
   foreach(k=1:length(condSD),.combine=rbind) %:%
-  foreach(h=1:length(P2),.combine=rbind, .inorder=FALSE) %:%
-  foreach(c=1:length(corr),.combine=rbind, .inorder=FALSE) %:%
-  foreach(n=1:length(condMain),.combine=rbind, .inorder=FALSE) %:%
-  foreach(l=1:length(P3),.combine=rbind, .inorder=FALSE) %:%
-  foreach(g=1:length(sample),.combine=rbind, .inorder=FALSE) %:%
-  foreach(i=1:length(DataGen),.combine=rbind, .inorder=F) %:%
-  foreach(j=1:length(DataGen[[i]]),.combine=rbind, .inorder=FALSE) %:%
+  foreach(h=1:length(P2),.combine=rbind, .inorder=T) %:%
+  foreach(c=1:length(corr),.combine=rbind, .inorder=T) %:%
+  foreach(n=1:length(condMain),.combine=rbind, .inorder=T) %:%
+  foreach(l=1:length(P3),.combine=rbind, .inorder=T) %:%
+  foreach(g=1:length(sample),.combine=rbind, .inorder=T) %:%
+  foreach(i=1:length(DataGen),.combine=rbind, .inorder=T) %:%
+  foreach(j=1:length(DataGen[[i]]),.combine=rbind, .inorder=T) %:%
   foreach(t=1:repdist,.combine=rbind,.packages=c("plyr","statip","data.table","BinNor","dplyr"),.options.snow = opts, .inorder=FALSE) %dopar% {
     f = function() {
       
@@ -115,24 +116,20 @@ resultsMTDist<-
     }
     d1=data.frame(f(),Power12=h,Power13=l,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
     
-    if(h==2 & l==2){
+    if(h==1 & l==1){
       f = function() {
         
         phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = T,Per = TRUE)
         
         
       }
+      d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
+      return(rbind(d1,d2))
     }
     else{
-      f = function() {
-        nothing=NA
-        
-        nothing
-      }
+      return(d1)
     }
     
-    d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
-    return(rbind(d1,d2))
     
     
   }
@@ -181,17 +178,11 @@ resultsMFDist<-
         
         
       }
+      data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      return(rbind(data1,data2))
     }
-    else{
-      f = function() {
-        nothing=NA
-        
-        nothing
-      }
-    }
-    data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
     
-    if(h==2 & l==2){
+    else if(h==2 & l==2){
       f = function() {
         
         phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = F,Per = TRUE)
@@ -205,26 +196,14 @@ resultsMFDist<-
         
       }
       data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      
+      return(rbind(data1,data2,data3,data4))
     }
-    else{
-      f = function() {
-        nothing=NA
-        
-        nothing
-      }
-      
-      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      
-    }
+    else{return(data1)}
     
     
     
-    return(rbind(data1,data2,data3,data4))
     
   }
-
 
 ## Close process bar
 close(pb)
@@ -268,27 +247,27 @@ corr=c(0.2)
 
 ### Here it is added how many covariates there should be in the simulation
 ## Making the list for the Normal Data
-source(here::here("CodeFinal","Data","Data Generation Normal.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation Normal.R"))
 DataGenListNorm <- list(dataGen2)
 
 ## Making the list for the Bin Data
-source(here::here("CodeFinal","Data","Data Generation Bin_v2-0.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation Bin_v2-0.R"))
 DataGenListBin <- list(dataGen2)
 
 ## Making the list for the Bin Normal Data
-source(here::here("CodeFinal","Data","Data Generation BinNormal_v2-0.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation BinNormal_v2-0.R"))
 DataGenListBinNorm <- list(dataGen2)
 
 ## Making the list for the Normal Bin Data
-source(here::here("CodeFinal","Data","Data Generation NormalBin.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation NormalBin.R"))
 DataGenListNormBin <- list(dataGen2)
 
 ## Making the list for the Bin Data with effect coding
-source(here::here("CodeFinal","Data","Data Generation Bin effect coding_v2-0.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation Bin effect coding_v2-0.R"))
 DataGenListBinEffect <- list(dataGen2)
 
 ## Making the list for the Bin Data with effect coding
-source(here::here("CodeFinal","Data","Data Generation BinNormal effect coding_v2-0.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation BinNormal effect coding_v2-0.R"))
 DataGenListBinNormEffect <- list(dataGen2)
 
 
@@ -325,15 +304,16 @@ opts <- list(progress=progress)
 
 
 
+
 resultsMTDistOut<-
   foreach(k=1:length(condSD),.combine=rbind) %:%
-  foreach(h=1:length(P2),.combine=rbind, .inorder=FALSE) %:%
-  foreach(c=1:length(corr),.combine=rbind, .inorder=FALSE) %:%
-  foreach(n=1:length(condMain),.combine=rbind, .inorder=FALSE) %:%
-  foreach(l=1:length(P3),.combine=rbind, .inorder=FALSE) %:%
-  foreach(g=1:length(sample),.combine=rbind, .inorder=FALSE) %:%
-  foreach(i=1:length(DataGen),.combine=rbind, .inorder=F) %:%
-  foreach(j=1:length(DataGen[[i]]),.combine=rbind, .inorder=FALSE) %:%
+  foreach(h=1:length(P2),.combine=rbind, .inorder=T) %:%
+  foreach(c=1:length(corr),.combine=rbind, .inorder=T) %:%
+  foreach(n=1:length(condMain),.combine=rbind, .inorder=T) %:%
+  foreach(l=1:length(P3),.combine=rbind, .inorder=T) %:%
+  foreach(g=1:length(sample),.combine=rbind, .inorder=T) %:%
+  foreach(i=1:length(DataGen),.combine=rbind, .inorder=T) %:%
+  foreach(j=1:length(DataGen[[i]]),.combine=rbind, .inorder=T) %:%
   foreach(t=1:repdist,.combine=rbind,.packages=c("plyr","statip","data.table","BinNor","dplyr"),.options.snow = opts, .inorder=FALSE) %dopar% {
     f = function() {
       
@@ -341,29 +321,26 @@ resultsMTDistOut<-
       
       
     }
-    d1=data.frame(f(),Power12=h,Power13=l,Power123=2,OutlierExclusion=1,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
+    d1=data.frame(f(),Power12=h,Power13=l,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
     
-    if(h==2 & l==2){
+    if(h==1 & l==1){
       f = function() {
         
         phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = T,Per = TRUE)
         
         
       }
+      d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
+      return(rbind(d1,d2))
     }
     else{
-      f = function() {
-        nothing=NA
-        
-        nothing
-      }
+      return(d1)
     }
     
-    d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=1,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
-    return(rbind(d1,d2))
     
     
   }
+
 
 ## Close process bar
 close(pb)
@@ -401,7 +378,7 @@ resultsMFDistOut<-
       
       
     }
-    data1=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=2,OutlierExclusion=1,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+    data1=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
     if(h!=2 | l!=2){
       f = function() {
         
@@ -409,51 +386,32 @@ resultsMFDistOut<-
         
         
       }
+      data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      return(rbind(data1,data2))
     }
-    else{
-      f = function() {
-        nothing=NA
-        
-        nothing
-      }
-    }
-    data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=1,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
     
-    if(h==2 & l==2){
+    else if(h==2 & l==2){
       f = function() {
         
         phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = F,Per = TRUE)
         
         
       }
-      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=1,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
       f=function(){
         phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],HCI_CCI = T,Main = F,Per = TRUE)
         
       }
-      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=1,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      
+      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      return(rbind(data1,data2,data3,data4))
     }
-    else{
-      f = function() {
-        nothing=NA
-        
-        nothing
-      }
-      
-      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=1,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=1,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      
-    }
+    else{return(data1)}
     
     
     
-    return(rbind(data1,data2,data3,data4))
     
   }
-
-
 ## Close process bar
 close(pb)
 
@@ -497,19 +455,19 @@ corrDV=0.5
 
 ### Here it is added how many covariates there should be in the simulation
 ## Making the list for the Normal Data
-source(here::here("CodeFinal","Data","Data Generation NormalDV.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation NormalDV.R"))
 DataGenListNorm <- list(dataGen2)
 
 ## Making the list for the Bin Data
-source(here::here("CodeFinal","Data","Data Generation BinDV_v2-0.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation BinDV_v2-0.R"))
 DataGenListBin <- list(dataGen2)
 
 ## Making the list for the Bin Data
-source(here::here("CodeFinal","Data","Data Generation BinNormalDV_v2-0.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation BinNormalDV_v2-0.R"))
 DataGenListBinNorm <- list(dataGen2)
 
 ## Making the list for the Bin Data
-source(here::here("CodeFinal","Data","Data Generation NormalBinDV.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation NormalBinDV.R"))
 DataGenListNormBin <- list(dataGen2)
 
 
@@ -547,45 +505,43 @@ opts <- list(progress=progress)
 
 
 
+
 resultsMTDist<-
   foreach(k=1:length(condSD),.combine=rbind) %:%
-  foreach(h=1:length(P2),.combine=rbind, .inorder=FALSE) %:%
-  foreach(c=1:length(corr),.combine=rbind, .inorder=FALSE) %:%
-  foreach(n=1:length(condMain),.combine=rbind, .inorder=FALSE) %:%
-  foreach(l=1:length(P3),.combine=rbind, .inorder=FALSE) %:%
-  foreach(g=1:length(sample),.combine=rbind, .inorder=FALSE) %:%
-  foreach(i=1:length(DataGen),.combine=rbind, .inorder=F) %:%
-  foreach(j=1:length(DataGen[[i]]),.combine=rbind, .inorder=FALSE) %:%
+  foreach(h=1:length(P2),.combine=rbind, .inorder=T) %:%
+  foreach(c=1:length(corr),.combine=rbind, .inorder=T) %:%
+  foreach(n=1:length(condMain),.combine=rbind, .inorder=T) %:%
+  foreach(l=1:length(P3),.combine=rbind, .inorder=T) %:%
+  foreach(g=1:length(sample),.combine=rbind, .inorder=T) %:%
+  foreach(i=1:length(DataGen),.combine=rbind, .inorder=T) %:%
+  foreach(j=1:length(DataGen[[i]]),.combine=rbind, .inorder=T) %:%
   foreach(t=1:repdist,.combine=rbind,.packages=c("plyr","statip","data.table","BinNor","dplyr"),.options.snow = opts, .inorder=FALSE) %dopar% {
     f = function() {
       
-      phackingFunction(DataGen[[i]][[j]](sample[[g]],cor=corr[[c]],corDV=corrDV[[1]]),c("y1","y2","y3"),"h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = T,Per = TRUE)
+      phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = T,Per = TRUE)
       
       
     }
     d1=data.frame(f(),Power12=h,Power13=l,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
     
-    if(h==2 & l==2){
+    if(h==1 & l==1){
       f = function() {
         
-        phackingFunction(DataGen[[i]][[j]](sample[[g]],cor=corr[[c]],corDV=corrDV[[1]]),c("y1","y2","y3"),"h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = T,Per = TRUE)
+        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = T,Per = TRUE)
         
         
       }
+      d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
+      return(rbind(d1,d2))
     }
     else{
-      f = function() {
-        nothing=NA
-        
-        nothing
-      }
+      return(d1)
     }
     
-    d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
-    return(rbind(d1,d2))
     
     
   }
+
 
 ## Close process bar
 close(pb)
@@ -607,7 +563,7 @@ opts <- list(progress=progress)
 
 
 resultsMFDist<-
-  foreach(k=1:length(condSD),.combine=rbind) %:%
+  foreach(k=1:length(condSD),.combine=rbind, .inorder=FALSE) %:%
   foreach(h=1:length(P2),.combine=rbind, .inorder=FALSE) %:%
   foreach(c=1:length(corr),.combine=rbind, .inorder=FALSE) %:%
   foreach(n=1:length(condMain),.combine=rbind, .inorder=FALSE) %:%
@@ -618,7 +574,7 @@ resultsMFDist<-
   foreach(t=1:repdist,.combine=rbind,.packages=c("plyr","statip","data.table","BinNor"),.options.snow = opts, .inorder=FALSE) %dopar% {
     f = function() {
       
-      phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2","y3"),"h1",HCI =P2[[h]],outlierexclusion=condSD[[k]],CCI = P3[[l]],Main = F,Per = TRUE)
+      phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",HCI =P2[[h]],outlierexclusion=condSD[[k]],CCI = P3[[l]],Main = F,Per = TRUE)
       
       
     }
@@ -626,54 +582,36 @@ resultsMFDist<-
     if(h!=2 | l!=2){
       f = function() {
         
-        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2","y3"),"h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = F,Per = TRUE)
+        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",Ma_HCI =P2[[h]],outlierexclusion=condSD[[k]],Ma_CCI = P3[[l]],Main = F,Per = TRUE)
         
         
       }
+      data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      return(rbind(data1,data2))
     }
-    else{
-      f = function() {
-        nothing=NA
-        
-        nothing
-      }
-    }
-    data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
     
-    if(h==2 & l==2){
+    else if(h==2 & l==2){
       f = function() {
         
-        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2","y3"),"h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = F,Per = TRUE)
+        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = F,Per = TRUE)
         
         
       }
       data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
       
       f=function(){
-        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]],corrDV),c("y1","y2","y3"),"h1",outlierexclusion=condSD[[k]],HCI_CCI = T,Main = F,Per = TRUE)
+        phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],HCI_CCI = T,Main = F,Per = TRUE)
         
       }
       data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      
+      return(rbind(data1,data2,data3,data4))
     }
-    else{
-      f = function() {
-        nothing=NA
-        
-        nothing
-      }
-      
-      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      
-    }
+    else{return(data1)}
     
     
     
-    return(rbind(data1,data2,data3,data4))
     
   }
-
 
 ## Close process bar
 close(pb)
@@ -723,19 +661,19 @@ corr=c(0.3,0.4)
 
 ### Here it is added how many covariates there should be in the simulation
 ## Making the list for the Normal Data
-source(here::here("CodeFinal","Data","Data Generation Normal.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation Normal.R"))
 DataGenListNorm <- list(dataGen2)
 
 ## Making the list for the Bin Data
-source(here::here("CodeFinal","Data","Data Generation Bin_v2-0.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation Bin_v2-0.R"))
 DataGenListBin <- list(dataGen2)
 
 ## Making the list for the Bin Normal Data
-source(here::here("CodeFinal","Data","Data Generation BinNormal_v2-0.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation BinNormal_v2-0.R"))
 DataGenListBinNorm <- list(dataGen2)
 
 ## Making the list for the Normal Bin Data
-source(here::here("CodeFinal","Data","Data Generation NormalBin.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation NormalBin.R"))
 DataGenListNormBin <- list(dataGen2)
 
 
@@ -773,15 +711,16 @@ opts <- list(progress=progress)
 
 
 
+
 resultsMTDist<-
   foreach(k=1:length(condSD),.combine=rbind) %:%
-  foreach(h=1:length(P2),.combine=rbind, .inorder=FALSE) %:%
-  foreach(c=1:length(corr),.combine=rbind, .inorder=FALSE) %:%
-  foreach(n=1:length(condMain),.combine=rbind, .inorder=FALSE) %:%
-  foreach(l=1:length(P3),.combine=rbind, .inorder=FALSE) %:%
-  foreach(g=1:length(sample),.combine=rbind, .inorder=FALSE) %:%
-  foreach(i=1:length(DataGen),.combine=rbind, .inorder=F) %:%
-  foreach(j=1:length(DataGen[[i]]),.combine=rbind, .inorder=FALSE) %:%
+  foreach(h=1:length(P2),.combine=rbind, .inorder=T) %:%
+  foreach(c=1:length(corr),.combine=rbind, .inorder=T) %:%
+  foreach(n=1:length(condMain),.combine=rbind, .inorder=T) %:%
+  foreach(l=1:length(P3),.combine=rbind, .inorder=T) %:%
+  foreach(g=1:length(sample),.combine=rbind, .inorder=T) %:%
+  foreach(i=1:length(DataGen),.combine=rbind, .inorder=T) %:%
+  foreach(j=1:length(DataGen[[i]]),.combine=rbind, .inorder=T) %:%
   foreach(t=1:repdist,.combine=rbind,.packages=c("plyr","statip","data.table","BinNor","dplyr"),.options.snow = opts, .inorder=FALSE) %dopar% {
     f = function() {
       
@@ -791,27 +730,24 @@ resultsMTDist<-
     }
     d1=data.frame(f(),Power12=h,Power13=l,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
     
-    if(h==2 & l==2){
+    if(h==1 & l==1){
       f = function() {
         
         phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = T,Per = TRUE)
         
         
       }
+      d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
+      return(rbind(d1,d2))
     }
     else{
-      f = function() {
-        nothing=NA
-        
-        nothing
-      }
+      return(d1)
     }
     
-    d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
-    return(rbind(d1,d2))
     
     
   }
+
 
 ## Close process bar
 close(pb)
@@ -829,7 +765,6 @@ registerDoSNOW(cl)
 pb <- txtProgressBar(max=length(DataGenListBin)*length(DataGen)*length(condSD)*length(corr)*length(P2)*length(P3)*length(condMain)*length(sample)*repdist, style=3)
 progress <- function(n) setTxtProgressBar(pb, n)
 opts <- list(progress=progress)
-
 
 
 
@@ -857,17 +792,11 @@ resultsMFDist4<-
         
         
       }
+      data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      return(rbind(data1,data2))
     }
-    else{
-      f = function() {
-        nothing=NA
-        
-        nothing
-      }
-    }
-    data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
     
-    if(h==2 & l==2){
+    else if(h==2 & l==2){
       f = function() {
         
         phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = F,Per = TRUE)
@@ -881,26 +810,14 @@ resultsMFDist4<-
         
       }
       data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      
+      return(rbind(data1,data2,data3,data4))
     }
-    else{
-      f = function() {
-        nothing=NA
-        
-        nothing
-      }
-      
-      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      
-    }
+    else{return(data1)}
     
     
     
-    return(rbind(data1,data2,data3,data4))
     
   }
-
 
 ## Close process bar
 close(pb)
@@ -934,7 +851,7 @@ finalresultsCorr$OutlierExclusion=2
 
 
 ## Selecting the sample sizes that should be used
-sample = c(100,150,250,300)
+sample = c(50,100,150,200,250,300)
 
 ## Setting the correlation between dependent and independent 
 corr=c(0.2)
@@ -942,27 +859,27 @@ corr=c(0.2)
 
 ### Here it is added how many covariates there should be in the simulation
 ## Making the list for the Normal Data
-source(here::here("CodeFinal","Data","Data Generation Normal.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation Normal.R"))
 DataGenListNorm <- list(dataGen2)
 
 ## Making the list for the Bin Data
-source(here::here("CodeFinal","Data","Data Generation Bin_v2-0.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation Bin_v2-0.R"))
 DataGenListBin <- list(dataGen2)
 
 ## Making the list for the Bin Normal Data
-source(here::here("CodeFinal","Data","Data Generation BinNormal_v2-0.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation BinNormal_v2-0.R"))
 DataGenListBinNorm <- list(dataGen2)
 
 ## Making the list for the Normal Bin Data
-source(here::here("CodeFinal","Data","Data Generation NormalBin.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation NormalBin.R"))
 DataGenListNormBin <- list(dataGen2)
 
 ## Making the list for the Bin Data with effect coding
-source(here::here("CodeFinal","Data","Data Generation Bin effect coding_v2-0.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation Bin effect coding_v2-0.R"))
 DataGenListBinEffect <- list(dataGen2)
 
 ## Making the list for the Bin Data with effect coding
-source(here::here("CodeFinal","Data","Data Generation BinNormal effect coding_v2-0.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation BinNormal effect coding_v2-0.R"))
 DataGenListBinNormEffect <- list(dataGen2)
 
 
@@ -982,7 +899,7 @@ condMain<-c("TRUE","FALSE")
 #### Simulation for Main =T ####
 
 ## Collecting the different datatypes in one list
-DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin,m3=DataGenListNormBin,m4=DataGenListBinNorm,m5=DataGenListBinEffect,m6=DataGenListBinNormEffect)
+DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin)
 
 #DataGen<-list(m1=DataGenListNorm,m2=DataGenListBin)
 
@@ -1001,13 +918,13 @@ opts <- list(progress=progress)
 
 resultsMTDist<-
   foreach(k=1:length(condSD),.combine=rbind) %:%
-  foreach(h=1:length(P2),.combine=rbind, .inorder=FALSE) %:%
-  foreach(c=1:length(corr),.combine=rbind, .inorder=FALSE) %:%
-  foreach(n=1:length(condMain),.combine=rbind, .inorder=FALSE) %:%
-  foreach(l=1:length(P3),.combine=rbind, .inorder=FALSE) %:%
-  foreach(g=1:length(sample),.combine=rbind, .inorder=FALSE) %:%
-  foreach(i=1:length(DataGen),.combine=rbind, .inorder=F) %:%
-  foreach(j=1:length(DataGen[[i]]),.combine=rbind, .inorder=FALSE) %:%
+  foreach(h=1:length(P2),.combine=rbind, .inorder=T) %:%
+  foreach(c=1:length(corr),.combine=rbind, .inorder=T) %:%
+  foreach(n=1:length(condMain),.combine=rbind, .inorder=T) %:%
+  foreach(l=1:length(P3),.combine=rbind, .inorder=T) %:%
+  foreach(g=1:length(sample),.combine=rbind, .inorder=T) %:%
+  foreach(i=1:length(DataGen),.combine=rbind, .inorder=T) %:%
+  foreach(j=1:length(DataGen[[i]]),.combine=rbind, .inorder=T) %:%
   foreach(t=1:repdist,.combine=rbind,.packages=c("plyr","statip","data.table","BinNor","dplyr"),.options.snow = opts, .inorder=FALSE) %dopar% {
     f = function() {
       
@@ -1017,24 +934,20 @@ resultsMTDist<-
     }
     d1=data.frame(f(),Power12=h,Power13=l,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
     
-    if(h==2 & l==2){
+    if(h==1 & l==1){
       f = function() {
         
         phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = T,Per = TRUE)
         
         
       }
+      d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
+      return(rbind(d1,d2))
     }
     else{
-      f = function() {
-        nothing=NA
-        
-        nothing
-      }
+      return(d1)
     }
     
-    d2=data.frame(f(),Power12=h,Power13=l,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=1,Correlation=corr[[c]],it=t)
-    return(rbind(d1,d2))
     
     
   }
@@ -1083,17 +996,11 @@ resultsMFDist<-
         
         
       }
+      data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
+      return(rbind(data1,data2))
     }
-    else{
-      f = function() {
-        nothing=NA
-        
-        nothing
-      }
-    }
-    data2=data.frame(f(),Power2=2,Power3=2,Power12=h,Power13=l,Power23=2,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
     
-    if(h==2 & l==2){
+    else if(h==2 & l==2){
       f = function() {
         
         phackingFunction(DataGen[[i]][[j]](sample[[g]],corr[[c]]),"y1","h1",outlierexclusion=condSD[[k]],Ma_HCI_CCI = T,Main = F,Per = TRUE)
@@ -1107,23 +1014,12 @@ resultsMFDist<-
         
       }
       data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      
+      return(rbind(data1,data2,data3,data4))
     }
-    else{
-      f = function() {
-        nothing=NA
-        
-        nothing
-      }
-      
-      data3=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=2,Power123=1,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      data4=data.frame(f(),Power2=h,Power3=l,Power12=2,Power13=2,Power23=1,Power123=2,OutlierExclusion=k,IndependentVariables=j,Type=i,SampleSize=sample[[g]],Main=2,Correlation=corr[[c]],it=t)
-      
-    }
+    else{return(data1)}
     
     
     
-    return(rbind(data1,data2,data3,data4))
     
   }
 
@@ -1173,11 +1069,11 @@ corr=c(0.2)
 
 ### Here it is added how many covariates there should be in the simulation
 ## Making the list for the Normal Data
-source(here::here("CodeFinal","Data","Data Generation Normal.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation Normal.R"))
 DataGenListNorm <- list(dataGen2)
 
 ## Making the list for the Bin Data
-source(here::here("CodeFinal","Data","Data Generation Bin_v2-0.R"))
+source(here::here("R","Analysis","CodeFinal","Data","Data Generation Bin_v2-0.R"))
 DataGenListBin <- list(dataGen2)
 
 
