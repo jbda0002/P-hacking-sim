@@ -1,18 +1,22 @@
-\section{Appendix} 
+This is a alternative longer method section. 
+I still think the shorter one is better. 
 
-\setcounter{table}{0}
-\setcounter{figure}{0}
-\renewcommand{\thetable}{A\arabic{table}}
-\renewcommand{\thefigure}{A\arabic{figure}}
+\section{Method}
+Focusing on model selection in data analysis, we investigated the false-positive probability (FPP) and false-positive ratio (FPR) for a key independent variable that was uncorrelated with any other variables using a simulation. We used different number of covariates and interaction effects as well as a varying sample size. The effect of the different model sets were tested using different correlations between the dependent variable and covariates, and different data structures. Even though in some simple cases it would be possible to calculate a closed-form solution for the FPP and FPR e.g., when looking at only one main effect, we used a simulation since it was not clear how different flexibilities would impact the FPP and FPR. In this section it will be described how to split different models into different sets and how to calculate how many models there are within each set\\
+
+\subsection{Model Set}
+When a researcher has to select which model(s) to use for testing a hypothesis, there are a lot of possibilities regarding what variables to collect and how they should enter the model. In many cases a researcher is either interested in how the variable of interest interacts with other variables or there is a need to control for other variables, which we call covariates and denote as $z=(z_1,z_2,..,z_n)$. 
+To better understand the construction of model sets, we divided the models into seven sets based on different interaction structures. The first three sets contained the key variable of interest and simple interactions, whereas the last four sets were the combinations of the first three sets. For clarity, the model equations exclude the constant and the coefficient in front of each variable. The first set only includes models of the main effects of the variable of interest and the covariates ($x + z$). The second set includes models with a main effect of the variable of interest and interactions between the variable of interest and covariates ($x \times z$)\footnote{For simplicity, we omit the main effect of the variable of interest, $x$, in the notation for the second, third, and sixth model set.}. The third set includes models with a main effect of the variable of interest and covariate-covariate interactions ($z \times z$).
+To obtain the last four model sets, we combine the first three model sets. There are two ways of populating any the seven model sets: with restrictions on main effects and without restrictions on main effects. Restrictions on main effects mean that whenever there is an interaction effect, the corresponding main effects have to be included in the model. Models without restrictions, on the other hand, are allowed to include interaction effects without the corresponding main effects. The calculations for the number of models in each model set with restrictions can be seen in the next paragraph whereas with no restrictions these calculation can be found in the \textit{Appendix} in section \nameref{witout_res}. To calculate the size of each set we make use of the binomial coefficient as defined in \nameref{binomial}\\
 
 \subsection{Binomial coefficient}
 \label{binomial}
-In the following sections we present the equations and methods used for calculating the model set sizes for different model sets under different conditions. To calculate the size of the different model sets, we use binomial coefficients to calculate the number of possible combinations. The general form of the binomial coefficient is written as 
+In the following sections we present the equations and methods used for calculating the model set sizes for different model sets under different conditions. To calculate the size of the different model sets, we use the binomial coefficients to calculate the number of possible combinations. The general form of the binomial coefficient is written as
 \[\left( \begin{array}{c}
 n \\ 
 k \end{array}
 \right)=\frac{n!}{k!\left(n-k\right)!}\] 
-where $n$ is the number of elements which in our case is the number of covariates ($z$) that we want to include, and $k$ is the number of elements taken out. $!$ is the factorial operator, so $n!=n\times \left(n-1\right)\times \left(n-2\right)\times \left(n-3\right)\times \dots \times 3\times 2\times 1$. The binomial coefficient therefore gives us the number of ways that $k$ elements can be chosen from a set of size $n$. One rule that has been repeatedly used is that we can rewrite the sum of binomial coefficients excluding the empty set i.e., not including $i=0$, as 
+where $n$ is the number of elements which in our case is the number of covariates ($z$) that we want to include, and $k$ is the number of elements taken out. $!$ is the factorial operator, so $n!=n\times \left(n-1\right)\times \left(n-2\right)\times \left(n-3\right)\times \dots \times 3\times 2\times 1$. The binomial coefficient therefore gives us the number of ways that $k$ elements can be chosen from a set of size $n$. One rule that is going to be repeatedly used is that we can rewrite the sum of binomial coefficients excluding the empty set i.e., not including $i=0$, as 
 \[\sum^n_{i=1}{\left( \begin{array}{c}
 n \\ 
 i \end{array}
@@ -24,13 +28,16 @@ n \\
 i \end{array}
 \right)}=2^n\] 
 \\
-When calculating the size of each model set, we consider two different cases; a case without restrictions where we allow interactions without the corresponding main effects, and a case with restrictions where main effects always follow interactions. This means that the second case will be a subset of the first case. \\
 
-% section
-\subsection{Model sets without restrictions}
-\label{witout_res}
+\subsection{Model sets with restrictions}
+\label{with_res}
+In the case with restrictions, we enforce that every time there is an interaction effect, the corresponding main effects are included in the model as in the model below:
+\[y=x_1+z_1+x_1z_1\] 
+
+In the previous equation, we have an interaction between our variable of interest $x_1$ and a covariate $z_1$. Therefore, the two corresponding main effects also enter the model. This restriction does not put any restrictions on the $x + z$ set as there are no interactions in it. On the other hand,  the restriction implies that the sets $x \times z$ and $z \times z$ are empty sets as the models in these sets never have main effects following interactions. The first set we then need to calculate is then the set $x + z + x \times z$.
+
 \subsubsection{Set $x + z$}
-To calculate the size of the sets, we use the binomial coefficient. The set $x + z$ contains all the combinations that can be made by the covariates $z$ including the model where there is only the variable of interest $x$. Based on the previous terminology the model containing only the variable of interest is therefore the empty set and the binomial coefficient therefore computes how many combinations there are. Let us denote the number of covariates $n$. If we, for example, have three covariates ($n=3$), then the number of combinations where all three covariates are present can be written using the binomial coefficient as
+The set $x + z$ contains all the combinations that can be made by the covariates $z$ including the model where there is only the variable of interest $x$. Based on the previous terminology the model containing only the variable of interest is therefore the empty set and the binomial coefficient computes how many combinations there can be made by $z$. Let us denote the number of covariates $n$. If we, for example, have three covariates ($n=3$), then the number of combinations where all three covariates are present can be written using the binomial coefficient as
 \[\left( \begin{array}{c}
 3 \\ 
 3 \end{array}
@@ -90,104 +97,6 @@ i \end{array}
 
 Each element $S\in x + z$ is a set of the covariates e.g., $S=\left.z_3,z_7\right.$, or any combination of the covariates, including the empty set. This is just the power set of $Z$ and the size of the set can be written as
 \[\left|x + z\right|=|\mathcal{P}\left(Z\right)|=2^n\] 
-% section
-\subsubsection{Set $x \times z$}
-The same line of reasoning goes for the $x \times z$ set as for $x + z$ set and we therefore only write it formally. Here, we need to calculate the number of possible interactions between the variable of interest and covariates. This set will therefore have the same size as the $x + z$ set, as there are as many covariates as there are two-way combinations between the variable of interest and covariates excluding the empty set.
-
-\[I_h(Z)=\left.\left\{\{x,z_i\}\right.:z_i\in Z\right.\}\] 
-\[x \times z=\left.\{T:T\subseteq I_h\left(Z\right),T\neq \textrm{\O}\right.\}\] 
-The total number of models in this set is the power set excluding the empty set
-\[\left|x \times z\right|\boldsymbol{=}2^n-1\] 
-
-% section
-\subsubsection{Set $z \times z$}
-The $z \times z$ set contains all combinations of all two-way interactions between the covariates. We first calculate the number of two-way interactions between the covariates and then calculate the number of combinations of these interactions. In the example were $n=3$, the number of two-way interactions is as follows
-\[\#\ of\ two-way\ interactions=\left( \begin{array}{c}
-3 \\ 
-2 \end{array}
-\right)=\frac{3!}{2!\left(3-2\right)!}=3\] 
-We can then compute the number of combinations of two-way interaction effects using the same method as above 
-
-\noindent 
-\[\#\ of\ models\ in\ z \times z=\left( \begin{array}{c}
-3 \\ 
-3 \end{array}
-\right)+\left( \begin{array}{c}
-3 \\ 
-2 \end{array}
-\right)+\left( \begin{array}{c}
-3 \\ 
-1 \end{array}
-\right)=\sum^3_{i=1}{\left( \begin{array}{c}
-3 \\ 
-i \end{array}
-\right)}=7\] 
-In general, we can define the number of two-way interactions $h$ that can be generated with $n$ covariates as
-\[h=\left( \begin{array}{c}
-n \\ 
-2 \end{array}
-\right)=n(n-1)/2\] 
-and the general term for the total number of models in $z \times z$ as
-\[\#\ of\ models\ in\ z \times z=\sum^{n(n-1)/2}_{i=1}{\left( \begin{array}{c}
-n(n-1)/2 \\ 
-i \end{array}
-\right)}=(2^{n(n-1)/2}-1)=2^h-1\] 
-
-
-\subsubsection{Formally written}
-Let $Z$ be a set of covariates 
-$Z=\{z_1,z_2,..,z_n\}$
-\[I_k\left(Z\right)=\{\{\left.\left.z_i,z_j\right.\}:z_i\in Z,z_j\in Z,z_i\neq z_j\right.\}\] 
-\[\left|I_k\left(Z\right)\right|=\left( \begin{array}{c}
-n \\ 
-2 \end{array}
-\right)=\frac{n\left(n-1\right)\left(n-2\right)!}{\left(n-2\right)!}\frac{1}{2}=n(n-1)/2\] 
-The set of all combinations of two-way interactions between the covariates is then all the subsets of $I_k\left(Z\right)$ excluding the empty set
-\[P\left(I_k\left(Z\right)\right)=\{\left.J:J\subseteq I_k\left(Z\right),J\neq \textrm{\O}\right.\}\] 
-\[\left|z \times z\right|=\left|P\left(I_k\left(Z\right)\right)\right|=2^{\left|I_k\left(Z\right)\right|}-1=2^{n(n-1)/2}-1\] 
-defining 
-\[h=\left( \begin{array}{c}
-n \\ 
-2 \end{array}
-\right)=n(n-1)/2\] \\
-We can write the number of models in $z \times z$ as
-\[\left|z \times z\right|=2^h-1\] \\
-
-% section
-\subsubsection{Full model set}
-For the following sets: $x + z + x \times z$ , $x + z + z \times z$, and $x + z + x \times z$ + $z \times z$, the equations follow directly from the previous equations as these sets are the products of the previously calculated sets. 
-
-\[\# of\ models\ in\ x + z =\left(2^n\right)\] 
-\[\# of\ models\ in\ x \times z=\left(2^n-1\right)\] 
-\[\# of\ models\ in\ z \times z=\left(2^h-1\right)\] 
-\[\# of\ models\ in\ x + z + x \times z={\left(2^n-1\right)}^2\] 
-\[\# of\ models\ in\ x + z+z \times z=\left(2^n-1\right)\left(2^h-1\right)\] 
-\[\# of\ models\ in\ x + z + x \times z+z \times z={\left(2^n-1\right)}^2\left(2^h-1\right)\] 
-So the total number of models including all sets then becomes
-\begin{equation*}
-\begin{aligned}
-total\ \# \ of\ models=\\
-& \underbrace{\left(2^n\right)}_{x + z}+\underbrace{\left(2^n-1\right)}_{x \times z}+\underbrace{\left(2^h-1\right)}_{z \times z}+\\
-&\underbrace{{\left(2^n-1\right)}^2}_{x + z + x \times z}+\underbrace{\left(2^n-1\right)\left(2^h-1\right)}_{x \times z+z \times z}+\underbrace{\left(2^n-1\right)\left(2^h-1\right)}_{x + z+z \times z}+\\
-&\underbrace{{\left(2^n-1\right)}^2\left(2^h-1\right)}_{x + z + x \times z+z \times z} 
-\end{aligned}
-\end{equation*}
-
-% For the case where $n=2$, (as in Table \ref{modelsets2.1} under "Models without restrictions" of the main paper), this gives us
-%\[h=\left( \begin{array}{c}
-%2 \\ 
-%2 \end{array}
-%\right)=1\] 
-%$total \ \#\ of\ models=\left(2^2\right)+\left(2^2-1\right)+\left(2^1-1\right)+{\left(2^2-1\right)}^2+2\left(2^2-1\right)\left(2^1-1\right)+{\left(2^2-1\right)}^2\left(2^1-1\right)=32$ 
-
-% section
-\subsection{Model sets with restrictions}
-\label{with_res}
-In the case with restrictions, we enforce that every time there is an interaction effect, the corresponding main effects are included in the model as in the model below:
-\[y=x_1+z_1+x_1z_1\] 
-
-In the previous equation, we have an interaction between our variable of interest $x_1$ and a covariate $z_1$. Therefore, the two corresponding main effects also enter the model. This restriction does not change how we calculate the set size of the $x + z$ set as there are no interactions in it. On the other hand,  the restriction implies that the sets $x \times z$ and $z \times z$ are empty sets as the models in these sets never have main effects following interactions. The first set we then need to calculate is then the set $x + z + x \times z$.
-
 % section
 \subsubsection{Set $x + z + x \times z$}
 For the sake of simplicity, we begin with the case where $n=3$. The models in this set can be seen in Table \ref{tab:appmodel2}. Here the models are split into three different parts. These are split such that $x + z + x \times z$(1), $x + z + x \times z$(2), and $x + z + x \times z$(3) contain all the models where there are one, two, or three covariates, respectively.\\
@@ -489,100 +398,51 @@ We now have the full set of models in the $n$ covariate case written as
 \end{aligned}
 \end{equation} 
 
-\clearpage
-% section
-%\subsection{Number of Models}
-%In the case without restrictions where we allow interactions without including the corresponding main effects, the total number of models per each set given the number of covariates can be seen in Table \ref{FullModel} under "Without restrictions" in the main paper. For the case with restrictions, the total number of models per each set can be found in either Table \ref{FullModel} in the main part of the manuscript under "With restrictions". 
 
+In Table \ref{modelsets2.1}, we show examples of all model sets with one variable of interest, $x_{1}$, and two covariates, $z_{1}$ and $z_{2}$, depending on the main effect restriction. \\
+ 
+\input{manuscript/tables/modelsets2.1}
 
-%\section{Model set for machine learning}
-%When researchers are not interested in one specific variable but rather the overall prediction of a given model, such as in machine learning, the same terminology for the sets as used previously can be used to calculate the size of the model sets. 
-%As is the case with hypothesis testing, researchers can either demand that main effects are always present when having interactions or they can relax this restriction. \\
+Equation (1) shows how to calculate the total number of models given one key variable of interest and a given number of covariates with the main effects restriction that models with interaction effects must include the corresponding main effects. Each underlined section in Equation (1) can also be used to calculate the size of the specified model set. The derivation of this equation can be found in the \textit{Appendix} in the section \nameref{with_res}. \\
 
-%\subsection{When no restrictions are in place}
-%In this case, there are three possible sets: $z$, $z \times z$, and $ z + z \times z$. In this case there is no variable that needs to be present all the time as earlier ($x_1$). The calculations of the model set sizes are nevertheless similar to the example with two covariates with no restrictions (see Supplementary Material Case 1 - No Restrictions), and this can be seen in Table \ref{tab:appmodel5} and equation \ref{eq:model1}, \ref{eq:model2} and \ref{eq:model3}.  
+\begin{equation} 
+\begin{aligned}
+\#\ models={} & \underbrace{\left(2^n\right)}_{x + z}+\underbrace{\sum^n_{j=1}{\left(2^j-1\right)\binom{n}{j}}}_{x + z + x \times z} + \\ 
+& \underbrace{\sum^n_{j=2}{\binom{n}{j}\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}}_{x + z + z \times z} + \\
+& \underbrace{\sum^n_{j=2}{\binom{n}{j}\left(2^j-1\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}}_{x + z + x \times z + z \times z}\ \  
+\end{aligned}
+\end{equation} 
+where $n$ denotes the number of covariates (all the $z$ variables) collected and $\binom{n}{j}$ is the binomial coefficient, the calculation of which is explained in the \textit{Appendix} in the section \nameref{binomial}.
+Equation (1) does not include the ($x \times z$), ($z \times z$), and ($x \times z + z \times z$) sets as these include interaction effects without the corresponding main effects, and these are therefore empty sets. For the case with two covariates, the total number of models is calculated as follows:
 
-%\begin{table}
-%\caption{Models for the set $z$, $z \times z$ and $ z + z \times z$ that can be made with two covariates when there is no specific variable of interest. $c$ is a constant, whereas $z_1$ and $z_2$ are covariates}
-%\label{tab:appmodel5}
-%\centering
-%\begin{tabular}{lc} 
-%\toprule
-%Set & Models \\ 
-%\midrule
-%\multirow{4}{*}{z} & $y=c$\\ & $y=c + z_1$\\ & $y=c + z_2$\\ & $y=c + z_1 + z_2$\\ &  \\  
-%\multirow{1}{*}{$z \times z$} & $y=c + z_1z_2$\\  & \\ 
-%\multirow{3}{*}{$x + z + z \times z$}  & $y=c + z_1 + z_1z_2$\\ & $y=c + z_2 + z_1z_2$\\ & $y=c + z_1 + z_2 + z_1z_2$\\ &  \\  
-%\bottomrule
-%\end{tabular}
-%\end{table}
-
-%The calculation for the set size is done as in "Case 1 - No Restrictions"
-
-%\begin{equation}
-%\label{eq:model1}
-%  \# of\ models\ in\  z\left(2^n\right)
-%\end{equation}
-%\begin{equation}
-%\label{eq:model2}
-%  \# of\ models\ in\ z \times z=\left(2^h-1\right)
-%\end{equation}
-%\begin{equation}
-%\label{eq:model3}
-%  # of models\ in\ z+z \times z=\left(2^n-1\right)\left(2^h-1\right)
-%\end{equation}
-
-%where $h=\left( \begin{array}{c}
-%n \\ 
-%2 \end{array}
-%\right)$. 
-
-%The total number of models given the different number of covariates can be seen in Table \ref{tab:appmodel6}. These calculations apply only when allowing for two-way interactions, but this framework can easily be expanded to include higher order interactions. \\
-
-%\input{R/Analysis/CodeFinal/ModelSize/ModelNumberFalseML}
-
-%\subsection{When restrictions are in place}
-%The calculations here are the same as previously described. However, the only sets that are of interest here are the z and $ z + z \times z$ sets.\\
-%The number of models in this case is then \\
-
-%\[\# of models\ in\  z\left(2^n\right)\] 
-%\[\# of models\ in\  z+z \times z=\sum^n_{k=2}{\left( %\begin{array}{c}
-%n \\ 
-%k \end{array}
-%\right)}\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)\ \]  
-
-%The total number of models per each model set given the different number of covariates can be seen in Table \ref{tab:appmodel7}.
-
-%\input{R/Analysis/CodeFinal/ModelSize/ModelNumberTrueML}
-
-% section
-\subsection{Correlation matrix for simulation}
-The following correlation matrix is used for the simulating data with one dependent variable. 
-\input{manuscript/tables/correlation}
-
-\clearpage
-
-% section
-\subsection{Supporting figures}
-In this section, there are two additional figures illustrating the consequences of using several dependent variables and what happens if the correlation between the dependent variable and covariates increases. Figure \ref{fig:appfigure2app} shows the effect of using two dependent variables and the average of the two (a total of three dependent variables). Everything else is similar to the baseline model meaning that the sample size is 200, there are two covariates, no outlier deletion, and the correlation between the dependent variable and covariates is $\textit{r}=0.2$.\\
-Figure \ref{fig:appfigure1app} shows the effect of increasing the correlation between the dependent variable and covariates. Here the increase goes from $\textit{r}=0.2$ to $\textit{r}=0.3$ and $\textit{r}=0.4$. Everything else is similar to the baseline model. \\
-
-\begin{figure}[ht!]
-%\figuretitle{Effect of using several dependent variables}
-\includegraphics[width=0.7\textwidth]{R/Analysis/Result/Figures/Figure2App.jpeg}
+\begin{equation*}
 \centering
-\caption{False-positive probability and false-positive ratio when using two dependent variables and the average of the two (three dependent variables in total). The correlation between the dependent variables is set to  $\textit{r}=0.5$ with the correlation between the dependent variables and covariates still at  $\textit{r}=0.2$. Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line shows the critical value, here set at 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:mainfigure1}.}
-\label{fig:appfigure2app}
-\end{figure}
+\left(2^2\right)+
+\sum^2_{j=1}{\left(2^j-1\right) \binom{2}{j}}+
+\sum^2_{j=2}{\binom{2}{j}\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}+  
+\sum^2_{j=2}{\binom{2}{j}\left(2^j-1\right)\left(2^{\frac{j\left(j-1\right)}{2}}-1\right)}
+\end{equation*}
 
-\begin{figure}[ht!]
-%\figuretitle{Effect of increasing the correlation between the dependent variable and the covariates}
-\includegraphics[width=1\textwidth]{R/Analysis/Result/Figures/Figure1App.jpeg}
-\centering
-\caption{False-positive probability and false-positive ratio for different levels of correlation between the dependent variable and the covariates ranging from  $\textit{r}=0.2$ to  $\textit{r}=0.4$. Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line shows the critical value, here set at 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:mainfigure1}.}
-\label{fig:appfigure1app}
-\end{figure}
+which is equal to $4+5+1+3*1=13$. The number of models in each model set for different numbers of covariates depending on main effect restrictions can be seen in Table \ref{FullModel}. In the simulation, we focus on two to three covariates since this is enough to provide an impression of how the increase in the size of the model set affects the FPP and FPR.  \\
+
+\input{R/Analysis/CodeFinal/ModelSize/FUllModels}
 
 
+\subsection{Data Generating Process}
+As the goal of the simulation was to understand the different model sets and what can lead to false-positive results, the variable of interest was simulated without any correlation with either the dependent variable or any of the covariates. The variable of interest could either have a normal distribution (continuous variable) or a binomial distribution (binary variable). The covariates were simulated using the same distribution so that all covariate distributions in a dataset were either normal or binomially distributed. As our target analysis was linear regression, the dependent variable was always simulated as a normal distribution. There were four different combinations of the variable of interest $x$ and covariate $z$ distributions: $x$ and $z$ are continuous, $x$ and $z$ are binary, $x$ is continuous and $z$ is binary, $x$ is binary and $z$ is continuous. The correlation between the dependent variable and covariates was simulated with three different levels (\textit{r} = 0.2, \textit{r} = 0.3, and \textit{r} = 0.4) corresponding to medium-strength correlations \citep{Cohen1989}. The correlation between the variable of interest and covariates as well as the correlation between the covariates themselves was always set to zero. The correlation matrix for the data structure when there is only one dependent variable is presented in Table \ref{tab:correlation} in the \textit{Appendix}. If a variable was generated as a normally distributed variable, it was generated with a mean of 0 and a standard deviation of 1, while binomial variables were generated with a 50\% chance of success in each trial. To test how the sample size affected the FPP and FPR, the simulation included samples with sizes ranging from 50 to 400 with increasing steps of 50. 
 
-\clearpage
+\subsection{Simulation}
+In the simulation results presented in the main results section, we only included cases in which the variable of interest and covariates had the same distribution. The two other cases i.e., when the variable of interest was binary and the covariates were continuous and the other way around can be found in the online \textit{Supplementary Information}. For analyses not addressing the effect of sample size, the default sample size was kept constant at 200. When the effect of different correlation levels between covariates was not analyzed, the correlation between the dependent variable and covariates was set to a default of $r=0.2$. We did not apply any outlier deletion.\\
+We used R \citep{Team2018} to perform our simulation with 10,000 simulation iterations. When the variables had a binomial distribution, the variables were simulated using the package BinNor \citep{Demirtas2014}. The data were analyzed with linear regressions. We defined a false-positive result as any model where the variable of interest was significant ($p < .05$), either in a main effect or in an interaction with a covariate variable. The FPP was defined as \\
+
+\[FPP_i=\left. \left\{\begin{array}{c}
+1\ if\ any\ model\ in\ iteration\ i\ produces\ a\ false-positive\ result \\ 
+0\ otherwise\  \end{array}
+\right.\] 
+\[FPP=\frac{\sum_{i}^{N}{FPP_i}}{N}\] 
+
+Where  $N$ denotes the number of iterations in the simulation. The FPR is the ratio of the models with a false-positive result and was defined as \\
+
+\[FPR_i=\frac{\#\ false-positive\ models\ in\ iteration\ i}{\#\ all\ models\ in\ the\ set\ in\ iteration\ i}\] 
+\[FPR=\frac{\sum_{i}^{N}{FPR_i}}{N}\] 
+

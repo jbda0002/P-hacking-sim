@@ -1,5 +1,5 @@
 \section{Results} 
-To make the simulation results easier to understand we begin by outlining a baseline model with one independent variable of interest and two covariates split by the different model sets. We then add the different flexibilities one at a time to examine how much each flexibility by itself contributes to the FPP and FPR. This means that the baseline model is contained in the analysis of each of the flexibilities. 
+To make the simulation results easier to understand we begin by outlining a baseline model with one independent variable of interest and two covariates split by the different model sets. we then show the results of what happens when including more covariates, what happens when the sample size increases or decreases, and having different correlations between the dependent variable and covariates. 
 
 \subsection{Model specification}
 Looking at the FPP and FPR between the different sets in the baseline model, it is clear that the highest FPP and FPR are obtained in the $x \times z$ and $x + z+ x \times z$ sets (see Figure \ref{fig:mainfigure1}). This is the case when using interaction effects both when the corresponding main effects are present and whey they are not present. When the corresponding main effects are not present and the variable of interest and covariates are binary and dummy coded, the FPP and FPR are particularly high. This is because the dummy coded variable of interest splits the true effect of the covariate into the interaction and the constant. In this case, the FPP for the $x \times z$ set is 82.7\% and 86.9\% for the $x + z+ x \times z$ set. When the variables are continuous and everything else is equal, the FPP for the two sets are 18.8\% and 23.5\%, respectively. With the restriction that main effects must follow interactions, only the $x + z+ x \times z$ set remains because the $x \times z$ set becomes an empty set. In this case, the FPP is 21.1\% for binary (dummy coded) variables and 18.1\% for continuous variables. \\ 
@@ -26,20 +26,6 @@ Adding one more covariate to the baseline model to get three in total increases 
 \caption{The false-positive probability and false-positive ratio when using three covariates. Black bars are the false-positive probability and red denotes the false-positive ratio. Dashed blacked line shows the critical value, here set at 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:mainfigure1}.}
 \label{fig:mainfigure2}
 \end{figure}
-
-\subsection{Outlier criteria}
-Adding the four outlier criteria to the baseline model have different effects depending on the model set and data structure (see Figure \ref{fig:mainfigure3}). Overall, the added effect to the FPP ranges between 3.7 and 18.7 percentage points with the largest effects occurring in sets with interactions between the variable of interest and covariates. The smaller added effect for some sets stem from the fact that the FPP is already close to 100\%. Surprisingly, using outlier criteria does not increase the FPR and in some cases even decreases it. 
-
-\begin{figure}[hbt!]
-%\figuretitle{Effect of using multiple outlier criteria}
-\includegraphics[width=0.6\textwidth]{R/Analysis/Result/Figures/Figure1B.jpeg}
-\centering
-\caption{The false-positive probability and false-positive ratio when using multiple outlier criteria. Black bars are the false-positive probability and red denotes the false-positive ratio. Dashed blacked line shows the critical value, here set at 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:mainfigure1}.}
-\label{fig:mainfigure3}
-\end{figure}
-
-\subsection{Multiple dependent variables}
-Adding a dependent variable to the baseline model with a correlation of $r=0.5$ to the other dependent variable and computing the average between the two dependent variables to yield three dependent variables increases the FPP for all model sets. The added effect on FPP ranges from 6.2 to 23.8 percentage points (see Figure \ref{fig:appfigure2app} in \textit{Appendix}). There are no changes in the FPR for any of the sets as including extra dependent variables and their average only increases the model set, but does nothing to the construction of them (see Figure \ref{fig:appfigure2app} in \textit{Appendix}).   
 
 \subsection{Sample size}
 Increasing the sample size in the baseline model and thereby improving the precision of the estimates has, in most of the conditions, no effect on either the FPP or FPR. However, in sets with interactions between the variable of interest and covariates where main effects are not included and variables are binary and dummy coded, larger sample sizes increase the FPP (See Figure \ref{fig:mainfigure4}). In the $x \times z$ and $x + z+ x \times z$ sets the FPP reaches just below 100\% as the sample size increases to 300. In these sets, the larger sample sizes also lead to increases in the FPR with the largest increase of 41.9\% for the $x \times z$ set.  
