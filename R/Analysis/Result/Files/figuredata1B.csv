@@ -1,23 +1,23 @@
 Restrictions;Set;Type;Sample Size;Outlier exclusion;Correlation;Covariates;Dependent variables;FPP;FPR
-$Without$;$\textit{x} + \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.1335;0.0510466666666672
-$Without$;$\textit{x} + \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.10795;0.0493800000000003
-$Without$;$\textit{x} \times \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.3556;0.084863333333333
-$Without$;$\textit{x} \times \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.87945;0.327083333333306
-$Without$;$\textit{z} \times \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.1402;0.0498000000000001
-$Without$;$\textit{z} \times \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.1102;0.04864
-$Without$;$\textit{x} + \textit{z} + \textit{x} \times \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.4193;0.0998433333333299
-$Without$;$\textit{x} + \textit{z} + \textit{x} \times \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.91755;0.304421333333289
-$Without$;$\textit{x} + \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.1426;0.0492357142857145
-$Without$;$\textit{x} + \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.10925;0.0468714285714288
-$Without$;$\textit{x} \times \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.35505;0.0839883333333338
-$Without$;$\textit{x} \times \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.47885;0.127134999999999
-$Without$;$\textit{x} + \textit{z} + \textit{x} \times \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.4127;0.097862499999998
-$Without$;$\textit{x} + \textit{z} + \textit{x} \times \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.63435;0.137675833333331
-$With$;$\textit{x} + \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.1309;0.0500133333333339
-$With$;$\textit{x} + \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.10715;0.0493133333333336
-$With$;$\textit{x} + \textit{z} + \textit{x} \times \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.34435;0.0793366666666665
-$With$;$\textit{x} + \textit{z} + \textit{x} \times \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.32125;0.0735199999999993
-$With$;$\textit{x} + \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.1416;0.0524999999999999
-$With$;$\textit{x} + \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.11145;0.0507149999999999
-$With$;$\textit{x} + \textit{z} + \textit{x} \times \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.32875;0.0775616666666672
-$With$;$\textit{x} + \textit{z} + \textit{x} \times \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.29795;0.0730066666666663
+$Without$;$\textit{x} + \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.13495;0.0514133333333338
+$Without$;$\textit{x} + \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.11;0.0499866666666669
+$Without$;$\textit{x} \times \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.335;0.117280000000003
+$Without$;$\textit{x} \times \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.87375;0.607266666666622
+$Without$;$\textit{z} \times \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.10525;0.0504200000000006
+$Without$;$\textit{z} \times \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.0855;0.0516600000000002
+$Without$;$\textit{x} + \textit{z} + \textit{x} \times \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.41415;0.111363333333333
+$Without$;$\textit{x} + \textit{z} + \textit{x} \times \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.91665;0.368809999999981
+$Without$;$\textit{x} + \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.13905;0.0496125000000001
+$Without$;$\textit{x} + \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.1034;0.0510525000000001
+$Without$;$\textit{x} \times \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.36215;0.0847750000000001
+$Without$;$\textit{x} \times \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.47355;0.124343333333332
+$Without$;$\textit{x} + \textit{z} + \textit{x} \times \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.4071;0.114070000000001
+$Without$;$\textit{x} + \textit{z} + \textit{x} \times \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.61595;0.166216666666664
+$With$;$\textit{x} + \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.13425;0.0506366666666672
+$With$;$\textit{x} + \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.1106;0.0516233333333336
+$With$;$\textit{x} + \textit{z} + \textit{x} \times \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.34935;0.106517999999995
+$With$;$\textit{x} + \textit{z} + \textit{x} \times \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.2863;0.091177999999997
+$With$;$\textit{x} + \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.10455;0.0498000000000004
+$With$;$\textit{x} + \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.0815;0.0501300000000001
+$With$;$\textit{x} + \textit{z} + \textit{x} \times \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Normal , \textit{z} \sim Normal$;200;TRUE;0.2;2;1;0.3077;0.109790000000003
+$With$;$\textit{x} + \textit{z} + \textit{x} \times \textit{z} + \textit{z} \times \textit{z}$;$\textit{x} \sim Binary, \textit{z} \sim Binary$;200;TRUE;0.2;2;1;0.2544;0.0961900000000024

@@ -1,23 +1,23 @@
 Main;Set;Type;SampleSize;OutlierExclusion;Correlation;IndependentVariables;DV;mean;FPR;Pr
-With~restrictions;x + z + x * z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.2739;0.0881999999999997;0.2739
-With~restrictions;x + z + x * z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.3087;0.0813285714285717;0.3087
-With~restrictions;x + z + z * z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.08655;0.0502678571428569;0.08655
-With~restrictions;x + z + z * z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.08435;0.0482571428571427;0.08435
-With~restrictions;x + z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.08125;0.0497571428571429;0.08125
-With~restrictions;x + z + x * z + z * z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.30255;0.119991071428571;0.30255
-With~restrictions;x + z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.08025;0.0493357142857144;0.08025
-With~restrictions;x + z + x * z + z * z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.3447;0.106752678571428;0.3447
-Without~restrictions;x * z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.26495;0.0978821428571403;0.26495
-Without~restrictions;x + z + x * z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.3711;0.125907936507934;0.3711
-Without~restrictions;x * z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.94075;0.380810714285781;0.94075
-Without~restrictions;x + z + x * z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.96655;0.41304206349204;0.96655
-Without~restrictions;z * z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.0889;0.0509392857142856;0.0889
-Without~restrictions;x + z + z * z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.0958;0.0497531746031746;0.0958
-Without~restrictions;z * z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.087;0.0487892857142857;0.087
-Without~restrictions;x + z + z * z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.09775;0.049590476190476;0.09775
-Without~restrictions;x + z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.08035;0.0482071428571429;0.08035
-Without~restrictions;x + z + x * z + z * z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.4175;0.134886857142855;0.4175
-Without~restrictions;x * z + z * z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.29465;0.127775;0.29465
-Without~restrictions;x + z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.0833;0.0514071428571429;0.0833
-Without~restrictions;x + z + x * z + z * z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.96135;0.227637428571419;0.96135
-Without~restrictions;x * z + z * z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.9308;0.303650892857138;0.9308
+With~restrictions;x + z + x * z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.2878;0.116502631578944;0.2878
+With~restrictions;x + z + x * z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.311;0.10082631578947;0.311
+With~restrictions;x + z + z * z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.0773;0.049892857142857;0.0773
+With~restrictions;x + z + z * z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.0766;0.0498857142857141;0.0766
+With~restrictions;x + z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.08225;0.0504714285714286;0.08225
+With~restrictions;x + z + x * z + z * z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.2919;0.125037755102042;0.2919
+With~restrictions;x + z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.0844;0.0511571428571429;0.0844
+With~restrictions;x + z + x * z + z * z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.31995;0.113775510204083;0.31995
+Without~restrictions;x * z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.23645;0.14022857142857;0.23645
+Without~restrictions;x + z + x * z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.3684;0.136102678571428;0.3684
+Without~restrictions;x * z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.94005;0.716135714285848;0.94005
+Without~restrictions;x + z + x * z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.9697;0.460900000000016;0.9697
+Without~restrictions;z * z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.05975;0.0506428571428571;0.05975
+Without~restrictions;x + z + z * z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.0948;0.0497982142857144;0.0948
+Without~restrictions;z * z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.0747;0.0498428571428571;0.0747
+Without~restrictions;x + z + z * z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.0929;0.0505660714285714;0.0929
+Without~restrictions;x + z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.0834;0.0507428571428572;0.0834
+Without~restrictions;x + z + x * z + z * z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.4184;0.134993294460641;0.4184
+Without~restrictions;x * z + z * z;"italic(""x"")%~%Normal~italic(""z"")%~%Normal";200;FALSE;0.2;2;1;0.3022;0.131058035714285;0.3022
+Without~restrictions;x + z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.08145;0.0498785714285714;0.08145
+Without~restrictions;x + z + x * z + z * z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.9587;0.229290379008747;0.9587
+Without~restrictions;x * z + z * z;"italic(""x"")%~%Binary~italic(""z"")%~%Binary";200;FALSE;0.2;2;1;0.93175;0.303737499999991;0.93175
