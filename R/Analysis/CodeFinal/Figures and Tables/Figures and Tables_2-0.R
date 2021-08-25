@@ -22,10 +22,10 @@ finalresults = read.table(gzfile(fileplace),sep=",",header = T)
 
 falsepositverateData<-as.data.table(finalresults)
 falsepositverateData<-falsepositverateData[falsepositverateData$Power2==1 & falsepositverateData$Power3==2 & falsepositverateData$Power12==2 & falsepositverateData$Power13==2|
-                                             falsepositverateData$Power2==2 & falsepositverateData$Power3==1 & falsepositverateData$Power12==2 & falsepositverateData$Power13==2|
-                                             falsepositverateData$Power2==2 & falsepositverateData$Power3==2 & falsepositverateData$Power12==2 & falsepositverateData$Power13==2|
-                                             falsepositverateData$Power2==2 & falsepositverateData$Power3==2 & falsepositverateData$Power12==1 & falsepositverateData$Power13==2|
-                                             falsepositverateData$Power2==2 & falsepositverateData$Power3==2 & falsepositverateData$Power12==2 & falsepositverateData$Power13==1,]
+              falsepositverateData$Power2==2 & falsepositverateData$Power3==1 & falsepositverateData$Power12==2 & falsepositverateData$Power13==2|
+              falsepositverateData$Power2==2 & falsepositverateData$Power3==2 & falsepositverateData$Power12==2 & falsepositverateData$Power13==2|
+              falsepositverateData$Power2==2 & falsepositverateData$Power3==2 & falsepositverateData$Power12==1 & falsepositverateData$Power13==2|
+              falsepositverateData$Power2==2 & falsepositverateData$Power3==2 & falsepositverateData$Power12==2 & falsepositverateData$Power13==1,]
 
 falsepositverateData$rate=ifelse(falsepositverateData$f..>0,1,0)
 
@@ -51,7 +51,7 @@ levels(falsepostive$Main ) <- c("Without restrictions","With restrictions")
 falsepostive$Pr<-as.numeric(falsepostive$mean)
 
 falsepostive$Type = factor(falsepostive$Type,levels = c("x1~Binary, z~Binary","x1~Normal, z~Normal","x1~Normal, z~Binary",
-                                                        "x1~Binary, z~Normal","x1~Binary, z~Binary Effect","x1~Normal, z~Binary Effect"))
+                         "x1~Binary, z~Normal","x1~Binary, z~Binary Effect","x1~Normal, z~Binary Effect"))
 
 ## Make labels
 labs_full <- expression(italic("x") + italic("z"), italic("x") %*% italic("z"), italic("z") %*% italic("z"), italic("x") + italic("z") + italic("x") %*% italic("z")
@@ -177,10 +177,10 @@ Figure1B = ggplot(figuredata,aes(x=Set))+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
   scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),        
-                              "x * z"= expression(italic("x") %*% italic("z")),                                
-                              "z * z"= expression(italic("z") %*% italic("z")),                               
+                              "x * z"= expression(italic("x") %*% italic("z")), 
+                              "z * z"= expression(italic("z") %*% italic("z")),
                               "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                              
-                              "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               
+                              "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),
                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                              
                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
@@ -243,9 +243,9 @@ Figure1C =ggplot(figuredata,aes(x=Set))+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                
-                              "x * z"= expression(italic("x") %*% italic("z")),                                
-                              "z * z"= expression(italic("z") %*% italic("z")),                                
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")), 
+                              "x * z"= expression(italic("x") %*% italic("z")), 
+                              "z * z"= expression(italic("z") %*% italic("z")), 
                               "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                              
                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                              
                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                              
@@ -289,9 +289,9 @@ print(xtable(figuredata,digits = 2, type = "latex", align = c("l","l","c","c","c
 # The effect of bigger sample
 
 figuredata<-as.data.table(falsepostive[ falsepostive$OutlierExclusion=="FALSE" & falsepostive$Correlation==0.2 & falsepostive$IndependentVariables==1 & falsepostive$DV==1
-                                        & falsepostive$Type!="x1~Normal, z~Binary" & falsepostive$Type!="x1~Binary, z~Normal"
-                                        & falsepostive$Type!="x1~Binary, z~Binary Effect" & falsepostive$Type!="x1~Normal, z~Binary Effect"
-                                        ,]
+         & falsepostive$Type!="x1~Normal, z~Binary" & falsepostive$Type!="x1~Binary, z~Normal"
+         & falsepostive$Type!="x1~Binary, z~Binary Effect" & falsepostive$Type!="x1~Normal, z~Binary Effect"
+         ,]
 )
 
 #Rename labels
@@ -329,7 +329,7 @@ Figure1D<-ggplot(aes(x=SampleSize), data=figuredata)+
 
 g = ggplotGrob(Figure1D)
 g$layout
-pos <- g$layout$name %in% c("panel-4-4","panel-4-5","panel-4-6","panel-3-6","panel-1-5","panel-3-7")
+pos <- g$layout$name %in% c("panel-3-4","panel-3-3","panel-2-4","panel-2-3","panel-6-3","panel-6-4")
 g$grobs[pos] <- list(nullGrob())
 
 grid.newpage()
@@ -435,7 +435,7 @@ Figure2SI<-ggplot(figuredata,aes(x=Set))+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")), "x * z"= expression(italic("x") %*% italic("z")), "z * z"= expression(italic("z") %*% italic("z")), "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),"x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),"x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),"x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
@@ -494,7 +494,7 @@ Figure3SI = ggplot(figuredata,aes(x=Set))+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")), "x * z"= expression(italic("x") %*% italic("z")), "z * z"= expression(italic("z") %*% italic("z")), "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),"x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),"x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),"x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
@@ -551,7 +551,7 @@ Figure1ASI = ggplot(figuredata,aes(x=Set))+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")), "x * z"= expression(italic("x") %*% italic("z")), "z * z"= expression(italic("z") %*% italic("z")), "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),"x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),"x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),"x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
@@ -585,7 +585,7 @@ Figure1BSI = ggplot(figuredata,aes(x=Set))+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")), "x * z"= expression(italic("x") %*% italic("z")), "z * z"= expression(italic("z") %*% italic("z")), "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),"x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),"x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),"x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
@@ -623,7 +623,7 @@ Figure1CSI =ggplot(figuredata,aes(x=Set))+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")), "x * z"= expression(italic("x") %*% italic("z")), "z * z"= expression(italic("z") %*% italic("z")), "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),"x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),"x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),"x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
@@ -640,7 +640,7 @@ Figure1CSI
 ## Figure 1D
 # The effect of bigger sample
 figuredata<-as.data.table(falsepostive[ falsepostive$OutlierExclusion=="FALSE" & falsepostive$Correlation==0.2 & falsepostive$IndependentVariables==1 & falsepostive$DV==1
-                                        & falsepostive$Type!="x1~Binary, z~Binary Effect" & falsepostive$Type!="x1~Normal, z~Binary Effect",]
+         & falsepostive$Type!="x1~Binary, z~Binary Effect" & falsepostive$Type!="x1~Normal, z~Binary Effect",]
 )
 
 figuredata$Type <- factor(figuredata$Type,
@@ -736,7 +736,7 @@ Figure2SI<-ggplot(figuredata,aes(x=Set))+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),"x * z"= expression(italic("x") %*% italic("z")),"z * z"= expression(italic("z") %*% italic("z")), "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),"x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),"x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),"x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
@@ -773,7 +773,7 @@ Figure3SI = ggplot(figuredata,aes(x=Set))+
   xlab("Model set")+
   ylab("Probability (FPP) / Ratio (FPR)")+
   ylim(0,1) +
-  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")),                                "x * z"= expression(italic("x") %*% italic("z")),                                "z * z"= expression(italic("z") %*% italic("z")),                                "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),                               "x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),                               "x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),                               "x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
+  scale_x_discrete(labels = c("x + z" = expression(italic("x") + italic("z")), "x * z"= expression(italic("x") %*% italic("z")), "z * z"= expression(italic("z") %*% italic("z")), "x + z + x * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z")),"x + z + z * z"= expression(italic("x") + italic("z") + italic("z") %*% italic("z")),"x * z + z * z"= expression(italic("x") %*% italic("z") + italic("x") %*% italic("z")),"x + z + x * z + z * z"= expression(italic("x") + italic("z") + italic("x") %*% italic("z") + italic("z") %*% italic("z"))))+
   geom_hline(yintercept = 0.05, linetype="dashed")+
   theme(axis.text.x = element_text(color = "grey20", size = 10, angle = 65, hjust = .5, vjust = .5, face = "plain"),
         axis.text.y = element_text(color = "grey20", size = 14, angle = 0, hjust = 1, vjust = 0, face = "plain"),  
