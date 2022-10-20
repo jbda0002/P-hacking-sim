@@ -9,7 +9,7 @@ Looking at the FPR, we see that in many model sets the proportion of models with
 % plot of main analysis
 \begin{figure}[hbt!]
 %\figuretitle{Baseline model}
-\includegraphics[width=0.6\textwidth]{R/Analysis/Result/Figures/Figure1A.jpeg}
+\includegraphics[width=0.6\textwidth]{R/Analysis/Result/Figures/Figure1A_with.jpeg}
 \centering
 \caption{The false-positive probability and false-positive ratio given different model sets, the presence of main effects when having interactions, and different distributions of the variable of interest and covariates. Sample size is set to 200, the correlation between the dependent variable and covariates is $r=0.2$, and there are two covariates. The false-positive probability is shown in black and the false-positive ratio in red. Dashed blacked line shows the critical value, here set at 0.05 }.
 \label{fig:mainfigure1}
@@ -21,7 +21,7 @@ Adding one more covariate to the baseline model to get three in total increases 
 % plot of main analysis
 \begin{figure}[hbt!]
 %\figuretitle{Effect of increasing the number of covariates}
-\includegraphics[width=0.6\textwidth]{R/Analysis/Result/Figures/Figure1C.jpeg}
+\includegraphics[width=0.6\textwidth]{R/Analysis/Result/Figures/Figure1C_with.jpeg}
 \centering
 \caption{The false-positive probability and false-positive ratio when using three covariates. Black bars are the false-positive probability and red denotes the false-positive ratio. Dashed blacked line shows the critical value, here set at 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:mainfigure1}.}
 \label{fig:mainfigure2}
@@ -33,7 +33,7 @@ Increasing the sample size in the baseline model and thereby improving the preci
 
 \begin{figure}[hbt!]
 %\figuretitle{Effect of increasing the sample size}
-\includegraphics[width=0.9\textwidth]{R/Analysis/Result/Figures/Figure1D.jpeg}
+\includegraphics[width=0.9\textwidth]{R/Analysis/Result/Figures/Figure1D_with.jpeg}
 \centering
 \caption{The effect of increasing sample size on the false-positive probability and false-positive ratio. Black denotes the false-positive probability and red denotes the false-positive ratio. Dashed blacked line shows the critical value, here set at 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:mainfigure1}.}
 \label{fig:mainfigure4}
@@ -41,3 +41,7 @@ Increasing the sample size in the baseline model and thereby improving the preci
 
 \subsection{Correlation between dependent variable and covariates}
 Increasing the correlation between the dependent variable and  covariates in the baseline model increases the FPP for most conditions and the FPR for some conditions (see Figure \ref{fig:appfigure1app}). The model sets with interactions between the variable of interest and covariates have the highest increase in both the FPP and FPR. The effect is most pronounced when the variable of interest and covariates are binary and dummy coded. The increase in the FPP for these sets is as high as 26.5 percentage points when the correlation increases from $r=0.2$ to $r=0.3$. When the correlation increases from $r=0.3$ to $r=0.4$, the FPP increases only in some conditions where the FPP is not already close to 100\%. The increase in correlation also affects the FPR for the same sets increasing it to as much as 14.4\% when going from $r=0.2$ to $r=0.3$ and similarly when going from $r=0.3$ to $r=0.4$. This increase is however not only present when there is allowed for interactions without main effects. Even in the correct specified models the FPP increases to some extent when there is an increase in the correlation between the dependent variable and the covariates. As in the misspecified models this happens when there are interactions between the variable of interest and the covariates. 
+
+
+\subsection{The need for correction}
+In this part we will have a quick look why it is important to correct the p-values. Even if just running a model with an interaction. As the earlier part has shown, then even with correctly specified models, having interactions is enough to increase both the FPP and FPR. In Figure X can be seen the FPP and FPR when correcting the p-values using Bonferroni corrections \citep{dunn1961multiple}. This correction is enough to lower the FPR to the wished 5\%. It is important to mention here that this is under the assumption that a researcher would confirm a hypothesis if either the main effect or the interaction would be significant. Using an correction like this of course does not safeguard against multiple testing, but here other methods like pre-registration would be of importance  
