@@ -26,6 +26,365 @@ i \end{array}
 \\
 When calculating the size of each model set, we consider two different cases; a case without restrictions where we allow interactions without the corresponding main effects, and a case with restrictions where main effects always follow interactions. This means that the second case will be a subset of the first case. \\
 
+
+\subsection{Model sets with restrictions}
+\label{with_res}
+In the case with restrictions, we enforce that every time there is an interaction effect, the corresponding main effects are included in the model as in the model below:
+$y=x_1+z_1+x_1z_1$ 
+
+In the previous equation, we have an interaction between our variable of interest $x_1$ and a covariate $z_1$. Therefore, the two corresponding main effects also enter the model. This restriction does not put any restrictions on the $x + z$ set as there are no interactions in it. On the other hand, the restriction implies that the sets $x \times z$ and $z \times z$ are empty sets as the models in these sets never have main effects following interactions. We will therefore not show them here, but they are part of the model sets in the \textit{Appendix} in section \nameref{witout_res}.
+
+\subsubsection{Set $x + z$}
+The set $x + z$ contains all the combinations that can be made by the covariates $z$ and the variable of interest $x$ including the model where there is only the variable $x$. Based on the previous terminology the model containing only the variable of interest is therefore the empty set and the binomial coefficient computes how many combinations there can be made by $z$. Let us denote the number of covariates $n$. If we, for example, have three covariates ($n=3$), then the number of combinations where all three covariates are present can be written using the binomial coefficient as
+
+
+\[\#\ of\ models\ in\ x + z = \left( \begin{array}{c}
+3 \\ 
+3 \end{array}
+\right)+\left( \begin{array}{c}
+3 \\ 
+2 \end{array}
+\right)+\left( \begin{array}{c}
+3 \\ 
+1 \end{array}
+\right)+\left( \begin{array}{c}
+3 \\ 
+0 \end{array}
+\right)=\sum^3_{i=0}{\left( \begin{array}{c}
+3 \\ 
+i \end{array}
+\right)}\] 
+Using the rule for adding binomial coefficients, we can rewrite this into
+\[\#\ of\ models\ in\ x + z = \sum^3_{i=0}{\left( \begin{array}{c}
+3 \\ 
+i \end{array}
+\right)}=\left(2^3\right)=8\] 
+We can generalize this to the case with $n$ covariates  as follows 
+\[\#\ of\ models\ in\ x + z = \sum^n_{i=0}{\left( \begin{array}{c}
+n \\ 
+i \end{array}
+\right)}=\left(2^n\right)\] 
+
+\subsubsection{Formally written} This size of this set can also be more formally calculated. This is done by using the notation from set theory to calculate the size of each set.
+Let $Z$ be the set of covariates 
+\[Z=\{\left.z_1,z_2,..,z_n\right.\}\] 
+\[\left|Z\right|=n\] 
+
+
+\noindent The $x + z$ set is then the power set of \emph{Z} 
+\[x + z = \{\left.S:S\subseteq Z\right.\}\] 
+
+Each element $S\in x + z$ is a set of the covariates e.g., $S=\left.z_3,z_7\right.$, or any combination of the covariates, including the empty set. This is just the power set of $Z$ and the size of the set can be written as
+\[\left|x + z\right|=|\mathcal{P}\left(Z\right)|=2^n\] 
+
+
+% section
+\subsubsection{Set $x + z + x \times z$}
+For the sake of simplicity, we begin with the case where $n=3$. The models in this set can be seen in Table \ref{tab:model2}. Here the models are split into three different parts. These are split such that $x + z + x \times z$(1), $x + z + x \times z$(2), and $x + z + x \times z$(3) contain all the models where there are one, two, or three covariates, respectively.\\
+
+\begin{table}[ht!]
+\caption{Example of division of the $x + z + x \times z$ set into three subsets when there are three covariates and one dependent variable. $x + z + x \times z$(1) contains all the models with one covariate as main effect, $x + z + x \times z$(2) all the models with two covariates, and $x + z + x \times z$(3) all the models with three covariates}
+\centering\label{tab:model2}
+\begin{tabular}{lc}  
+\toprule
+Set & Models \\
+\midrule
+\multirow{3}{*}{$x + z + x \times z$(1)} & $y=x_1+z_1+x_1z_1$\\ & $y=x_1+z_2+x_1z_2$\\ & $y=x_1+z_3+x_1z_3$\\ & \\ 
+\multirow{9}{*}{$x + z + x \times z$(2)} & $y=x_1+z_1$$+z_2+x_1z_1$\\ & $y=x_1+z_1+z_3+x_1z_1$\\ & $y=x_1+z_3+z_1+x_1z_3$\\ & $y=x_1+z_3+z_2+x_1z_3$\\ & $y=x_1+z_2+z_1+x_1z_2$\\ & $y=x_1+z_2+z_3+x_1z_2$\\ & $y=x_1+z_1+z_2+x_1z_1+x_1z_2$\\ & $y=x_1+z_1+z_3+x_1z_1+x_1z_3$\\ & $y=x_1+z_1+z_2+x_1z_3+x_1z_2$\\  & \\  
+\multirow{7}{*}{$x + z + x \times z$(3)} & $y=x_1+z_1+z_2+z_3+x_1z_1$\\ & $y=x_1+z_1+z_2+z_3+x_1z_2$\\ & $y=x_1+z_1+z_2+z_3+x_1z_3$\\ & $y=x_1+z_1+z_2+z_3+x_1z_1+x_1z_2$\\ & $y=x_1+z_1+z_2+z_3+x_1z_1+x_1z_3$\\ & $y=x_1+z_1+z_2+z_3+x_1z_3+x_1z_2$\\ & $y=x_1+z_1+z_2+z_3+x_1z_1+x_1z_2+x_1z_3$\\  
+\bottomrule
+\end{tabular}
+\end{table}
+
+To calculate the size of each of these sets separately, we only need to focus on the number of covariates that enter the model, as per assumption the variable of interest $x_1$ is always present. Let us start with the $x + z + x \times z$(1) set. In this set, there can only be one covariate present at the time; there are therefore three combinations, which can be written as $\binom{3}{1}$. In this set, since there is only one covariate, there is only one interaction effect containing that same covariate. As no other combinations can be made, this corresponds to $\binom{1}{1}$. Using the same shorthand notation with the binomial coefficient as above, we can write the number of models in the $x + z + x \times z$(1) set as
+\[\#\ of\ models\ in\ x + z + x \times z\textit{(1)}\ =\left( \begin{array}{c}
+1 \\ 
+1 \end{array}
+\right)\left( \begin{array}{c}
+3 \\ 
+1 \end{array}
+\right)=\sum^1_{i=1}{\left( \begin{array}{c}
+1 \\ 
+i \end{array}
+\right)}\left( \begin{array}{c}
+3 \\ 
+1 \end{array}
+\right)=\left(2^1-1\right)\left( \begin{array}{c}
+3 \\ 
+1 \end{array}
+\right)=3\] 
+Using this notation is useful when we later have to combine the three sets of $x + z + x \times z$ into one to calculate the total number of models in $x + z + x \times z$.
+\raggedbottom
+For the $x + z + x \times z$(2) set, we first need to calculate the number of combinations for the main effect that can be made when there are two covariates present at all times and that is $\binom{3}{2}$. Next we need to calculate the number of combinations of interactions that can be present. As we have two covariates present all the time, these are the ones that can be used in the interaction effects. Since the covariates interact with $x_1$, there can either be one or two interaction effects present. Hence, we have $\binom{2}{1}$ and $\binom{2}{2}$ combinations of the interaction effects possible. Combining the number of covariates with the number of possible interactions we get
+\raggedbottom
+\begin{equation*}
+\begin{aligned}
+\#\ of\ models\ in\ x + z +x \times z\textit{(2)}=\\
+& \left( \begin{array}{c}
+2 \\ 
+1 \end{array}
+\right)\left( \begin{array}{c}
+3 \\ 
+2 \end{array}
+\right)+\left( \begin{array}{c}
+2 \\ 
+2 \end{array}
+\right)\left( \begin{array}{c}
+3 \\ 
+2 \end{array}
+\right)=\\
+&\sum^2_{i=1}{\left( \begin{array}{c}
+2 \\ 
+i \end{array}
+\right)}\left( \begin{array}{c}
+3 \\ 
+2 \end{array}
+\right)=\left(2^2-1\right)\left( \begin{array}{c}
+3 \\ 
+2 \end{array}
+\right)=9
+
+\end{aligned}
+\end{equation*}
+\raggedbottom
+The same reasoning goes for the $x + z + x \times z$(3) set; the only difference here is that we have one more covariate. So if we write the combinations that are possible with three covariates in the same way as before, we get
+\begin{equation*}
+\begin{aligned}
+\#\ of\ models\ in\ x + z + x \times z\textit{(3)}=\\
+&\left( \begin{array}{c}
+3 \\ 
+1 \end{array}
+\right)\left( \begin{array}{c}
+3 \\ 
+3 \end{array}
+\right)+\left( \begin{array}{c}
+3 \\ 
+2 \end{array}
+\right)\left( \begin{array}{c}
+3 \\ 
+3 \end{array}
+\right)+\left( \begin{array}{c}
+3 \\ 
+3 \end{array}
+\right)\left( \begin{array}{c}
+3 \\ 
+3 \end{array}
+\right)= \\
+&\sum^3_{i=1}{\left( \begin{array}{c}
+2 \\ 
+i \end{array}
+\right)}\left( \begin{array}{c}
+3 \\ 
+2 \end{array}
+\right)= \\
+&\left(2^3-1\right)\left( \begin{array}{c}
+3 \\ 
+3 \end{array}
+\right)=7
+\end{aligned}
+\end{equation*}
+We can then sum all three sets that is, $x + z + x \times z$(1), $x + z + x \times z$(2), and $x + z + x \times z$(3), to get the size of the $x + z + x \times z$ set
+\[\#\ of\ models\ in\ x + z + x \times z=\sum^3_{k=1}{(2^k-1)\left( \begin{array}{c}
+3 \\ 
+k \end{array}
+\right)}\]where $k$ is the number of covariates that enter as main effects, meaning it is an indicator for $x + z + x \times z$(1), $x + z + x \times z$(2) and $x + z + x \times z$(3). For the case with $n$ covariates, this becomes
+\[\#\ of\ models\ in\ x + z + x \times z=\sum^n_{k=1}{(2^k-1)\left( \begin{array}{c}
+n \\ 
+k \end{array}
+\right)}\] 
+
+\subsubsection{Formally written} Again, we can calculate the size of this set in a more formal way
+As before, let $Z$ be a set of covariates 
+\[Z=\{\left.z_1,z_2,\dots ,z_n\right.\}\] \[|Z|=n\] 
+
+Let $J$ be a set of indicators of how many covariates enter the model set as main effects
+\[J=\{\left.1,2,3,4,\dots ,n\right.\}\] 
+Let $L$ be a subset of $Z$ of size $k$
+\[L=\{\left.S:S\subset Z,\left|S\right|=k,k\in J\right.\}\] 
+The number of interactions that can be made between a covariate and the variable of interest for a given $k$ is then
+\[I_h\left(Z\right)=\{\{\left.\left.z_i,x_1\right.\}:z_i\in L\right.\}\] 
+\[\left|I_h\left(Z\right)\right|=k\] 
+
+For each $k$, the number of interactions is just the power set of $Z$ excluding the empty set
+\[\left|\mathcal{P}\left(I_h\left(Z\right):I_h\left(Z\right)\neq \textrm{\O}\right)\right|=2^k-1\] 
+
+For each $k$, there is $\left( \begin{array}{c}
+n \\ 
+k \end{array}
+\right)$ combinations of interactions that can be present with the number of covariates $k$. To get the full set, we need to sum over these combinations from $k=1$ to $n$ (with $k=0$ it would not be possible to make any interactions so this one is excluded).
+\[\left|x + z + x \times z\right|=\sum^n_{k=1}{\left( \begin{array}{c}
+n \\ 
+k \end{array}
+\right)\left(2^k-1\right)}\] 
+
+% section
+\subsubsection{Set $x + z + z \times z$}
+Here we can use the same line of reasoning as for the $x + z + x \times z$ set. Let us begin by examining the case where $n=3$ and then develop a more general notion. To make it easier to understand how to calculate the set size, we split this set into subsets as we did above for the $x + z + x \times z$ set. This example can be seen in Table \ref{tab:model4}. 
+
+\begin{table}
+\centering
+\caption{Division of the $x + z + z \times z$ set into two subsets when there are three covariates and one dependent variable. $x + z + z \times z$(2) contains all the models with two covariates as main effects, and $x + z + z \times z$(3) all the models with three covariates. $x + z + z \times z$(1) is an empty set since at least two covariates are necessary to make an interaction.}
+\label{tab:model4}
+\begin{tabular}{lc} 
+\toprule
+Set & Models \\ 
+\midrule
+\multirow{3}{*}{$x + z + z \times z$(2)} & $y=x_1+z_1+z_2+z_1z_2$\\ & $y=x_1+z_1+z_3+z_1z_3$\\ & $y=x_1+z_2+z_3+z_2z_3$\\ &  \\  
+\multirow{7}{*}{$x + z + z \times z$(3)} & $y=x_1+z_1+z_2+z_3+z_1z_2$\\ & $y=x_1+z_1+z_3+z_2+z_1z_3$\\ & $y=x_1+z_2+z_3+z_1+z_2z_3$\\ & $y=x_1+z_1+z_2+z_3+z_1z_2+z_1z_3$\\ & $y=x_1+z_1+z_3+z_2+z_1z_3+z_2z_3$\\ & $y=x_1+z_2+z_3+z_1+z_1z_2+z_2z_3$\\ & $y=x_1+z_1+z_2+z_3+z_1z_2+z_2z_3+z_1z_3$\\ 
+\bottomrule
+\end{tabular}
+\end{table}
+
+A model must always include at least two covariates to fulfil the restriction that main effects follow interactions effects. Therefore, we can divide the $x + z + z \times z$ set into two subsets; the first subset has two covariates present as main effects and the second subset has three covariates present as main effects. The first set, $x + z + z \times z$(2), is the number of combinations that can be made from two out of three covariates, meaning $\binom{3}{2}$, multiplied with the combinations of the two covariates that are included, meaning $\binom{2}{2}$.
+\[\#\ of\ models\ in\ x + z + z \times z\textit{(2)} =\left( \begin{array}{c}
+3 \\ 
+2 \end{array}
+\right)\left( \begin{array}{c}
+2 \\ 
+2 \end{array}
+\right)=3\] 
+For the second subset, $x + z + z \times z$(3), the first term is the number of combinations that can be made with three covariates so this is $\binom{3}{3}$. We then have to calculate the number of interactions that can be made with the three included covariates. To do that, first we need to calculate the number of two-way interactions that can be made with three covariates and this is $\binom{3}{2}=3$. The total number of models in the set is then the sum of the number of combinations
+\[\#\ of\ models\ in\ x + z + z \times z\textit{(3)}=\left( \begin{array}{c}
+3 \\ 
+3 \end{array}
+\right)\left(\left( \begin{array}{c}
+3 \\ 
+1 \end{array}
+\right)+\left( \begin{array}{c}
+3 \\ 
+2 \end{array}
+\right)+\left( \begin{array}{c}
+3 \\ 
+3 \end{array}
+\right)\right)=\left( \begin{array}{c}
+3 \\ 
+3 \end{array}
+\right)\sum^3_{i=1}{\left( \begin{array}{c}
+3 \\ 
+i \end{array}
+\right)}\] 
+However, it is only in this example that we sum to $n=3$. In general, this will be the number of pairs that can be made in this subset. The number of pairs can be written as $\left( \begin{array}{c}
+n \\ 
+2 \end{array}
+\right)=\frac{n\left(n-1\right)}{2}$. This then becomes
+\[\#\ of\ models\ in\ x + z + z \times z\textit{(3)}=\left( \begin{array}{c}
+3 \\ 
+3 \end{array}
+\right)\sum^3_{i=1}{\left( \begin{array}{c}
+3 \\ 
+i \end{array}
+\right)}=\left( \begin{array}{c}
+3 \\ 
+3 \end{array}
+\right)\sum^{\frac{3\left(3-1\right)}{2}}_{i=1}{\left( \begin{array}{c}
+\frac{3\left(3-1\right)}{2} \\ 
+i \end{array}
+\right)}=\left( \begin{array}{c}
+3 \\ 
+3 \end{array}
+\right)\left(2^{\frac{3\left(3-1\right)}{2}}-1\right)\] 
+We can write the first subset in the same way
+\[\#\ of\ models\ in\ x + z + z \times z(2)=\left( \begin{array}{c}
+3 \\ 
+2 \end{array}
+\right)=\left( \begin{array}{c}
+3 \\ 
+2 \end{array}
+\right)\left(2^{\frac{2\left(2-1\right)}{2}}-1\right)\] 
+Now we just add these two subsets up
+\[\#\ of\ models\ in\ x + z + z \times z=\left( \begin{array}{c}
+3 \\ 
+2 \end{array}
+\right)\left(2^{\frac{2\left(2-1\right)}{2}}-1\right)+\left( \begin{array}{c}
+3 \\ 
+3 \end{array}
+\right)\left(2^{\frac{3\left(3-1\right)}{2}}-1\right)=\sum^3_{k=2}{\left( \begin{array}{c}
+3 \\ 
+k \end{array}
+\right)\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)}\] 
+We can then generalize this case for $n$ covariates
+\[\#\ of\ models\ in\ x + z+z \times z=\sum^n_{k=2}{\left( \begin{array}{c}
+n \\ 
+k \end{array}
+\right)\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)}\] 
+
+\subsubsection{Formally written} As done in the other two cases we let $Z$ be a set of covariates 
+\[Z=\{\left.z_1,z_2,\dots ,z_n\right.\}\] 
+\[|Z|=n\] 
+Let $k$ be an indicator of how many covariates are included. Since we are using interactions, $k$ must begin at two. Let $T$ be a set of indicators of the number of covariates beginning at two
+\[T=\{\left.2,3,4,\dots ,n\right.\}\] 
+Let $L$ be a subset of $Z$ of size $k$
+\[L=\{\left.S:S\subset Z,\left|S\right|=k,k\in T\right.\}\] 
+
+The number of interactions that can be made for a given $k$ is then
+\[I_k\left(Z\right)=\{\left\{\left.z_i,z_j\right\}:z_i\in L,z_j\in L,z_i\neq z_j\right.\}\] 
+For a given $k$, the number of two-way interactions that can be made is then
+\[\left|I_k\left(Z\right)\right|=\left( \begin{array}{c}
+k \\ 
+2 \end{array}
+\right)=\frac{k!}{2!\left(k-2\right)!}=\frac{k\left(k-1\right)\left(k-2\right)!}{\left(k-2\right)!}\frac{1}{2}=\frac{k\left(k-1\right)}{2}\] 
+We then need the combinations of all the two-way interactions. For all $k$, we can take the power set of $I_k\left(H\right)$ excluding the empty set
+\[P\left(I_k\left(Z\right)\right)=\{\left.T:T\subset I_k\left(Z\right),T\neq \textrm{\O}\right.\}\] 
+\[\left|P\left(I_k\left(Z\right)\right)\right|=2^{\left|I_k\left(Z\right)\right|}-1=2^{\frac{k\left(k-1\right)}{2}}-1\] 
+With $n$ covariates, there exist $\left( \begin{array}{c}
+n \\ 
+k \end{array}
+\right)$ subsets of size $k$. To get the $x + z + z \times z$ set, we need to sum over the number of covariates $k$ starting from $k=2$
+\[\left|x + z+z \times z\right|=\sum^n_{k=2}{\left( \begin{array}{c}
+n \\ 
+k \end{array}
+\right)}\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)\ \] 
+
+% section
+\subsubsection{Set $x + z + x \times z$ + $z \times z$}
+This set is the product of the $x + z + x \times z$ and $x + z + z \times z$ sets, but without including the main effect twice. Hence, the set consists of the combinations that can be made between the variable of interest and the covariates and between the covariates alone. We can therefore write 
+\[\#\ of\ models\ in\ x + z + x \times z+\ z \times z=\sum^n_{k=2}{\left( \begin{array}{c}
+n \\ 
+k \end{array}
+\right)\left(2^k-1\right)\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)}\] 
+
+\subsubsection{Formally written}
+The design of the subsets is the same as earlier and we just need to take the product of
+$P\left(I_k\left(Z\right)\right)$ and $P\left(I_h\left(Z\right)\right)$, as defined above, and sum over $k$ beginning at two.
+For $n$ covariates, there exists $\left( \begin{array}{c}
+n \\ 
+k \end{array}
+\right)$ subsets of size $k$. We then need to sum the subsets as follows
+\[|x + z + x \times z+z \times z|=\sum^n_{k=2}{\left( \begin{array}{c}
+n \\ 
+k \end{array}
+\right)\left(2^k-1\right)\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)}\] 
+
+
+% section
+\subsection{Full model set with restrictions}
+Equation (1) shows how to calculate the total number of models given one key variable of interest and a given number of covariates with the main effects restriction that models with interaction effects must include the corresponding main effects. Each underlined section in Equation (1) can also be used to calculate the size of the specified model set.
+ restriction. \\
+\begin{equation} 
+\begin{aligned}
+\#\ models={} & \underbrace{\left(2^n\right)}_{x + z}+\underbrace{\sum^n_{k=1}{\left(2^k-1\right)\binom{n}{k}}}_{x + z + x \times z} + \\ 
+& \underbrace{\sum^n_{k=2}{\binom{n}{k}\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)}}_{x + z + z \times z} + \\
+& \underbrace{\sum^n_{k=2}{\binom{n}{k}\left(2^k-1\right)\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)}}_{x + z + x \times z + z \times z}\ \  
+\end{aligned}
+\end{equation}  
+where $n$ denotes the number of covariates (all the $z$ variables) collected and $\binom{n}{k}$ is the binomial coefficient, the calculation of which is explained in the \textit{Appendix} in the section \nameref{binomial}.
+Equation (1) does not include the ($x \times z$), ($z \times z$), and ($x \times z + z \times z$) sets as these include interaction effects without the corresponding main effects, and these are therefore empty sets. For the case with two covariates, the total number of models is calculated as follows:
+
+\begin{equation*}
+\centering
+\#\ of\ models=\left(2^2\right)+
+\sum^2_{k=1}{\left(2^k-1\right) \binom{2}{k}}+
+\sum^2_{k=2}{\binom{2}{k}\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)}+  
+\sum^2_{k=2}{\binom{2}{k}\left(2^k-1\right)\left(2^{\frac{k\left(k-1\right)}{2}}-1\right)}
+\end{equation*}
+
+which is equal to $4+5+1+3*1=13$. The number of models in each model set for different numbers of covariates depending on main effect restrictions can be seen in Table \ref{FullModel}. In the simulation, we focus on two to three covariates since this is enough to provide an impression of how the increase in the size of the model set affects the FPP and FPR.  \\
+\input{R/Analysis/CodeFinal/ModelSize/FUllModels}
+
+In Table \ref{modelsets2.1}, can be found an examples of all model sets with one variable of interest, $x_{1}$, and two covariates, $z_{1}$ and $z_{2}$. The calculations for the model sets with no restrictions can be found in Appendix section \nameref{witout_res}.
+\input{manuscript/tables/modelsets2.1}
+
+
 % section
 \subsection{Model sets without restrictions}
 \label{witout_res}
