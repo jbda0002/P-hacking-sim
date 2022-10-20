@@ -14,11 +14,11 @@ library(latex2exp)
 library(grid)
 
 ##Load the data
-fileplace=paste0(output,"/File/Results.csv.gz")
+fileplace=paste0(output,"/Files/Results.csv.gz")
 finalresults = read.table(gzfile(fileplace),sep=",",header = T)
 ## Figures for paper ##
 
-## Make the false positve data
+## Make the false positive data
 
 falsepositverateData<-as.data.table(finalresults)
 falsepositverateData<-falsepositverateData[falsepositverateData$Power2==1 & falsepositverateData$Power3==2 & falsepositverateData$Power12==2 & falsepositverateData$Power13==2|

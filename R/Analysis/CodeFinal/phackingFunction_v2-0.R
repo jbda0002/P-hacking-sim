@@ -15,10 +15,10 @@
 ## variable_ignore: list of variables in your data_frame that the phackingFunction shall ignore and not include.
 
 ### Function that are being used in the function. 
-source(here::here("CodeFinal","HelpFunctions","remove_outliers_sd.R")) 
-source(here::here("CodeFinal","HelpFunctions","remove_outliers_range.R"))
-source(here::here("CodeFinal","HelpFunctions","pvaluecapture.R"))
-source(here::here("CodeFinal","HelpFunctions","addmaineffects.R"))
+source(here::here("R","Analysis","CodeFinal","HelpFunctions","remove_outliers_sd.R")) 
+source(here::here("R","Analysis","CodeFinal","HelpFunctions","remove_outliers_range.R"))
+source(here::here("R","Analysis","CodeFinal","HelpFunctions","pvaluecapture.R"))
+source(here::here("R","Analysis","CodeFinal","HelpFunctions","addmaineffects.R"))
 
 
 phackingFunction<-function(data,y,H_1,HCI = FALSE,CCI=FALSE,Ma_HCI=FALSE, Ma_CCI=FALSE

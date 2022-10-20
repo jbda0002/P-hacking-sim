@@ -1,7 +1,7 @@
 # identify and remove outliers based on a specific sd
 
- source(here::here("CodeFinal","HelpFunctions","descriptives.R"))
- source(here::here("CodeFinal","HelpFunctions","check_outliers.R"))
+ source(here::here("R","Analysis","CodeFinal","HelpFunctions","descriptives.R"))
+ source(here::here("R","Analysis","CodeFinal","HelpFunctions","check_outliers.R"))
 
 remove_outliers_sd <- function(data, sd) {
   outlier <-
