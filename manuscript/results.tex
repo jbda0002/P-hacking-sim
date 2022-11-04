@@ -9,7 +9,7 @@ Looking at the FPR, we see that the proportion of models with a significant effe
 % plot of the main analysis
 \begin{figure}[hbt!]
 %\figuretitle{Baseline model}
-\includegraphics[width=0.6\textwidth]{R/Analysis/Result/Figures/Figure1A_with.jpeg}
+\includegraphics[width=0.6\textwidth]{R/Analysis/Result/Figures/Figure1_paper.jpeg}
 \centering
 \caption{The false-positive probability and false-positive ratio given different model sets, the presence of main effects when having interactions, and different distributions of the variable of interest and covariates. The sample size is set to 200, the correlation between the dependent variable and covariates is $r=0.2$, and there are two covariates. The false-positive probability is shown in black, and the false-positive ratio is red. The dashed blacked line shows the critical value set at 0.05 }.
 \label{fig:mainfigure1}
@@ -18,14 +18,7 @@ Looking at the FPR, we see that the proportion of models with a significant effe
 \subsection{Number of covariates}
 Adding one more covariate to the baseline model to get three in total increases the FPP across all model sets (see Figure \ref{fig:mainfigure2}).  The most significant increase in the FPP is in the $x + z+ x \times z + z \times z$ set, which increases by 14.7 percentage points when the variable of interest and covariates are binary (dummy coded) and 13.1 percentage points when the variables are continuous. This makes sense as the possible models here go from 3 to 58. Even in the sets that might be argued that are more reasonable and easier to argue for in a paper, such as the set $x + z+ x \times z $, the number of models goes from 5 to 19, and the FPP increases to around 30\% for both types of data. This increase is, however, also seen in the FPR, where the sets with interactions increase by a few percentage points. It is worth keeping in mind that if we expect the rejection rate to be 5\%, an increase of just a few percentage points can impact the interpretation of the results.  
 
-% plot of the main analysis
-\begin{figure}[hbt!]
-%\figuretitle{Effect of increasing the number of covariates}
-\includegraphics[width=0.6\textwidth]{R/Analysis/Result/Figures/Figure1C_with.jpeg}
-\centering
-\caption{The false-positive probability and false-positive ratio when using three covariates. Black bars are the false-positive probability, and red denotes the false-positive ratio. The dashed blacked line shows the critical value, here set at 0.05. The description of the figure is otherwise the same as for Figure \ref{fig:mainfigure1}.}
-\label{fig:mainfigure2}
-\end{figure}
+
 
 \subsection{Sample size}
 Increasing the sample size in the baseline model and thereby improving the estimates' precision has no effect in most of the conditions on either the FPP or FPR. This means that the higher accuracy in the analysis does not give any new information. Therefore, any argument that just because a sample is big implies it is better when it comes to false-positive does not make sense. The only case where more extensive samples should be valued is to safeguard against false negatives. It should be mentioned here that this result only holds when the analysis is done correctly (with restrictions on the model set); if this is not the case, an increase in the sample size can worsen the results. When there could be interactions without the main effect, the FPP and FPR can increase as the sample size becomes bigger. In that case, it is possible to more or less guarantee a false positive with a big enough sample (See \textit{Supplementary Information} for a complete set of results).
